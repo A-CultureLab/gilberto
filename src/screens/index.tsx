@@ -2,14 +2,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import { DefaultTheme, NavigationContainer, NavigationContainerRef, Theme } from '@react-navigation/native';
 import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import IconMA from 'react-native-vector-icons/MaterialIcons'
 import TabNavigationTabBar from '../components/tabs/TabNavigationTabBar';
 
 // GLOBAL UI
 
 
 // SCREENS
-import HomeScreen from './HomeScreen'
+import Home from './Home'
 
 
 
@@ -28,10 +28,10 @@ const TabNavigation = () => {
         >
             <Tab.Screen
                 name='Home'
-                component={HomeScreen}
+                component={Home}
                 options={{
                     tabBarLabel: '장소',
-                    tabBarIcon: (({ color }) => <Icon size={24} name='location' color={color} />)
+                    tabBarIcon: (({ color }) => <IconMA size={24} name='location-on' color={color} />)
                 }}
             />
         </Tab.Navigator>
