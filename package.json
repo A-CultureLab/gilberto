@@ -1,0 +1,61 @@
+{
+  "name": "app",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "android": "adb devices && react-native run-android",
+    "ios": "react-native run-ios",
+    "android:release": "adb devices && react-native run-android --variant=release",
+    "ios:device": "react-native run-ios --device",
+    "ios:release": "react-native run-ios --configuration Release",
+    "android:assembleRelease": "cd android && ./gradlew assembleRelease",
+    "android:bundleRelease": "cd android && ./gradlew bundleRelease",
+    "codepush": "npm run codepush:android && npm run codepush:ios",
+    "codepush:android": "appcenter codepush release-react -a [key] -d Production",
+    "codepush:ios": "appcenter codepush release-react -a [key] -d Production",
+    "gradlew:clean": "cd android && ./gradlew clean && cd ..",
+    "node:clean": "rm -rf node_modules && rm package-lock.json",
+    "android:clean": "rm -rf android/build && sudo rm -rf android/app/build && sudo rm -rf android/.gradle",
+    "pod": "cd ios && pod install && cd ..",
+    "pod:clean": "cd ios && rm -rf Pods && rm Podfile.lock && pod deintegrate && pod setup && cd ..",
+    "pod:clean:force": "sudo rm -rf ~/Library/Caches/CocoaPods",
+    "ios:build:clean": "cd ios && xcodebuild clean",
+    "ios:build:clean:force": "rm -rf ~/Library/Developer/Xcode/DerivedData/*",
+    "start": "react-native start",
+    "test": "jest",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "oss": "license-checker --json --out ./src/assets/oss.json"
+  },
+  "dependencies": {
+    "react": "17.0.1",
+    "react-native": "0.64.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.9",
+    "@babel/runtime": "^7.12.5",
+    "@react-native-community/eslint-config": "^2.0.0",
+    "@types/jest": "^26.0.23",
+    "@types/react-native": "^0.64.5",
+    "@types/react-test-renderer": "^16.9.2",
+    "babel-jest": "^26.6.3",
+    "eslint": "^7.14.0",
+    "jest": "^26.6.3",
+    "metro-react-native-babel-preset": "^0.64.0",
+    "react-test-renderer": "17.0.1",
+    "typescript": "^3.8.3"
+  },
+  "resolutions": {
+    "@types/react": "^17"
+  },
+  "jest": {
+    "preset": "react-native",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  }
+}
