@@ -1,57 +1,93 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { StyleSheet, Text, Permission } from 'react-native'
-import MapView, { Region } from 'react-native-maps';
+import { StyleSheet, Text, View } from 'react-native'
+import MapView, { Coordinate, LatLng, Marker, Region } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import { IS_IOS } from '../../constants/values';
-
+import { COLOR2, DEFAULT_SHADOW } from '../../constants/styles';
+import ScreenLayout from '../../components/Layout/ScreenLayout';
+import MyPosFab from '../../components/fabs/MyPosFab';
 
 const Home = () => {
 
     const mapRef = useRef<MapView>(null)
-    const [currentRegion, setCurrentRegion] = useState<Region>({
+    const [cameraPos, setCameraPos] = useState<Region>({
         latitude: 37.50367232610927,
         longitude: 126.98522503284602,
         latitudeDelta: 0.005,
         longitudeDelta: 0.005
     })
+    const [myPos, setMyPos] = useState<LatLng | null>(null)
+    const [cameraInitTrigger, setCameraInitTrigger] = useState(true)
 
-    const initLocation = useCallback(async () => {
-        if (IS_IOS) await Geolocation.requestAuthorization()
-        Geolocation.getCurrentPosition(
+    // 내위치 초기화
+    useEffect(() => {
+        if (IS_IOS) Geolocation.requestAuthorization()
+        const watch = Geolocation.watchPosition(
             (position) => {
-                mapRef.current?.animateToRegion({
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                    latitudeDelta: 0.005,
-                    longitudeDelta: 0.005
-                }, 0)
+                setMyPos(position.coords)
             },
-            (error) => {
-                console.log(error.code, error.message);
-            },
-            { enableHighAccuracy: true, timeout: 5000, maximumAge: 10000 }
+            (error) => { console.log(error.code, error.message) }
         )
+        return () => {
+            watch && Geolocation.clearWatch(watch)
+        }
     }, [])
 
+    // 카메라 쵝기화
     useEffect(() => {
-        initLocation()
-    }, [])
+        if (!myPos) return
+        if (cameraInitTrigger) {
+            mapRef.current?.animateToRegion({
+                latitude: myPos.latitude,
+                longitude: myPos.longitude,
+                latitudeDelta: 0.005,
+                longitudeDelta: 0.005
+            })
+            setCameraInitTrigger(false)
+        }
+    }, [myPos])
 
-    useEffect(() => {
-        console.log(currentRegion)
-    }, [currentRegion])
+    const onMyPos = useCallback(() => {
+        if (!myPos) return
+        mapRef.current?.animateToRegion({
+            latitude: myPos.latitude,
+            longitude: myPos.longitude,
+            latitudeDelta: 0.005,
+            longitudeDelta: 0.005
+        })
+    }, [myPos])
 
     return (
-        <MapView
-            ref={mapRef}
-            style={{ flex: 1 }}
-            rotateEnabled={false}
-            initialRegion={currentRegion}
-            onRegionChange={setCurrentRegion}
-        />
+        <ScreenLayout translucent >
+            <MapView
+                ref={mapRef}
+                style={{ flex: 1 }}
+                rotateEnabled={false}
+                initialRegion={cameraPos}
+                onRegionChange={setCameraPos}
+            >
+                {myPos && <Marker
+                    coordinate={myPos}
+                >
+                    <View style={[{ width: 24, height: 24, backgroundColor: COLOR2, }, styles.myPosMarker]}>
+                        <View style={[{ width: 20, height: 20, backgroundColor: '#fff', }, styles.myPosMarker]}>
+                            <View style={[{ width: 16, height: 16, backgroundColor: COLOR2, }, styles.myPosMarker]} />
+                        </View>
+                    </View>
+                </Marker>}
+            </MapView>
+            <MyPosFab onPress={onMyPos} />
+        </ScreenLayout>
     )
 }
 
 export default Home
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    myPosMarker: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        ...DEFAULT_SHADOW,
+        borderRadius: 20
+    }
+})

@@ -1,7 +1,7 @@
 import { BottomTabBarOptions, BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import React from 'react'
 import { Pressable, StyleSheet, View, Text } from 'react-native'
-import { BaseButton, RawButton } from 'react-native-gesture-handler'
+import { BaseButton, RawButton, RectButton } from 'react-native-gesture-handler'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { COLOR1, DEFAULT_SHADOW, GRAY1, GRAY2, GRAY3, WIDTH } from '../../constants/styles'
 
@@ -11,7 +11,7 @@ const TabNavigationTabBar: React.FC<BottomTabBarProps<BottomTabBarOptions>> = ({
 
     return (
         <>
-            <View style={[styles.container, { marginBottom: bottom + 32 }]} >
+            <View style={[styles.container, { marginBottom: bottom }]} >
                 {state.routes.map((route, index) => {
                     const { options } = descriptors[route.key]
                     const label = options.tabBarLabel as string
@@ -53,17 +53,14 @@ export default TabNavigationTabBar
 
 const styles = StyleSheet.create({
     container: {
-        position: 'absolute',
-        bottom: 0,
-        width: WIDTH - 64,
+        width: WIDTH,
         height: 64,
         backgroundColor: '#fff',
         alignSelf: 'center',
         borderTopColor: GRAY3,
         flexDirection: 'row',
         alignItems: 'center',
-        borderRadius: 4,
-        ...DEFAULT_SHADOW
+        borderRadius: 4
     },
     btn: {
         flex: 1,
@@ -71,7 +68,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     label: {
-        fontSize: 10,
+        fontSize: 12,
         marginTop: 4
     }
 })
