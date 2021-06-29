@@ -16,3 +16,15 @@ export const BLACK = '#000'
 
 export const KAKAO_COLOR = '#FFE812'
 export const APPLE_COLOR = '#000'
+
+export const DEFAULT_SHADOW = {
+    shadowColor: "#000",
+    shadowOffset: {
+        width: 0,
+        height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
+}

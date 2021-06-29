@@ -8,3 +8,10 @@ Mobile application
 
 
 # Troubleshooting
+
+# TODO
++ firebase app auth messaging
++ invertase react native apple autnetication
++ kakao login
++ appcenter
++ rn rate

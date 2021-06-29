@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { View } from 'react-native'
 import { DefaultTheme, NavigationContainer, NavigationContainerRef, Theme } from '@react-navigation/native';
 import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -19,6 +20,12 @@ import Home from './Home'
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
 
+const Test = () => {
+    return <View>
+
+    </View>
+}
+
 
 const TabNavigation = () => {
     return (
@@ -32,6 +39,22 @@ const TabNavigation = () => {
                 options={{
                     tabBarLabel: '장소',
                     tabBarIcon: (({ color }) => <IconMA size={24} name='location-on' color={color} />)
+                }}
+            />
+            <Tab.Screen
+                name='Friend'
+                component={Test}
+                options={{
+                    tabBarLabel: '친구만들기',
+                    tabBarIcon: (({ color }) => <IconMA size={24} name='language' color={color} />)
+                }}
+            />
+            <Tab.Screen
+                name='Chat'
+                component={Test}
+                options={{
+                    tabBarLabel: '채팅',
+                    tabBarIcon: (({ color }) => <IconMA size={24} name='chat' color={color} />)
                 }}
             />
         </Tab.Navigator>

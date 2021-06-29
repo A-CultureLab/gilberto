@@ -1,8 +1,9 @@
 import { BottomTabBarOptions, BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import React from 'react'
 import { Pressable, StyleSheet, View, Text } from 'react-native'
+import { BaseButton, RawButton } from 'react-native-gesture-handler'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { COLOR1, GRAY1, GRAY2, GRAY3 } from '../../constants/styles'
+import { COLOR1, DEFAULT_SHADOW, GRAY1, GRAY2, GRAY3, WIDTH } from '../../constants/styles'
 
 const TabNavigationTabBar: React.FC<BottomTabBarProps<BottomTabBarOptions>> = ({ state, navigation, descriptors }) => {
 
@@ -10,7 +11,7 @@ const TabNavigationTabBar: React.FC<BottomTabBarProps<BottomTabBarOptions>> = ({
 
     return (
         <>
-            <View style={[styles.container, { height: 56 + bottom, paddingBottom: bottom }]} >
+            <View style={[styles.container, { marginBottom: bottom + 32 }]} >
                 {state.routes.map((route, index) => {
                     const { options } = descriptors[route.key]
                     const label = options.tabBarLabel as string
@@ -34,6 +35,7 @@ const TabNavigationTabBar: React.FC<BottomTabBarProps<BottomTabBarOptions>> = ({
                     return (
                         <Pressable
                             key={label}
+                            android_ripple={{ radius: 100 }}
                             onPress={onPress}
                             style={styles.btn}
                         >
@@ -51,11 +53,17 @@ export default TabNavigationTabBar
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
-        borderTopWidth: 1,
+        position: 'absolute',
+        bottom: 0,
+        width: WIDTH - 64,
+        height: 64,
+        backgroundColor: '#fff',
+        alignSelf: 'center',
         borderTopColor: GRAY3,
         flexDirection: 'row',
         alignItems: 'center',
+        borderRadius: 4,
+        ...DEFAULT_SHADOW
     },
     btn: {
         flex: 1,
@@ -63,7 +71,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     label: {
-        fontSize: 12,
-        marginTop: 6
+        fontSize: 10,
+        marginTop: 4
     }
 })
