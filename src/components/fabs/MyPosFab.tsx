@@ -1,7 +1,6 @@
 import React from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
-import { BaseButton } from 'react-native-gesture-handler'
-import MapView from 'react-native-maps'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { COLOR2, DEFAULT_SHADOW } from '../../constants/styles'
 
@@ -10,10 +9,13 @@ interface MyPosFabProps {
 }
 
 const MyPosFab: React.FC<MyPosFabProps> = ({ onPress }) => {
+
+    const { bottom } = useSafeAreaInsets()
+
     return (
         <Pressable
             onPress={onPress}
-            style={styles.container} >
+            style={[styles.container, { bottom: bottom + 16 + 56 }]} >
             <Icon color={COLOR2} name='my-location' size={24} />
         </Pressable>
     )

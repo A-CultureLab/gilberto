@@ -6,6 +6,9 @@ import { IS_IOS } from '../../constants/values';
 import { COLOR2, DEFAULT_SHADOW } from '../../constants/styles';
 import ScreenLayout from '../../components/Layout/ScreenLayout';
 import MyPosFab from '../../components/fabs/MyPosFab';
+import HomeHeader from '../../components/headers/HomeHeader'
+import CategorySelector from '../../components/selectors/CategorySelector'
+
 
 const Home = () => {
 
@@ -76,6 +79,8 @@ const Home = () => {
                     </View>
                 </Marker>}
             </MapView>
+            <HomeHeader />
+            <CategorySelector />
             <MyPosFab onPress={onMyPos} />
         </ScreenLayout>
     )

@@ -11,7 +11,7 @@ const TabNavigationTabBar: React.FC<BottomTabBarProps<BottomTabBarOptions>> = ({
 
     return (
         <>
-            <View style={[styles.container, { marginBottom: bottom }]} >
+            <View style={[styles.container, { height: 56 + bottom, paddingBottom: bottom }]} >
                 {state.routes.map((route, index) => {
                     const { options } = descriptors[route.key]
                     const label = options.tabBarLabel as string
@@ -53,6 +53,10 @@ export default TabNavigationTabBar
 
 const styles = StyleSheet.create({
     container: {
+        position: 'absolute',
+        bottom: 0,
+        right: 0,
+        left: 0,
         width: WIDTH,
         height: 64,
         backgroundColor: '#fff',
