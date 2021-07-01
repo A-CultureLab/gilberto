@@ -31,7 +31,8 @@ const TabNavigation = () => {
     return (
         <Tab.Navigator
             initialRouteName='Home'
-            tabBar={(props) => <TabNavigationTabBar {...props} />}
+            // tabBar={(props) => <TabNavigationTabBar {...props} />}
+            tabBar={() => null}
         >
             <Tab.Screen
                 name='Home'

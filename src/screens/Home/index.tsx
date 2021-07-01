@@ -8,6 +8,8 @@ import ScreenLayout from '../../components/Layout/ScreenLayout';
 import MyPosFab from '../../components/fabs/MyPosFab';
 import HomeHeader from './HomeHeader'
 import CategorySelector from './CategorySelector'
+import MapScreenBottomTabBar from '../../components/tabs/MapScreenBottomTabBar';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 
 export const HomeScreenContext = createContext({
@@ -18,6 +20,9 @@ export const HomeScreenContext = createContext({
 const Home = () => {
 
     const mapRef = useRef<MapView>(null)
+
+    const { bottom } = useSafeAreaInsets()
+
     const [cameraPos, setCameraPos] = useState<Region>({
         latitude: 37.50367232610927,
         longitude: 126.98522503284602,
@@ -80,7 +85,7 @@ const Home = () => {
                     style={{ flex: 1, zIndex: -999 }}
                     rotateEnabled={false}
                     initialRegion={cameraPos}
-                    onRegionChange={setCameraPos}
+                    mapPadding={{ bottom: 56, top: 56, left: 0, right: 0 }}
                 >
                     {myPos && <Marker
                         coordinate={myPos}
@@ -95,6 +100,7 @@ const Home = () => {
                 <HomeHeader />
                 <CategorySelector />
                 <MyPosFab onPress={onMyPos} />
+                <MapScreenBottomTabBar />
             </ScreenLayout>
         </HomeScreenContext.Provider>
     )
