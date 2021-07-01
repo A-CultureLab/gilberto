@@ -35,7 +35,6 @@ const TabNavigationTabBar: React.FC<BottomTabBarProps<BottomTabBarOptions>> = ({
                     return (
                         <Pressable
                             key={label}
-                            android_ripple={{ radius: 100 }}
                             onPress={onPress}
                             style={styles.btn}
                         >

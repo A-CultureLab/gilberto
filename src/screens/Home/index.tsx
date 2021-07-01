@@ -77,7 +77,7 @@ const Home = () => {
             <ScreenLayout translucent >
                 <MapView
                     ref={mapRef}
-                    style={{ flex: 1 }}
+                    style={{ flex: 1, zIndex: -999 }}
                     rotateEnabled={false}
                     initialRegion={cameraPos}
                     onRegionChange={setCameraPos}

@@ -13,10 +13,10 @@ const MyPosFab: React.FC<MyPosFabProps> = ({ onPress }) => {
     const { bottom } = useSafeAreaInsets()
 
     return (
-        <View style={styles.container} >
+        <View style={[styles.container, { bottom: bottom + 16 + 56 }]} >
             <Pressable
                 onPress={onPress}
-                style={[styles.btn, { bottom: bottom + 16 + 56 }]} >
+                style={styles.btn} >
                 <Icon color={COLOR2} name='my-location' size={24} />
             </Pressable>
         </View>
