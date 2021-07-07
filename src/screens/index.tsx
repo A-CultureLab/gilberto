@@ -17,6 +17,7 @@ import BottomSheet from '../components/bottomSheets/DefaultBottomSheet';
 import { HEIGHT, WIDTH } from '../constants/styles';
 import Alert from '../components/bottomSheets/Alert';
 import Confirm from '../components/bottomSheets/Confirm';
+import SelectBottomSheet from '../components/selectors/SelectBottomSheet';
 
 
 
@@ -32,13 +33,12 @@ const Test = () => {
     return <View style={{ flex: 1, paddingTop: 100 }} >
 
         <Pressable onPress={() => setVisible(true)} style={{ width: 100, height: 100, backgroundColor: 'red' }} ><Text>Button</Text></Pressable>
-        <Confirm
+        <SelectBottomSheet
             visible={visible}
             onClose={() => setVisible(false)}
-            noText='아니야'
-            yesText='맞아'
-            title='로그아웃'
-            content='정말 로그아웃 하시겠습니까?'
+            list={['1', '2', '3', '4', '5', '6', '7', '8']}
+            onSelect={(i) => console.log(i)}
+            selectedDataIndex={3}
         />
     </View>
 }
