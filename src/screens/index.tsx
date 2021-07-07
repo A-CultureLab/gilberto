@@ -21,6 +21,7 @@ import SelectBottomSheet from '../components/selectors/SelectBottomSheet';
 import Header from '../components/headers/Header';
 import ScreenLayout from '../components/layout/ScreenLayout';
 import Toast from '../components/toasts/Toast';
+import Toggle from '../components/toggles/Toggle';
 
 
 
@@ -39,6 +40,9 @@ const Test = () => {
             backBtn='left'
         />
         <Pressable onPress={() => setVisible(!visible)} style={{ width: 100, height: 100, backgroundColor: 'red' }} ><Text>Button</Text></Pressable>
+        <View style={{ alignSelf: 'center' }} >
+            <Toggle />
+        </View>
         <Toast
             visible={visible}
             content='나이를 입력해주세요'
