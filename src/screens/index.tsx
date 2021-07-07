@@ -16,6 +16,7 @@ import Home from './Home'
 import BottomSheet from '../components/bottomSheets/DefaultBottomSheet';
 import { HEIGHT, WIDTH } from '../constants/styles';
 import Alert from '../components/bottomSheets/Alert';
+import Confirm from '../components/bottomSheets/Confirm';
 
 
 
@@ -31,11 +32,13 @@ const Test = () => {
     return <View style={{ flex: 1, paddingTop: 100 }} >
 
         <Pressable onPress={() => setVisible(true)} style={{ width: 100, height: 100, backgroundColor: 'red' }} ><Text>Button</Text></Pressable>
-        <Alert
+        <Confirm
             visible={visible}
             onClose={() => setVisible(false)}
-            title='마케팅 수신동의'
-            content='2020.05.23 5시 23분에 동의 하셨습니다.'
+            noText='아니야'
+            yesText='맞아'
+            title='로그아웃'
+            content='정말 로그아웃 하시겠습니까?'
         />
     </View>
 }
