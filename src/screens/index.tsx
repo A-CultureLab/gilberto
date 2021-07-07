@@ -22,6 +22,7 @@ import Header from '../components/headers/Header';
 import ScreenLayout from '../components/layout/ScreenLayout';
 import Toast from '../components/toasts/Toast';
 import Toggle from '../components/toggles/Toggle';
+import Loading from '../components/loadings/Loading';
 
 
 
@@ -41,7 +42,9 @@ const Test = () => {
         />
         <Pressable onPress={() => setVisible(!visible)} style={{ width: 100, height: 100, backgroundColor: 'red' }} ><Text>Button</Text></Pressable>
         <View style={{ alignSelf: 'center' }} >
-            <Toggle />
+            <Toggle initValue={true} />
+            <View style={{ height: 100 }} />
+            <Loading />
         </View>
         <Toast
             visible={visible}

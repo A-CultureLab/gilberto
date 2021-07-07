@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { COLOR1, SPRING_CONFIG } from '../../constants/styles'
+import { COLOR1, DEFAULT_SHADOW, SPRING_CONFIG } from '../../constants/styles'
 
 interface ToastProps {
     visible: boolean
@@ -45,7 +45,8 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         backgroundColor: COLOR1,
         position: 'absolute',
-        bottom: 0
+        bottom: 0,
+        ...DEFAULT_SHADOW
     },
     content: {
         fontSize: 14,
