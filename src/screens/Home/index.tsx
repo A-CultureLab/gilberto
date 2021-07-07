@@ -4,7 +4,7 @@ import MapView, { Coordinate, LatLng, Marker, Region } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import { IS_IOS } from '../../constants/values';
 import { COLOR2, DEFAULT_SHADOW } from '../../constants/styles';
-import ScreenLayout from '../../components/Layout/ScreenLayout';
+import ScreenLayout from '../../components/layout/ScreenLayout';
 import MyPosFab from '../../components/fabs/MyPosFab';
 import HomeHeader from './HomeHeader'
 import CategorySelector from './CategorySelector'

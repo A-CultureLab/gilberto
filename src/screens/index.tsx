@@ -1,16 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View } from 'react-native'
+import { Pressable, View, Text, ScrollView, TouchableOpacity } from 'react-native'
 import { DefaultTheme, NavigationContainer, NavigationContainerRef, Theme } from '@react-navigation/native';
 import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import IconMA from 'react-native-vector-icons/MaterialIcons'
 import TabNavigationTabBar from '../components/tabs/TabNavigationTabBar';
+import { BottomSheetModalProvider, useBottomSheet } from '@gorhom/bottom-sheet'
+// import { TouchableOpacity } from 'react-native-gesture-handler'
 
 // GLOBAL UI
 
 
 // SCREENS
 import Home from './Home'
+import BottomSheet from '../components/bottomSheets/DefaultBottomSheet';
+import { HEIGHT, WIDTH } from '../constants/styles';
 
 
 
@@ -21,8 +25,51 @@ const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
 
 const Test = () => {
-    return <View>
 
+    const [visible, setVisible] = useState(false)
+    return <View style={{ flex: 1, paddingTop: 100 }} >
+
+        <Pressable onPress={() => setVisible(true)} style={{ width: 100, height: 100, backgroundColor: 'red' }} ><Text>Button</Text></Pressable>
+        <BottomSheet
+            visible={visible}
+            onClose={() => setVisible(false)}
+        >
+            <ScrollView style={{ height: 300 }} >
+                <TouchableOpacity activeOpacity={1} >
+                    <View>
+                        <Text>hello world</Text>
+                        <Text>hello world</Text>
+                        <Text>hello world</Text>
+                        <Text>hello world</Text>
+                        <Text>hello world</Text>
+                        <Text>hello world</Text>
+                        <Text>hello world</Text>
+                        <Text>hello world</Text>
+                        <Text>hello world</Text>
+                        <Text>hello world</Text>
+                        <Text>hello world</Text>
+                        <Text>hello world</Text>
+                        <Text>hello world</Text>
+                        <Text>hello world</Text>
+                        <Text>hello world</Text>
+                        <Text>hello world</Text>
+                        <Text>hello world</Text>
+                        <Text>hello world</Text>
+                        <Text>hello world</Text>
+                        <Text>hello world</Text>
+                        <Text>hello world</Text>
+                        <Text>hello world</Text>
+                        <Text>hello world</Text>
+                        <Text>hello world</Text>
+                        <Text>hello world</Text>
+                        <Text>hello world</Text>
+                        <Text>hello world</Text>
+                        <Text>hello world</Text>
+                        <Text>hello world</Text>
+                    </View>
+                </TouchableOpacity>
+            </ScrollView>
+        </BottomSheet>
     </View>
 }
 
@@ -30,7 +77,7 @@ const Test = () => {
 const TabNavigation = () => {
     return (
         <Tab.Navigator
-            initialRouteName='Home'
+            initialRouteName='Friend'
             // tabBar={(props) => <TabNavigationTabBar {...props} />}
             tabBar={() => null}
         >
@@ -91,7 +138,9 @@ const Navigation = () => {
 const NavigationWrapper = () => {
     return (
         <>
-            <Navigation />
+            <BottomSheetModalProvider>
+                <Navigation />
+            </BottomSheetModalProvider>
         </>
     )
 }

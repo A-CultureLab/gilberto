@@ -1,0 +1,82 @@
+import React, { useRef, useEffect, useState } from 'react'
+import { StyleSheet, Text, View, Pressable, TouchableWithoutFeedback } from 'react-native'
+import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import Modal from 'react-native-modal'
+import { GRAY2, HEIGHT, WIDTH } from '../../constants/styles';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+
+interface DefaultBottomSheetProps {
+    visible: boolean
+    onClose: () => void
+    enableBottomSafeArea?: boolean
+}
+
+const DefaultBottomSheet: React.FC<DefaultBottomSheetProps> = ({ visible, onClose, children, enableBottomSafeArea }) => {
+
+    const { bottom } = useSafeAreaInsets()
+
+    return (
+        <>
+            <Modal
+                isVisible={visible}
+                onBackdropPress={onClose}
+                onDismiss={onClose}
+                backdropColor='#000'
+                backdropOpacity={0.5}
+                useNativeDriverForBackdrop
+                backdropTransitionOutTiming={0}
+                statusBarTranslucent
+                //@ts-ignore
+                deviceWidth={WIDTH}
+                //@ts-ignore
+                deviceHeight={HEIGHT}
+                swipeDirection={['down']}
+                onSwipeComplete={onClose}
+                propagateSwipe
+                style={{ margin: 0, justifyContent: 'flex-end' }}
+            >
+
+                <View>
+                    <View style={styles.extraSwipeRange} />
+                    <View style={styles.swiperContainer} >
+                        <View style={styles.swiper} />
+                    </View>
+                    <View style={[styles.contentContainer, { paddingBottom: enableBottomSafeArea ? bottom : 0 }]} >
+                        {children}
+                    </View>
+                </View>
+            </Modal>
+        </>
+    )
+}
+
+export default DefaultBottomSheet
+
+const styles = StyleSheet.create({
+    extraSwipeRange: {
+        width: WIDTH,
+        height: 50,
+        backgroundColor: '#fff',
+        opacity: 0
+    },
+    swiperContainer: {
+        width: WIDTH,
+        height: 40,
+        paddingTop: 16,
+        alignItems: 'center',
+        borderTopLeftRadius: 8,
+        borderTopRightRadius: 8,
+        backgroundColor: '#fff'
+    },
+    swiper: {
+        width: 32,
+        height: 3,
+        borderRadius: 1.5,
+        backgroundColor: GRAY2
+    },
+    contentContainer: {
+        width: WIDTH,
+        backgroundColor: '#fff'
+    }
+})
