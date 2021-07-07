@@ -18,6 +18,8 @@ import { HEIGHT, WIDTH } from '../constants/styles';
 import Alert from '../components/bottomSheets/Alert';
 import Confirm from '../components/bottomSheets/Confirm';
 import SelectBottomSheet from '../components/selectors/SelectBottomSheet';
+import Header from '../components/headers/Header';
+import ScreenLayout from '../components/layout/ScreenLayout';
 
 
 
@@ -30,8 +32,11 @@ const Tab = createBottomTabNavigator()
 const Test = () => {
 
     const [visible, setVisible] = useState(false)
-    return <View style={{ flex: 1, paddingTop: 100 }} >
-
+    return <ScreenLayout>
+        <Header
+            title='테스트'
+            backBtn='left'
+        />
         <Pressable onPress={() => setVisible(true)} style={{ width: 100, height: 100, backgroundColor: 'red' }} ><Text>Button</Text></Pressable>
         <SelectBottomSheet
             visible={visible}
@@ -40,7 +45,7 @@ const Test = () => {
             onSelect={(i) => console.log(i)}
             selectedDataIndex={3}
         />
-    </View>
+    </ScreenLayout>
 }
 
 
