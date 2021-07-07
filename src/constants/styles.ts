@@ -28,3 +28,12 @@ export const DEFAULT_SHADOW = {
 
     elevation: 5,
 }
+
+export const SPRING_CONFIG = {
+    damping: 10,
+    mass: 0.4,
+    stiffness: 121.6,
+    overshootClamping: false,
+    restSpeedThreshold: 0.001,
+    restDisplacementThreshold: 0.001,
+}

@@ -20,6 +20,7 @@ import Confirm from '../components/bottomSheets/Confirm';
 import SelectBottomSheet from '../components/selectors/SelectBottomSheet';
 import Header from '../components/headers/Header';
 import ScreenLayout from '../components/layout/ScreenLayout';
+import Toast from '../components/toasts/Toast';
 
 
 
@@ -37,13 +38,10 @@ const Test = () => {
             title='테스트'
             backBtn='left'
         />
-        <Pressable onPress={() => setVisible(true)} style={{ width: 100, height: 100, backgroundColor: 'red' }} ><Text>Button</Text></Pressable>
-        <SelectBottomSheet
+        <Pressable onPress={() => setVisible(!visible)} style={{ width: 100, height: 100, backgroundColor: 'red' }} ><Text>Button</Text></Pressable>
+        <Toast
             visible={visible}
-            onClose={() => setVisible(false)}
-            list={['1', '2', '3', '4', '5', '6', '7', '8']}
-            onSelect={(i) => console.log(i)}
-            selectedDataIndex={3}
+            content='나이를 입력해주세요'
         />
     </ScreenLayout>
 }
