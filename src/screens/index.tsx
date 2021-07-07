@@ -15,6 +15,7 @@ import { BottomSheetModalProvider, useBottomSheet } from '@gorhom/bottom-sheet'
 import Home from './Home'
 import BottomSheet from '../components/bottomSheets/DefaultBottomSheet';
 import { HEIGHT, WIDTH } from '../constants/styles';
+import Alert from '../components/bottomSheets/Alert';
 
 
 
@@ -30,46 +31,12 @@ const Test = () => {
     return <View style={{ flex: 1, paddingTop: 100 }} >
 
         <Pressable onPress={() => setVisible(true)} style={{ width: 100, height: 100, backgroundColor: 'red' }} ><Text>Button</Text></Pressable>
-        <BottomSheet
+        <Alert
             visible={visible}
             onClose={() => setVisible(false)}
-        >
-            <ScrollView style={{ height: 300 }} >
-                <TouchableOpacity activeOpacity={1} >
-                    <View>
-                        <Text>hello world</Text>
-                        <Text>hello world</Text>
-                        <Text>hello world</Text>
-                        <Text>hello world</Text>
-                        <Text>hello world</Text>
-                        <Text>hello world</Text>
-                        <Text>hello world</Text>
-                        <Text>hello world</Text>
-                        <Text>hello world</Text>
-                        <Text>hello world</Text>
-                        <Text>hello world</Text>
-                        <Text>hello world</Text>
-                        <Text>hello world</Text>
-                        <Text>hello world</Text>
-                        <Text>hello world</Text>
-                        <Text>hello world</Text>
-                        <Text>hello world</Text>
-                        <Text>hello world</Text>
-                        <Text>hello world</Text>
-                        <Text>hello world</Text>
-                        <Text>hello world</Text>
-                        <Text>hello world</Text>
-                        <Text>hello world</Text>
-                        <Text>hello world</Text>
-                        <Text>hello world</Text>
-                        <Text>hello world</Text>
-                        <Text>hello world</Text>
-                        <Text>hello world</Text>
-                        <Text>hello world</Text>
-                    </View>
-                </TouchableOpacity>
-            </ScrollView>
-        </BottomSheet>
+            title='마케팅 수신동의'
+            content='2020.05.23 5시 23분에 동의 하셨습니다.'
+        />
     </View>
 }
 
