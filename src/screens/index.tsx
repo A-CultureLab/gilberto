@@ -24,8 +24,7 @@ import Toast from '../components/toasts/Toast';
 import Toggle from '../components/toggles/Toggle';
 import Loading from '../components/loadings/Loading';
 import ScrollSelector from '../components/selectors/ScrollSelector';
-import WeightSelectSheet from '../components/selectors/WeightSelectSheet';
-import CharacterSelector from '../components/selectors/CharacterSelectSheet';
+import SpeciesSelectPicker from '../components/selectors/SpeciesSelectSheet';
 
 
 
@@ -56,7 +55,7 @@ const Test = () => {
                 onChange={(i) => console.log(i)}
             />
         </View>
-        <CharacterSelector
+        <SpeciesSelectPicker
             visible={visible}
             onClose={() => setVisible(false)}
             onSelect={(w) => console.log(w)}
@@ -70,7 +69,6 @@ const TabNavigation = () => {
     return (
         <Tab.Navigator
             initialRouteName='Friend'
-            // tabBar={(props) => <TabNavigationTabBar {...props} />}
             tabBar={() => null}
         >
             <Tab.Screen
