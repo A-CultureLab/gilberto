@@ -25,7 +25,7 @@ import Toggle from '../components/toggles/Toggle';
 import Loading from '../components/loadings/Loading';
 import ScrollSelector from '../components/selectors/ScrollSelector';
 import WeightSelectSheet from '../components/selectors/WeightSelectSheet';
-import CharacterSelector from '../components/selectors/CharacterSelector';
+import CharacterSelector from '../components/selectors/CharacterSelectSheet';
 
 
 

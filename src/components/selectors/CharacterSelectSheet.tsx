@@ -5,14 +5,14 @@ import { AnimalType } from '../../constants/type'
 import { ANIMAL_CHARACTER, IS_IOS } from '../../constants/values'
 import DefaultBottomSheet from '../bottomSheets/DefaultBottomSheet'
 
-interface CharacterSelectorProps {
+interface CharacterSelectSheetProps {
     visible: boolean
     onClose: () => void
     onSelect: (character: string) => void
     type: AnimalType
 }
 
-const CharacterSelector: React.FC<CharacterSelectorProps> = ({ visible, onClose, onSelect, type }) => {
+const CharacterSelectSheet: React.FC<CharacterSelectSheetProps> = ({ visible, onClose, onSelect, type }) => {
 
     const inputRef = useRef<TextInput>(null)
 
@@ -65,7 +65,7 @@ const CharacterSelector: React.FC<CharacterSelectorProps> = ({ visible, onClose,
     )
 }
 
-export default CharacterSelector
+export default CharacterSelectSheet
 
 const styles = StyleSheet.create({
     itemContainer: {
