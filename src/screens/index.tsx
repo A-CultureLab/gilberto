@@ -23,6 +23,7 @@ import ScreenLayout from '../components/layout/ScreenLayout';
 import Toast from '../components/toasts/Toast';
 import Toggle from '../components/toggles/Toggle';
 import Loading from '../components/loadings/Loading';
+import ScrollSelector from '../components/selectors/ScrollSelector';
 
 
 
@@ -45,6 +46,13 @@ const Test = () => {
             <Toggle initValue={true} />
             <View style={{ height: 100 }} />
             <Loading />
+            <View style={{ height: 100 }} />
+            <ScrollSelector
+                list={Array(100).fill(0).map((_, i) => i.toString())}
+                initIndex={56}
+                infinityScroll
+                onChange={(i) => console.log(i)}
+            />
         </View>
         <Toast
             visible={visible}
