@@ -24,7 +24,7 @@ import Toast from '../components/toasts/Toast';
 import Toggle from '../components/toggles/Toggle';
 import Loading from '../components/loadings/Loading';
 import ScrollSelector from '../components/selectors/ScrollSelector';
-import DateSelectSheet from '../components/selectors/DateSelectSheet';
+import WeightSelectSheet from '../components/selectors/WeightSelectSheet';
 
 
 
@@ -55,11 +55,10 @@ const Test = () => {
                 onChange={(i) => console.log(i)}
             />
         </View>
-        <DateSelectSheet
+        <WeightSelectSheet
             visible={visible}
             onClose={() => setVisible(false)}
-            onSelect={(y, m, d) => console.log(y, m, d)}
-            day={false}
+            onSelect={(w) => console.log(w)}
         />
     </ScreenLayout>
 }

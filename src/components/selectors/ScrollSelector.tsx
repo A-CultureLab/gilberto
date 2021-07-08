@@ -58,7 +58,7 @@ const ScrollSelector: React.FC<ScrollSelectorProps> = ({ list: _list, infinitySc
                     <View style={{ height }} />
                     {list.map((v, i) => (
                         <View key={i.toString()} style={[styles.item, { width, height }, textStyle]} >
-                            <Text>{v}</Text>
+                            <Text style={styles.itemText} >{v}</Text>
                         </View>
                     ))}
                     <View style={{ height }} />
