@@ -24,6 +24,7 @@ import Toast from '../components/toasts/Toast';
 import Toggle from '../components/toggles/Toggle';
 import Loading from '../components/loadings/Loading';
 import ScrollSelector from '../components/selectors/ScrollSelector';
+import DateSelectSheet from '../components/selectors/DateSelectSheet';
 
 
 
@@ -54,9 +55,11 @@ const Test = () => {
                 onChange={(i) => console.log(i)}
             />
         </View>
-        <Toast
+        <DateSelectSheet
             visible={visible}
-            content='나이를 입력해주세요'
+            onClose={() => setVisible(false)}
+            onSelect={(y, m, d) => console.log(y, m, d)}
+            day={false}
         />
     </ScreenLayout>
 }

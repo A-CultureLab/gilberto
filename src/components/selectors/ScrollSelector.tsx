@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useCallback } from 'react'
-import { StyleSheet, Text, View, FlatList, NativeSyntheticEvent, NativeScrollEvent, StyleProp, TextStyle, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, NativeSyntheticEvent, NativeScrollEvent, StyleProp, TextStyle, ScrollView } from 'react-native'
 import { GRAY3 } from '../../constants/styles'
 import LinearGradient from 'react-native-linear-gradient'
 
@@ -10,7 +10,7 @@ interface ScrollSelectorProps {
     infinityScroll?: boolean
     width?: number
     height?: number
-    initIndex: number
+    initIndex?: number
     onChange: (i: number) => void
     textStyle?: StyleProp<TextStyle>
 }
@@ -36,10 +36,6 @@ const ScrollSelector: React.FC<ScrollSelectorProps> = ({ list: _list, infinitySc
         flatlistRef.current?.scrollTo({ animated: false, y: (index + _list.length) * height })
     }, [height, _list, infinityScroll])
 
-    useEffect(() => {
-        if (!height) return
-        flatlistRef.current?.scrollTo({ animated: false, y: (initIndex + (infinityScroll ? _list.length : 0)) * height })
-    }, [])
 
 
 
@@ -47,6 +43,7 @@ const ScrollSelector: React.FC<ScrollSelectorProps> = ({ list: _list, infinitySc
         <View style={[styles.container, { height: (height || 56) * 3, width }]} >
             <ScrollView
                 ref={flatlistRef}
+                contentOffset={{ x: 0, y: ((initIndex || 0) + (infinityScroll ? _list.length : 0)) * (height || 56) }}
                 scrollEventThrottle={16}
                 onScroll={onScroll}
                 onMomentumScrollEnd={onScrollEnd}
@@ -57,13 +54,15 @@ const ScrollSelector: React.FC<ScrollSelectorProps> = ({ list: _list, infinitySc
                 decelerationRate='fast'
                 snapToInterval={height}
             >
-                <View style={{ height }} />
-                {list.map((v, i) => (
-                    <View key={i.toString()} style={[styles.item, { width, height }, textStyle]} >
-                        <Text>{v}</Text>
-                    </View>
-                ))}
-                <View style={{ height }} />
+                <TouchableOpacity activeOpacity={1} >
+                    <View style={{ height }} />
+                    {list.map((v, i) => (
+                        <View key={i.toString()} style={[styles.item, { width, height }, textStyle]} >
+                            <Text>{v}</Text>
+                        </View>
+                    ))}
+                    <View style={{ height }} />
+                </TouchableOpacity>
             </ScrollView>
             <View
                 pointerEvents='none'
