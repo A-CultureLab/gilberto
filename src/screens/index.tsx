@@ -25,6 +25,7 @@ import Toggle from '../components/toggles/Toggle';
 import Loading from '../components/loadings/Loading';
 import ScrollSelector from '../components/selectors/ScrollSelector';
 import WeightSelectSheet from '../components/selectors/WeightSelectSheet';
+import CharacterSelector from '../components/selectors/CharacterSelector';
 
 
 
@@ -55,10 +56,11 @@ const Test = () => {
                 onChange={(i) => console.log(i)}
             />
         </View>
-        <WeightSelectSheet
+        <CharacterSelector
             visible={visible}
             onClose={() => setVisible(false)}
             onSelect={(w) => console.log(w)}
+            type='dog'
         />
     </ScreenLayout>
 }

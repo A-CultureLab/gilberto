@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react'
-import { StyleSheet, Text, View, Pressable, TouchableWithoutFeedback } from 'react-native'
+import { StyleSheet, Text, View, Pressable, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native'
 import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import Modal from 'react-native-modal'
 import { GRAY2, HEIGHT, WIDTH } from '../../constants/styles';
@@ -37,7 +37,7 @@ const DefaultBottomSheet: React.FC<DefaultBottomSheetProps> = ({ visible, onClos
                 style={{ margin: 0, justifyContent: 'flex-end' }}
             >
 
-                <View>
+                <KeyboardAvoidingView behavior='padding' >
                     <View style={styles.extraSwipeRange} />
                     <View style={styles.swiperContainer} >
                         <View style={styles.swiper} />
@@ -45,7 +45,7 @@ const DefaultBottomSheet: React.FC<DefaultBottomSheetProps> = ({ visible, onClos
                     <View style={[styles.contentContainer, { paddingBottom: enableBottomSafeArea ? bottom : 0 }]} >
                         {children}
                     </View>
-                </View>
+                </KeyboardAvoidingView>
             </Modal>
         </>
     )
