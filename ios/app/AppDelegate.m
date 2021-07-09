@@ -4,7 +4,7 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <Firebase.h>
-//#import <RNKakaoLogins.h>
+#import <RNKakaoLogins.h>
 
 
 
@@ -29,15 +29,15 @@ static void InitializeFlipper(UIApplication *application) {
 
 @implementation AppDelegate
 
-// - (BOOL)application:(UIApplication *)app
-//      openURL:(NSURL *)url
-//      options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
-//       if([RNKakaoLogins isKakaoTalkLoginUrl:url]) {
-//           return [RNKakaoLogins handleOpenUrl: url];
-//       }
+- (BOOL)application:(UIApplication *)app
+     openURL:(NSURL *)url
+     options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+      if([RNKakaoLogins isKakaoTalkLoginUrl:url]) {
+          return [RNKakaoLogins handleOpenUrl: url];
+      }
 
-//  return NO;
-// }
+ return NO;
+}
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions

@@ -8,13 +8,13 @@ import TouchableScale from '../../components/buttons/TouchableScale'
 import { useCallback } from 'react'
 import auth from '@react-native-firebase/auth';
 import { useState } from 'react'
-import KakaoLogins from '@react-native-seoul/kakao-login';
+import { login as kakaoLogin } from '@react-native-seoul/kakao-login';
 import { useApolloClient } from '@apollo/client'
 import { useNavigation } from '@react-navigation/core'
 
 const Login = () => {
 
-    const client = useApolloClient()
+    // const client = useApolloClient()
     const { reset } = useNavigation()
 
     const [loading, setLoading] = useState(false)
@@ -23,8 +23,9 @@ const Login = () => {
     const onKakao = useCallback(async () => {
         try {
             if (loading) return
-            const { accessToken } = await KakaoLogins.login()
+            const { accessToken } = await kakaoLogin()
 
+            console.log(accessToken)
 
             // const firebaseToken = data.kakaoTokenToFirebaseToken
             // await auth().signInWithCustomToken(firebaseToken)
@@ -42,7 +43,7 @@ const Login = () => {
 
     const loginSuccess = useCallback(async () => {
         try {
-            await client.clearStore()
+            // await client.clearStore()
 
             // if (!data.iUser.name) reset({ index: 0, routes: [{ name: 'Signup' }] })  // 이름정보가 없으면 기본정보입력화면으로 전환
             // else reset({ index: 0, routes: [{ name: 'Tab' }] })
