@@ -20,7 +20,7 @@ const Header: React.FC<HeaderProps> = ({ backBtn, title, underline }) => {
                 <Pressable
                     onPress={goBack}
                     style={styles.btn}
-                    android_ripple={{ color: GRAY2, borderless: true }}
+                    android_ripple={{ color: GRAY2, borderless: true, radius: 28 }}
                 >
                     <Icon name='keyboard-arrow-left' size={24} />
                 </Pressable>
@@ -51,8 +51,7 @@ const styles = StyleSheet.create({
         height: 56,
         flexDirection: 'row',
         alignItems: 'center',
-        overflow: 'hidden',
-        borderBottomColor: GRAY3
+        borderBottomColor: GRAY3,
     },
     title: {
         fontSize: 18,
@@ -64,5 +63,6 @@ const styles = StyleSheet.create({
         height: 56,
         alignItems: 'center',
         justifyContent: 'center',
+        overflow: 'visible'
     }
 })

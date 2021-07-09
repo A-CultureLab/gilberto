@@ -9,6 +9,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { COLOR1, GRAY1, GRAY2, GRAY3, WIDTH } from '../../constants/styles'
 import IconMA from 'react-native-vector-icons/MaterialIcons'
 import { BorderlessButton, RectButton } from 'react-native-gesture-handler'
+import auth from '@react-native-firebase/auth';
 
 const TABS = [
     {
@@ -34,12 +35,17 @@ interface MapScreenBottomTabBarProps {
 
 const MapScreenBottomTabBar: React.FC<MapScreenBottomTabBarProps> = () => {
 
+
     const { bottom } = useSafeAreaInsets()
     const { name: routeName } = useRoute()
     const { navigate } = useNavigation()
 
     const onPress = useCallback((name: string) => {
         if (name === routeName) return
+        if ((name === 'Friend' || name === 'Chat') && !auth().currentUser) {
+            navigate('Login')
+            return
+        }
         navigate(name)
     }, [routeName])
 
