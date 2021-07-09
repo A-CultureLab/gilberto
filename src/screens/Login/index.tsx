@@ -11,10 +11,12 @@ import { useState } from 'react'
 import { login as kakaoLogin } from '@react-native-seoul/kakao-login';
 import { useApolloClient } from '@apollo/client'
 import { useNavigation } from '@react-navigation/core'
+import { IUserData, I_USER, KakaoTokenToFirebaseTokenData, KakaoTokenToFirebaseTokenDataVars, KAKAO_TOKEN_TO_FIREBASE_TOKEN } from '../../graphql/user'
+import Loading from '../../components/loadings/Loading'
 
 const Login = () => {
 
-    // const client = useApolloClient()
+    const client = useApolloClient()
     const { reset } = useNavigation()
 
     const [loading, setLoading] = useState(false)
@@ -23,13 +25,19 @@ const Login = () => {
     const onKakao = useCallback(async () => {
         try {
             if (loading) return
+            setLoading(true)
             const { accessToken } = await kakaoLogin()
 
-            console.log(accessToken)
 
-            // const firebaseToken = data.kakaoTokenToFirebaseToken
-            // await auth().signInWithCustomToken(firebaseToken)
-
+            const { data } = await client.query<KakaoTokenToFirebaseTokenData, KakaoTokenToFirebaseTokenDataVars>({
+                query: KAKAO_TOKEN_TO_FIREBASE_TOKEN,
+                variables: { kakaoAccessToken: accessToken },
+                fetchPolicy: 'network-only'
+            })
+            console.log(data)
+            const firebaseToken = data.kakaoTokenToFirebaseToken
+            console.log(firebaseToken)
+            await auth().signInWithCustomToken(firebaseToken)
             await loginSuccess()
         } catch (error) {
             console.log(error)
@@ -43,10 +51,11 @@ const Login = () => {
 
     const loginSuccess = useCallback(async () => {
         try {
-            // await client.clearStore()
+            await client.clearStore()
 
-            // if (!data.iUser.name) reset({ index: 0, routes: [{ name: 'Signup' }] })  // 이름정보가 없으면 기본정보입력화면으로 전환
-            // else reset({ index: 0, routes: [{ name: 'Tab' }] })
+            const { data } = await client.query<IUserData>({ query: I_USER, fetchPolicy: 'network-only', })
+            if (!data.iUser) reset({ index: 0, routes: [{ name: 'Signup' }] })  // 유저 정보가 없으면 회원가입 화면으로 전환
+            else reset({ index: 0, routes: [{ name: 'Tab' }] })
 
             setLoading(false)
         } catch (error) {
@@ -83,6 +92,9 @@ const Login = () => {
                     </TouchableScale>
                 </View>
             </View>
+            {loading && <View style={styles.loading} >
+                <Loading />
+            </View>}
         </ScreenLayout>
     )
 }
@@ -110,5 +122,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginHorizontal: 12,
         borderRadius: 28
+    },
+    loading: {
+        position: 'absolute',
+        bottom: 120,
+        alignSelf: 'center',
     }
 })

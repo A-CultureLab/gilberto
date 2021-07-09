@@ -10,6 +10,7 @@ import HomeHeader from './HomeHeader'
 import CategorySelector from './CategorySelector'
 import MapScreenBottomTabBar from '../../components/tabs/MapScreenBottomTabBar';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import auth from '@react-native-firebase/auth'
 
 
 export const HomeScreenContext = createContext({
@@ -41,6 +42,7 @@ const Home = () => {
 
     // 내위치 초기화
     useEffect(() => {
+        auth().signOut()
         if (IS_IOS) Geolocation.requestAuthorization()
         const watch = Geolocation.watchPosition(
             (position) => {

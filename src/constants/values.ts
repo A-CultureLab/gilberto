@@ -1,8 +1,22 @@
 import { Platform } from "react-native";
+import deviceInfoModule from "react-native-device-info";
 import { AnimalType } from "./type";
 
 export const IS_ANDROID = Platform.OS === 'android'
 export const IS_IOS = Platform.OS === 'ios'
+
+export const GRAPHQL_SERVER_URL = (() => {
+    // return ''
+    if (!__DEV__) return 'https://graphql'
+    if (IS_ANDROID) {
+        if (deviceInfoModule.isEmulatorSync()) return 'http://10.0.2.2:8080/graphql'
+        else return 'http://192.168.35.105:8080/graphql'
+    }
+    if (IS_IOS) {
+        if (deviceInfoModule.isEmulatorSync()) return 'http://localhost:8080/graphql'
+        else return 'http://192.168.35.105:8080/graphql'
+    }
+})()
 
 export const ANIMAL_CHARACTER = {
     'cat': [
