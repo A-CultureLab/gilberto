@@ -1,5 +1,6 @@
 import { gql } from "@apollo/client";
 import { createQueryHook } from "../lib/createApolloHook";
+import { iUser, iUser_iUser } from "./__generated__/iUser";
 
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -8,12 +9,6 @@ export const KAKAO_TOKEN_TO_FIREBASE_TOKEN = gql`
       kakaoTokenToFirebaseToken(kakaoAccessToken: $kakaoAccessToken) 
     }
 `
-export interface KakaoTokenToFirebaseTokenData {
-  kakaoTokenToFirebaseToken: string
-}
-export interface KakaoTokenToFirebaseTokenDataVars {
-  kakaoAccessToken: string
-}
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const I_USER = gql`
@@ -25,13 +20,5 @@ export const I_USER = gql`
     }
   }
 `
-export interface IUserData {
-  iUser: {
-    id: number
-    name: string
-    image: string
-  } | null
-}
-interface IUserVars { }
-export const useIUser = createQueryHook<IUserData, IUserVars>(I_USER)
+export const useIUser = createQueryHook<iUser, {}>(I_USER)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//

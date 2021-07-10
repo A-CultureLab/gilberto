@@ -11,8 +11,10 @@ import { useState } from 'react'
 import { login as kakaoLogin } from '@react-native-seoul/kakao-login';
 import { useApolloClient } from '@apollo/client'
 import { useNavigation } from '@react-navigation/core'
-import { IUserData, I_USER, KakaoTokenToFirebaseTokenData, KakaoTokenToFirebaseTokenDataVars, KAKAO_TOKEN_TO_FIREBASE_TOKEN } from '../../graphql/user'
+import { I_USER, KAKAO_TOKEN_TO_FIREBASE_TOKEN } from '../../graphql/user'
 import Loading from '../../components/loadings/Loading'
+import { KakaoTokenToFirebaseToken, KakaoTokenToFirebaseTokenVariables } from '../../graphql/__generated__/KakaoTokenToFirebaseToken'
+import { iUser } from '../../graphql/__generated__/iUser'
 
 const Login = () => {
 
@@ -29,7 +31,7 @@ const Login = () => {
             const { accessToken } = await kakaoLogin()
 
 
-            const { data } = await client.query<KakaoTokenToFirebaseTokenData, KakaoTokenToFirebaseTokenDataVars>({
+            const { data } = await client.query<KakaoTokenToFirebaseToken, KakaoTokenToFirebaseTokenVariables>({
                 query: KAKAO_TOKEN_TO_FIREBASE_TOKEN,
                 variables: { kakaoAccessToken: accessToken },
                 fetchPolicy: 'network-only'
@@ -53,7 +55,7 @@ const Login = () => {
         try {
             await client.clearStore()
 
-            const { data } = await client.query<IUserData>({ query: I_USER, fetchPolicy: 'network-only', })
+            const { data } = await client.query<iUser>({ query: I_USER, fetchPolicy: 'network-only', })
             if (!data.iUser) reset({ index: 0, routes: [{ name: 'Signup' }] })  // 유저 정보가 없으면 회원가입 화면으로 전환
             else reset({ index: 0, routes: [{ name: 'Tab' }] })
 
