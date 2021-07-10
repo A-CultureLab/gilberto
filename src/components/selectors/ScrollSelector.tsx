@@ -36,14 +36,17 @@ const ScrollSelector: React.FC<ScrollSelectorProps> = ({ list: _list, infinitySc
         flatlistRef.current?.scrollTo({ animated: false, y: (index + _list.length) * height })
     }, [height, _list, infinityScroll])
 
-
+    useEffect(() => {
+        setTimeout(() => {
+            flatlistRef.current?.scrollTo({ y: ((initIndex || 0) + (infinityScroll ? _list.length : 0)) * (height || 56), animated: false })
+        }, 100)
+    }, [])
 
 
     return (
         <View style={[styles.container, { height: (height || 56) * 3, width }]} >
             <ScrollView
                 ref={flatlistRef}
-                contentOffset={{ x: 0, y: ((initIndex || 0) + (infinityScroll ? _list.length : 0)) * (height || 56) }}
                 scrollEventThrottle={16}
                 onScroll={onScroll}
                 onMomentumScrollEnd={onScrollEnd}

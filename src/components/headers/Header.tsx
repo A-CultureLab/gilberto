@@ -40,7 +40,8 @@ const Header: React.FC<HeaderProps> = ({ backBtn, title, underline }) => {
 }
 
 Header.defaultProps = {
-    backBtn: 'left'
+    backBtn: 'left',
+    underline: true
 }
 
 export default Header

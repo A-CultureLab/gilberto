@@ -35,11 +35,12 @@ const SelectBottomSheet: React.FC<SelectBottomSheetProps> = ({ onClose, visible,
                 <TouchableOpacity>
                     {list.map((v, i) =>
                         <Pressable
+                            key={i.toString()}
                             onPress={() => onSelect(i)}
                             android_ripple={{ color: GRAY2 }}
                             style={styles.itemContainer}
                         >
-                            <Text>{list}</Text>
+                            <Text>{v}</Text>
                             {selectedDataIndex === i && <View style={styles.check} >
                                 <Icon name='check' color={COLOR1} size={16} />
                             </View>}

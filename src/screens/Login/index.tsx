@@ -28,17 +28,17 @@ const Login = () => {
         try {
             if (loading) return
             setLoading(true)
-            const { accessToken } = await kakaoLogin()
 
+            const { accessToken } = await kakaoLogin()
 
             const { data } = await client.query<KakaoTokenToFirebaseToken, KakaoTokenToFirebaseTokenVariables>({
                 query: KAKAO_TOKEN_TO_FIREBASE_TOKEN,
                 variables: { kakaoAccessToken: accessToken },
                 fetchPolicy: 'network-only'
             })
-            console.log(data)
+
             const firebaseToken = data.kakaoTokenToFirebaseToken
-            console.log(firebaseToken)
+
             await auth().signInWithCustomToken(firebaseToken)
             await loginSuccess()
         } catch (error) {
@@ -68,7 +68,7 @@ const Login = () => {
 
     return (
         <ScreenLayout>
-            <Header />
+            <Header underline={false} />
             <View style={styles.container} >
                 <Text style={styles.text} >로그인을 해주세요</Text>
                 <View style={styles.btnContainer} >
@@ -79,7 +79,6 @@ const Login = () => {
                         <Image
                             source={require('../../assets/kakaotalk.png')}
                             style={{ width: 24, height: 24 }}
-
                         />
                     </TouchableScale>
                     <TouchableScale

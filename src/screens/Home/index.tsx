@@ -42,7 +42,7 @@ const Home = () => {
 
     // 내위치 초기화
     useEffect(() => {
-        auth().signOut()
+        // auth().signOut()
         if (IS_IOS) Geolocation.requestAuthorization()
         const watch = Geolocation.watchPosition(
             (position) => {

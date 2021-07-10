@@ -5,6 +5,17 @@ Mobile application
 # Environment
 - node 12
 
+# GraphQL
+타입추론 + 타입세이프한 Graphql사용을 위한 가이드
+1. VSC에 Apollo Extension [설치](https://www.apollographql.com/docs/devtools/editor-plugins/) (gql 자동완성)
+```
+cmd + shift + p & Apollo: Reload schema
+```
+2. gql 기반 타입생성
+```
+npm run gql
+```
+
 # Troubleshooting
 
 # Keyhash
@@ -20,9 +31,14 @@ RELEASE-SHA-256=F5:91:1A:A0:98:5E:36:5B:54:36:01:BA:BE:3D:96:CA:38:4C:BF:51:3C:D
 RELEASE-KEYHASH=o3Mm/zbJky42Wf10Ukj8zB1Goxo=
 ```
 
+# .env
+```
+APOLLO_KEY=Apollo Studio Key (VSC Apollo Extension 용으로 사용됨)
+```
+
+
 # TODO
-+ firebase app auth messaging
++ firebase messaging
 + invertase react native apple autnetication
-+ kakao login
 + appcenter
 + rn rate
