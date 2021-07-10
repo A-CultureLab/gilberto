@@ -4,27 +4,17 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { COLOR1, COLOR2, GRAY1, GRAY2, GRAY3 } from '../../constants/styles'
 
 interface ToggleProps {
-    initValue?: boolean
-    value?: boolean
-    onChange?: (v: boolean) => void
+    value: boolean
+    onChange: (v: boolean) => void
 }
 
-const Toggle: React.FC<ToggleProps> = ({ value: _value, onChange, initValue }) => {
+const Toggle: React.FC<ToggleProps> = ({ value, onChange }) => {
 
-    const [value, setValue] = useState(initValue || false)
-
-    useEffect(() => {
-        _value && setValue(_value)
-    }, [_value])
-
-    useEffect(() => {
-        onChange && onChange(value)
-    }, [value])
 
 
     return (
         <Pressable
-            onPress={() => setValue(prev => !prev)}
+            onPress={() => onChange(!value)}
             android_ripple={{ borderless: true, color: GRAY2, radius: 24 }}
             style={styles.container}
         >

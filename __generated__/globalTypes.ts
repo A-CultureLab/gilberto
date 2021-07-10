@@ -24,7 +24,7 @@ export interface SignupInput {
   y: number;
   instagramId?: string | null;
   introduce: string;
-  agreementDate: string;
+  agreementDate: any;
   marketingPushDate?: any | null;
   marketingEmailDate?: any | null;
 }

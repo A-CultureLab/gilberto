@@ -18,6 +18,7 @@ const SelectBottomSheet: React.FC<SelectBottomSheetProps> = ({ onClose, visible,
     const { bottom } = useSafeAreaInsets()
 
     const onSelect = useCallback((i: number) => {
+        console.log(i)
         onClose && onClose()
         _onSelect(i)
     }, [onClose])
@@ -32,7 +33,7 @@ const SelectBottomSheet: React.FC<SelectBottomSheetProps> = ({ onClose, visible,
                 showsVerticalScrollIndicator={true}
                 style={styles.scrollView}
             >
-                <TouchableOpacity>
+                <TouchableOpacity activeOpacity={0} >
                     {list.map((v, i) =>
                         <Pressable
                             key={i.toString()}

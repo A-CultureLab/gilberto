@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react'
-import { StyleSheet, Text, View, Pressable, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native'
+import { StyleSheet, Text, View, Pressable, TouchableWithoutFeedback, KeyboardAvoidingView, NativeEventSubscription, BackHandler } from 'react-native'
 import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import Modal from 'react-native-modal'
 import { GRAY2, HEIGHT, WIDTH } from '../../constants/styles';
@@ -21,6 +21,7 @@ const DefaultBottomSheet: React.FC<DefaultBottomSheetProps> = ({ visible, onClos
             <Modal
                 isVisible={visible}
                 onBackdropPress={onClose}
+                onBackButtonPress={onClose}
                 onDismiss={onClose}
                 backdropColor='#000'
                 backdropOpacity={0.5}
