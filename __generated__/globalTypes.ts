@@ -18,10 +18,11 @@ export interface SignupInput {
   image: string;
   gender: Gender;
   birth: any;
+  addressId: string;
   address: string;
   postcode: string;
-  x: number;
-  y: number;
+  latitude: number;
+  longitude: number;
   instagramId?: string | null;
   introduce: string;
   agreementDate: any;

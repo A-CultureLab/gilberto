@@ -19,6 +19,8 @@ import FastImage from 'react-native-fast-image'
 import { COLOR1, GRAY2, GRAY3 } from '../../constants/styles'
 import Toggle from '../../components/toggles/Toggle'
 import { TouchableOpacity } from '@gorhom/bottom-sheet'
+import { SelectLocationProps } from '../SelectLocation'
+import { coordToRegion } from '../../graphql/__generated__/coordToRegion'
 
 
 const Signup = () => {
@@ -54,6 +56,21 @@ const Signup = () => {
         setValue('marketingPushDate', new Date())
         setValue('marketingEmailDate', new Date())
     }, [setValue])
+
+
+    const onSelectLocation = useCallback(() => {
+        const props: SelectLocationProps = {
+            onSelect: (data) => {
+                if (!data.coordsToRegion) return
+                setValue('addressId', data.coordsToRegion.id)
+                setValue('address', data.coordsToRegion.address)
+                setValue('postcode', data.coordsToRegion.postcode)
+                setValue('latitude', data.coordsToRegion.latitude)
+                setValue('longitude', data.coordsToRegion.longitude)
+            }
+        }
+        navigate('SelectLocation', props)
+    }, [])
 
 
     return (
@@ -176,8 +193,10 @@ const Signup = () => {
                         placeholder='위치'
                         pointerEvents='none'
                         editable={false}
-                        onPress={() => { }}
+                        value={watch().address}
+                        onPress={onSelectLocation}
                     />
+
                     <Controller
                         control={control}
                         name='instagramId'

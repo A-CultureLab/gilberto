@@ -6,14 +6,15 @@ import { COLOR2, DEFAULT_SHADOW } from '../../constants/styles'
 
 interface MyPosFabProps {
     onPress: () => void
+    marginBottom?: number
 }
 
-const MyPosFab: React.FC<MyPosFabProps> = ({ onPress }) => {
+const MyPosFab: React.FC<MyPosFabProps> = ({ onPress, marginBottom }) => {
 
     const { bottom } = useSafeAreaInsets()
 
     return (
-        <View style={[styles.container, { bottom: bottom + 16 + 56 }]} >
+        <View style={[styles.container, { bottom: bottom + 16 + 56 + (marginBottom || 0) }]} >
             <Pressable
                 onPress={onPress}
                 style={styles.btn} >

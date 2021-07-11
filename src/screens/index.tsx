@@ -13,6 +13,7 @@ import { BottomSheetModalProvider, useBottomSheet } from '@gorhom/bottom-sheet'
 import Home from './Home'
 import Login from './Login';
 import Signup from './Signup';
+import SelectLocation from './SelectLocation';
 
 
 
@@ -81,6 +82,7 @@ const Navigation = () => {
                 <Stack.Screen name='Tab' component={TabNavigation} />
                 <Stack.Screen name='Login' component={Login} />
                 <Stack.Screen name='Signup' component={Signup} />
+                <Stack.Screen name='SelectLocation' component={SelectLocation} />
             </Stack.Navigator>
         </NavigationContainer>
     )
