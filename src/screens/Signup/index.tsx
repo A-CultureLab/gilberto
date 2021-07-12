@@ -188,7 +188,7 @@ const Signup = () => {
                                 <>
                                     <UnderLineInput
                                         placeholder='성별'
-                                        value={field.value === Gender.male ? '남자' : '여자'}
+                                        value={field.value === Gender.male ? '남자' : field.value === Gender.female ? '여자' : ''}
                                         editable={false}
                                         pointerEvents='none'
                                         onPress={() => setVisible(true)}
@@ -305,21 +305,21 @@ const Signup = () => {
                                         <View style={styles.agreementContainer} >
                                             <Toggle value={agr1} onChange={(v) => setAgr1(v)} />
                                             <Text style={[styles.agreementText]}>(필수) 서비스 이용약관에 동의합니다</Text>
-                                            <TouchableOpacity onPress={() => navigate('Agreement')} >
+                                            <TouchableOpacity onPress={() => navigate('WebView', { title: '서비스 이용약관', url: 'https://38do.com/agreement' })} >
                                                 <Text style={styles.agreementDetail} >본문보기</Text>
                                             </TouchableOpacity>
                                         </View>
                                         <View style={styles.agreementContainer} >
                                             <Toggle value={agr2} onChange={(v) => setAgr2(v)} />
                                             <Text style={[styles.agreementText]}>(필수) 개인정보 수집 및 이용에 동의합니다</Text>
-                                            <TouchableOpacity onPress={() => navigate('PrivatePolicy')} >
+                                            <TouchableOpacity onPress={() => navigate('WebView', { title: '개인정보 수집안내', url: 'https://38do.com/privacy' })} >
                                                 <Text style={styles.agreementDetail} >본문보기</Text>
                                             </TouchableOpacity>
                                         </View>
                                         <View style={styles.agreementContainer} >
                                             <Toggle value={agr3} onChange={(v) => setAgr3(v)} />
                                             <Text style={[styles.agreementText]}>(필수) 위치기반서비스 이용약관에 동의합니다</Text>
-                                            <TouchableOpacity onPress={() => navigate('LocationAgreement')} >
+                                            <TouchableOpacity onPress={() => navigate('WebView', { title: '위치기반 서비스 이용약관', url: 'https://38do.com/locationAgreement' })} >
                                                 <Text style={styles.agreementDetail} >본문보기</Text>
                                             </TouchableOpacity>
                                         </View>

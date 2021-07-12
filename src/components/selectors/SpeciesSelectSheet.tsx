@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react'
+import { useEffect } from 'react'
 import { Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { GRAY2, GRAY3, WIDTH } from '../../constants/styles'
@@ -26,6 +27,11 @@ const SpeciesSelectPicker: React.FC<SpeciesSelectPickerProps> = ({ onClose, onSe
         onSelect(s)
         onClose()
     }, [])
+
+
+    useEffect(() => {
+        setFilterKey(type === 'cat' ? 'ㄴ' : 'ㄱ')
+    }, [type])
 
     const list = ANIMAL_SPECIES[type][filterKey]
 

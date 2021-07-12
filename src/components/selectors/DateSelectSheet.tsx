@@ -24,7 +24,7 @@ const DateSelectSheet: React.FC<DateSelectSheetProps> = ({ onClose, onSelect, vi
 
 
     const onSubmit = useCallback(() => {
-        onSelect(dayjs().set('year', y).set('month', m - 1).set('date', d).toDate())
+        onSelect(dayjs().set('year', y).set('month', m - 1).set('date', day ? d : 1).toDate())
         onClose()
     }, [y, m, d, onClose])
 

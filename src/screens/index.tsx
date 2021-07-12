@@ -18,6 +18,8 @@ import SelectLocation from './SelectLocation';
 import Confirm, { ConfirmProps } from '../components/bottomSheets/Confirm';
 import Toast, { ToastProps } from '../components/toasts/Toast';
 import SignupPet from './SignupPet';
+import WebView from './WebView';
+import PetRegist from './PetRegist';
 
 
 
@@ -45,7 +47,7 @@ const TabNavigation = () => {
             />
             <Tab.Screen
                 name='Friend'
-                component={() => <View />}
+                component={Home}
                 options={{
                     tabBarLabel: '친구만들기',
                     tabBarIcon: (({ color }) => <IconMA size={24} name='language' color={color} />)
@@ -53,7 +55,7 @@ const TabNavigation = () => {
             />
             <Tab.Screen
                 name='Chat'
-                component={() => <View />}
+                component={Home}
                 options={{
                     tabBarLabel: '채팅',
                     tabBarIcon: (({ color }) => <IconMA size={24} name='chat' color={color} />)
@@ -79,7 +81,7 @@ const Navigation = () => {
             theme={theme}
         >
             <Stack.Navigator
-                initialRouteName='Signup'
+                initialRouteName='SignupPet'
                 headerMode='none'
                 screenOptions={{ cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS }}
             >
@@ -87,7 +89,9 @@ const Navigation = () => {
                 <Stack.Screen name='Login' component={Login} />
                 <Stack.Screen name='Signup' component={Signup} />
                 <Stack.Screen name='SelectLocation' component={SelectLocation} />
+                <Stack.Screen name='WebView' component={WebView} />
                 <Stack.Screen name='SignupPet' component={SignupPet} />
+                <Stack.Screen name='PetRegist' component={PetRegist} />
             </Stack.Navigator>
         </NavigationContainer>
     )

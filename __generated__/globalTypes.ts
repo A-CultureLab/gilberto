@@ -12,6 +12,24 @@ export enum Gender {
   male = "male",
 }
 
+export enum PetType {
+  cat = "cat",
+  dog = "dog",
+}
+
+export interface RegistPetInput {
+  name: string;
+  image: string;
+  type: PetType;
+  species: string;
+  character: string;
+  gender: Gender;
+  birth: any;
+  weight: number;
+  neutered: boolean;
+  vaccinated: boolean;
+}
+
 export interface SignupInput {
   email: string;
   name: string;

@@ -11,6 +11,8 @@ import CategorySelector from './CategorySelector'
 import MapScreenBottomTabBar from '../../components/tabs/MapScreenBottomTabBar';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import auth from '@react-native-firebase/auth'
+import { useIsSignedup } from '../../graphql/user';
+import { useNavigation } from '@react-navigation/native';
 
 
 export const HomeScreenContext = createContext({
@@ -22,7 +24,8 @@ const Home = () => {
 
     const mapRef = useRef<MapView>(null)
 
-    const { bottom } = useSafeAreaInsets()
+    const { data } = useIsSignedup({ fetchPolicy: 'network-only' })
+    const { reset } = useNavigation()
 
     const [cameraPos, setCameraPos] = useState<Region>({
         latitude: 37.50367232610927,
@@ -39,6 +42,11 @@ const Home = () => {
         setCategoryVerticalMode
     }), [categoryVerticalMode, setCategoryVerticalMode])
 
+    // 회원가입 안되있을시 회원가입 페이지로 이동
+    useEffect(() => {
+        if (!data) return
+        if (!data.isSignedup) reset({ index: 0, routes: [{ name: 'Signup' }] })
+    }, [data])
 
     // 내위치 초기화
     useEffect(() => {
