@@ -4,7 +4,7 @@ import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } fr
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { COLOR1, DEFAULT_SHADOW, SPRING_CONFIG } from '../../constants/styles'
 
-interface ToastProps {
+export interface ToastProps {
     visible: boolean
     content: string
 }

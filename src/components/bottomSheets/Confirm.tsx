@@ -5,7 +5,7 @@ import { COLOR1, COLOR2, GRAY1, GRAY2, GRAY3 } from '../../constants/styles'
 import Footer from '../footers/Footer'
 import DefaultBottomSheet from './DefaultBottomSheet'
 
-interface ConfirmProps {
+export interface ConfirmProps {
     visible: boolean
     onClose: () => void
     onPress?: (isYes: boolean) => void

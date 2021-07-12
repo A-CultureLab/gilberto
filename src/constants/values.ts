@@ -10,8 +10,8 @@ export const GRAPHQL_SERVER_URL = (() => {
     if (!__DEV__) return 'https://graphql'
     if (IS_ANDROID) {
         if (deviceInfoModule.isEmulatorSync()) return 'http://10.0.2.2:8080/graphql'
-        // else return 'http://192.168.35.105:8080/graphql'
-        else return 'http://192.168.10.18:8080/graphql'
+        else return 'http://192.168.35.105:8080/graphql'
+        // else return 'http://192.168.10.18:8080/graphql'
     }
     if (IS_IOS) {
         if (deviceInfoModule.isEmulatorSync()) return 'http://localhost:8080/graphql'

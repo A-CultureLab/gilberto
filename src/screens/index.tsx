@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { createContext, useEffect, useMemo, useRef, useState } from 'react';
 import { Pressable, View, Text, ScrollView, TouchableOpacity } from 'react-native'
 import { DefaultTheme, NavigationContainer, NavigationContainerRef, Theme } from '@react-navigation/native';
 import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
@@ -7,6 +7,7 @@ import IconMA from 'react-native-vector-icons/MaterialIcons'
 import { BottomSheetModalProvider, useBottomSheet } from '@gorhom/bottom-sheet'
 
 // GLOBAL UI
+import Alert, { AlertProps } from '../components/bottomSheets/Alert';
 
 
 // SCREENS
@@ -14,6 +15,8 @@ import Home from './Home'
 import Login from './Login';
 import Signup from './Signup';
 import SelectLocation from './SelectLocation';
+import Confirm, { ConfirmProps } from '../components/bottomSheets/Confirm';
+import Toast, { ToastProps } from '../components/toasts/Toast';
 
 
 
@@ -88,14 +91,68 @@ const Navigation = () => {
     )
 }
 
-const NavigationWrapper = () => {
+export type GlobalAlertProps = Omit<AlertProps, 'onClose'>
+export type GlobalConfirmProps = Omit<ConfirmProps, 'onClose'>
+export type GlobalToastProps = ToastProps
+
+export const GlobalUIContext = createContext<{
+    alert: GlobalAlertProps,
+    setAlert: (p: GlobalAlertProps) => void
+    confirm: GlobalConfirmProps
+    setConfirm: (p: GlobalConfirmProps) => void
+    toast: GlobalToastProps
+    setToast: (p: GlobalToastProps) => void
+}>({} as any)
+
+
+const GlobalUiWrapper = () => {
+
+    const [alert, setAlert] = useState<GlobalAlertProps>({
+        visible: false,
+        content: '',
+        title: '',
+        buttonText: undefined
+    })
+    const [confirm, setConfirm] = useState<GlobalConfirmProps>({
+        visible: false,
+        title: '',
+        content: ''
+    })
+    const [toast, setToast] = useState<GlobalToastProps>({
+        visible: false,
+        content: ''
+    })
+
+    const contextValue = useMemo(() => ({
+        alert,
+        setAlert,
+        confirm,
+        setConfirm,
+        toast,
+        setToast
+    }), [alert])
+
+
     return (
         <>
-            <BottomSheetModalProvider>
-                <Navigation />
-            </BottomSheetModalProvider>
+            <GlobalUIContext.Provider value={contextValue} >
+                <BottomSheetModalProvider>
+                    <Navigation />
+                    <Alert
+                        {...alert}
+                        onClose={() => setAlert(v => ({ ...v, visible: false }))}
+                    />
+                    <Confirm
+                        {...confirm}
+                        onClose={() => setConfirm(v => ({ ...v, visible: false }))}
+                    />
+                    <Toast
+                        {...toast}
+                    />
+                </BottomSheetModalProvider>
+            </GlobalUIContext.Provider>
         </>
     )
 }
 
-export default NavigationWrapper
+export default GlobalUiWrapper

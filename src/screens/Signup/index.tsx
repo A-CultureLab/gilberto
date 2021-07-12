@@ -21,12 +21,14 @@ import Toggle from '../../components/toggles/Toggle'
 import { TouchableOpacity } from '@gorhom/bottom-sheet'
 import { SelectLocationProps } from '../SelectLocation'
 import { coordToRegion } from '../../graphql/__generated__/coordToRegion'
+import useGlobalUi from '../../hooks/useGlobalUi'
 
 
 const Signup = () => {
 
     const { navigate, reset } = useNavigation()
     const [signup, { loading }] = useSignup()
+    const { alert, confirm, toast } = useGlobalUi()
 
     const { control, handleSubmit, formState: { errors }, setValue, watch } = useForm<SignupInput>({
         defaultValues: {
@@ -312,7 +314,9 @@ const Signup = () => {
             <Footer
                 text='다음'
                 loading={loading}
-                onPress={onSubmit}
+                onPress={() => toast({
+                    content: 'hello'
+                })}
             />
         </ScreenLayout>
     )

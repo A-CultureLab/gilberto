@@ -4,7 +4,7 @@ import { GRAY1 } from '../../constants/styles'
 import Footer from '../footers/Footer'
 import DefaultBottomSheet from './DefaultBottomSheet'
 
-interface AlertProps {
+export interface AlertProps {
     visible: boolean
     onClose: () => void
     title: string
