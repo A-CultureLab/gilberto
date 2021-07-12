@@ -18,7 +18,6 @@ const SelectBottomSheet: React.FC<SelectBottomSheetProps> = ({ onClose, visible,
     const { bottom } = useSafeAreaInsets()
 
     const onSelect = useCallback((i: number) => {
-        console.log(i)
         onClose && onClose()
         _onSelect(i)
     }, [onClose])

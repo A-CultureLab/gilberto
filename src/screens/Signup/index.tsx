@@ -10,7 +10,7 @@ import UnderLineInput from '../../components/inputs/UnderLineInput'
 import ScreenLayout from '../../components/layout/ScreenLayout'
 import { IS_IOS } from '../../constants/values'
 import { useSignup } from '../../graphql/user'
-import { SignupInput } from '../../../__generated__/globalTypes'
+import { Gender, SignupInput } from '../../../__generated__/globalTypes'
 import SelectBottomSheet from '../../components/selectors/SelectBottomSheet'
 import dayjs from 'dayjs'
 import auth from '@react-native-firebase/auth'
@@ -22,15 +22,16 @@ import { TouchableOpacity } from '@gorhom/bottom-sheet'
 import { SelectLocationProps } from '../SelectLocation'
 import { coordToRegion } from '../../graphql/__generated__/coordToRegion'
 import useGlobalUi from '../../hooks/useGlobalUi'
+import useImageUpload from '../../hooks/useImageUpload'
 
 
 const Signup = () => {
 
     const { navigate, reset } = useNavigation()
-    const [signup, { loading }] = useSignup()
-    const { alert, confirm, toast } = useGlobalUi()
+    const [signup, { loading }] = useSignup({ errorPolicy: 'all' })
+    const { toast } = useGlobalUi()
 
-    const { control, handleSubmit, formState: { errors }, setValue, watch } = useForm<SignupInput>({
+    const { control, handleSubmit, setValue, watch, formState, clearErrors } = useForm<SignupInput>({
         defaultValues: {
             marketingEmailDate: null,
             marketingPushDate: null,
@@ -43,14 +44,23 @@ const Signup = () => {
         }
     })
 
+
     const isAgreeAll = !!watch().agreementDate && !!watch().marketingPushDate && !!watch().marketingEmailDate
+
+
 
     const onSubmit = handleSubmit(async (data) => {
         if (!data.agreementDate) return
-        console.log(data)
-        // await signup({ variables: { data } })
+        const { errors } = await signup({ variables: { data } })
+        if (errors) {
+            toast({ content: '오류 : 정보를 다시 한번 확인해주세요' })
+            return
+        }
+        if (data.marketingPushDate || data.marketingEmailDate) {
+            toast({ content: `${dayjs().format('YYYY-MM-DD')}에 모바일 앱 이벤트/마케팅\n ${data.marketingPushDate ? '푸시알림' : ''} ${data.marketingEmailDate ? '이메일' : ''} 수신 동의 처리되었습니다.`, }, 4000)
+        }
 
-        // reset({ index: 0, routes: [{ name: 'SignupPet' }] })
+        reset({ index: 0, routes: [{ name: 'SignupPet' }] })
     })
 
     const onAgreeAll = useCallback(() => {
@@ -74,6 +84,15 @@ const Signup = () => {
         navigate('SelectLocation', props)
     }, [])
 
+    useEffect(() => {
+        const errors = formState.errors
+        if (Object.keys(errors).length === 0) return
+        //@ts-ignore
+        toast({ content: errors[Object.keys(errors)[0]].message })
+        clearErrors()
+    }, [formState])
+
+
 
     return (
         <ScreenLayout>
@@ -91,7 +110,7 @@ const Signup = () => {
                     {!auth().currentUser?.email && <Controller
                         control={control}
                         name='email'
-                        rules={{ required: true }}
+                        rules={{ required: '이메일을 입력해주세요' }}
                         render={({ field }) => (
                             <UnderLineInput
                                 inputStyle={{ marginTop: 24 }}
@@ -105,7 +124,7 @@ const Signup = () => {
                     <Controller
                         control={control}
                         name='name'
-                        rules={{ required: true }}
+                        rules={{ required: '이름을 입력해주세요' }}
                         render={({ field }) => (
                             <UnderLineInput
                                 inputStyle={{ marginTop: 24 }}
@@ -118,22 +137,40 @@ const Signup = () => {
                     <Controller
                         control={control}
                         name='image'
-                        rules={{ required: true }}
+                        rules={{ required: '사진을 선택해주세요' }}
                         render={({ field }) => {
+
+                            const { imageTemp, clear, upload } = useImageUpload('profile')
+
+                            const uploadImage = useCallback(async () => {
+                                try {
+                                    const uri = await upload({
+                                        width: 1024,
+                                        height: 1024,
+                                        freeStyleCropEnabled: false
+                                    }, 'profile/')
+                                    field.onChange(uri)
+                                } catch (error) {
+                                    toast({ content: '이미지 업로드 실패' })
+                                    clear()
+                                }
+                            }, [upload])
+
                             return (
                                 <>
-                                    {field.value
+                                    {(field.value || imageTemp)
                                         ? <Pressable
                                             android_ripple={{ color: GRAY2 }}
                                             style={styles.imageContainer}
+                                            onPress={uploadImage}
                                         >
-                                            <FastImage style={{ width: 80, height: 80 }} source={{ uri: field.value }} />
+                                            <FastImage style={{ width: 80, height: 80 }} source={{ uri: field.value || imageTemp || undefined }} />
                                         </Pressable>
                                         : <UnderLineInput
                                             placeholder='사진'
                                             pointerEvents='none'
+                                            onPress={uploadImage}
                                             editable={false}
-                                            onPress={() => { }}
                                         />}
 
                                 </>
@@ -144,24 +181,23 @@ const Signup = () => {
                     <Controller
                         control={control}
                         name='gender'
-                        rules={{ required: true }}
+                        rules={{ required: '성별을 선택해주세요' }}
                         render={({ field }) => {
                             const [visible, setVisible] = useState(false)
-                            const list = ['남자', '여자']
                             return (
                                 <>
                                     <UnderLineInput
                                         placeholder='성별'
-                                        value={field.value}
+                                        value={field.value === Gender.male ? '남자' : '여자'}
                                         editable={false}
                                         pointerEvents='none'
                                         onPress={() => setVisible(true)}
                                     />
                                     <SelectBottomSheet
-                                        list={list}
+                                        list={['남자', '여자']}
                                         onClose={() => setVisible(false)}
                                         visible={visible}
-                                        onSelect={(i) => field.onChange(list[i])}
+                                        onSelect={(i) => field.onChange(i === 0 ? Gender.male : Gender.female)}
                                     />
                                 </>
                             )
@@ -170,7 +206,7 @@ const Signup = () => {
                     <Controller
                         control={control}
                         name='birth'
-                        rules={{ required: true }}
+                        rules={{ required: '출생일을 선택해주세요' }}
                         render={({ field }) => {
                             const [visible, setVisible] = useState(false)
                             return (
@@ -191,18 +227,25 @@ const Signup = () => {
                             )
                         }}
                     />
-                    <UnderLineInput
-                        placeholder='위치'
-                        pointerEvents='none'
-                        editable={false}
-                        value={watch().address}
-                        onPress={onSelectLocation}
+                    <Controller
+                        control={control}
+                        name='address'
+                        rules={{ required: '위치를 선택해주세요' }}
+                        render={({ field }) => (
+                            <UnderLineInput
+                                placeholder='위치'
+                                pointerEvents='none'
+                                editable={false}
+                                value={field.value}
+                                onPress={onSelectLocation}
+                            />
+                        )}
                     />
+
 
                     <Controller
                         control={control}
                         name='instagramId'
-                        rules={{ required: false }}
                         render={({ field }) => (
                             <UnderLineInput
                                 value={field.value || ''}
@@ -214,7 +257,6 @@ const Signup = () => {
                     <Controller
                         control={control}
                         name='introduce'
-                        rules={{ required: false }}
                         render={({ field }) => (
                             <UnderLineInput
                                 value={field.value}
@@ -235,7 +277,7 @@ const Signup = () => {
                         <Controller
                             control={control}
                             name='agreementDate'
-                            rules={{ required: true }}
+                            rules={{ required: '필수 약관에 동의해주세요' }}
                             render={({ field }) => {
 
                                 const [agr1, setAgr1] = useState(false)
@@ -243,7 +285,6 @@ const Signup = () => {
                                 const [agr3, setAgr3] = useState(false)
 
                                 useEffect(() => {
-                                    console.log(agr1, agr2, agr3)
                                     if (agr1 && agr2 && agr3) {
                                         field.onChange(new Date())
                                     } else {
@@ -289,7 +330,6 @@ const Signup = () => {
                         <Controller
                             control={control}
                             name='marketingPushDate'
-                            rules={{ required: false }}
                             render={({ field }) => (
                                 <View style={styles.agreementContainer} >
                                     <Toggle value={!!field.value} onChange={(v) => field.onChange(v ? new Date() : null)} />
@@ -300,7 +340,6 @@ const Signup = () => {
                         <Controller
                             control={control}
                             name='marketingEmailDate'
-                            rules={{ required: false }}
                             render={({ field }) => (
                                 <View style={styles.agreementContainer} >
                                     <Toggle value={!!field.value} onChange={(v) => field.onChange(v ? new Date() : null)} />
@@ -314,9 +353,7 @@ const Signup = () => {
             <Footer
                 text='다음'
                 loading={loading}
-                onPress={() => toast({
-                    content: 'hello'
-                })}
+                onPress={onSubmit}
             />
         </ScreenLayout>
     )

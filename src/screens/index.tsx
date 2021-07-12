@@ -17,6 +17,7 @@ import Signup from './Signup';
 import SelectLocation from './SelectLocation';
 import Confirm, { ConfirmProps } from '../components/bottomSheets/Confirm';
 import Toast, { ToastProps } from '../components/toasts/Toast';
+import SignupPet from './SignupPet';
 
 
 
@@ -86,6 +87,7 @@ const Navigation = () => {
                 <Stack.Screen name='Login' component={Login} />
                 <Stack.Screen name='Signup' component={Signup} />
                 <Stack.Screen name='SelectLocation' component={SelectLocation} />
+                <Stack.Screen name='SignupPet' component={SignupPet} />
             </Stack.Navigator>
         </NavigationContainer>
     )
