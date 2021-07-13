@@ -14,7 +14,7 @@ export const REGIST_PET = gql`
             character
             species
             gender
-            birth
+            age
             weight
         }
     }
@@ -39,7 +39,7 @@ export const MY_PETS = gql`
             character
             species
             gender
-            birth
+            age
             weight
         }
 

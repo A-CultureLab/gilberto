@@ -17,7 +17,7 @@ export interface myPets_myPets {
   character: string;
   species: string;
   gender: Gender;
-  birth: any;
+  age: string;
   weight: number;
 }
 

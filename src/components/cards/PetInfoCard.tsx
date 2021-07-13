@@ -1,20 +1,19 @@
 import React from 'react'
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import { COLOR1, GRAY1, GRAY2, GRAY3 } from '../../constants/styles'
-import { myPets_pets } from '../../graphql/__generated__/myPets'
+import { myPets_myPets } from '../../graphql/__generated__/myPets'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { Gender } from '../../../__generated__/globalTypes'
-import dayjs from 'dayjs'
 
 interface PetInfoCardProps {
-    data: myPets_pets
+    data: myPets_myPets
     drag: () => void
     isActive: boolean
 }
 
 const PetInfoCard: React.FC<PetInfoCardProps> = ({ data, drag, isActive }) => {
 
-    const { image, id, birth, character, gender, name, species, weight } = data
+    const { image, id, age, character, gender, name, species, weight } = data
 
     return (
         <Pressable
@@ -34,7 +33,7 @@ const PetInfoCard: React.FC<PetInfoCardProps> = ({ data, drag, isActive }) => {
                             <Text style={styles.etc} >{gender === Gender.male ? '남아' : '여아'}</Text>
                         </View>
                         <View style={styles.etcItem} >
-                            <Text style={styles.etc}>{dayjs(birth).format('YYYY.MM')}</Text>
+                            <Text style={styles.etc}>{age}</Text>
                         </View>
                         <View style={styles.etcItem} >
                             <Text style={styles.etc}>{weight}kg</Text>
