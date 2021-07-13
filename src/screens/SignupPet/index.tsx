@@ -3,21 +3,29 @@ import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native'
 import Footer from '../../components/footers/Footer'
 import Header from '../../components/headers/Header'
 import ScreenLayout from '../../components/layout/ScreenLayout'
-import DraggableFlatList from "react-native-draggable-flatlist";
+import DraggableFlatList, { DragEndParams } from "react-native-draggable-flatlist";
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import { GRAY2, GRAY3 } from '../../constants/styles'
+import { GRAY2, GRAY3, SPRING_CONFIG } from '../../constants/styles'
 import { useCallback } from 'react'
 import PetInfoCard from '../../components/cards/PetInfoCard'
 import { useNavigation } from '@react-navigation/native'
-import { useMyPets } from '../../graphql/pet'
+import { MY_PETS, useMyPets, useSortPets } from '../../graphql/pet'
+import { myPets_myPets } from '../../graphql/__generated__/myPets'
+import { useApolloClient } from '@apollo/client'
+import { useState } from 'react'
+import { useEffect } from 'react'
 
 
 
 const SignupPet = () => {
 
+    const { cache } = useApolloClient()
     const { reset, navigate } = useNavigation()
 
     const { data } = useMyPets()
+    const [sortPets] = useSortPets()
+
+    const [dataTemp, setDataTemp] = useState<myPets_myPets[]>([])
 
     const onAdd = useCallback(() => {
         navigate('PetRegist')
@@ -27,6 +35,20 @@ const SignupPet = () => {
         reset({ routes: [{ name: 'Tab' }], index: 0 })
     }, [])
 
+    const onDragEnd = useCallback(({ data }: DragEndParams<myPets_myPets>) => {
+        setDataTemp(data)
+        cache.writeQuery({
+            query: MY_PETS,
+            data: { myPets: data }
+        })
+        sortPets({ variables: { data: data.map(v => v.id) } })
+    }, [cache, sortPets])
+
+    useEffect(() => {
+        if (!data) return
+        setDataTemp(data.myPets)
+    }, [data])
+
     return (
         <ScreenLayout>
             <Header title='반려동물 정보' backBtn='none' />
@@ -34,9 +56,10 @@ const SignupPet = () => {
             <DraggableFlatList
                 showsVerticalScrollIndicator={false}
                 overScrollMode='never'
-                data={data?.myPets || []}
+                data={dataTemp}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ drag, isActive, item }) => <PetInfoCard data={item} drag={drag} isActive={isActive} />}
+                onDragEnd={onDragEnd}
                 ListFooterComponent={
                     <Pressable
                         onPress={onAdd}
