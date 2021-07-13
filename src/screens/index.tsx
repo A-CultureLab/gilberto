@@ -8,6 +8,8 @@ import { BottomSheetModalProvider, useBottomSheet } from '@gorhom/bottom-sheet'
 
 // GLOBAL UI
 import Alert, { AlertProps } from '../components/bottomSheets/Alert';
+import Confirm, { ConfirmProps } from '../components/bottomSheets/Confirm';
+import Toast, { ToastProps } from '../components/toasts/Toast';
 
 
 // SCREENS
@@ -15,11 +17,10 @@ import Home from './Home'
 import Login from './Login';
 import Signup from './Signup';
 import SelectLocation from './SelectLocation';
-import Confirm, { ConfirmProps } from '../components/bottomSheets/Confirm';
-import Toast, { ToastProps } from '../components/toasts/Toast';
 import SignupPet from './SignupPet';
 import WebView from './WebView';
 import PetRegist from './PetRegist';
+import PetModify from './PetModify';
 
 
 
@@ -92,6 +93,7 @@ const Navigation = () => {
                 <Stack.Screen name='WebView' component={WebView} />
                 <Stack.Screen name='SignupPet' component={SignupPet} />
                 <Stack.Screen name='PetRegist' component={PetRegist} />
+                <Stack.Screen name='PetModify' component={PetModify} />
             </Stack.Navigator>
         </NavigationContainer>
     )

@@ -7,6 +7,7 @@ export const STATUSBAR_HEIGHT = getStatusBarHeight()
 
 export const COLOR1 = '#42D1C0'
 export const COLOR2 = '#2A7FFE'
+export const COLOR3 = '#FE2A2A'
 
 export const WHITE = '#fff'
 export const GRAY3 = '#eee'

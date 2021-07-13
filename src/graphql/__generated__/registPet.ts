@@ -15,6 +15,7 @@ export interface registPet_registPet {
   name: string;
   image: string;
   character: string;
+  birth: any;
   species: string;
   gender: Gender;
   age: string;

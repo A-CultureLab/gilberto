@@ -1,4 +1,5 @@
-import { useNavigation } from '@react-navigation/native'
+import { useApolloClient } from '@apollo/client'
+import { Route, useNavigation, useRoute } from '@react-navigation/native'
 import dayjs from 'dayjs'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
@@ -15,29 +16,45 @@ import SelectBottomSheet from '../../components/selectors/SelectBottomSheet'
 import SpeciesSelectPicker from '../../components/selectors/SpeciesSelectSheet'
 import WeightSelectSheet from '../../components/selectors/WeightSelectSheet'
 import UnderLineToggle from '../../components/toggles/UnderLineToggle'
-import { GRAY2, GRAY3 } from '../../constants/styles'
+import { COLOR2, COLOR3, GRAY2, GRAY3, STATUSBAR_HEIGHT } from '../../constants/styles'
 import { IS_IOS } from '../../constants/values'
-import { useCreatePet } from '../../graphql/pet'
+import { MY_PETS, useCreatePet, useDeletePet, useUpdatePet } from '../../graphql/pet'
+import { myPets } from '../../graphql/__generated__/myPets'
 import useGlobalUi from '../../hooks/useGlobalUi'
 import useImageUpload from '../../hooks/useImageUpload'
 
+export interface PetModifyProps {
+    id: number
+}
 
-const PetRegist = () => {
+const PetModify = () => {
 
+    const { params } = useRoute<Route<'PetModify', PetModifyProps>>()
     const { goBack } = useNavigation()
-    const [createPet, { loading }] = useCreatePet()
+    const { cache } = useApolloClient()
 
-    const { toast } = useGlobalUi()
+    const [updatePet, { loading: updateLoading }] = useUpdatePet()
+    const [deletePet, { loading: deleteLoading }] = useDeletePet()
+
+    const loading = updateLoading || deleteLoading
+
+    const { toast, confirm } = useGlobalUi()
+    const [petTypeTrigger, setPetTypeTrigger] = useState(true)
     const { control, handleSubmit, setValue, watch, formState, clearErrors } = useForm<RegistPetInput>({
-        defaultValues: {
-            neutered: false,
-            vaccinated: false
-        }
+        defaultValues: (() => {
+            let data = {
+                ...cache.readQuery<myPets>({ query: MY_PETS })?.myPets.find(v => v.id === params.id),
+                age: undefined,
+                id: undefined,
+                __typename: undefined
+            }
+            return data
+        })()
     })
 
     const onSubmit = handleSubmit(async (data) => {
         if (loading) return
-        const { errors } = await createPet({ variables: { data } })
+        const { errors } = await updatePet({ variables: { data: data, id: params.id } })
         if (errors) {
             toast({ content: '오류' })
             return
@@ -45,7 +62,24 @@ const PetRegist = () => {
         goBack()
     })
 
-    useEffect(() => {
+    const onDelete = useCallback(async () => {
+        if (loading) return
+        confirm({
+            title: '반려동물 삭제',
+            content: '정말 삭제하시겠습니까?',
+            onPress: async (isYes) => {
+                if (!isYes) return
+                const { errors } = await deletePet({ variables: { id: params.id } })
+                if (errors) {
+                    toast({ content: '오류' })
+                    return
+                }
+                goBack()
+            }
+        })
+    }, [])
+
+    useEffect(() => { // error logger
         const errors = formState.errors
         if (Object.keys(errors).length === 0) return
         //@ts-ignore
@@ -55,13 +89,21 @@ const PetRegist = () => {
 
     useEffect(() => {
         if (!watch('type')) return
+        if (petTypeTrigger) return setPetTypeTrigger(false)
         setValue('character', '')
         setValue('species', '')
     }, [watch('type')])
 
     return (
         <ScreenLayout>
-            <Header title='반려동물 등록' />
+            <Header title='반려동물 수정' />
+            <Pressable
+                style={styles.deleteConainer}
+                onPress={onDelete}
+                android_ripple={{ color: GRAY2, radius: 28 }}
+            >
+                <Text style={{ color: COLOR3 }} >삭제</Text>
+            </Pressable>
             <KeyboardAvoidingView
                 enabled={IS_IOS}
                 behavior='padding'
@@ -329,7 +371,7 @@ const PetRegist = () => {
     )
 }
 
-export default PetRegist
+export default PetModify
 
 const styles = StyleSheet.create({
     imageContainer: {
@@ -339,4 +381,13 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: GRAY3
     },
+    deleteConainer: {
+        height: 56,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingHorizontal: 16,
+        position: 'absolute',
+        top: STATUSBAR_HEIGHT,
+        right: 0
+    }
 })

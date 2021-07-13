@@ -4,6 +4,7 @@ import { COLOR1, GRAY1, GRAY2, GRAY3 } from '../../constants/styles'
 import { myPets_myPets } from '../../graphql/__generated__/myPets'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { Gender } from '../../../__generated__/globalTypes'
+import { useNavigation } from '@react-navigation/native'
 
 interface PetInfoCardProps {
     data: myPets_myPets
@@ -13,12 +14,15 @@ interface PetInfoCardProps {
 
 const PetInfoCard: React.FC<PetInfoCardProps> = ({ data, drag, isActive }) => {
 
+    const { navigate } = useNavigation()
+
     const { image, id, age, character, gender, name, species, weight } = data
 
     return (
         <Pressable
             style={[styles.container, { borderTopColor: isActive ? GRAY3 : '#fff' }]}
             android_ripple={{ color: GRAY2 }}
+            onPress={() => navigate('PetModify', { id })}
         >
             <View style={styles.contentContainer} >
                 <Image style={styles.image} source={{ uri: image }} />

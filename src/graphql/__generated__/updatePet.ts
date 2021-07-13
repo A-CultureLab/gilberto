@@ -3,13 +3,13 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { Gender } from "./../../../__generated__/globalTypes";
+import { RegistPetInput, Gender } from "./../../../__generated__/globalTypes";
 
 // ====================================================
-// GraphQL query operation: myPets
+// GraphQL mutation operation: updatePet
 // ====================================================
 
-export interface myPets_myPets {
+export interface updatePet_updatePet {
   __typename: "Pet";
   id: number;
   name: string;
@@ -22,6 +22,11 @@ export interface myPets_myPets {
   weight: number;
 }
 
-export interface myPets {
-  myPets: myPets_myPets[];
+export interface updatePet {
+  updatePet: updatePet_updatePet | null;
+}
+
+export interface updatePetVariables {
+  id: number;
+  data: RegistPetInput;
 }
