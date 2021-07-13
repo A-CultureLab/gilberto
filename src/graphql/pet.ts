@@ -1,7 +1,8 @@
 import { gql } from "@apollo/client";
 import { createMutationHook, createQueryHook } from "../lib/createApolloHook";
-import { createPet, createPetVariables } from "./__generated__/createPet";
-import { myPets, myPetsVariables } from "./__generated__/myPets";
+import { myPets, } from "./__generated__/myPets";
+import auth from '@react-native-firebase/auth'
+import { registPet, registPetVariables } from "./__generated__/registPet";
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const REGIST_PET = gql`
@@ -19,11 +20,35 @@ export const REGIST_PET = gql`
     }
 `
 
-export const useCreatePet = createMutationHook<createPet, createPetVariables>(REGIST_PET)
+export const useCreatePet = createMutationHook<registPet, registPetVariables>(REGIST_PET, {
+    update(cache, { data }) {
+        cache.modify({
+            fields: {
+                myPets(existingRefs = []) {
+                    if (!data) return existingRefs
+                    const pet = data.registPet
+                    const newRefs = cache.writeFragment({
+                        data: pet,
+                        fragment: gql`
+                          fragment newPet on Pet {
+                            id
+                          }
+                        `
+                    })
+                    // 이미 있는 id가 있다면 그냥 유지
+                    if (existingRefs.filter((v: any) => v.__ref === newRefs?.__ref).length > 0) {
+                        return existingRefs
+                    }
+                    return [...existingRefs, newRefs]
+                }
+            }
+        })
+    }
+})
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const MY_PETS = gql`
-    query myPets ($userId: String!) {
-        pets(where:{userId: {equals:$userId}}) {
+    query myPets {
+        myPets {
             id
             name
             image
@@ -37,4 +62,4 @@ export const MY_PETS = gql`
     }
 `
 
-export const useMyPets = createQueryHook<myPets, myPetsVariables>(MY_PETS)
+export const useMyPets = createQueryHook<myPets, {}>(MY_PETS)

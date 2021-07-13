@@ -10,7 +10,6 @@ import { useCallback } from 'react'
 import PetInfoCard from '../../components/cards/PetInfoCard'
 import { useNavigation } from '@react-navigation/native'
 import { useMyPets } from '../../graphql/pet'
-import auth from '@react-native-firebase/auth'
 
 
 
@@ -18,7 +17,7 @@ const SignupPet = () => {
 
     const { reset, navigate } = useNavigation()
 
-    const { data } = useMyPets({ variables: { userId: auth().currentUser?.uid || '' } })
+    const { data } = useMyPets()
 
     const onAdd = useCallback(() => {
         navigate('PetRegist')
@@ -35,7 +34,7 @@ const SignupPet = () => {
             <DraggableFlatList
                 showsVerticalScrollIndicator={false}
                 overScrollMode='never'
-                data={data?.pets || []}
+                data={data?.myPets || []}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ drag, isActive, item }) => <PetInfoCard data={item} drag={drag} isActive={isActive} />}
                 ListFooterComponent={

@@ -9,7 +9,7 @@ import { Gender } from "./../../../__generated__/globalTypes";
 // GraphQL query operation: myPets
 // ====================================================
 
-export interface myPets_pets {
+export interface myPets_myPets {
   __typename: "Pet";
   id: number;
   name: string;
@@ -22,9 +22,5 @@ export interface myPets_pets {
 }
 
 export interface myPets {
-  pets: myPets_pets[];
-}
-
-export interface myPetsVariables {
-  userId: string;
+  myPets: myPets_myPets[];
 }

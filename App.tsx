@@ -5,6 +5,10 @@ import Navigation from './src/screens';
 import 'react-native-gesture-handler';
 import { ApolloProvider } from '@apollo/client';
 import { client } from './src/lib/apollo';
+import { enableFlipperApolloDevtools } from 'react-native-flipper-apollo-devtools'
+
+
+__DEV__ && enableFlipperApolloDevtools(client as any)
 
 const App = () => {
   return (
