@@ -4,6 +4,7 @@ import { coordToRegion, coordToRegionVariables } from "./__generated__/coordToRe
 import { isSignedup } from "./__generated__/isSignedup";
 import { iUser, iUser_iUser } from "./__generated__/iUser";
 import { signup, signupVariables } from "./__generated__/signup";
+import { updateUser, updateUserVariables } from "./__generated__/updateUser";
 
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -18,11 +19,18 @@ export const I_USER = gql`
   query iUser {
     iUser {
       id
-      image
       name
-      age
+      image
       gender
+      birth
+      age
+      addressId
       address
+      postcode
+      latitude
+      longitude
+      instagramId
+      introduce
     }
   }
 `
@@ -63,7 +71,27 @@ export const IS_SIGNEDUP = gql`
 `
 export const useIsSignedup = createQueryHook<isSignedup, {}>(IS_SIGNEDUP, { fetchPolicy: 'network-only' })
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
+export const UPDATE_USER = gql`
+  mutation updateUser($data: UpdateUserInput!) {
+    updateUser(data: $data) {
+      id
+      name
+      image
+      gender
+      age
+      birth
+      addressId
+      address
+      postcode
+      latitude
+      longitude
+      instagramId
+      introduce
+    }
+  }
+`
 
+export const useUpdateUser = createMutationHook<updateUser, updateUserVariables>(UPDATE_USER)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//

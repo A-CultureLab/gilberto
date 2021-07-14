@@ -3,13 +3,13 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { Gender } from "./../../../__generated__/globalTypes";
+import { UpdateUserInput, Gender } from "./../../../__generated__/globalTypes";
 
 // ====================================================
-// GraphQL query operation: iUser
+// GraphQL mutation operation: updateUser
 // ====================================================
 
-export interface iUser_iUser {
+export interface updateUser_updateUser {
   __typename: "User";
   id: string;
   name: string;
@@ -25,6 +25,10 @@ export interface iUser_iUser {
   introduce: string;
 }
 
-export interface iUser {
-  iUser: iUser_iUser;
+export interface updateUser {
+  updateUser: updateUser_updateUser;
+}
+
+export interface updateUserVariables {
+  data: UpdateUserInput;
 }

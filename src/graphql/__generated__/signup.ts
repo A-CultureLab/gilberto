@@ -23,7 +23,7 @@ export interface signup_signup {
 }
 
 export interface signup {
-  signup: signup_signup | null;
+  signup: signup_signup;
 }
 
 export interface signupVariables {

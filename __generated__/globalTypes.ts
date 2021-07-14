@@ -48,6 +48,20 @@ export interface SignupInput {
   marketingEmailDate?: any | null;
 }
 
+export interface UpdateUserInput {
+  name: string;
+  image: string;
+  gender: Gender;
+  birth: any;
+  addressId: string;
+  address: string;
+  postcode: string;
+  latitude: number;
+  longitude: number;
+  instagramId?: string | null;
+  introduce: string;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================

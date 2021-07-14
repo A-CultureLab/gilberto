@@ -23,6 +23,7 @@ import PetRegist from './PetRegist';
 import PetModify from './PetModify';
 import MyPage from './MyPage';
 import Profile from './Profile';
+import ProfileModify from './ProfileModify';
 
 
 
@@ -98,6 +99,7 @@ const Navigation = () => {
                 <Stack.Screen name='PetModify' component={PetModify} />
                 <Stack.Screen name='MyPage' component={MyPage} options={{ cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS }} />
                 <Stack.Screen name='Profile' component={Profile} />
+                <Stack.Screen name='ProfileModify' component={ProfileModify} />
             </Stack.Navigator>
         </NavigationContainer>
     )
