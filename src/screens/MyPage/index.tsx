@@ -1,5 +1,5 @@
 import React from 'react'
-import { Pressable, ScrollView, StyleSheet, Text, View, Linking } from 'react-native'
+import { Pressable, ScrollView, StyleSheet, Text, View, Linking, TouchableOpacity } from 'react-native'
 import Header from '../../components/headers/Header'
 import ScreenLayout from '../../components/layout/ScreenLayout'
 import Icon from 'react-native-vector-icons/MaterialIcons'
@@ -45,9 +45,7 @@ const MyPage = () => {
     return (
         <ScreenLayout>
             <Header backBtn='right' title='마이페이지' underline={false} />
-            <Pressable
-                onPress={() => navigate('Profile')}
-                android_ripple={{ color: GRAY2 }}
+            <View
                 style={styles.profileContainer}
             >
                 <ScrollView
@@ -55,25 +53,32 @@ const MyPage = () => {
                     overScrollMode='never'
                     showsHorizontalScrollIndicator={false}
                 >
-                    <FastImage
-                        style={styles.image}
-                        source={{ uri: userData?.iUser?.image }}
-                    />
-                    <View style={styles.line} />
-                    {(petData?.myPets || []).length
-                        ? <>
-                            {(petData?.myPets || []).map(({ image }) => (
-                                <FastImage
-                                    style={styles.image}
-                                    source={{ uri: image }}
-                                />
-                            ))}
-                            <Icon name='arrow-forward' color={GRAY2} size={24} style={{ alignSelf: 'center', marginLeft: 24 }} />
-                        </>
-                        : <Text style={styles.petRegistComment} >반려동물을 등록해주세요</Text>
-                    }
+                    <Pressable
+                        onPress={() => navigate('Profile')}
+                        android_ripple={{ color: GRAY2 }}
+                        style={{ height: '100%', flexDirection: 'row', alignItems: 'center' }}
+                    >
+                        <FastImage
+                            style={styles.image}
+                            source={{ uri: userData?.iUser?.image }}
+                        />
+                        <View style={styles.line} />
+                        {(petData?.myPets || []).length
+                            ? <>
+                                {(petData?.myPets || []).map(({ image }, index) => (
+                                    <FastImage
+                                        key={index.toString()}
+                                        style={styles.image}
+                                        source={{ uri: image }}
+                                    />
+                                ))}
+                                <Icon name='arrow-forward' color={GRAY2} size={24} style={{ alignSelf: 'center', marginHorizontal: 24 }} />
+                            </>
+                            : <Text style={styles.petRegistComment} >반려동물을 등록해주세요</Text>
+                        }
+                    </Pressable>
                 </ScrollView>
-            </Pressable>
+            </View>
             <View style={{ marginTop: 16 }}>
                 {MENUS.map(({ icon, title, onPress }) => (
                     <Pressable

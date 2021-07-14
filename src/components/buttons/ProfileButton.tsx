@@ -10,11 +10,12 @@ import getRandomPet from '../../utils/getRandomPet'
 const ProfileButton = () => {
 
     const { data } = useMyPets()
+    const { data: userData } = useIUser()
     const { navigate } = useNavigation()
 
     const randomPet = getRandomPet(data?.myPets || [])
 
-    if (!randomPet) return null
+    if (!randomPet && !userData) return null
 
     return (
         <Pressable
@@ -23,7 +24,7 @@ const ProfileButton = () => {
         >
             <FastImage
                 style={styles.image}
-                source={{ uri: randomPet.image }}
+                source={{ uri: randomPet?.image || userData?.iUser.image }}
             />
         </Pressable>
     )

@@ -8,5 +8,5 @@
 // ====================================================
 
 export interface isSignedup {
-  isSignedup: boolean | null;
+  isSignedup: boolean;
 }

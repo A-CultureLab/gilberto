@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { RegistPetInput, Gender } from "./../../../__generated__/globalTypes";
+import { RegistPetInput, PetType, Gender } from "./../../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: registPet
@@ -12,6 +12,7 @@ import { RegistPetInput, Gender } from "./../../../__generated__/globalTypes";
 export interface registPet_registPet {
   __typename: "Pet";
   id: number;
+  type: PetType;
   name: string;
   image: string;
   character: string;
@@ -20,6 +21,8 @@ export interface registPet_registPet {
   gender: Gender;
   age: string;
   weight: number;
+  vaccinated: boolean;
+  neutered: boolean;
 }
 
 export interface registPet {

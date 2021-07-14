@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { Gender } from "./../../../__generated__/globalTypes";
+import { PetType, Gender } from "./../../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: myPets
@@ -12,6 +12,7 @@ import { Gender } from "./../../../__generated__/globalTypes";
 export interface myPets_myPets {
   __typename: "Pet";
   id: number;
+  type: PetType;
   name: string;
   image: string;
   character: string;
@@ -20,6 +21,8 @@ export interface myPets_myPets {
   gender: Gender;
   age: string;
   weight: number;
+  vaccinated: boolean;
+  neutered: boolean;
 }
 
 export interface myPets {

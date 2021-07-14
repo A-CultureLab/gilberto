@@ -3,6 +3,8 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { Gender } from "./../../../__generated__/globalTypes";
+
 // ====================================================
 // GraphQL query operation: iUser
 // ====================================================
@@ -10,10 +12,13 @@
 export interface iUser_iUser {
   __typename: "User";
   id: string;
-  name: string;
   image: string;
+  name: string;
+  age: number;
+  gender: Gender;
+  address: string;
 }
 
 export interface iUser {
-  iUser: iUser_iUser | null;
+  iUser: iUser_iUser;
 }
