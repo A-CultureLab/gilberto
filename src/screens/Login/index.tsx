@@ -11,10 +11,11 @@ import { useState } from 'react'
 import { login as kakaoLogin } from '@react-native-seoul/kakao-login';
 import { useApolloClient } from '@apollo/client'
 import { useNavigation } from '@react-navigation/core'
-import { I_USER, KAKAO_TOKEN_TO_FIREBASE_TOKEN } from '../../graphql/user'
+import { IS_SIGNEDUP, I_USER, KAKAO_TOKEN_TO_FIREBASE_TOKEN } from '../../graphql/user'
 import Loading from '../../components/loadings/Loading'
 import { KakaoTokenToFirebaseToken, KakaoTokenToFirebaseTokenVariables } from '../../graphql/__generated__/KakaoTokenToFirebaseToken'
 import { iUser } from '../../graphql/__generated__/iUser'
+import { isSignedup } from '../../graphql/__generated__/isSignedup'
 
 const Login = () => {
 
@@ -55,8 +56,8 @@ const Login = () => {
         try {
             await client.clearStore()
 
-            const { data } = await client.query<iUser>({ query: I_USER, fetchPolicy: 'network-only', })
-            if (!data.iUser) reset({ index: 0, routes: [{ name: 'Signup' }] })  // 유저 정보가 없으면 회원가입 화면으로 전환
+            const { data } = await client.query<isSignedup>({ query: IS_SIGNEDUP, fetchPolicy: 'network-only', })
+            if (!data.isSignedup) reset({ index: 0, routes: [{ name: 'Signup' }] })  // 유저 정보가 없으면 회원가입 화면으로 전환
             else reset({ index: 0, routes: [{ name: 'Tab' }] })
 
             setLoading(false)
