@@ -5,6 +5,9 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import { HomeScreenContext } from '.'
 import { BaseButton } from 'react-native-gesture-handler'
 import { IS_ANDROID } from '../../constants/values'
+import ProfileButton from '../../components/buttons/ProfileButton'
+import { useMyPets } from '../../graphql/pet'
+import getRandomPet from '../../utils/getRandomPet'
 
 interface HomeHeaderProps {
 
@@ -12,20 +15,23 @@ interface HomeHeaderProps {
 
 const HomeHeader: React.FC<HomeHeaderProps> = () => {
 
+    const { data } = useMyPets()
     const { setCategoryVerticalMode } = useContext(HomeScreenContext)
+
+    const randomPet = getRandomPet(data?.myPets || [])
 
     return (
         <View style={[styles.container]} >
             <View style={styles.searchContainer} >
                 <BaseButton style={styles.searchBtn} >
-                    <Text style={styles.searchText} >반려동물과 함께가고 싶은 곳</Text>
+                    <Text style={styles.searchText} >{randomPet ? randomPet.name : '반려동물'}과 함께가고 싶은 곳</Text>
                     <Icon name='search' size={22} color={GRAY2} style={{ marginHorizontal: 16 }} />
                 </BaseButton>
                 <Pressable onPress={() => setCategoryVerticalMode(true)} style={styles.menuBtn} >
                     <Icon name='menu' size={24} color={GRAY2} />
                 </Pressable>
-
             </View>
+            <ProfileButton />
         </View>
     )
 }
@@ -35,13 +41,15 @@ export default HomeHeader
 const styles = StyleSheet.create({
     container: {
         position: 'absolute',
+        width: WIDTH,
         top: STATUSBAR_HEIGHT + 16,
         left: 0, right: 0,
-        elevation: 0
+        elevation: 0,
+        flexDirection: 'row',
+        paddingHorizontal: 16
     },
     searchContainer: {
-        marginLeft: 16,
-        width: WIDTH - 32,
+        flex: 1,
         height: 56,
         backgroundColor: '#fff',
         borderRadius: 8,
@@ -68,6 +76,6 @@ const styles = StyleSheet.create({
     searchText: {
         color: GRAY2,
         flex: 1,
-        fontSize: 16
+        fontSize: 14
     },
 })

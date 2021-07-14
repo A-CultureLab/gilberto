@@ -82,7 +82,7 @@ const Navigation = () => {
             theme={theme}
         >
             <Stack.Navigator
-                initialRouteName='SignupPet'
+                initialRouteName='Tab'
                 headerMode='none'
                 screenOptions={{ cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS }}
             >
