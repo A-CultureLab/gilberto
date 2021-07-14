@@ -30,7 +30,7 @@ const Header: React.FC<HeaderProps> = ({ backBtn, title, underline }) => {
                 <Pressable
                     onPress={goBack}
                     style={styles.btn}
-                    android_ripple={{ color: GRAY2, borderless: true }}
+                    android_ripple={{ color: GRAY2, borderless: true, radius: 28 }}
                 >
                     <Icon name='keyboard-arrow-down' size={24} />
                 </Pressable>

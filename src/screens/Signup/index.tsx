@@ -312,7 +312,7 @@ const Signup = () => {
                                         <View style={styles.agreementContainer} >
                                             <Toggle value={agr2} onChange={(v) => setAgr2(v)} />
                                             <Text style={[styles.agreementText]}>(필수) 개인정보 수집 및 이용에 동의합니다</Text>
-                                            <TouchableOpacity onPress={() => navigate('WebView', { title: '개인정보 수집안내', url: 'https://38do.com/privacy' })} >
+                                            <TouchableOpacity onPress={() => navigate('WebView', { title: '개인정보 처리방침', url: 'https://38do.com/privacy' })} >
                                                 <Text style={styles.agreementDetail} >본문보기</Text>
                                             </TouchableOpacity>
                                         </View>

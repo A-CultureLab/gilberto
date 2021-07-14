@@ -21,6 +21,7 @@ import SignupPet from './SignupPet';
 import WebView from './WebView';
 import PetRegist from './PetRegist';
 import PetModify from './PetModify';
+import MyPage from './MyPage';
 
 
 
@@ -94,6 +95,7 @@ const Navigation = () => {
                 <Stack.Screen name='SignupPet' component={SignupPet} />
                 <Stack.Screen name='PetRegist' component={PetRegist} />
                 <Stack.Screen name='PetModify' component={PetModify} />
+                <Stack.Screen name='MyPage' component={MyPage} options={{ cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS }} />
             </Stack.Navigator>
         </NavigationContainer>
     )

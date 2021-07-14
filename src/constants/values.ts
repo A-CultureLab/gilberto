@@ -20,6 +20,8 @@ export const GRAPHQL_SERVER_URL = (() => {
     }
 })()
 
+export const KAKAO_LINK = 'https://kakao.com'
+
 export const ANIMAL_CHARACTER = {
     'cat': [
         '자신이 사람인줄 아는 개냥이',
