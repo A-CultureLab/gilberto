@@ -1,5 +1,4 @@
 import React, { createContext, useEffect, useMemo, useRef, useState } from 'react';
-import { Pressable, View, Text, ScrollView, TouchableOpacity } from 'react-native'
 import { DefaultTheme, NavigationContainer, NavigationContainerRef, Theme } from '@react-navigation/native';
 import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -24,6 +23,8 @@ import PetModify from './PetModify';
 import MyPage from './MyPage';
 import Profile from './Profile';
 import ProfileModify from './ProfileModify';
+import Setting from './Setting';
+import OpenSourceLicense from './OpenSourceLicense';
 
 
 
@@ -100,6 +101,8 @@ const Navigation = () => {
                 <Stack.Screen name='MyPage' component={MyPage} options={{ cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS }} />
                 <Stack.Screen name='Profile' component={Profile} />
                 <Stack.Screen name='ProfileModify' component={ProfileModify} />
+                <Stack.Screen name='Setting' component={Setting} />
+                <Stack.Screen name='OpenSourceLicense' component={OpenSourceLicense} />
             </Stack.Navigator>
         </NavigationContainer>
     )
