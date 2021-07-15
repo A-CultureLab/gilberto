@@ -4,10 +4,15 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import Header from '../../components/headers/Header'
 import ScreenLayout from '../../components/layout/ScreenLayout'
 import { GRAY2, GRAY3 } from '../../constants/styles'
+import useGlobalUi from '../../hooks/useGlobalUi'
+import auth from '@react-native-firebase/auth'
+import { useApolloClient } from '@apollo/client'
 
 const Setting = () => {
 
-    const { navigate } = useNavigation()
+    const { navigate, reset } = useNavigation()
+    const { confirm } = useGlobalUi()
+    const client = useApolloClient()
 
     const MENUS = [
         {
@@ -20,7 +25,20 @@ const Setting = () => {
         },
         {
             title: '로그아웃',
-            onPress: () => { }
+            onPress: () => {
+                confirm({
+                    title: '로그아웃',
+                    content: '정말 로그아웃 하시겠습니까?',
+                    onPress: async (isYes) => {
+                        if (!isYes) return
+                        // await messaging().deleteToken()
+                        await auth().signOut()
+
+                        await client.clearStore()
+                        reset({ index: 0, routes: [{ name: 'Tab' }] })
+                    }
+                })
+            }
         },
         {
             title: '탈퇴하기',

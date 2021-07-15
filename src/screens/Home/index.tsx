@@ -45,6 +45,7 @@ const Home = () => {
     // 회원가입 안되있을시 회원가입 페이지로 이동
     useEffect(() => {
         if (!data) return
+        if (!auth().currentUser) return
         if (!data.isSignedup) reset({ index: 0, routes: [{ name: 'Signup' }] })
     }, [data])
 
