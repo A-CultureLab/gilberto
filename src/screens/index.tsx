@@ -25,6 +25,7 @@ import Profile from './Profile';
 import ProfileModify from './ProfileModify';
 import Setting from './Setting';
 import OpenSourceLicense from './OpenSourceLicense';
+import Withdraw from './Withdraw';
 
 
 
@@ -103,6 +104,7 @@ const Navigation = () => {
                 <Stack.Screen name='ProfileModify' component={ProfileModify} />
                 <Stack.Screen name='Setting' component={Setting} />
                 <Stack.Screen name='OpenSourceLicense' component={OpenSourceLicense} />
+                <Stack.Screen name='Withdraw' component={Withdraw} />
             </Stack.Navigator>
         </NavigationContainer>
     )

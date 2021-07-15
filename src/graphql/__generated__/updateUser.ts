@@ -15,6 +15,7 @@ export interface updateUser_updateUser {
   name: string;
   image: string;
   gender: Gender;
+  age: number;
   birth: any;
   addressId: string;
   address: string;

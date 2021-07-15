@@ -5,6 +5,7 @@ import { isSignedup } from "./__generated__/isSignedup";
 import { iUser, iUser_iUser } from "./__generated__/iUser";
 import { signup, signupVariables } from "./__generated__/signup";
 import { updateUser, updateUserVariables } from "./__generated__/updateUser";
+import { withdraw, withdrawVariables } from "./__generated__/withdraw";
 
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -93,5 +94,12 @@ export const UPDATE_USER = gql`
 
 export const useUpdateUser = createMutationHook<updateUser, updateUserVariables>(UPDATE_USER)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
-
+const WITHDRAW = gql`
+mutation withdraw($reason:String!) {
+  withdraw(reason:$reason) {
+    id
+  }
+}
+`
+export const useWithdraw = createMutationHook<withdraw, withdrawVariables>(WITHDRAW)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//

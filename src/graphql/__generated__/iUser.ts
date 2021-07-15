@@ -16,6 +16,7 @@ export interface iUser_iUser {
   image: string;
   gender: Gender;
   birth: any;
+  age: number;
   addressId: string;
   address: string;
   postcode: string;

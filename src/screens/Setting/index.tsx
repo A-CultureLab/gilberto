@@ -7,12 +7,13 @@ import { GRAY2, GRAY3 } from '../../constants/styles'
 import useGlobalUi from '../../hooks/useGlobalUi'
 import auth from '@react-native-firebase/auth'
 import { useApolloClient } from '@apollo/client'
+import useAuth from '../../hooks/useAuth'
 
 const Setting = () => {
 
-    const { navigate, reset } = useNavigation()
+    const { navigate } = useNavigation()
     const { confirm } = useGlobalUi()
-    const client = useApolloClient()
+    const { logout } = useAuth()
 
     const MENUS = [
         {
@@ -31,11 +32,7 @@ const Setting = () => {
                     content: '정말 로그아웃 하시겠습니까?',
                     onPress: async (isYes) => {
                         if (!isYes) return
-                        // await messaging().deleteToken()
-                        await auth().signOut()
-
-                        await client.clearStore()
-                        reset({ index: 0, routes: [{ name: 'Tab' }] })
+                        logout()
                     }
                 })
             }
