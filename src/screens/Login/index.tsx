@@ -16,11 +16,14 @@ import Loading from '../../components/loadings/Loading'
 import { KakaoTokenToFirebaseToken, KakaoTokenToFirebaseTokenVariables } from '../../graphql/__generated__/KakaoTokenToFirebaseToken'
 import { iUser } from '../../graphql/__generated__/iUser'
 import { isSignedup } from '../../graphql/__generated__/isSignedup'
+import useGlobalUi from '../../hooks/useGlobalUi'
+import appleAuth from '@invertase/react-native-apple-authentication'
 
 const Login = () => {
 
     const client = useApolloClient()
     const { reset } = useNavigation()
+    const { toast } = useGlobalUi()
 
     const [loading, setLoading] = useState(false)
 
@@ -43,14 +46,33 @@ const Login = () => {
             await auth().signInWithCustomToken(firebaseToken)
             await loginSuccess()
         } catch (error) {
-            console.log(error)
+            toast({ content: '오류' })
             setLoading(false)
         }
     }, [loading])
 
-    const onApple = useCallback(() => {
+    const onApple = useCallback(async () => {
+        try {
+            if (loading) return
+            setLoading(true)
 
-    }, [])
+            const { identityToken, nonce } = await appleAuth.performRequest({
+                requestedOperation: appleAuth.Operation.LOGIN,
+                requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME]
+            })
+            if (!identityToken) throw new Error('Apple Login Fail')
+            console.log('token : ' + identityToken)
+
+            const appleCredential = auth.AppleAuthProvider.credential(identityToken, nonce)
+            console.log('credential : ' + appleCredential)
+
+            await auth().signInWithCredential(appleCredential)
+            await loginSuccess()
+        } catch (error) {
+            toast({ content: '오류' })
+            setLoading(false)
+        }
+    }, [loading])
 
     const loginSuccess = useCallback(async () => {
         try {

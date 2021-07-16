@@ -6,7 +6,7 @@
     "android": "adb devices && react-native run-android",
     "ios": "react-native run-ios",
     "android:release": "adb devices && react-native run-android --variant=release",
-    "ios:device": "react-native run-ios --device",
+    "ios:device": "react-native run-ios --device \"남궁현의 iPhone\"",
     "ios:release": "react-native run-ios --configuration Release",
     "android:assembleRelease": "cd android && ./gradlew assembleRelease",
     "android:bundleRelease": "cd android && ./gradlew bundleRelease",
@@ -32,6 +32,7 @@
   "dependencies": {
     "@apollo/client": "^3.3.20",
     "@gorhom/bottom-sheet": "^3.6.6",
+    "@invertase/react-native-apple-authentication": "^2.1.2",
     "@react-native-clipboard/clipboard": "^1.8.2",
     "@react-native-community/geolocation": "^2.0.2",
     "@react-native-community/masked-view": "^0.1.11",
