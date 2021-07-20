@@ -5,7 +5,7 @@
 #import <React/RCTRootView.h>
 #import <Firebase.h>
 #import <RNKakaoLogins.h>
-
+#import "RNSplashScreen.h"
 
 
 #ifdef FB_SONARKIT_ENABLED
@@ -67,6 +67,9 @@ static void InitializeFlipper(UIApplication *application) {
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  
+  [RNSplashScreen show];
+  
   return YES;
 }
 

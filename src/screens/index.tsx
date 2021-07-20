@@ -4,7 +4,7 @@ import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import IconMA from 'react-native-vector-icons/MaterialIcons'
 import { BottomSheetModalProvider, useBottomSheet } from '@gorhom/bottom-sheet'
-import auth from '@react-native-firebase/auth'
+import SplashScreen from 'react-native-splash-screen';
 
 // GLOBAL UI
 import Alert, { AlertProps } from '../components/bottomSheets/Alert';
@@ -151,8 +151,12 @@ const GlobalUiWrapper = () => {
         toast,
         setToast
     }), [alert])
+
+
     useEffect(() => {
-        // auth().signOut()
+        setTimeout(() => {
+            SplashScreen.hide()
+        }, 1000)
     }, [])
 
 
