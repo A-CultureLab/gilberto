@@ -156,7 +156,7 @@ const GlobalUiWrapper = () => {
     useEffect(() => {
         setTimeout(() => {
             SplashScreen.hide()
-        }, 1000)
+        }, 500)
     }, [])
 
 
