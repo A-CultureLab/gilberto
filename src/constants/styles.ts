@@ -5,7 +5,7 @@ export const WIDTH = Dimensions.get('window').width
 export const HEIGHT = Dimensions.get('screen').height // 가능하면 사용하지 말아주세요 기종별로 오류가 너무 많아서...
 export const STATUSBAR_HEIGHT = getStatusBarHeight()
 
-export const COLOR1 = '#42D1C0'
+export const COLOR1 = '#05AAAA'
 export const COLOR2 = '#2A7FFE'
 export const COLOR3 = '#FE2A2A'
 

@@ -54,7 +54,7 @@ const MapScreenBottomTabBar: React.FC<MapScreenBottomTabBarProps> = () => {
             {TABS.map(({ icon, label, name }) =>
                 <BorderlessButton onPress={() => onPress(name)} activeOpacity={1} key={name} style={styles.tab} >
                     {icon({ color: routeName === name ? COLOR1 : GRAY2 })}
-                    <Text style={[styles.tabLabel, { color: routeName === name ? COLOR1 : GRAY1 }]} >{label}</Text>
+                    <Text style={[styles.tabLabel, { color: routeName === name ? '#333' : GRAY1 }]} >{label}</Text>
                 </BorderlessButton>
             )}
         </View>
