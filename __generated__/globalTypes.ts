@@ -36,11 +36,7 @@ export interface SignupInput {
   image: string;
   gender: Gender;
   birth: any;
-  addressId: string;
-  address: string;
-  postcode: string;
-  latitude: number;
-  longitude: number;
+  addressPostcode: string;
   instagramId?: string | null;
   introduce: string;
   agreementDate: any;
@@ -53,11 +49,7 @@ export interface UpdateUserInput {
   image: string;
   gender: Gender;
   birth: any;
-  addressId: string;
-  address: string;
-  postcode: string;
-  latitude: number;
-  longitude: number;
+  addressPostCodes: string;
   instagramId?: string | null;
   introduce: string;
 }

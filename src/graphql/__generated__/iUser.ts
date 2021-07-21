@@ -17,11 +17,7 @@ export interface iUser_iUser {
   gender: Gender;
   birth: any;
   age: number;
-  addressId: string;
-  address: string;
-  postcode: string;
-  latitude: number;
-  longitude: number;
+  addressPostcode: string;
   instagramId: string | null;
   introduce: string;
 }

@@ -8,12 +8,10 @@
 // ====================================================
 
 export interface coordToRegion_coordsToRegion {
-  __typename: "Region";
-  id: string;
-  address: string;
+  __typename: "Address";
   postcode: string;
-  latitude: number;
-  longitude: number;
+  addressName: string;
+  buildingName: string;
 }
 
 export interface coordToRegion {

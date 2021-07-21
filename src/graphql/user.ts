@@ -25,11 +25,7 @@ export const I_USER = gql`
       gender
       birth
       age
-      addressId
-      address
-      postcode
-      latitude
-      longitude
+      addressPostcode
       instagramId
       introduce
     }
@@ -54,11 +50,9 @@ export const useSignup = createMutationHook<signup, signupVariables>(SIGN_UP)
 export const COORDS_TO_REGION = gql`
 query coordToRegion ($latitude:Float!, $longitude:Float!) {
   coordsToRegion(latitude: $latitude, longitude: $longitude) {
-    id
-    address
     postcode
-    latitude
-    longitude
+    addressName
+    buildingName
   }
 }
 `
@@ -81,11 +75,7 @@ export const UPDATE_USER = gql`
       gender
       age
       birth
-      addressId
-      address
-      postcode
-      latitude
-      longitude
+      addressPostcode 
       instagramId
       introduce
     }

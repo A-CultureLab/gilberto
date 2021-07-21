@@ -8,7 +8,7 @@ import ScreenLayout from '../../components/layout/ScreenLayout';
 import MyPosFab from '../../components/fabs/MyPosFab';
 import HomeHeader from './HomeHeader'
 import CategorySelector from './CategorySelector'
-import MapScreenBottomTabBar from '../../components/tabs/MapScreenBottomTabBar';
+import TabScreenBottomTabBar from '../../components/tabs/TabScreenBottomTabBar';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import auth from '@react-native-firebase/auth'
 import { useIsSignedup } from '../../graphql/user';
@@ -42,11 +42,11 @@ const Home = () => {
         setCategoryVerticalMode
     }), [categoryVerticalMode, setCategoryVerticalMode])
 
-    // 회원가입 안되있을시 회원가입 페이지로 이동
+    // 회원가입 안되있을시 파이어베이스 로그아웃
     useEffect(() => {
-        if (!data) return
         if (!auth().currentUser) return
-        if (!data.isSignedup) reset({ index: 0, routes: [{ name: 'Signup' }] })
+        if (!data) return
+        if (!data.isSignedup) auth().signOut()
     }, [data])
 
     // 내위치 초기화
@@ -108,10 +108,10 @@ const Home = () => {
                         </View>
                     </Marker>}
                 </MapView>
-                <HomeHeader />
-                <CategorySelector />
+                {/* <HomeHeader /> */}
+                {/* <CategorySelector /> */}
                 <MyPosFab onPress={onMyPos} />
-                <MapScreenBottomTabBar />
+                <TabScreenBottomTabBar />
             </ScreenLayout>
         </HomeScreenContext.Provider>
     )

@@ -17,11 +17,7 @@ export interface updateUser_updateUser {
   gender: Gender;
   age: number;
   birth: any;
-  addressId: string;
-  address: string;
-  postcode: string;
-  latitude: number;
-  longitude: number;
+  addressPostcode: string;
   instagramId: string | null;
   introduce: string;
 }

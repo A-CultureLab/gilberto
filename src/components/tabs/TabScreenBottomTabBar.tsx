@@ -40,20 +40,21 @@ const MapScreenBottomTabBar: React.FC<MapScreenBottomTabBarProps> = () => {
     const { name: routeName } = useRoute()
     const { navigate } = useNavigation()
 
-    const onPress = useCallback((name: string) => {
+    const onPress = (name: string) => {
         if (name === routeName) return
         if ((name === 'Friend' || name === 'Chat') && !auth().currentUser) {
             navigate('Login')
             return
         }
         navigate(name)
-    }, [routeName])
+    }
 
     return (
         <View style={[styles.container, { height: 56 + bottom, paddingBottom: bottom }]} >
             {TABS.map(({ icon, label, name }) =>
                 <BorderlessButton onPress={() => onPress(name)} activeOpacity={1} key={name} style={styles.tab} >
                     {icon({ color: routeName === name ? COLOR1 : GRAY2 })}
+                    {routeName === name && <View style={styles.line} />}
                     <Text style={[styles.tabLabel, { color: routeName === name ? '#333' : GRAY1 }]} >{label}</Text>
                 </BorderlessButton>
             )}
@@ -82,5 +83,12 @@ const styles = StyleSheet.create({
     tabLabel: {
         fontSize: 12,
         marginTop: 6
+    },
+    line: {
+        width: 64,
+        height: 2,
+        backgroundColor: COLOR1,
+        position: 'absolute',
+        top: 0
     }
 })

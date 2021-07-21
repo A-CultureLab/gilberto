@@ -33,8 +33,8 @@ const SelectLocation = () => {
     const [cameraPos, setCameraPos] = useState<Region>({
         latitude: 37.50367232610927,
         longitude: 126.98522503284602,
-        latitudeDelta: 0.005,
-        longitudeDelta: 0.005
+        latitudeDelta: 0.003,
+        longitudeDelta: 0.003
     })
     const [myPos, setMyPos] = useState<LatLng | null>(null)
     const [cameraInitTrigger, setCameraInitTrigger] = useState(true)
@@ -122,7 +122,7 @@ const SelectLocation = () => {
                 <Icon name='keyboard-arrow-left' color='#000' size={24} />
             </Pressable>
 
-            <View style={styles.iconContainer} >
+            <View pointerEvents='none' style={styles.iconContainer} >
                 <LocationHereIcon />
             </View>
 
@@ -133,7 +133,7 @@ const SelectLocation = () => {
                     ? <Text>검색중...</Text>
                     : !data.coordsToRegion
                         ? <Text>검색 결과 없음</Text>
-                        : <Text>{data.coordsToRegion.address}</Text>
+                        : <Text>{data.coordsToRegion.addressName} {data.coordsToRegion.buildingName}</Text>
                 }
             </View>
 
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     iconContainer: {
         position: 'absolute',
         alignSelf: 'center',
-        transform: [{ translateY: -30 }]
+        transform: [{ translateY: -30.5 }] // 아이콘 height가 61임
     },
     addressContainer: {
         width: WIDTH - 32,

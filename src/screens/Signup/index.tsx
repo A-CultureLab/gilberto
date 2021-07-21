@@ -30,6 +30,7 @@ const Signup = () => {
     const { navigate, reset } = useNavigation()
     const [signup, { loading }] = useSignup({ errorPolicy: 'all' })
     const { toast } = useGlobalUi()
+    const [address, setAddress] = useState('')
 
     const { control, handleSubmit, setValue, watch, formState, clearErrors } = useForm<SignupInput>({
         defaultValues: {
@@ -74,11 +75,8 @@ const Signup = () => {
         const props: SelectLocationProps = {
             onSelect: (data) => {
                 if (!data.coordsToRegion) return
-                setValue('addressId', data.coordsToRegion.id)
-                setValue('address', data.coordsToRegion.address)
-                setValue('postcode', data.coordsToRegion.postcode)
-                setValue('latitude', data.coordsToRegion.latitude)
-                setValue('longitude', data.coordsToRegion.longitude)
+                setValue('addressPostcode', data.coordsToRegion.postcode)
+                setAddress(data.coordsToRegion.addressName + ' ' + data.coordsToRegion.buildingName)
             }
         }
         navigate('SelectLocation', props)
@@ -227,19 +225,12 @@ const Signup = () => {
                             )
                         }}
                     />
-                    <Controller
-                        control={control}
-                        name='address'
-                        rules={{ required: '위치를 선택해주세요' }}
-                        render={({ field }) => (
-                            <UnderLineInput
-                                placeholder='위치'
-                                pointerEvents='none'
-                                editable={false}
-                                value={field.value}
-                                onPress={onSelectLocation}
-                            />
-                        )}
+                    <UnderLineInput
+                        placeholder='위치'
+                        pointerEvents='none'
+                        editable={false}
+                        value={address}
+                        onPress={onSelectLocation}
                     />
 
 

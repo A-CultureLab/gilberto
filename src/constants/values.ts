@@ -6,7 +6,7 @@ export const IS_ANDROID = Platform.OS === 'android'
 export const IS_IOS = Platform.OS === 'ios'
 
 export const GRAPHQL_SERVER_URL = (() => {
-    return 'https://api-server-dev-5gq6bfkwja-du.a.run.app/graphql'
+    // return 'https://api-server-dev-5gq6bfkwja-du.a.run.app/graphql'
     if (!__DEV__) return 'https://api-server-dev-5gq6bfkwja-du.a.run.app/graphql'
     if (IS_ANDROID) {
         if (deviceInfoModule.isEmulatorSync()) return 'http://10.0.2.2:8080/graphql'
