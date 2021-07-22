@@ -15,19 +15,21 @@ import { useIsSignedup } from '../../graphql/user';
 import { useNavigation } from '@react-navigation/native';
 import { useMapPets } from '../../graphql/pet';
 import FastImage from 'react-native-fast-image';
+import WebView from 'react-native-webview';
+import PetMarker from './PetMarker';
 
+interface HomeScreenContextInterface {
+    selectedPostcode: string | null
+    setSelectedPostcode: (v: string | null) => void
+}
 
-export const HomeScreenContext = createContext({
-    categoryVerticalMode: false,
-    setCategoryVerticalMode: (v: boolean) => { }
-})
+export const HomeScreenContext = createContext<HomeScreenContextInterface>({} as any)
 
 const Home = () => {
 
     const mapRef = useRef<MapView>(null)
 
     const { data } = useIsSignedup({ fetchPolicy: 'network-only' })
-    const { reset } = useNavigation()
 
     const [cameraPos, setCameraPos] = useState<Region>({
         latitude: 37.50367232610927,
@@ -37,16 +39,16 @@ const Home = () => {
     })
 
     const { data: mapPetsData } = useMapPets({ variables: { cameraRegion: cameraPos } })
-    console.log(mapPetsData)
 
     const [myPos, setMyPos] = useState<LatLng | null>(null)
     const [cameraInitTrigger, setCameraInitTrigger] = useState(true)
+
     // Context Values
-    const [categoryVerticalMode, setCategoryVerticalMode] = useState(false)
+    const [selectedPostcode, setSelectedPostcode] = useState<string | null>(null)
     const contextValue = useMemo(() => ({
-        categoryVerticalMode,
-        setCategoryVerticalMode
-    }), [categoryVerticalMode, setCategoryVerticalMode])
+        selectedPostcode,
+        setSelectedPostcode
+    }), [selectedPostcode, setSelectedPostcode])
 
     // 회원가입 안되있을시 파이어베이스 로그아웃
     useEffect(() => {
@@ -61,7 +63,7 @@ const Home = () => {
         if (IS_IOS) Geolocation.requestAuthorization()
         const watch = Geolocation.watchPosition(
             (position) => {
-                setMyPos(position.coords)
+                // setMyPos(position.coords)
             },
             (error) => { console.log(error.code, error.message) }
         )
@@ -70,7 +72,7 @@ const Home = () => {
         }
     }, [])
 
-    // 카메라 쵝기화
+    // 카메라 초기화
     useEffect(() => {
         // auth().signOut()
         if (!myPos) return
@@ -86,6 +88,7 @@ const Home = () => {
     }, [myPos])
 
     const onMyPos = useCallback(() => {
+        setSelectedPostcode(null)
         if (!myPos) return
         mapRef.current?.animateToRegion({
             latitude: myPos.latitude,
@@ -105,18 +108,8 @@ const Home = () => {
                     initialRegion={cameraPos}
                     mapPadding={{ bottom: 56, top: 56, left: 0, right: 0 }}
                 >
-                    {mapPetsData?.mapPets.map(({ address, count, pets }) => (
-                        <Marker
-                            key={address.postcode}
-                            coordinate={{
-                                latitude: address.latitude,
-                                longitude: address.longitude
-                            }}
-                        >
-                            <View>
-                                <FastImage style={{ width: 56, height: 56 }} source={{ uri: pets[0].image }} />
-                            </View>
-                        </Marker>
+                    {mapPetsData?.mapPets.map((v) => (
+                        <PetMarker {...v} key={v.address.postcode} />
                     ))}
                     {myPos && <Marker
                         coordinate={myPos}
@@ -128,10 +121,12 @@ const Home = () => {
                         </View>
                     </Marker>}
                 </MapView>
+
+
                 <HomeHeader />
-                {/* <CategorySelector /> */}
                 <MyPosFab onPress={onMyPos} />
-                <TabScreenBottomTabBar />
+                <TabScreenBottomTabBar smallMode={!!selectedPostcode} />
+
             </ScreenLayout>
         </HomeScreenContext.Provider>
     )
