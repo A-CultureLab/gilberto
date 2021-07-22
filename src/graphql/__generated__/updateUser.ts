@@ -9,6 +9,13 @@ import { UpdateUserInput, Gender } from "./../../../__generated__/globalTypes";
 // GraphQL mutation operation: updateUser
 // ====================================================
 
+export interface updateUser_updateUser_address {
+  __typename: "Address";
+  postcode: string;
+  addressName: string;
+  buildingName: string;
+}
+
 export interface updateUser_updateUser {
   __typename: "User";
   id: string;
@@ -20,6 +27,7 @@ export interface updateUser_updateUser {
   addressPostcode: string;
   instagramId: string | null;
   introduce: string;
+  address: updateUser_updateUser_address;
 }
 
 export interface updateUser {

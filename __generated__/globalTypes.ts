@@ -17,6 +17,13 @@ export enum PetType {
   dog = "dog",
 }
 
+export interface CameraRegionInput {
+  latitude: number;
+  latitudeDelta: number;
+  longitude: number;
+  longitudeDelta: number;
+}
+
 export interface RegistPetInput {
   name: string;
   image: string;

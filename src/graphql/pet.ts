@@ -1,6 +1,7 @@
 import { gql } from "@apollo/client";
 import { createMutationHook, createQueryHook } from "../lib/createApolloHook";
 import { deletePet, deletePetVariables } from "./__generated__/deletePet";
+import { mapPets, mapPetsVariables } from "./__generated__/mapPets";
 import { myPets, } from "./__generated__/myPets";
 import { registPet, registPetVariables } from "./__generated__/registPet";
 import { sortPets, sortPetsVariables } from "./__generated__/sortPets";
@@ -108,11 +109,24 @@ export const useDeletePet = createMutationHook<deletePet, deletePetVariables>(DE
     }
 })
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
-// export const PET_GROUP_BY = gql`
+export const MAP_PETS = gql`
+    query mapPets ($cameraRegion:CameraRegionInput!) {
+        mapPets(cameraRegion: $cameraRegion) {
+            address {
+                latitude
+                longitude
+                postcode
+            }
+            count
+            pets {
+                id
+                image
+            }
+        }
+    }
+`
 
-// `
-
-
+export const useMapPets = createQueryHook<mapPets, mapPetsVariables>(MAP_PETS)
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 

@@ -13,6 +13,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import auth from '@react-native-firebase/auth'
 import { useIsSignedup } from '../../graphql/user';
 import { useNavigation } from '@react-navigation/native';
+import { useMapPets } from '../../graphql/pet';
+import FastImage from 'react-native-fast-image';
 
 
 export const HomeScreenContext = createContext({
@@ -33,6 +35,10 @@ const Home = () => {
         latitudeDelta: 0.005,
         longitudeDelta: 0.005
     })
+
+    const { data: mapPetsData } = useMapPets({ variables: { cameraRegion: cameraPos } })
+    console.log(mapPetsData)
+
     const [myPos, setMyPos] = useState<LatLng | null>(null)
     const [cameraInitTrigger, setCameraInitTrigger] = useState(true)
     // Context Values
@@ -99,6 +105,19 @@ const Home = () => {
                     initialRegion={cameraPos}
                     mapPadding={{ bottom: 56, top: 56, left: 0, right: 0 }}
                 >
+                    {mapPetsData?.mapPets.map(({ address, count, pets }) => (
+                        <Marker
+                            key={address.postcode}
+                            coordinate={{
+                                latitude: address.latitude,
+                                longitude: address.longitude
+                            }}
+                        >
+                            <View>
+                                <FastImage style={{ width: 56, height: 56 }} source={{ uri: pets[0].image }} />
+                            </View>
+                        </Marker>
+                    ))}
                     {myPos && <Marker
                         coordinate={myPos}
                     >
