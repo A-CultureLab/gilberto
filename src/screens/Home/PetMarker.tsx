@@ -1,4 +1,5 @@
 import React from 'react'
+import { useCallback } from 'react'
 import { useContext } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
@@ -9,13 +10,23 @@ import { mapPets_mapPets } from '../../graphql/__generated__/mapPets'
 
 const PetMarker: React.FC<mapPets_mapPets> = ({ address, count, pets }) => {
 
-    const { selectedPostcode, setSelectedPostcode } = useContext(HomeScreenContext)
+    const { selectedPostcode, setSelectedPostcode, mapRef } = useContext(HomeScreenContext)
 
     const isSelected = selectedPostcode === address.postcode
 
+    const onPress = useCallback(() => {
+        setSelectedPostcode(address.postcode)
+        mapRef.current?.animateToRegion({
+            latitudeDelta: 0.005,
+            longitudeDelta: 0.005,
+            latitude: address.latitude,
+            longitude: address.longitude
+        })
+    }, [address, mapRef])
+
     return (
         <Marker
-            onPress={() => setSelectedPostcode(address.postcode)}
+            onPress={onPress}
             coordinate={{ latitude: address.latitude, longitude: address.longitude }}
         >
             <View style={styles.container} >
@@ -39,8 +50,8 @@ export default PetMarker
 
 const styles = StyleSheet.create({
     container: {
-        width: 56,
-        height: 56,
+        width: 80,
+        height: 64,
         alignItems: 'center',
         justifyContent: 'center',
         ...DEFAULT_SHADOW

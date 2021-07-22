@@ -21,6 +21,7 @@ import PetMarker from './PetMarker';
 interface HomeScreenContextInterface {
     selectedPostcode: string | null
     setSelectedPostcode: (v: string | null) => void
+    mapRef: React.RefObject<MapView>
 }
 
 export const HomeScreenContext = createContext<HomeScreenContextInterface>({} as any)
@@ -47,8 +48,9 @@ const Home = () => {
     const [selectedPostcode, setSelectedPostcode] = useState<string | null>(null)
     const contextValue = useMemo(() => ({
         selectedPostcode,
-        setSelectedPostcode
-    }), [selectedPostcode, setSelectedPostcode])
+        setSelectedPostcode,
+        mapRef
+    }), [selectedPostcode, setSelectedPostcode, mapRef])
 
     // 회원가입 안되있을시 파이어베이스 로그아웃
     useEffect(() => {
@@ -98,6 +100,7 @@ const Home = () => {
         })
     }, [myPos])
 
+
     return (
         <HomeScreenContext.Provider value={contextValue} >
             <ScreenLayout translucent >
@@ -106,7 +109,7 @@ const Home = () => {
                     style={{ flex: 1, zIndex: -999 }}
                     rotateEnabled={false}
                     initialRegion={cameraPos}
-                    mapPadding={{ bottom: 56, top: 56, left: 0, right: 0 }}
+                    mapPadding={{ bottom: IS_IOS ? 56 : 0, top: IS_IOS ? 56 : 0, left: 0, right: 0 }}
                 >
                     {mapPetsData?.mapPets.map((v) => (
                         <PetMarker {...v} key={v.address.postcode} />

@@ -90,11 +90,23 @@ const MapScreenBottomTabBar: React.FC<MapScreenBottomTabBarProps> = ({ smallMode
                     left: ((WIDTH / 3) * i) * animation.value,
                     top: (48 * i) * (1 - animation.value),
                     height: ((56 - 48) * animation.value + 48),
+
                 }), [i])
 
+                const iconConatinerStyle = useAnimatedStyle(() => ({
+                    transform: [{ scale: (1 - 0.8) * animation.value + 0.8 }]
+                }))
+
                 return (
-                    <AnimatedPressable onPress={() => onPress(name)} key={name} style={[styles.tab, tabStyle]} >
-                        {icon({ color: routeName === name ? COLOR1 : GRAY2 })}
+                    <AnimatedPressable
+                        onPress={() => onPress(name)}
+                        key={name}
+                        style={[styles.tab, tabStyle]}
+                        android_ripple={{ color: GRAY2, radius: WIDTH / 3 / 2 }}
+                    >
+                        <Animated.View style={iconConatinerStyle} >
+                            {icon({ color: routeName === name ? COLOR1 : GRAY2 })}
+                        </Animated.View>
                         {routeName === name && <Animated.View style={[styles.line, lineStyle]} />}
                         <Animated.Text style={[{ color: routeName === name ? '#333' : GRAY1 }, textStyle]}>{label}</Animated.Text>
                     </AnimatedPressable>
