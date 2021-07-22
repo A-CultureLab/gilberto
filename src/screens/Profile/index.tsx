@@ -69,7 +69,7 @@ const Profile = () => {
                                 <Text style={styles.profileName} >{userData.iUser.name}</Text>
                                 <Text style={styles.profileInfo} > · {userData.iUser.age}살 {userData.iUser.gender === Gender.male ? '남자' : '여자'}</Text>
                             </Text>
-                            <Text style={styles.profileAddress} >{userData.iUser.address}</Text>
+                            <Text style={styles.profileAddress} >{userData.iUser.address.addressName + ' ' + userData.iUser.address.buildingName}</Text>
                         </View>
                     </Pressable>
                     <ThinLine />

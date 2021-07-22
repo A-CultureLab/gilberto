@@ -225,13 +225,22 @@ const Signup = () => {
                             )
                         }}
                     />
-                    <UnderLineInput
-                        placeholder='위치'
-                        pointerEvents='none'
-                        editable={false}
-                        value={address}
-                        onPress={onSelectLocation}
+
+                    <Controller
+                        control={control}
+                        name='addressPostcode'
+                        rules={{ required: '위치를 선택해주세요' }}
+                        render={({ field }) => (
+                            <UnderLineInput
+                                placeholder='위치'
+                                pointerEvents='none'
+                                editable={false}
+                                value={address}
+                                onPress={onSelectLocation}
+                            />
+                        )}
                     />
+
 
 
                     <Controller

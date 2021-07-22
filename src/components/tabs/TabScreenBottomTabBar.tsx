@@ -14,12 +14,12 @@ import auth from '@react-native-firebase/auth';
 const TABS = [
     {
         name: 'Home',
-        label: '장소',
+        label: '홈',
         icon: ({ color }: { color: string }) => <IconMA size={24} name='location-on' color={color} />
     },
     {
         name: 'Friend',
-        label: '친구만들기',
+        label: '친구',
         icon: ({ color }: { color: string }) => <IconMA size={22} name='language' color={color} />
     },
     {

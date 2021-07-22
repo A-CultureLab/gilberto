@@ -28,6 +28,11 @@ export const I_USER = gql`
       addressPostcode
       instagramId
       introduce
+      address {
+        addressName
+        buildingName
+        postcode
+      }
     }
   }
 `
@@ -78,6 +83,11 @@ export const UPDATE_USER = gql`
       addressPostcode 
       instagramId
       introduce
+      address {
+        postcode
+        addressName
+        buildingName
+      }
     }
   }
 `

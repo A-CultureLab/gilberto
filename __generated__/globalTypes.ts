@@ -49,7 +49,7 @@ export interface UpdateUserInput {
   image: string;
   gender: Gender;
   birth: any;
-  addressPostCodes: string;
+  addressPostcode: string;
   instagramId?: string | null;
   introduce: string;
 }

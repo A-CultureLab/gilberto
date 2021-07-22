@@ -109,7 +109,7 @@ const Home = () => {
                         </View>
                     </Marker>}
                 </MapView>
-                {/* <HomeHeader /> */}
+                <HomeHeader />
                 {/* <CategorySelector /> */}
                 <MyPosFab onPress={onMyPos} />
                 <TabScreenBottomTabBar />

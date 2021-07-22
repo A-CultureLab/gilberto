@@ -9,6 +9,13 @@ import { Gender } from "./../../../__generated__/globalTypes";
 // GraphQL query operation: iUser
 // ====================================================
 
+export interface iUser_iUser_address {
+  __typename: "Address";
+  addressName: string;
+  buildingName: string;
+  postcode: string;
+}
+
 export interface iUser_iUser {
   __typename: "User";
   id: string;
@@ -20,6 +27,7 @@ export interface iUser_iUser {
   addressPostcode: string;
   instagramId: string | null;
   introduce: string;
+  address: iUser_iUser_address;
 }
 
 export interface iUser {

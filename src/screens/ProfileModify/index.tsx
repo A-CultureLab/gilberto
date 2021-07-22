@@ -32,18 +32,19 @@ const ProfileModify = () => {
     const [updateUser, { loading }] = useUpdateUser()
     const { toast } = useGlobalUi()
     const { cache } = useApolloClient()
+    const user = cache.readQuery<iUser>({ query: I_USER })?.iUser
+    const [address, setAddress] = useState(user?.address.addressName + ' ' + user?.address.buildingName)
 
     const { control, handleSubmit, setValue, formState, clearErrors } = useForm<UpdateUserInput>({
-        defaultValues: (() => {
-            const user = cache.readQuery<iUser>({ query: I_USER })?.iUser
-            return {
-                ...user,
-                id: undefined,
-                email: undefined,
-                __typename: undefined,
-                age: undefined
-            } as UpdateUserInput
-        })()
+        defaultValues: {
+            ...user,
+            //@ts-ignore
+            id: undefined,
+            email: undefined,
+            __typename: undefined,
+            age: undefined,
+            address: undefined
+        }
     })
 
 
@@ -63,11 +64,8 @@ const ProfileModify = () => {
         const props: SelectLocationProps = {
             onSelect: (data) => {
                 if (!data.coordsToRegion) return
-                setValue('addressId', data.coordsToRegion.id)
-                setValue('address', data.coordsToRegion.address)
-                setValue('postcode', data.coordsToRegion.postcode)
-                setValue('latitude', data.coordsToRegion.latitude)
-                setValue('longitude', data.coordsToRegion.longitude)
+                setValue('addressPostcode', data.coordsToRegion.postcode)
+                setAddress(data.coordsToRegion.addressName + ' ' + data.coordsToRegion.buildingName)
             }
         }
         navigate('SelectLocation', props)
@@ -204,14 +202,14 @@ const ProfileModify = () => {
                     />
                     <Controller
                         control={control}
-                        name='address'
+                        name='addressPostcode'
                         rules={{ required: '위치를 선택해주세요' }}
                         render={({ field }) => (
                             <UnderLineInput
                                 placeholder='위치'
                                 pointerEvents='none'
                                 editable={false}
-                                value={field.value}
+                                value={address}
                                 onPress={onSelectLocation}
                             />
                         )}
