@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 import { createLazyQueryHook, createMutationHook, createQueryHook } from "../lib/createApolloHook";
 import { coordToRegion, coordToRegionVariables } from "./__generated__/coordToRegion";
 import { isSignedup } from "./__generated__/isSignedup";
-import { iUser, iUser_iUser } from "./__generated__/iUser";
+import { iUser } from "./__generated__/iUser";
 import { signup, signupVariables } from "./__generated__/signup";
 import { updateUser, updateUserVariables } from "./__generated__/updateUser";
 import { withdraw, withdrawVariables } from "./__generated__/withdraw";
@@ -48,7 +48,7 @@ export const SIGN_UP = gql`
 export const useSignup = createMutationHook<signup, signupVariables>(SIGN_UP)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const COORDS_TO_REGION = gql`
-query coordToRegion ($latitude:Float!, $longitude:Float!) {
+mutation coordToRegion ($latitude:Float!, $longitude:Float!) {
   coordsToRegion(latitude: $latitude, longitude: $longitude) {
     postcode
     addressName
@@ -57,7 +57,7 @@ query coordToRegion ($latitude:Float!, $longitude:Float!) {
 }
 `
 
-export const useCoordToRegion = createLazyQueryHook<coordToRegion, coordToRegionVariables>(COORDS_TO_REGION)
+export const useCoordToRegion = createMutationHook<coordToRegion, coordToRegionVariables>(COORDS_TO_REGION)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const IS_SIGNEDUP = gql`
   query isSignedup {

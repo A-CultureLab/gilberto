@@ -66,6 +66,7 @@ const Home = () => {
 
     // 카메라 쵝기화
     useEffect(() => {
+        // auth().signOut()
         if (!myPos) return
         if (cameraInitTrigger) {
             mapRef.current?.animateToRegion({

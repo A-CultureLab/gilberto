@@ -4,7 +4,7 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: coordToRegion
+// GraphQL mutation operation: coordToRegion
 // ====================================================
 
 export interface coordToRegion_coordsToRegion {
