@@ -11,6 +11,7 @@ import IconMA from 'react-native-vector-icons/MaterialIcons'
 import auth from '@react-native-firebase/auth';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated'
 import { useEffect } from 'react'
+import DogIcon from '../svgs/DogIcon'
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
 
@@ -18,17 +19,17 @@ const TABS = [
     {
         name: 'Home',
         label: '홈',
-        icon: ({ color }: { color: string }) => <IconMA size={24} name='location-on' color={color} />
+        icon: ({ color, focus }: { color: string, focus: boolean }) => <IconMA size={24} name={focus ? 'location-on' : 'location-on'} color={color} />
     },
     {
         name: 'Friend',
         label: '친구',
-        icon: ({ color }: { color: string }) => <IconMA size={22} name='language' color={color} />
+        icon: ({ color, focus }: { color: string, focus: boolean }) => <IconMA size={24} name={focus ? 'person' : 'person'} color={color} />
     },
     {
         name: 'Chat',
         label: '채팅',
-        icon: ({ color }: { color: string }) => <IconMA size={22} name='chat' color={color} />
+        icon: ({ color, focus }: { color: string, focus: boolean }) => <IconMA size={22} name={focus ? 'chat' : 'chat'} color={color} />
     }
 ]
 
@@ -105,7 +106,7 @@ const MapScreenBottomTabBar: React.FC<MapScreenBottomTabBarProps> = ({ smallMode
                         android_ripple={{ color: GRAY2, radius: WIDTH / 3 / 2 }}
                     >
                         <Animated.View style={iconConatinerStyle} >
-                            {icon({ color: routeName === name ? COLOR1 : GRAY2 })}
+                            {icon({ color: routeName === name ? COLOR1 : GRAY2, focus: routeName === name })}
                         </Animated.View>
                         {routeName === name && <Animated.View style={[styles.line, lineStyle]} />}
                         <Animated.Text style={[{ color: routeName === name ? '#333' : GRAY1 }, textStyle]}>{label}</Animated.Text>
