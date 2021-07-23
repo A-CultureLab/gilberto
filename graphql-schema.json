@@ -429,7 +429,7 @@
             "description": null,
             "args": [
               {
-                "name": "first",
+                "name": "take",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -441,7 +441,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "last",
+                "name": "skip",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -453,19 +453,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "before",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "UserWhereUniqueInput",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "after",
+                "name": "cursor",
                 "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
@@ -502,7 +490,7 @@
             "description": null,
             "args": [
               {
-                "name": "first",
+                "name": "take",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -514,7 +502,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "last",
+                "name": "skip",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -526,19 +514,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "before",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "ChatWhereUniqueInput",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "after",
+                "name": "cursor",
                 "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
@@ -987,7 +963,7 @@
             "description": null,
             "args": [
               {
-                "name": "first",
+                "name": "take",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -999,7 +975,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "last",
+                "name": "skip",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -1011,19 +987,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "before",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "PetWhereUniqueInput",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "after",
+                "name": "cursor",
                 "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
@@ -1060,7 +1024,7 @@
             "description": null,
             "args": [
               {
-                "name": "first",
+                "name": "take",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -1072,7 +1036,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "last",
+                "name": "skip",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -1084,19 +1048,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "before",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "ChatRoomWhereUniqueInput",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "after",
+                "name": "cursor",
                 "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
@@ -1133,7 +1085,7 @@
             "description": null,
             "args": [
               {
-                "name": "first",
+                "name": "take",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -1145,7 +1097,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "last",
+                "name": "skip",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -1157,19 +1109,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "before",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "ChatWhereUniqueInput",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "after",
+                "name": "cursor",
                 "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
@@ -1346,7 +1286,7 @@
             "description": null,
             "args": [
               {
-                "name": "first",
+                "name": "take",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -1358,7 +1298,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "last",
+                "name": "skip",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -1370,19 +1310,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "before",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "UserWhereUniqueInput",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "after",
+                "name": "cursor",
                 "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
@@ -2104,7 +2032,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "first",
+                "name": "take",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -2116,7 +2044,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "last",
+                "name": "skip",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -2128,19 +2056,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "before",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "ChatWhereUniqueInput",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "after",
+                "name": "cursor",
                 "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
@@ -2238,7 +2154,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "first",
+                "name": "take",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -2250,7 +2166,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "last",
+                "name": "skip",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -2262,19 +2178,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "before",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "UserWhereUniqueInput",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "after",
+                "name": "cursor",
                 "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
@@ -2372,7 +2276,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "first",
+                "name": "take",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -2384,7 +2288,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "last",
+                "name": "skip",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -2396,19 +2300,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "before",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "ChatRoomWhereUniqueInput",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "after",
+                "name": "cursor",
                 "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
@@ -2506,7 +2398,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "first",
+                "name": "take",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -2518,7 +2410,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "last",
+                "name": "skip",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -2530,19 +2422,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "before",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "PetWhereUniqueInput",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "after",
+                "name": "cursor",
                 "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",

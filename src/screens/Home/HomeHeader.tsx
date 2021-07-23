@@ -8,6 +8,7 @@ import { IS_ANDROID } from '../../constants/values'
 import ProfileButton from '../../components/buttons/ProfileButton'
 import { useMyPets } from '../../graphql/pet'
 import getRandomPet from '../../utils/getRandomPet'
+import { useMemo } from 'react'
 
 interface HomeHeaderProps {
 
@@ -18,7 +19,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = () => {
     const { data } = useMyPets()
     const { setCategoryVerticalMode } = useContext(HomeScreenContext)
 
-    const randomPet = getRandomPet(data?.myPets || [])
+    const randomPet = useMemo(() => getRandomPet(data?.myPets || []), [data?.myPets])
 
     return (
         <View style={[styles.container]} >

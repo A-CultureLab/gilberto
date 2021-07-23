@@ -1,22 +1,21 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { FlatList, StyleSheet, Text, View } from 'react-native'
 import MapView, { Coordinate, LatLng, Marker, Region } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import { IS_IOS } from '../../constants/values';
-import { COLOR2, DEFAULT_SHADOW } from '../../constants/styles';
+import { COLOR2, DEFAULT_SHADOW, HEIGHT, STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles';
 import ScreenLayout from '../../components/layout/ScreenLayout';
 import MyPosFab from '../../components/fabs/MyPosFab';
 import HomeHeader from './HomeHeader'
-import CategorySelector from './CategorySelector'
 import TabScreenBottomTabBar from '../../components/tabs/TabScreenBottomTabBar';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import auth from '@react-native-firebase/auth'
 import { useIsSignedup } from '../../graphql/user';
-import { useNavigation } from '@react-navigation/native';
 import { useMapPets } from '../../graphql/pet';
-import FastImage from 'react-native-fast-image';
-import WebView from 'react-native-webview';
 import PetMarker from './PetMarker';
+import { PanGestureHandler } from 'react-native-gesture-handler';
+import Animated, { useSharedValue } from 'react-native-reanimated';
+import BottomSheet, { BottomSheetFlatList } from '@gorhom/bottom-sheet';
+import PetsBottomSheet from './PetsBottomSheet';
 
 interface HomeScreenContextInterface {
     selectedPostcode: string | null
@@ -101,6 +100,7 @@ const Home = () => {
     }, [myPos])
 
 
+
     return (
         <HomeScreenContext.Provider value={contextValue} >
             <ScreenLayout translucent >
@@ -130,6 +130,7 @@ const Home = () => {
                 <MyPosFab onPress={onMyPos} />
                 <TabScreenBottomTabBar smallMode={!!selectedPostcode} />
 
+                <PetsBottomSheet />
             </ScreenLayout>
         </HomeScreenContext.Provider>
     )

@@ -3,6 +3,8 @@ import { createMutationHook, createQueryHook } from "../lib/createApolloHook";
 import { deletePet, deletePetVariables } from "./__generated__/deletePet";
 import { mapPets, mapPetsVariables } from "./__generated__/mapPets";
 import { myPets, } from "./__generated__/myPets";
+import { pets, petsVariables } from "./__generated__/pets";
+import { petsFilterByPostcode, petsFilterByPostcodeVariables } from "./__generated__/petsFilterByPostcode";
 import { registPet, registPetVariables } from "./__generated__/registPet";
 import { sortPets, sortPetsVariables } from "./__generated__/sortPets";
 import { updatePet, updatePetVariables } from "./__generated__/updatePet";
@@ -127,9 +129,17 @@ export const MAP_PETS = gql`
 `
 
 export const useMapPets = createQueryHook<mapPets, mapPetsVariables>(MAP_PETS)
-
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
-
+export const PETS = gql`
+    query pets ($where:PetWhereInput,$skip:Int, $take:Int) {
+        pets (where:$where, take:$take, skip:$skip) {
+            id
+            name
+            image
+        }
+    }
+`
+export const usePets = createQueryHook<pets, petsVariables>(PETS)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//

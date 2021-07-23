@@ -63,7 +63,6 @@ const CategorySelector = () => {
     }, [onOpenVerticalMode])
 
     const onCategorySelected = useCallback((i: number) => {
-        console.log(i)
         onCloseVerticalMode()
     }, [onCloseVerticalMode])
 

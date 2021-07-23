@@ -46,7 +46,7 @@ const MapScreenBottomTabBar: React.FC<MapScreenBottomTabBarProps> = ({ smallMode
     const animation = useSharedValue(1)
 
     useEffect(() => {
-        animation.value = withTiming(smallMode ? 0 : 1, { duration: 250 })
+        // animation.value = withTiming(smallMode ? 0 : 1, { duration: 250 })
     }, [smallMode])
 
     const onPress = (name: string) => {
