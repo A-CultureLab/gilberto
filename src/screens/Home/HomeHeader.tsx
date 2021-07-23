@@ -17,20 +17,12 @@ interface HomeHeaderProps {
 const HomeHeader: React.FC<HomeHeaderProps> = () => {
 
     const { data } = useMyPets()
-    const { setCategoryVerticalMode } = useContext(HomeScreenContext)
 
     const randomPet = useMemo(() => getRandomPet(data?.myPets || []), [data?.myPets])
 
     return (
         <View style={[styles.container]} >
             <View style={styles.searchContainer} >
-                <BaseButton style={styles.searchBtn} >
-                    <Text style={styles.searchText} >{randomPet ? randomPet.name : '반려동물'}과 함께가고 싶은 곳</Text>
-                    <Icon name='search' size={22} color={GRAY2} style={{ marginHorizontal: 16 }} />
-                </BaseButton>
-                <Pressable onPress={() => setCategoryVerticalMode(true)} style={styles.menuBtn} >
-                    <Icon name='menu' size={24} color={GRAY2} />
-                </Pressable>
             </View>
             <ProfileButton />
         </View>

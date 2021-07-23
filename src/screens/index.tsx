@@ -14,6 +14,9 @@ import Toast, { ToastProps } from '../components/toasts/Toast';
 
 // SCREENS
 import Home from './Home'
+import Friend from './Friend';
+import Chat from './Chat';
+
 import Login from './Login';
 import Signup from './Signup';
 import SelectLocation from './SelectLocation';
@@ -44,30 +47,9 @@ const TabNavigation = () => {
             initialRouteName='Home'
             tabBar={() => null}
         >
-            <Tab.Screen
-                name='Home'
-                component={Home}
-                options={{
-                    tabBarLabel: '장소',
-                    tabBarIcon: (({ color }) => <IconMA size={24} name='location-on' color={color} />)
-                }}
-            />
-            <Tab.Screen
-                name='Friend'
-                component={Home}
-                options={{
-                    tabBarLabel: '친구만들기',
-                    tabBarIcon: (({ color }) => <IconMA size={24} name='language' color={color} />)
-                }}
-            />
-            <Tab.Screen
-                name='Chat'
-                component={Home}
-                options={{
-                    tabBarLabel: '채팅',
-                    tabBarIcon: (({ color }) => <IconMA size={24} name='chat' color={color} />)
-                }}
-            />
+            <Tab.Screen name='Home' component={Home} />
+            <Tab.Screen name='Friend' component={Friend} />
+            <Tab.Screen name='Chat' component={Chat} />
         </Tab.Navigator>
     )
 }

@@ -55,6 +55,7 @@ const PetsBottomSheet = () => {
                 data={data?.pets}
                 keyExtractor={({ id }) => id.toString()}
                 overScrollMode='never'
+                showsVerticalScrollIndicator={false}
                 onEndReached={onEndReached}
                 onEndReachedThreshold={0.5}
                 renderItem={({ item }) =>

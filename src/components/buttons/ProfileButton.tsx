@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { DEFAULT_SHADOW } from '../../constants/styles'
@@ -13,7 +13,7 @@ const ProfileButton = () => {
     const { data: userData } = useIUser()
     const { navigate } = useNavigation()
 
-    const randomPet = getRandomPet(data?.myPets || [])
+    const randomPet = useMemo(() => getRandomPet(data?.myPets || []), [data?.myPets])
 
     if (!randomPet && !userData) return null
 

@@ -6,12 +6,11 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import React, { useCallback } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { COLOR1, DEFAULT_SHADOW, GRAY1, GRAY2, GRAY3, WIDTH } from '../../constants/styles'
+import { COLOR1, COLOR3, DEFAULT_SHADOW, GRAY1, GRAY2, GRAY3, WIDTH } from '../../constants/styles'
 import IconMA from 'react-native-vector-icons/MaterialIcons'
 import auth from '@react-native-firebase/auth';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated'
 import { useEffect } from 'react'
-import DogIcon from '../svgs/DogIcon'
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
 
@@ -33,11 +32,12 @@ const TABS = [
     }
 ]
 
-interface MapScreenBottomTabBarProps {
+interface TabScreenBottomTabBarProps {
     smallMode?: boolean
+    isMap?: boolean
 }
 
-const MapScreenBottomTabBar: React.FC<MapScreenBottomTabBarProps> = ({ smallMode }) => {
+const TabScreenBottomTabBar: React.FC<TabScreenBottomTabBarProps> = ({ smallMode, isMap }) => {
 
 
     const { bottom } = useSafeAreaInsets()
@@ -73,7 +73,15 @@ const MapScreenBottomTabBar: React.FC<MapScreenBottomTabBarProps> = ({ smallMode
 
 
     return (
-        <Animated.View style={[styles.container, containerStyle]} >
+        <Animated.View
+            style={[
+                styles.container,
+                containerStyle,
+                {
+                    position: isMap ? 'absolute' : 'relative'
+                }
+            ]}
+        >
             {TABS.map(({ icon, label, name }, i) => {
 
                 const textStyle = useAnimatedStyle(() => ({
@@ -117,17 +125,18 @@ const MapScreenBottomTabBar: React.FC<MapScreenBottomTabBarProps> = ({ smallMode
     )
 }
 
-export default MapScreenBottomTabBar
+export default TabScreenBottomTabBar
 
 const styles = StyleSheet.create({
     container: {
         width: WIDTH,
-        position: 'absolute',
         bottom: 0, left: 0,
         backgroundColor: '#fff',
         flexDirection: 'row',
         alignItems: 'center',
-        ...DEFAULT_SHADOW
+        // ...DEFAULT_SHADOW,
+        borderTopColor: GRAY3,
+        borderTopWidth: 1
     },
     tab: {
         alignItems: 'center',

@@ -128,7 +128,7 @@ const Home = () => {
 
                 <HomeHeader />
                 <MyPosFab onPress={onMyPos} />
-                <TabScreenBottomTabBar smallMode={!!selectedPostcode} />
+                <TabScreenBottomTabBar isMap smallMode={!!selectedPostcode} />
 
                 <PetsBottomSheet />
             </ScreenLayout>
