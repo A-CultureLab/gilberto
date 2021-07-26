@@ -136,6 +136,7 @@ export const PETS = gql`
             id
             name
             image
+            userId
         }
     }
 `

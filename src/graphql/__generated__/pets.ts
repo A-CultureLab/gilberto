@@ -14,6 +14,7 @@ export interface pets_pets {
   id: number;
   name: string;
   image: string;
+  userId: string;
 }
 
 export interface pets {

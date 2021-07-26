@@ -1,8 +1,9 @@
 import BottomSheet, { BottomSheetFlatList } from '@gorhom/bottom-sheet'
+import { useNavigation } from '@react-navigation/native'
 import React, { useCallback, useMemo, useRef } from 'react'
 import { useEffect } from 'react'
 import { useContext } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { HomeScreenContext } from '.'
@@ -11,6 +12,8 @@ import { usePets } from '../../graphql/pet'
 
 const PetsBottomSheet = () => {
 
+
+    const { navigate } = useNavigation()
     const { selectedPostcode, setSelectedPostcode } = useContext(HomeScreenContext)
     const { data, loading, fetchMore } = usePets({
         variables: {
@@ -59,13 +62,16 @@ const PetsBottomSheet = () => {
                 onEndReached={onEndReached}
                 onEndReachedThreshold={0.5}
                 renderItem={({ item }) =>
-                    <View style={{ height: 100, borderBottomColor: GRAY3, borderBottomWidth: 1 }} >
+                    <Pressable
+                        onPress={() => navigate('UserDetail', { id: item.userId })}
+                        style={{ height: 100, borderBottomColor: GRAY3, borderBottomWidth: 1 }}
+                    >
                         <FastImage
                             style={{ width: 80, height: 80, marginLeft: 20 }}
                             source={{ uri: item.image }}
                         />
                         <Text>{item.name}</Text>
-                    </View>
+                    </Pressable>
                 }
             />}
         </BottomSheet>

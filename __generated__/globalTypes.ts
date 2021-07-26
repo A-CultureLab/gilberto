@@ -354,6 +354,11 @@ export interface UserWhereInput {
   chats?: ChatListRelationFilter | null;
 }
 
+export interface UserWhereUniqueInput {
+  id?: string | null;
+  email?: string | null;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================

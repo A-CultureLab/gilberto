@@ -30,8 +30,8 @@ import ProfileModify from './ProfileModify';
 import Setting from './Setting';
 import OpenSourceLicense from './OpenSourceLicense';
 import Withdraw from './Withdraw';
-
-
+import UserDetail from './UserDetail';
+import ChatDetail from './ChatDetail';
 
 
 
@@ -88,6 +88,8 @@ const Navigation = () => {
                 <Stack.Screen name='Setting' component={Setting} />
                 <Stack.Screen name='OpenSourceLicense' component={OpenSourceLicense} />
                 <Stack.Screen name='Withdraw' component={Withdraw} />
+                <Stack.Screen name='UserDetail' component={UserDetail} />
+                <Stack.Screen name='ChatDetail' component={ChatDetail} />
             </Stack.Navigator>
         </NavigationContainer>
     )
