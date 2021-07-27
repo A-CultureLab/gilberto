@@ -6,7 +6,8 @@ export default new InMemoryCache({
     typePolicies: {
         Query: {
             fields: {
-                pets: offsetLimitPagination(['where'])
+                pets: offsetLimitPagination(['where']),
+                chatRooms: offsetLimitPagination(['where'])
             }
         }
     },

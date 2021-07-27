@@ -1,16 +1,33 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { FlatList, StyleSheet, Text, View } from 'react-native'
 import Header from '../../components/headers/Header'
 import ScreenLayout from '../../components/layout/ScreenLayout'
 import TabScreenBottomTabBar from '../../components/tabs/TabScreenBottomTabBar'
+import ChatCard from './ChatCard'
+import { useChatRooms } from '../../graphql/chatRoom'
+import auth from '@react-native-firebase/auth'
 
 const Chat = () => {
+
+    const { data, loading } = useChatRooms({
+        variables: {
+            where: {
+                users: { some: { id: { equals: auth().currentUser?.uid } } }
+            },
+            take: 10
+        }
+    })
+
+    console.log(data)
+
     return (
         <ScreenLayout>
             <Header title='채팅' backBtn='none' />
-            <View style={{ flex: 1 }} >
-
-            </View>
+            <FlatList
+                data={data?.chatRooms}
+                renderItem={({ item }) => <ChatCard {...item} />}
+                ListFooterComponent={<View style={{ height: 24 }} />}
+            />
             <TabScreenBottomTabBar />
         </ScreenLayout>
     )

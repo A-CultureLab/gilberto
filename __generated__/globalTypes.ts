@@ -76,6 +76,7 @@ export interface ChatWhereInput {
   image?: StringNullableFilter | null;
   user?: UserWhereInput | null;
   chatRoom?: ChatRoomWhereInput | null;
+  notReadUsers?: UserListRelationFilter | null;
   userId?: StringFilter | null;
   chatRoomId?: IntFilter | null;
 }
@@ -352,6 +353,7 @@ export interface UserWhereInput {
   pets?: PetListRelationFilter | null;
   chatRooms?: ChatRoomListRelationFilter | null;
   chats?: ChatListRelationFilter | null;
+  notReadChats?: ChatListRelationFilter | null;
 }
 
 export interface UserWhereUniqueInput {
