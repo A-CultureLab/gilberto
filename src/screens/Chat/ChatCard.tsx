@@ -6,6 +6,7 @@ import { COLOR1, GRAY1, GRAY2 } from '../../constants/styles'
 import { chatRooms_chatRooms } from '../../graphql/__generated__/chatRooms'
 import auth from '@react-native-firebase/auth'
 import { useNavigation } from '@react-navigation/core'
+import dayjs from 'dayjs'
 
 const ChatCard: React.FC<chatRooms_chatRooms> = (props) => {
 
@@ -34,8 +35,8 @@ const ChatCard: React.FC<chatRooms_chatRooms> = (props) => {
                 <Text style={styles.recentChat} >{recentChat?.message || '사진'}</Text>
             </View>
             <View style={styles.metaDataContainer} >
-                <Text style={styles.recentChatDate} >{'3시간전'}</Text>
-                <View style={styles.notReadChatCountContainer} >
+                <Text style={styles.recentChatDate} >{dayjs(recentChat?.createdAt).fromNow()}</Text>
+                <View style={[styles.notReadChatCountContainer, { opacity: notReadChatCount > 0 ? 1 : 0 }]} >
                     <Text style={styles.notReadChatCount} >{notReadChatCount > 300 ? '300+' : notReadChatCount}</Text>
                 </View>
             </View>

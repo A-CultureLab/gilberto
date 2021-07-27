@@ -6,8 +6,15 @@ import 'react-native-gesture-handler';
 import { ApolloProvider } from '@apollo/client';
 import { client } from './src/lib/apollo';
 import { enableFlipperApolloDevtools } from 'react-native-flipper-apollo-devtools'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import 'dayjs/locale/ko'
+import dayjs from 'dayjs';
+
+dayjs.locale('ko')
+dayjs.extend(relativeTime)
 
 LogBox.ignoreLogs(['getNode()'])
+
 __DEV__ && enableFlipperApolloDevtools(client as any)
 
 const App = () => {
