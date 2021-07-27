@@ -81,6 +81,12 @@ export interface ChatWhereInput {
   chatRoomId?: IntFilter | null;
 }
 
+export interface CreateChatInput {
+  chatRoomId: number;
+  message?: string | null;
+  image?: string | null;
+}
+
 export interface DateTimeFilter {
   equals?: any | null;
   in?: any[] | null;

@@ -1,18 +1,35 @@
 import { InMemoryCache } from "@apollo/client";
-import { concatPagination } from "@apollo/client/utilities";
-
 
 export default new InMemoryCache({
     typePolicies: {
         Query: {
             fields: {
                 pets: offsetLimitPagination(['where']),
-                chatRooms: offsetLimitPagination(['where'])
+                chatRooms: offsetLimitPagination(['where']),
+                chats: {
+                    keyArgs: ["chatRoomId"],
+                    //@ts-ignore
+                    merge(existing = [], incoming, { args: { cursor }, readField }) {
+                        if (!cursor) return incoming
+                        let index = existing.length - 1
+
+                        for (let i = existing.length - 1; i >= 0; i--) {
+                            if (readField('id', existing[i]) === cursor) {
+                                index = i
+                                break
+                            }
+                        }
+
+                        let merged = existing.slice(0, index)
+                        merged = [...merged, ...incoming]
+
+                        return merged
+                    }
+                },
             }
         }
     },
 })
-
 
 
 // @ts-ignore

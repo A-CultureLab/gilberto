@@ -18,12 +18,12 @@ const Chat = () => {
         }
     })
 
-    console.log(data)
-
     return (
         <ScreenLayout>
             <Header title='채팅' backBtn='none' />
             <FlatList
+                showsVerticalScrollIndicator={false}
+                overScrollMode='never'
                 data={data?.chatRooms}
                 renderItem={({ item }) => <ChatCard {...item} />}
                 ListFooterComponent={<View style={{ height: 24 }} />}
