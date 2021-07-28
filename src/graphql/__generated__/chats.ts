@@ -23,8 +23,15 @@ export interface chats_chats {
   user: chats_chats_user;
 }
 
+export interface chats_chatRoom {
+  __typename: "ChatRoom";
+  id: number;
+  name: string;
+}
+
 export interface chats {
   chats: chats_chats[];
+  chatRoom: chats_chatRoom | null;
 }
 
 export interface chatsVariables {

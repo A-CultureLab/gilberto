@@ -1,3 +1,4 @@
+import { useApolloClient } from '@apollo/client'
 import { Route, useNavigation, useRoute } from '@react-navigation/native'
 import React from 'react'
 import { FlatList, KeyboardAvoidingView, StyleSheet, Text, View } from 'react-native'
@@ -7,6 +8,9 @@ import ScreenLayout from '../../components/layout/ScreenLayout'
 import { COLOR1 } from '../../constants/styles'
 import { IS_IOS } from '../../constants/values'
 import { useChats } from '../../graphql/chat'
+import { CHAT_ROOMS } from '../../graphql/chatRoom'
+import { chatRooms } from '../../graphql/__generated__/chatRooms'
+import ChatDetailCard from './ChatDetailCard'
 import Footer from './Footer'
 
 export interface ChatDetailProps {
@@ -16,10 +20,8 @@ export interface ChatDetailProps {
 const ChatDetail = () => {
 
     const { params: { id } } = useRoute<Route<'ChatDetail', ChatDetailProps>>()
-    const { data, refetch, fetchMore } = useChats({ variables: { chatRoomId: id }, fetchPolicy: 'network-only' })
+    const { data, fetchMore } = useChats({ variables: { chatRoomId: id }, fetchPolicy: 'network-only' })
     const { bottom } = useSafeAreaInsets()
-
-    const { navigate } = useNavigation()
 
 
     return (
@@ -30,12 +32,12 @@ const ChatDetail = () => {
                 style={{ flex: 1, backgroundColor: COLOR1 }}
             >
                 <View style={{ backgroundColor: '#fff', flex: 1 }} >
-                    <Header title='채팅' />
+                    <Header title={data?.chatRoom?.name || '채팅'} />
                     <FlatList
                         data={data?.chats}
                         onEndReachedThreshold={16}
                         onEndReached={() => fetchMore({ variables: { cursor: data?.chats[data.chats.length - 1].id } })}
-                        renderItem={({ item }) => <Text>{item.message}{item.id}</Text>}
+                        renderItem={({ item }) => <ChatDetailCard {...item} />}
                     />
                     <Footer chatRoomId={id} />
                 </View>

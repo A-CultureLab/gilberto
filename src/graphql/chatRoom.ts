@@ -9,6 +9,7 @@ query chatRooms ($where:ChatRoomWhereInput, $skip:Int, $take:Int) {
     chatRooms(where:$where, skip:$skip, take:$take) {
         id
         notReadChatCount
+        name
         users {
             id
             name,

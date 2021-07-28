@@ -27,6 +27,7 @@ export interface chatRooms_chatRooms {
   __typename: "ChatRoom";
   id: number;
   notReadChatCount: number;
+  name: string;
   users: chatRooms_chatRooms_users[];
   recentChat: chatRooms_chatRooms_recentChat | null;
 }

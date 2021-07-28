@@ -19,6 +19,10 @@ query chats ($chatRoomId:Int!,  $cursor:Int, $take:Int) {
             image
         }
     }
+    chatRoom(where: {id:$chatRoomId}) {
+        id
+        name
+    }
 }
 `
 export const useChats = createQueryHook<chats, chatsVariables>(CHATS)

@@ -12,9 +12,7 @@ const ChatCard: React.FC<chatRooms_chatRooms> = (props) => {
 
 
     const { navigate } = useNavigation()
-    const { id, notReadChatCount, recentChat, users } = props
-
-    const title = users.filter(v => v.id !== auth().currentUser?.uid).map(v => v.name).join(', ')
+    const { id, notReadChatCount, recentChat, users, name } = props
 
     const onPress = useCallback(() => {
         navigate('ChatDetail', { id })
@@ -31,8 +29,8 @@ const ChatCard: React.FC<chatRooms_chatRooms> = (props) => {
                 source={{ uri: users[0].image }}
             />
             <View style={styles.contentContainer} >
-                <Text style={styles.title} >{title}</Text>
-                <Text style={styles.recentChat} >{recentChat?.message || '사진'}</Text>
+                <Text style={styles.title} >{name}</Text>
+                <Text style={styles.recentChat} numberOfLines={1} >{recentChat?.message || '사진'}</Text>
             </View>
             <View style={styles.metaDataContainer} >
                 <Text style={styles.recentChatDate} >{dayjs(recentChat?.createdAt).fromNow()}</Text>

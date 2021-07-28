@@ -48,6 +48,8 @@ const Footer: React.FC<{ chatRoomId: number }> = ({ chatRoomId }) => {
                 value={message}
                 onChangeText={(t) => setMessage(t)}
                 style={styles.input}
+                maxLength={1000}
+                multiline
             />
             <Pressable
                 onPress={onSend}
@@ -70,7 +72,8 @@ const styles = StyleSheet.create({
         width: '100%',
         backgroundColor: COLOR1,
         flexDirection: 'row',
-        minHeight: 56
+        minHeight: 56,
+        alignItems: 'center'
     },
     addBtn: {
         width: 56,
@@ -86,7 +89,12 @@ const styles = StyleSheet.create({
     },
     input: {
         flex: 1,
-        backgroundColor: 'red'
+        color: '#fff',
+        maxHeight: 200,
+        lineHeight: 20,
+        padding: 0,
+        marginVertical: 16,
+        // backgroundColor: 'red',
     },
     sendBtn: {
         width: 56,

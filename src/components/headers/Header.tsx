@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { COLOR1, GRAY2, GRAY3, WIDTH } from '../../constants/styles'
 import Icon from 'react-native-vector-icons/MaterialIcons'
@@ -8,9 +8,10 @@ interface HeaderProps {
     title?: string
     backBtn?: 'left' | 'none' | 'right'
     underline?: boolean
+    right?: () => ReactNode
 }
 
-const Header: React.FC<HeaderProps> = ({ backBtn, title, underline }) => {
+const Header: React.FC<HeaderProps> = ({ backBtn, title, underline, right }) => {
 
     const { goBack } = useNavigation()
 
@@ -35,6 +36,7 @@ const Header: React.FC<HeaderProps> = ({ backBtn, title, underline }) => {
                     <Icon name='keyboard-arrow-down' size={24} />
                 </Pressable>
             }
+            {right && right()}
         </View>
     )
 }
