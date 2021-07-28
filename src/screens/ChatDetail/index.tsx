@@ -7,7 +7,7 @@ import Header from '../../components/headers/Header'
 import ScreenLayout from '../../components/layout/ScreenLayout'
 import { COLOR1 } from '../../constants/styles'
 import { IS_IOS } from '../../constants/values'
-import { useChats } from '../../graphql/chat'
+import { useChatCreated, useChats } from '../../graphql/chat'
 import { CHAT_ROOMS } from '../../graphql/chatRoom'
 import { chatRooms } from '../../graphql/__generated__/chatRooms'
 import ChatDetailCard from './ChatDetailCard'
@@ -24,6 +24,7 @@ const ChatDetail = () => {
     const { bottom } = useSafeAreaInsets()
 
 
+
     return (
         <ScreenLayout>
             <KeyboardAvoidingView
@@ -33,12 +34,19 @@ const ChatDetail = () => {
             >
                 <View style={{ backgroundColor: '#fff', flex: 1 }} >
                     <Header title={data?.chatRoom?.name || '채팅'} />
-                    <FlatList
-                        data={data?.chats}
-                        onEndReachedThreshold={16}
-                        onEndReached={() => fetchMore({ variables: { cursor: data?.chats[data.chats.length - 1].id } })}
-                        renderItem={({ item }) => <ChatDetailCard {...item} />}
-                    />
+                    <View style={{ flex: 1, overflow: 'hidden' }} >
+                        <View>
+                            <FlatList
+                                data={data?.chats}
+                                inverted
+                                style={{ overflow: 'visible' }}
+                                onEndReachedThreshold={0.5}
+                                onEndReached={() => fetchMore({ variables: { cursor: data?.chats[data.chats.length - 1].id } })}
+                                renderItem={({ item }) => <ChatDetailCard {...item} />}
+                                ListHeaderComponent={<View style={{ height: 16 }} />}
+                            />
+                        </View>
+                    </View>
                     <Footer chatRoomId={id} />
                 </View>
             </KeyboardAvoidingView>

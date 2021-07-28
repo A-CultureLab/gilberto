@@ -9,13 +9,6 @@ import { CreateChatInput } from "./../../../__generated__/globalTypes";
 // GraphQL mutation operation: createChat
 // ====================================================
 
-export interface createChat_createChat_chatRoom_users {
-  __typename: "User";
-  id: string;
-  name: string;
-  image: string;
-}
-
 export interface createChat_createChat_chatRoom_recentChat {
   __typename: "Chat";
   id: number;
@@ -26,7 +19,7 @@ export interface createChat_createChat_chatRoom_recentChat {
 export interface createChat_createChat_chatRoom {
   __typename: "ChatRoom";
   id: number;
-  users: createChat_createChat_chatRoom_users[];
+  name: string;
   recentChat: createChat_createChat_chatRoom_recentChat | null;
   notReadChatCount: number;
 }

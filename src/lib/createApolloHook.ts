@@ -1,4 +1,4 @@
-import { MutationHookOptions, useMutation, QueryHookOptions, useQuery, ApolloError, useLazyQuery } from "@apollo/client"
+import { MutationHookOptions, useMutation, QueryHookOptions, useQuery, ApolloError, useLazyQuery, SubscriptionHookOptions, useSubscription } from "@apollo/client"
 import { useNavigation } from "@react-navigation/core"
 import { DocumentNode } from "graphql"
 
@@ -40,4 +40,8 @@ export const createMutationHook = <Data, Vars>(query: DocumentNode, preOptions?:
         },
     })
 
-
+export const createSubscriptionHook = <Data, Vars>(query: DocumentNode, preOptions?: SubscriptionHookOptions<Data, Vars>) => (options?: SubscriptionHookOptions<Data, Vars>) =>
+    useSubscription<Data, Vars>(query, {
+        ...preOptions,
+        ...options
+    })

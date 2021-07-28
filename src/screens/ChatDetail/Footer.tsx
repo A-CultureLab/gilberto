@@ -91,7 +91,6 @@ const styles = StyleSheet.create({
         flex: 1,
         color: '#fff',
         maxHeight: 200,
-        lineHeight: 20,
         padding: 0,
         marginVertical: 16,
         // backgroundColor: 'red',

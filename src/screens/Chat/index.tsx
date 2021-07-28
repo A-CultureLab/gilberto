@@ -6,8 +6,10 @@ import TabScreenBottomTabBar from '../../components/tabs/TabScreenBottomTabBar'
 import ChatCard from './ChatCard'
 import { useChatRooms } from '../../graphql/chatRoom'
 import auth from '@react-native-firebase/auth'
+import { useChatCreated } from '../../graphql/chat'
 
 const Chat = () => {
+
 
     const { data, loading } = useChatRooms({
         variables: {

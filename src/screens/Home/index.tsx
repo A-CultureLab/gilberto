@@ -12,10 +12,9 @@ import auth from '@react-native-firebase/auth'
 import { useIsSignedup } from '../../graphql/user';
 import { useMapPets } from '../../graphql/pet';
 import PetMarker from './PetMarker';
-import { PanGestureHandler } from 'react-native-gesture-handler';
-import Animated, { useSharedValue } from 'react-native-reanimated';
-import BottomSheet, { BottomSheetFlatList } from '@gorhom/bottom-sheet';
 import PetsBottomSheet from './PetsBottomSheet';
+import { useChatCreated, useCreateChat } from '../../graphql/chat';
+import { AuthContext } from '..';
 
 interface HomeScreenContextInterface {
     selectedPostcode: string | null
@@ -29,7 +28,9 @@ const Home = () => {
 
     const mapRef = useRef<MapView>(null)
 
+    const { user } = useContext(AuthContext)
     const { data } = useIsSignedup({ fetchPolicy: 'network-only' })
+    const { } = useChatCreated()
 
     const [cameraPos, setCameraPos] = useState<Region>({
         latitude: 37.50367232610927,
@@ -50,6 +51,7 @@ const Home = () => {
         setSelectedPostcode,
         mapRef
     }), [selectedPostcode, setSelectedPostcode, mapRef])
+
 
     // 회원가입 안되있을시 파이어베이스 로그아웃
     useEffect(() => {
@@ -75,7 +77,6 @@ const Home = () => {
 
     // 카메라 초기화
     useEffect(() => {
-        // auth().signOut()
         if (!myPos) return
         if (cameraInitTrigger) {
             mapRef.current?.animateToRegion({
@@ -98,6 +99,8 @@ const Home = () => {
             longitudeDelta: 0.005
         })
     }, [myPos])
+
+
 
 
 

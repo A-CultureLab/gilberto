@@ -2,9 +2,9 @@ import React, { createContext, useEffect, useMemo, useRef, useState } from 'reac
 import { DefaultTheme, NavigationContainer, NavigationContainerRef, Theme } from '@react-navigation/native';
 import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import IconMA from 'react-native-vector-icons/MaterialIcons'
 import { BottomSheetModalProvider, useBottomSheet } from '@gorhom/bottom-sheet'
 import SplashScreen from 'react-native-splash-screen';
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
 
 // GLOBAL UI
 import Alert, { AlertProps } from '../components/bottomSheets/Alert';
@@ -62,36 +62,55 @@ const theme: Theme = {
     }
 }
 
+export const AuthContext = createContext<{
+    user: FirebaseAuthTypes.User | null
+}>({} as any)
 
 const Navigation = () => {
 
+    const [user, setUser] = useState<FirebaseAuthTypes.User | null>(auth().currentUser)
+
+    const authContextValue = useMemo(() => ({
+        user, setUser
+    }), [user])
+
+    useEffect(() => {
+        const unsubscribe = auth().onUserChanged((user) => {
+            setUser(user)
+        })
+        return () => { unsubscribe() }
+    }, [])
+
+
     return (
-        <NavigationContainer
-            theme={theme}
-        >
-            <Stack.Navigator
-                initialRouteName='Tab'
-                headerMode='none'
-                screenOptions={{ cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS }}
+        <AuthContext.Provider value={authContextValue} >
+            <NavigationContainer
+                theme={theme}
             >
-                <Stack.Screen name='Tab' component={TabNavigation} />
-                <Stack.Screen name='Login' component={Login} />
-                <Stack.Screen name='Signup' component={Signup} />
-                <Stack.Screen name='SelectLocation' component={SelectLocation} />
-                <Stack.Screen name='WebView' component={WebView} />
-                <Stack.Screen name='SignupPet' component={SignupPet} />
-                <Stack.Screen name='PetRegist' component={PetRegist} />
-                <Stack.Screen name='PetModify' component={PetModify} />
-                <Stack.Screen name='MyPage' component={MyPage} options={{ cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS }} />
-                <Stack.Screen name='Profile' component={Profile} />
-                <Stack.Screen name='ProfileModify' component={ProfileModify} />
-                <Stack.Screen name='Setting' component={Setting} />
-                <Stack.Screen name='OpenSourceLicense' component={OpenSourceLicense} />
-                <Stack.Screen name='Withdraw' component={Withdraw} />
-                <Stack.Screen name='UserDetail' component={UserDetail} />
-                <Stack.Screen name='ChatDetail' component={ChatDetail} />
-            </Stack.Navigator>
-        </NavigationContainer>
+                <Stack.Navigator
+                    initialRouteName='Tab'
+                    headerMode='none'
+                    screenOptions={{ cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS }}
+                >
+                    <Stack.Screen name='Tab' component={TabNavigation} />
+                    <Stack.Screen name='Login' component={Login} />
+                    <Stack.Screen name='Signup' component={Signup} />
+                    <Stack.Screen name='SelectLocation' component={SelectLocation} />
+                    <Stack.Screen name='WebView' component={WebView} />
+                    <Stack.Screen name='SignupPet' component={SignupPet} />
+                    <Stack.Screen name='PetRegist' component={PetRegist} />
+                    <Stack.Screen name='PetModify' component={PetModify} />
+                    <Stack.Screen name='MyPage' component={MyPage} options={{ cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS }} />
+                    <Stack.Screen name='Profile' component={Profile} />
+                    <Stack.Screen name='ProfileModify' component={ProfileModify} />
+                    <Stack.Screen name='Setting' component={Setting} />
+                    <Stack.Screen name='OpenSourceLicense' component={OpenSourceLicense} />
+                    <Stack.Screen name='Withdraw' component={Withdraw} />
+                    <Stack.Screen name='UserDetail' component={UserDetail} />
+                    <Stack.Screen name='ChatDetail' component={ChatDetail} />
+                </Stack.Navigator>
+            </NavigationContainer>
+        </AuthContext.Provider>
     )
 }
 
@@ -134,7 +153,7 @@ const GlobalUiWrapper = () => {
         setConfirm,
         toast,
         setToast
-    }), [alert])
+    }), [alert, confirm, toast])
 
 
     useEffect(() => {

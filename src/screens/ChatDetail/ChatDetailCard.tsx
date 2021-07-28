@@ -30,7 +30,7 @@ const ChatDetailCard: React.FC<chats_chats> = (props) => {
             <View style={{ maxWidth: '60%' }} >
                 <Text style={styles.normalMessageCardUserName} >{user.name}</Text>
                 <View style={styles.normalMessageCardMessageBox} >
-                    <Text numberOfLines={100} style={styles.normalMessageCardMessage} >{'adlskfasl;dkfl;askdfl;aksdlfkal;dkfl;aksdlfkal;dkl;fkas;dfkal;kdl;'}</Text>
+                    <Text numberOfLines={100} style={styles.normalMessageCardMessage} >{message}</Text>
                 </View>
             </View>
             <Text style={styles.date} >{dayjs(createdAt).format('a hh:mm')}</Text>
