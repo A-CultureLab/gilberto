@@ -29,6 +29,7 @@ const Home = () => {
     const mapRef = useRef<MapView>(null)
 
     const { user } = useContext(AuthContext)
+    const { } = useChatCreated({ variables: { userId: user?.uid }, skip: !user })
     const { data } = useIsSignedup({ fetchPolicy: 'network-only' })
 
 

@@ -11,13 +11,13 @@ import { SubscriptionClient } from 'subscriptions-transport-ws';
 
 export const wsClient = new SubscriptionClient(WEBSOCKET_SERVER_URL as string, {
     reconnect: true,
-    lazy: true,
-    connectionParams: async () => {
-        const token = await auth().currentUser?.getIdToken()
-        return {
-            headers: { authorization: token ? `Bearer ${token}` : '', }
-        }
-    },
+    // lazy: true,
+    // connectionParams: async () => {
+    //     const token = await auth().currentUser?.getIdToken()
+    //     return {
+    //         headers: { authorization: token ? `Bearer ${token}` : '', }
+    //     }
+    // },
 })
 
 

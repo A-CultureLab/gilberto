@@ -17,7 +17,10 @@ npm run gql
 ```
 
 # Troubleshooting
-
+### Subscription 인증
+Firebase Auth의 Accesstoken 주기는 1분이므로 1분마다 subscription을 reconnect해주어야 한다. 다만 정확한 솔루션이 아직 없는 것으로 보임. 현재는 이부분만 인증없이 사용중.
+2021년 7월 29일 기준으로 아직 우리 서비스에 적합한 솔루션은 없는듯하다...
+https://github.com/apollographql/subscriptions-transport-ws/issues/171
 # Keyhash
 ```
 DEBUG-MD5: 20:F4:61:48:B7:2D:8E:5E:5C:A2:3D:37:A4:F4:14:90

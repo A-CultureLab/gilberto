@@ -1,15 +1,15 @@
 import { useApolloClient } from '@apollo/client'
 import { Route, useNavigation, useRoute } from '@react-navigation/native'
 import React from 'react'
+import { useContext } from 'react'
 import { FlatList, KeyboardAvoidingView, StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { AuthContext } from '..'
 import Header from '../../components/headers/Header'
 import ScreenLayout from '../../components/layout/ScreenLayout'
 import { COLOR1 } from '../../constants/styles'
 import { IS_IOS } from '../../constants/values'
 import { useChatCreated, useChats } from '../../graphql/chat'
-import { CHAT_ROOMS } from '../../graphql/chatRoom'
-import { chatRooms } from '../../graphql/__generated__/chatRooms'
 import ChatDetailCard from './ChatDetailCard'
 import Footer from './Footer'
 
@@ -20,6 +20,8 @@ export interface ChatDetailProps {
 const ChatDetail = () => {
 
     const { params: { id } } = useRoute<Route<'ChatDetail', ChatDetailProps>>()
+    const { user } = useContext(AuthContext)
+    const { } = useChatCreated({ variables: { userId: user?.uid || '', chatRoomId: id } })
     const { data, fetchMore } = useChats({ variables: { chatRoomId: id }, fetchPolicy: 'network-only' })
     const { bottom } = useSafeAreaInsets()
 

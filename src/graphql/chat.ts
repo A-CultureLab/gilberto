@@ -1,6 +1,7 @@
 import { gql } from "@apollo/client";
+import { client } from "../lib/apollo";
 import { createLazyQueryHook, createMutationHook, createQueryHook, createSubscriptionHook } from "../lib/createApolloHook";
-import { chatCreated } from "./__generated__/chatCreated";
+import { chatCreated, chatCreatedVariables } from "./__generated__/chatCreated";
 import { chats, chatsVariables } from "./__generated__/chats";
 import { createChat, createChatVariables } from "./__generated__/createChat";
 
@@ -47,8 +48,8 @@ mutation createChat ($input:CreateChatInput!) {
 export const useCreateChat = createMutationHook<createChat, createChatVariables>(CREATE_CHAT)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const CHAT_CREATED = gql`
-subscription chatCreated {
-    chatCreated  {
+subscription chatCreated($userId:String!, $chatRoomId:Int!) {
+    chatCreated (userId:$userId, chatRoomId:$chatRoomId) {
         id
         createdAt
         message
@@ -61,27 +62,22 @@ subscription chatCreated {
         chatRoom {
             id
             name
-            recentChat {
-                id
-                createdAt
-                message
-            }
-            notReadChatCount
         }
-
     }
 }
 `
-export const useChatCreated = createSubscriptionHook<chatCreated, {}>(CHAT_CREATED, {
+
+
+export const useChatCreated = createSubscriptionHook<chatCreated, chatCreatedVariables>(CHAT_CREATED, {
     onSubscriptionComplete: () => {
         console.log('subscription completed')
     },
     onSubscriptionData: ({ client, subscriptionData }) => {
         console.log(subscriptionData)
         if (!subscriptionData.data?.chatCreated) return
-        const chatRoomId = subscriptionData.data.chatCreated.chatRoom.id
-        // chat room 맨 앞으로 땡겨오기
+
         // 해당 챗룸 아이디에 맨 앞에 chat 넣어주기
+        const chatRoomId = subscriptionData.data.chatCreated.chatRoom.id
         const preData = client.cache.readQuery<chats, chatsVariables>({ query: CHATS, variables: { chatRoomId } })?.chats || []
         client.cache.writeQuery<chats, chatsVariables>({
             query: CHATS,
