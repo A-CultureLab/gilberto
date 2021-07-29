@@ -32,6 +32,9 @@ import OpenSourceLicense from './OpenSourceLicense';
 import Withdraw from './Withdraw';
 import UserDetail from './UserDetail';
 import ChatDetail from './ChatDetail';
+import { wsClient } from '../lib/apollo';
+import { MessageTypes } from 'subscriptions-transport-ws';
+import { useChatCreated } from '../graphql/chat';
 
 
 
@@ -69,16 +72,28 @@ export const AuthContext = createContext<{
 const Navigation = () => {
 
     const [user, setUser] = useState<FirebaseAuthTypes.User | null>(auth().currentUser)
+    const { } = useChatCreated()
 
     const authContextValue = useMemo(() => ({
         user, setUser
     }), [user])
 
     useEffect(() => {
-        const unsubscribe = auth().onUserChanged((user) => {
+        const userUnsubscribe = auth().onUserChanged((user) => {
             setUser(user)
         })
-        return () => { unsubscribe() }
+        const tokenUnsubscribe = auth().onIdTokenChanged(async (user) => {
+            const operations = Object.assign({}, wsClient.operations)
+            wsClient.close(true)
+            Object.keys(operations).forEach(id => {
+                //@ts-ignore
+                wsClient.executeOperation(operations[id].options, () => { })
+            })
+        })
+        return () => {
+            userUnsubscribe()
+            tokenUnsubscribe()
+        }
     }, [])
 
 

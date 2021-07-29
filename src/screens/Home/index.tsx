@@ -30,7 +30,7 @@ const Home = () => {
 
     const { user } = useContext(AuthContext)
     const { data } = useIsSignedup({ fetchPolicy: 'network-only' })
-    const { } = useChatCreated()
+
 
     const [cameraPos, setCameraPos] = useState<Region>({
         latitude: 37.50367232610927,

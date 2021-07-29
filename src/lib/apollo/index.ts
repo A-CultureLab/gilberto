@@ -6,17 +6,22 @@ import { createUploadLink } from 'apollo-upload-client';
 import { GRAPHQL_SERVER_URL, WEBSOCKET_SERVER_URL } from '../../constants/values';
 import { WebSocketLink } from '@apollo/client/link/ws'
 import { getMainDefinition } from '@apollo/client/utilities';
+import { SubscriptionClient } from 'subscriptions-transport-ws';
 
 
-
-
-const wsLink = new WebSocketLink({
-    uri: WEBSOCKET_SERVER_URL as string,
-    options: {
-        reconnect: true,
-        lazy: true
-    }
+export const wsClient = new SubscriptionClient(WEBSOCKET_SERVER_URL as string, {
+    reconnect: true,
+    lazy: true,
+    connectionParams: async () => {
+        const token = await auth().currentUser?.getIdToken()
+        return {
+            headers: { authorization: token ? `Bearer ${token}` : '', }
+        }
+    },
 })
+
+
+const wsLink = new WebSocketLink(wsClient)
 
 const httpLink = createUploadLink({
     uri: GRAPHQL_SERVER_URL,
