@@ -23,6 +23,12 @@ query chats ($chatRoomId:Int!,  $cursor:Int, $take:Int) {
     chatRoom(where: {id:$chatRoomId}) {
         id
         name
+        notReadChatCount
+        recentChat {
+            id
+            createdAt
+            message
+        }
     }
 }
 `
@@ -35,6 +41,7 @@ mutation createChat ($input:CreateChatInput!) {
         chatRoom {
             id
             name
+            notReadChatCount
             recentChat {
                 id
                 createdAt
@@ -62,6 +69,12 @@ subscription chatCreated($userId:String!, $chatRoomId:Int!) {
         chatRoom {
             id
             name
+            notReadChatCount
+            recentChat {
+                id
+                createdAt
+                message
+            }
         }
     }
 }

@@ -30,10 +30,10 @@ const ChatCard: React.FC<chatRooms_chatRooms> = (props) => {
             />
             <View style={styles.contentContainer} >
                 <Text style={styles.title} >{name}</Text>
-                <Text style={styles.recentChat} numberOfLines={1} >{recentChat?.message || '사진'}</Text>
+                <Text style={styles.recentChat} numberOfLines={1} >{recentChat ? recentChat.message || '사진' : ''}</Text>
             </View>
             <View style={styles.metaDataContainer} >
-                <Text style={styles.recentChatDate} >{dayjs(recentChat?.createdAt).fromNow()}</Text>
+                <Text style={styles.recentChatDate} >{recentChat && dayjs(recentChat.createdAt).fromNow()}</Text>
                 <View style={[styles.notReadChatCountContainer, { opacity: notReadChatCount > 0 ? 1 : 0 }]} >
                     <Text style={styles.notReadChatCount} >{notReadChatCount > 300 ? '300+' : notReadChatCount}</Text>
                 </View>
