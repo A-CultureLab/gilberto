@@ -1,10 +1,10 @@
-import { gql } from "@apollo/client";
-import { client } from "../lib/apollo";
-import { createLazyQueryHook, createMutationHook, createQueryHook, createSubscriptionHook } from "../lib/createApolloHook";
 import { chatCreated, chatCreatedVariables } from "./__generated__/chatCreated";
 import { chats, chatsVariables } from "./__generated__/chats";
 import { createChat, createChatVariables } from "./__generated__/createChat";
+import { createLazyQueryHook, createMutationHook, createQueryHook, createSubscriptionHook } from "../lib/createApolloHook";
 
+import { client } from "../lib/apollo";
+import { gql } from "@apollo/client";
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const CHATS = gql`
@@ -69,9 +69,6 @@ subscription chatCreated($userId:String!, $chatRoomId:Int!) {
 
 
 export const useChatCreated = createSubscriptionHook<chatCreated, chatCreatedVariables>(CHAT_CREATED, {
-    onSubscriptionComplete: () => {
-        console.log('subscription completed')
-    },
     onSubscriptionData: ({ client, subscriptionData }) => {
         console.log(subscriptionData)
         if (!subscriptionData.data?.chatCreated) return

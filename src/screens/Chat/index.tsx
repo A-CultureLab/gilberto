@@ -1,22 +1,17 @@
-import React from 'react'
 import { FlatList, StyleSheet, Text, View } from 'react-native'
+
+import ChatCard from './ChatCard'
 import Header from '../../components/headers/Header'
+import React from 'react'
 import ScreenLayout from '../../components/layout/ScreenLayout'
 import TabScreenBottomTabBar from '../../components/tabs/TabScreenBottomTabBar'
-import ChatCard from './ChatCard'
 import { useChatRooms } from '../../graphql/chatRoom'
-import auth from '@react-native-firebase/auth'
-import { useChatCreated } from '../../graphql/chat'
 
 const Chat = () => {
 
-
-    const { data, loading } = useChatRooms({
+    const { data, fetchMore } = useChatRooms({
         variables: {
-            where: {
-                users: { some: { id: { equals: auth().currentUser?.uid } } }
-            },
-            take: 10
+            take: 2
         }
     })
 
@@ -27,6 +22,8 @@ const Chat = () => {
                 showsVerticalScrollIndicator={false}
                 overScrollMode='never'
                 data={data?.chatRooms}
+                onEndReachedThreshold={0.5}
+                onEndReached={() => fetchMore({variables:{cursor: data?.chatRooms[data.chatRooms.length - 1].id }})}
                 renderItem={({ item }) => <ChatCard {...item} />}
                 ListFooterComponent={<View style={{ height: 24 }} />}
             />

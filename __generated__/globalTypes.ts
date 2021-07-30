@@ -61,6 +61,7 @@ export interface ChatRoomWhereInput {
   id?: IntFilter | null;
   createdAt?: DateTimeFilter | null;
   updatedAt?: DateTimeFilter | null;
+  recentChatCreatedAt?: DateTimeNullableFilter | null;
   users?: UserListRelationFilter | null;
   chats?: ChatListRelationFilter | null;
 }

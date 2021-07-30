@@ -1,20 +1,21 @@
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { COLOR2, DEFAULT_SHADOW, HEIGHT, STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles';
 import { FlatList, StyleSheet, Text, View } from 'react-native'
 import MapView, { Coordinate, LatLng, Marker, Region } from 'react-native-maps';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { useChatCreated, useCreateChat } from '../../graphql/chat';
+
+import { AuthContext } from '..';
 import Geolocation from '@react-native-community/geolocation';
-import { IS_IOS } from '../../constants/values';
-import { COLOR2, DEFAULT_SHADOW, HEIGHT, STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles';
-import ScreenLayout from '../../components/layout/ScreenLayout';
-import MyPosFab from '../../components/fabs/MyPosFab';
 import HomeHeader from './HomeHeader'
+import { IS_IOS } from '../../constants/values';
+import MyPosFab from '../../components/fabs/MyPosFab';
+import PetMarker from './PetMarker';
+import PetsBottomSheet from './PetsBottomSheet';
+import ScreenLayout from '../../components/layout/ScreenLayout';
 import TabScreenBottomTabBar from '../../components/tabs/TabScreenBottomTabBar';
 import auth from '@react-native-firebase/auth'
 import { useIsSignedup } from '../../graphql/user';
 import { useMapPets } from '../../graphql/pet';
-import PetMarker from './PetMarker';
-import PetsBottomSheet from './PetsBottomSheet';
-import { useChatCreated, useCreateChat } from '../../graphql/chat';
-import { AuthContext } from '..';
 
 interface HomeScreenContextInterface {
     selectedPostcode: string | null
@@ -29,7 +30,6 @@ const Home = () => {
     const mapRef = useRef<MapView>(null)
 
     const { user } = useContext(AuthContext)
-    const { } = useChatCreated({ variables: { userId: user?.uid }, skip: !user })
     const { data } = useIsSignedup({ fetchPolicy: 'network-only' })
 
 

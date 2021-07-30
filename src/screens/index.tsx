@@ -1,44 +1,36 @@
-import React, { createContext, useEffect, useMemo, useRef, useState } from 'react';
-import { DefaultTheme, NavigationContainer, NavigationContainerRef, Theme } from '@react-navigation/native';
-import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { BottomSheetModalProvider, useBottomSheet } from '@gorhom/bottom-sheet'
-import SplashScreen from 'react-native-splash-screen';
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
-
 // GLOBAL UI
 import Alert, { AlertProps } from '../components/bottomSheets/Alert';
+import { BottomSheetModalProvider, useBottomSheet } from '@gorhom/bottom-sheet'
+import { CHAT_CREATED, useChatCreated } from '../graphql/chat';
+import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 import Confirm, { ConfirmProps } from '../components/bottomSheets/Confirm';
+import { DefaultTheme, NavigationContainer, NavigationContainerRef, Theme } from '@react-navigation/native';
+import React, { createContext, useEffect, useMemo, useRef, useState } from 'react';
 import Toast, { ToastProps } from '../components/toasts/Toast';
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
 
-
-// SCREENS
-import Home from './Home'
-import Friend from './Friend';
 import Chat from './Chat';
-
+import ChatDetail from './ChatDetail';
+import Friend from './Friend';
+import Home from './Home'
 import Login from './Login';
-import Signup from './Signup';
-import SelectLocation from './SelectLocation';
-import SignupPet from './SignupPet';
-import WebView from './WebView';
-import PetRegist from './PetRegist';
-import PetModify from './PetModify';
+import { MessageTypes } from 'subscriptions-transport-ws';
 import MyPage from './MyPage';
+import OpenSourceLicense from './OpenSourceLicense';
+import PetModify from './PetModify';
+import PetRegist from './PetRegist';
 import Profile from './Profile';
 import ProfileModify from './ProfileModify';
+import SelectLocation from './SelectLocation';
 import Setting from './Setting';
-import OpenSourceLicense from './OpenSourceLicense';
-import Withdraw from './Withdraw';
+import Signup from './Signup';
+import SignupPet from './SignupPet';
+import SplashScreen from 'react-native-splash-screen';
 import UserDetail from './UserDetail';
-import ChatDetail from './ChatDetail';
-import { client, wsClient } from '../lib/apollo';
-import { MessageTypes } from 'subscriptions-transport-ws';
-import { CHAT_CREATED, useChatCreated } from '../graphql/chat';
-import { useApolloClient } from '@apollo/client';
-
-
-
+import WebView from './WebView';
+import Withdraw from './Withdraw';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useChatRoomUpdated } from '../graphql/chatRoom';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -72,9 +64,9 @@ export const AuthContext = createContext<{
 
 const Navigation = () => {
 
+
     const [user, setUser] = useState<FirebaseAuthTypes.User | null>(auth().currentUser)
-
-
+    const { } = useChatRoomUpdated({ variables: { userId: user?.uid || '' }, skip: !user })
 
     const authContextValue = useMemo(() => ({
         user, setUser

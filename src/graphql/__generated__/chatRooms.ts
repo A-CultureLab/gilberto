@@ -3,8 +3,6 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { ChatRoomWhereInput } from "./../../../__generated__/globalTypes";
-
 // ====================================================
 // GraphQL query operation: chatRooms
 // ====================================================
@@ -37,7 +35,6 @@ export interface chatRooms {
 }
 
 export interface chatRoomsVariables {
-  where?: ChatRoomWhereInput | null;
-  skip?: number | null;
+  cursor?: number | null;
   take?: number | null;
 }

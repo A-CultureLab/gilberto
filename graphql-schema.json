@@ -427,6 +427,18 @@
             "deprecationReason": null
           },
           {
+            "name": "recentChatCreatedAt",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTime",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "users",
             "description": null,
             "args": [
@@ -2219,7 +2231,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "UserOrderByInput",
+                      "name": "UserOrderByWithRelationInput",
                       "ofType": null
                     }
                   }
@@ -2315,99 +2327,6 @@
             "deprecationReason": null
           },
           {
-            "name": "chatRooms",
-            "description": null,
-            "args": [
-              {
-                "name": "where",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "ChatRoomWhereInput",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "orderBy",
-                "description": null,
-                "type": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "INPUT_OBJECT",
-                      "name": "ChatRoomOrderByInput",
-                      "ofType": null
-                    }
-                  }
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "take",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "skip",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "cursor",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "ChatRoomWhereUniqueInput",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "ChatRoom",
-                    "ofType": null
-                  }
-                }
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "pet",
             "description": null,
             "args": [
@@ -2463,7 +2382,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "PetOrderByInput",
+                      "name": "PetOrderByWithRelationInput",
                       "ofType": null
                     }
                   }
@@ -2651,6 +2570,55 @@
                   "ofType": {
                     "kind": "OBJECT",
                     "name": "PetGroupByAddress",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "chatRooms",
+            "description": null,
+            "args": [
+              {
+                "name": "cursor",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "take",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": "10",
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "ChatRoom",
                     "ofType": null
                   }
                 }
@@ -3646,7 +3614,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "UserOrderByInput",
+        "name": "UserOrderByWithRelationInput",
         "description": null,
         "specifiedByUrl": null,
         "fields": null,
@@ -3842,85 +3810,13 @@
             "defaultValue": null,
             "isDeprecated": false,
             "deprecationReason": null
-          }
-        ],
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "INPUT_OBJECT",
-        "name": "ChatRoomWhereInput",
-        "description": null,
-        "specifiedByUrl": null,
-        "fields": null,
-        "inputFields": [
-          {
-            "name": "AND",
-            "description": null,
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "ChatRoomWhereInput",
-                  "ofType": null
-                }
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
           },
           {
-            "name": "OR",
-            "description": null,
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "ChatRoomWhereInput",
-                  "ofType": null
-                }
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "NOT",
-            "description": null,
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "ChatRoomWhereInput",
-                  "ofType": null
-                }
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "id",
+            "name": "address",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "IntFilter",
+              "name": "AddressOrderByWithRelationInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -3928,11 +3824,11 @@
             "deprecationReason": null
           },
           {
-            "name": "createdAt",
+            "name": "pets",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "DateTimeFilter",
+              "name": "PetOrderByRelationAggregateInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -3940,23 +3836,11 @@
             "deprecationReason": null
           },
           {
-            "name": "updatedAt",
+            "name": "chatRooms",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "DateTimeFilter",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "users",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "UserListRelationFilter",
+              "name": "ChatRoomOrderByRelationAggregateInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -3968,31 +3852,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "ChatListRelationFilter",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "INPUT_OBJECT",
-        "name": "ChatRoomOrderByInput",
-        "description": null,
-        "specifiedByUrl": null,
-        "fields": null,
-        "inputFields": [
-          {
-            "name": "id",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "SortOrder",
+              "name": "ChatOrderByRelationAggregateInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -4000,23 +3860,11 @@
             "deprecationReason": null
           },
           {
-            "name": "createdAt",
+            "name": "notReadChats",
             "description": null,
             "type": {
-              "kind": "ENUM",
-              "name": "SortOrder",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "updatedAt",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "SortOrder",
+              "kind": "INPUT_OBJECT",
+              "name": "ChatOrderByRelationAggregateInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -4294,7 +4142,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "PetOrderByInput",
+        "name": "PetOrderByWithRelationInput",
         "description": null,
         "specifiedByUrl": null,
         "fields": null,
@@ -4461,6 +4309,18 @@
             "type": {
               "kind": "ENUM",
               "name": "SortOrder",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "user",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UserOrderByWithRelationInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -5454,6 +5314,222 @@
       },
       {
         "kind": "INPUT_OBJECT",
+        "name": "AddressOrderByWithRelationInput",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "postcode",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "SortOrder",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "updatedAt",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "SortOrder",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "addressName",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "SortOrder",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "buildingName",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "SortOrder",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "latitude",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "SortOrder",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "longitude",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "SortOrder",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "data",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "SortOrder",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "users",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UserOrderByRelationAggregateInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "PetOrderByRelationAggregateInput",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "_count",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "SortOrder",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "count",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "SortOrder",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "ChatRoomOrderByRelationAggregateInput",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "_count",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "SortOrder",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "count",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "SortOrder",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "ChatOrderByRelationAggregateInput",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "_count",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "SortOrder",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "count",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "SortOrder",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
         "name": "IntFilter",
         "description": null,
         "specifiedByUrl": null,
@@ -5565,54 +5641,6 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "NestedIntFilter",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "INPUT_OBJECT",
-        "name": "UserListRelationFilter",
-        "description": null,
-        "specifiedByUrl": null,
-        "fields": null,
-        "inputFields": [
-          {
-            "name": "every",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "UserWhereInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "some",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "UserWhereInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "none",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "UserWhereInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -6506,6 +6534,198 @@
       },
       {
         "kind": "INPUT_OBJECT",
+        "name": "UserListRelationFilter",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "every",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UserWhereInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "some",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UserWhereInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "none",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UserWhereInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "ChatRoomWhereInput",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "AND",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "ChatRoomWhereInput",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "OR",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "ChatRoomWhereInput",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "NOT",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "ChatRoomWhereInput",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "id",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "IntFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "createdAt",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "DateTimeFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "updatedAt",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "DateTimeFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "recentChatCreatedAt",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "DateTimeNullableFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "users",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UserListRelationFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "chats",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "ChatListRelationFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
         "name": "ChatWhereInput",
         "description": null,
         "specifiedByUrl": null,
@@ -6685,6 +6905,42 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "IntFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "UserOrderByRelationAggregateInput",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "_count",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "SortOrder",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "count",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "SortOrder",
               "ofType": null
             },
             "defaultValue": null,
@@ -7130,7 +7386,7 @@
             ],
             "type": {
               "kind": "OBJECT",
-              "name": "Chat",
+              "name": "ChatRoom",
               "ofType": null
             },
             "isDeprecated": false,

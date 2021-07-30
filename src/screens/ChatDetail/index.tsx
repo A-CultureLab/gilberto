@@ -1,17 +1,18 @@
-import { useApolloClient } from '@apollo/client'
-import { Route, useNavigation, useRoute } from '@react-navigation/native'
-import React from 'react'
-import { useContext } from 'react'
 import { FlatList, KeyboardAvoidingView, StyleSheet, Text, View } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { AuthContext } from '..'
-import Header from '../../components/headers/Header'
-import ScreenLayout from '../../components/layout/ScreenLayout'
-import { COLOR1 } from '../../constants/styles'
-import { IS_IOS } from '../../constants/values'
+import { Route, useNavigation, useRoute } from '@react-navigation/native'
 import { useChatCreated, useChats } from '../../graphql/chat'
+
+import { AuthContext } from '..'
+import { COLOR1 } from '../../constants/styles'
 import ChatDetailCard from './ChatDetailCard'
 import Footer from './Footer'
+import Header from '../../components/headers/Header'
+import { IS_IOS } from '../../constants/values'
+import React from 'react'
+import ScreenLayout from '../../components/layout/ScreenLayout'
+import { useApolloClient } from '@apollo/client'
+import { useContext } from 'react'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 export interface ChatDetailProps {
     id: number

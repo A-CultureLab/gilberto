@@ -1,56 +1,59 @@
-import { InMemoryCache } from "@apollo/client";
+import { FieldPolicy, InMemoryCache, Reference } from "@apollo/client";
 
 export default new InMemoryCache({
     typePolicies: {
         Query: {
             fields: {
                 pets: offsetLimitPagination(['where']),
-                chatRooms: offsetLimitPagination(['where']),
-                chats: {
-                    keyArgs: ["chatRoomId"],
-                    //@ts-ignore
-                    merge(existing = [], incoming, { args: { cursor }, readField }) {
-                        if (!cursor) return incoming
-                        let index = existing.length - 1
-
-                        for (let i = existing.length - 1; i >= 0; i--) {
-                            if (readField('id', existing[i]) === cursor) {
-                                index = i
-                                break
-                            }
-                        }
-
-                        let merged = existing.slice(0, index)
-                        merged = [...merged, ...incoming]
-
-                        return merged
-                    }
-                },
+                chatRooms: cursorPagination([]),
+                chats: cursorPagination(['chatRoomId'])
             }
         }
     },
 })
 
+type KeyArgs = FieldPolicy<any>["keyArgs"];
 
-// @ts-ignore
-export function offsetLimitPagination(keyArgs) {
-    if (keyArgs === void 0) { keyArgs = false; }
+
+export function offsetLimitPagination <T = Reference>(keyArgs: KeyArgs = false): FieldPolicy<T[]> {
     return {
-        keyArgs: keyArgs,
-        // @ts-ignore
-        merge: function (existing, incoming, _a) {
-            var args = _a.args;
-            var merged = existing ? existing.slice(0) : [];
-            if (args) {
-                var _b = args.skip, skip = _b === void 0 ? 0 : _b;
-                for (var i = 0; i < incoming.length; ++i) {
-                    merged[skip + i] = incoming[i];
+        keyArgs,
+        merge(existing, incoming, { args }) {
+        const merged = existing ? existing.slice(0) : [];
+        if (args) {
+            const { skip = 0 } = args;
+            for (let i = 0; i < incoming.length; ++i) {
+               merged[skip + i] = incoming[i];
+            }
+        } else {
+            merged.push.apply(merged, incoming as T[]);
+        }
+        return merged;
+        },
+    }
+}
+
+
+
+export function cursorPagination <T = Reference>(keyArgs: KeyArgs = false): FieldPolicy<T[]> {
+    return {
+        keyArgs,
+        merge(existing, incoming, { args: { cursor }, readField }:any) {
+            if (!cursor) return incoming
+            let merged = existing ? existing.slice(0) : [];
+            let index = merged.length - 1
+
+            for (let i = merged.length - 1; i >= 0; i--) {
+                if (readField('id', merged[i]) === cursor) {
+                    index = i
+                    break
                 }
             }
-            else {
-                merged.push.apply(merged, incoming);
-            }
-            return merged;
-        },
-    };
+            merged = merged.slice(0, index)
+            merged = [...merged, ...incoming]
+
+            return merged
+        }
+    }
 }
+
