@@ -3,7 +3,7 @@ Mobile application
 
 
 # Environment
-- node 12
+- node 14
 
 # GraphQL
 타입추론 + 타입세이프한 Graphql사용을 위한 가이드
