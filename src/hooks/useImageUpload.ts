@@ -19,20 +19,33 @@ const useImageUpload = (fileName = 'image') => {
         setLoading(false)
     }, [])
 
-    const upload = useCallback(async (option?: Options, _path: string | undefined = undefined) => {
+    const upload = useCallback(async (option?: Options & { camera?: boolean }, _path: string | undefined = undefined) => {
         try {
             if (loading) return
             setLoading(true)
-            const { path } = await ImageCropPicker.openPicker({
-                cropping: true,
-                cropperCancelText: '취소',
-                loadingLabelText: '불러오는중',
-                cropperChooseText: '완료',
-                mediaType: 'photo',
-                compressImageQuality: 0.8,
-                ...option,
-                multiple: false,
-            })
+
+
+            const { path } = !option?.camera
+                ? await ImageCropPicker.openPicker({
+                    cropping: true,
+                    cropperCancelText: '취소',
+                    loadingLabelText: '불러오는중',
+                    cropperChooseText: '완료',
+                    mediaType: 'photo',
+                    compressImageQuality: 0.8,
+                    ...option,
+                    multiple: false,
+                })
+                : await ImageCropPicker.openCamera({
+                    cropping: true,
+                    cropperCancelText: '취소',
+                    loadingLabelText: '불러오는중',
+                    cropperChooseText: '완료',
+                    mediaType: 'photo',
+                    compressImageQuality: 0.8,
+                    ...option,
+                    multiple: false
+                })
 
             setImageTemp(path) // 미리보기용
 
@@ -54,6 +67,7 @@ const useImageUpload = (fileName = 'image') => {
             setLoading(false)
         }
     }, [loading])
+
 
     return {
         image,

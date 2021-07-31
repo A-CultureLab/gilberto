@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { chats_chats } from '../../graphql/__generated__/chats'
 import auth from '@react-native-firebase/auth'
 import dayjs from 'dayjs'
-import { COLOR1, GRAY1, GRAY3 } from '../../constants/styles'
+import { COLOR1, GRAY1, GRAY3, WIDTH } from '../../constants/styles'
 import FastImage from 'react-native-fast-image'
 
 const ChatDetailCard: React.FC<chats_chats> = (props) => {
@@ -14,9 +14,16 @@ const ChatDetailCard: React.FC<chats_chats> = (props) => {
     if (userId === user.id) return ( // iUserMessageCard
         <View style={styles.iUserMessageCardContainer} >
             <Text style={styles.date} >{dayjs(createdAt).format('a hh:mm')}</Text>
-            <View style={styles.iUserMessageCardMessageBox} >
-                <Text numberOfLines={100} style={styles.iUserMessageCardMessage} >{message}</Text>
-            </View>
+            {image
+                ?
+                <FastImage
+                    source={{ uri: image }}
+                    style={styles.image}
+                />
+                : <View style={styles.iUserMessageCardMessageBox} >
+                    <Text numberOfLines={100} style={styles.iUserMessageCardMessage} >{message}</Text>
+                </View>
+            }
         </View>
     )
     else return ( // Normal MessageCard
@@ -27,12 +34,19 @@ const ChatDetailCard: React.FC<chats_chats> = (props) => {
                     style={styles.normalMessageCardProfileImage}
                 />
             </Pressable>
-            <View style={{ maxWidth: '60%' }} >
-                <Text style={styles.normalMessageCardUserName} >{user.name}</Text>
-                <View style={styles.normalMessageCardMessageBox} >
-                    <Text numberOfLines={100} style={styles.normalMessageCardMessage} >{message}</Text>
+            {image
+                ?
+                <FastImage
+                    source={{ uri: image }}
+                    style={styles.image}
+                />
+                : <View style={{ maxWidth: '60%' }} >
+                    <Text style={styles.normalMessageCardUserName} >{user.name}</Text>
+                    <View style={styles.normalMessageCardMessageBox} >
+                        <Text numberOfLines={100} style={styles.normalMessageCardMessage} >{message}</Text>
+                    </View>
                 </View>
-            </View>
+            }
             <Text style={styles.date} >{dayjs(createdAt).format('a hh:mm')}</Text>
         </View>
     )
@@ -86,5 +100,6 @@ const styles = StyleSheet.create({
         color: GRAY1,
         marginHorizontal: 8,
         alignSelf: 'flex-end'
-    }
+    },
+    image: { width: WIDTH / 2, height: WIDTH / 2, borderRadius: 4 }
 })
