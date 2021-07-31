@@ -42,7 +42,7 @@ const ChatDetail = () => {
                             <FlatList
                                 data={data?.chats}
                                 inverted
-                                style={{ overflow: 'visible' }}
+                                overScrollMode='never'
                                 onEndReachedThreshold={0.5}
                                 onEndReached={() => fetchMore({ variables: { cursor: data?.chats[data.chats.length - 1].id } })}
                                 renderItem={({ item }) => <ChatDetailCard {...item} />}

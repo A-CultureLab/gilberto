@@ -49,7 +49,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 16,
-        marginTop: 24,
+        // marginTop: 24,
+        paddingVertical: 12,
         overflow: 'hidden'
     },
     image: {

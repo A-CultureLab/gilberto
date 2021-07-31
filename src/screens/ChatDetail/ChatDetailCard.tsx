@@ -5,11 +5,14 @@ import auth from '@react-native-firebase/auth'
 import dayjs from 'dayjs'
 import { COLOR1, GRAY1, GRAY3, WIDTH } from '../../constants/styles'
 import FastImage from 'react-native-fast-image'
+import { useContext } from 'react'
+import { AuthContext } from '..'
 
 const ChatDetailCard: React.FC<chats_chats> = (props) => {
 
     const { message, image, user, createdAt } = props
-    const userId = auth().currentUser?.uid
+    const { user: iUser } = useContext(AuthContext)
+    const userId = iUser?.uid
 
     if (userId === user.id) return ( // iUserMessageCard
         <View style={styles.iUserMessageCardContainer} >

@@ -21,7 +21,8 @@ const Chat = () => {
                 onEndReachedThreshold={0.5}
                 onEndReached={() => fetchMore({ variables: { cursor: data?.chatRooms[data.chatRooms.length - 1].id } })}
                 renderItem={({ item }) => <ChatCard {...item} />}
-                ListFooterComponent={<View style={{ height: 24 }} />}
+                ListHeaderComponent={<View style={{ height: 12 }} />}
+                ListFooterComponent={<View style={{ height: 12 }} />}
             />
             <TabScreenBottomTabBar />
         </ScreenLayout>
