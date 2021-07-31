@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useCallback } from 'react'
 import { useState } from 'react'
-import { ActivityIndicator, Pressable, StyleSheet, TextInput, View, Keyboard, Text } from 'react-native'
+import { ActivityIndicator, Pressable, StyleSheet, TextInput, View, Keyboard, Text, BackHandler } from 'react-native'
 import { COLOR1, COLOR2, GRAY3 } from '../../constants/styles'
 import { useCreateChat } from '../../graphql/chat'
 import Icon from 'react-native-vector-icons/MaterialIcons'
@@ -20,12 +20,33 @@ const Footer: React.FC<{ chatRoomId: number }> = ({ chatRoomId }) => {
     const { toast } = useGlobalUi()
     const { clear, upload, loading: imageUploadLoading } = useImageUpload('chatImage')
     const [optionVisible, setOptionVisible] = useState(false)
+    const [focused, setFocused] = useState(false)
 
     useEffect(() => {
-        const KeyboardDidShowListner = Keyboard.addListener('keyboardWillShow', () => { setOptionVisible(false) })
+        const KeyboardWillShowListner = Keyboard.addListener('keyboardWillShow', () => { setOptionVisible(false); setFocused(true) })
+        const KeyboardDidShowListner = Keyboard.addListener('keyboardDidShow', () => { setOptionVisible(false); setFocused(true) })
+        const keyboardDidHideListner = Keyboard.addListener('keyboardDidHide', () => { setFocused(false); inputRef.current?.blur() })
+        const keyboardWillHideListner = Keyboard.addListener('keyboardWillHide', () => { setFocused(false); inputRef.current?.blur() })
 
-        return () => { Keyboard.removeSubscription(KeyboardDidShowListner) }
+        return () => {
+            Keyboard.removeSubscription(KeyboardWillShowListner)
+            Keyboard.removeSubscription(KeyboardDidShowListner)
+            Keyboard.removeSubscription(keyboardDidHideListner)
+            Keyboard.removeSubscription(keyboardWillHideListner)
+        }
     }, [])
+
+    useEffect(() => { // android backhandler
+        if (!optionVisible) return
+        const listner = BackHandler.addEventListener('hardwareBackPress', () => {
+            setOptionVisible(false)
+            return true
+        })
+
+        return () => {
+            listner.remove()
+        }
+    }, [optionVisible])
 
 
     const onSend = useCallback(async (image?: string | null) => {
@@ -85,7 +106,7 @@ const Footer: React.FC<{ chatRoomId: number }> = ({ chatRoomId }) => {
                 >
                     <Icon name='add' color='#fff' size={24} />
                 </Pressable>
-                {!message && <View style={styles.line} />}
+                {(!message && !focused) && <View style={styles.line} />}
                 <TextInput
                     ref={inputRef}
                     value={message}
@@ -97,7 +118,6 @@ const Footer: React.FC<{ chatRoomId: number }> = ({ chatRoomId }) => {
                 <Pressable
                     onPress={() => onSend()}
                     style={styles.sendBtn}
-                    android_ripple={{ color: COLOR2 }}
                 >
                     {loading || imageUploadLoading
                         ? <ActivityIndicator color='#fff' size='small' />

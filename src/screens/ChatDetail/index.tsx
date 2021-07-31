@@ -31,8 +31,7 @@ const ChatDetail = () => {
     return (
         <ScreenLayout>
             <KeyboardAvoidingView
-                enabled={IS_IOS}
-                behavior='padding'
+                behavior={IS_IOS ? 'padding' : 'height'}
                 style={{ flex: 1, backgroundColor: COLOR1 }}
             >
                 <View style={{ backgroundColor: '#fff', flex: 1 }} >
