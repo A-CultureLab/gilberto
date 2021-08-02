@@ -114,6 +114,7 @@ const Footer: React.FC<{ chatRoomId: number }> = ({ chatRoomId }) => {
                     style={styles.input}
                     maxLength={1000}
                     multiline
+                    editable={!(loading || imageUploadLoading)}
                 />
                 <Pressable
                     onPress={() => onSend()}

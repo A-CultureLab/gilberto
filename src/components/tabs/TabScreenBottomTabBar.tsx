@@ -85,7 +85,7 @@ const TabScreenBottomTabBar: React.FC<TabScreenBottomTabBarProps> = ({ smallMode
             {TABS.map(({ icon, label, name }, i) => {
 
                 const textStyle = useAnimatedStyle(() => ({
-                    fontSize: (12 * (animation.value + 0.1)),
+                    fontSize: (10 * (animation.value + 0.1)),
                     marginTop: (6 * animation.value),
                     opacity: (animation.value)
                 }))
@@ -111,7 +111,7 @@ const TabScreenBottomTabBar: React.FC<TabScreenBottomTabBarProps> = ({ smallMode
                         onPress={() => onPress(name)}
                         key={name}
                         style={[styles.tab, tabStyle]}
-                        android_ripple={{ color: GRAY2, radius: WIDTH / 3 / 2 }}
+                    // android_ripple={{ color: GRAY2, radius: WIDTH / 3 / 2 }}
                     >
                         <Animated.View style={iconConatinerStyle} >
                             {icon({ color: routeName === name ? COLOR1 : GRAY2, focus: routeName === name })}
