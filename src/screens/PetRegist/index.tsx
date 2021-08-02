@@ -63,8 +63,7 @@ const PetRegist = () => {
         <ScreenLayout>
             <Header title='반려동물 등록' />
             <KeyboardAvoidingView
-                enabled={IS_IOS}
-                behavior='padding'
+                behavior={IS_IOS ? 'padding' : 'height'}
                 style={{ flex: 1 }}
             >
                 <ScrollView

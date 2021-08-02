@@ -105,8 +105,7 @@ const PetModify = () => {
                 <Text style={{ color: COLOR3 }} >삭제</Text>
             </Pressable>
             <KeyboardAvoidingView
-                enabled={IS_IOS}
-                behavior='padding'
+                behavior={IS_IOS ? 'padding' : 'height'}
                 style={{ flex: 1 }}
             >
                 <ScrollView

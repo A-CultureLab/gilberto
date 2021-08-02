@@ -96,8 +96,7 @@ const Signup = () => {
         <ScreenLayout>
             <Header title='회원정보 등록' backBtn='none' />
             <KeyboardAvoidingView
-                enabled={IS_IOS}
-                behavior='padding'
+                behavior={IS_IOS ? 'padding' : 'height'}
                 style={{ flex: 1 }}
             >
                 <ScrollView

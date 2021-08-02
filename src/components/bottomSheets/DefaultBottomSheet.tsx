@@ -4,6 +4,7 @@ import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet
 import Modal from 'react-native-modal'
 import { GRAY2, HEIGHT, WIDTH } from '../../constants/styles';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { IS_IOS } from '../../constants/values';
 
 
 interface DefaultBottomSheetProps {

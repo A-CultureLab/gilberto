@@ -85,8 +85,7 @@ const ProfileModify = () => {
         <ScreenLayout>
             <Header title='프로필 수정' />
             <KeyboardAvoidingView
-                enabled={IS_IOS}
-                behavior='padding'
+                behavior={IS_IOS ? 'padding' : 'height'}
                 style={{ flex: 1 }}
             >
                 <ScrollView

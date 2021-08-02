@@ -1,5 +1,5 @@
 import React, { useCallback, useRef } from 'react'
-import { StyleSheet, Text, View, TextInput, KeyboardAvoidingView, Pressable } from 'react-native'
+import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native'
 import { COLOR2, GRAY2, GRAY3 } from '../../constants/styles'
 import { AnimalType } from '../../constants/type'
 import { ANIMAL_CHARACTER, IS_IOS } from '../../constants/values'
@@ -30,37 +30,31 @@ const CharacterSelectSheet: React.FC<CharacterSelectSheetProps> = ({ visible, on
             onClose={onClose}
             enableBottomSafeArea
         >
-            <KeyboardAvoidingView
-                behavior='height'
-                enabled={IS_IOS}
-            >
-                <View  >
-                    {data.map((v, i) => (
-                        <Pressable
-                            key={v}
-                            android_ripple={{ color: GRAY2 }}
-                            style={styles.itemContainer}
-                            onPress={() => onPress(v)}
-                        >
-                            <Text>{v}</Text>
-                        </Pressable>
-                    ))}
+            <View  >
+                {data.map((v, i) => (
                     <Pressable
-                        style={styles.inputContainer}
+                        key={v}
                         android_ripple={{ color: GRAY2 }}
-                        onPress={() => inputRef.current?.focus()}
+                        style={styles.itemContainer}
+                        onPress={() => onPress(v)}
                     >
-                        <TextInput
-                            ref={inputRef}
-                            placeholder='직접입력'
-                            placeholderTextColor='#000'
-                            style={{ color: '#000', margin: 0, padding: 0 }}
-                            onSubmitEditing={({ nativeEvent }) => onPress(nativeEvent.text)}
-                        />
+                        <Text>{v}</Text>
                     </Pressable>
-                </View>
-
-            </KeyboardAvoidingView>
+                ))}
+                <Pressable
+                    style={styles.inputContainer}
+                    android_ripple={{ color: GRAY2 }}
+                    onPress={() => inputRef.current?.focus()}
+                >
+                    <TextInput
+                        ref={inputRef}
+                        placeholder='직접입력'
+                        placeholderTextColor='#000'
+                        style={{ color: '#000', margin: 0, padding: 0 }}
+                        onSubmitEditing={({ nativeEvent }) => onPress(nativeEvent.text)}
+                    />
+                </Pressable>
+            </View>
         </DefaultBottomSheet>
     )
 }
