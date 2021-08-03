@@ -2,7 +2,7 @@ import { COLOR2, DEFAULT_SHADOW, HEIGHT, STATUSBAR_HEIGHT, WIDTH } from '../../c
 import { FlatList, StyleSheet, Text, View } from 'react-native'
 import MapView, { Coordinate, LatLng, Marker, Region } from 'react-native-maps';
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
-import messaging from '@react-native-firebase/messaging'
+import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 
 import { AuthContext } from '..';
 import Geolocation from '@react-native-community/geolocation';
@@ -16,6 +16,10 @@ import TabScreenBottomTabBar from '../../components/tabs/TabScreenBottomTabBar';
 import auth from '@react-native-firebase/auth'
 import { useIsSignedup, useUpdateFcmToken } from '../../graphql/user';
 import { useMapPets } from '../../graphql/pet';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import PushNotification, { Importance } from 'react-native-push-notification';
+import useAuth from '../../hooks/useAuth';
+
 
 interface HomeScreenContextInterface {
     selectedPostcode: string | null
@@ -29,9 +33,12 @@ const Home = () => {
 
     const mapRef = useRef<MapView>(null)
 
+    const { navigate } = useNavigation()
+
     const { user } = useContext(AuthContext)
+    const { logout } = useAuth()
     const { data } = useIsSignedup({ fetchPolicy: 'network-only' })
-    const [updateFcmToken, setUpdateFcmToken] = useUpdateFcmToken()
+    const [updateFcmToken] = useUpdateFcmToken()
 
 
     const [cameraPos, setCameraPos] = useState<Region>({
@@ -59,7 +66,7 @@ const Home = () => {
     useEffect(() => {
         if (!auth().currentUser) return
         if (!data) return
-        if (!data.isSignedup) auth().signOut()
+        if (!data.isSignedup) logout()
     }, [data])
 
     // 내위치 초기화
@@ -102,6 +109,44 @@ const Home = () => {
         })
     }, [myPos])
 
+    // PUSH MESSAGE ------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+
+    // foreground push listner
+    useEffect(() => {
+        const unsubscribe = messaging().onMessage(async (message: FirebaseMessagingTypes.RemoteMessage) => {
+            if (message.notification) {
+                PushNotification.localNotification({
+                    message: message.notification.body || '',
+                    title: message.notification.title,
+                    bigPictureUrl: message.notification.android?.imageUrl,
+                    playSound: false,
+                    vibrate: false
+                })
+            }
+        })
+        return unsubscribe
+    }, [])
+
+    // background push listner
+    useEffect(() => {
+        const backgroundNotificationHandler = async (remoteMessage: FirebaseMessagingTypes.RemoteMessage) => {
+            const data = remoteMessage.data
+            if (!data) return
+            if (data.type === 'chat') {
+                console.log(data.chatRoomId)
+                navigate('ChatDetail', { id: Number(data.chatRoomId) })
+            }
+        }
+        // 푸시를 눌러서 열었을때 IOS는 백그라운드, QUIT상태 둘다 onNotificationOpendApp이 작동함
+        // 안드로이드는 백그라운드 상태에서만 onNotificationOpendApp이 작동해서 푸시 눌러서 앱 초기 실행할때는 messaging().getInitialNotification() 로 처리해주세요
+        messaging().onNotificationOpenedApp(backgroundNotificationHandler)
+        // android quit push listner
+        // Android Only ios는 언제나 null
+        // 트리거 형식이라 한번만 작동함
+        messaging().getInitialNotification().then((remoteMessage) => remoteMessage ? backgroundNotificationHandler(remoteMessage) : null)
+    }, [])
+
 
     // fcm token listner
     useEffect(() => {
@@ -120,7 +165,7 @@ const Home = () => {
         fcmInit()
         return messaging().onTokenRefresh(fcmRefresh)
     }, [user])
-
+    // ------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 
 

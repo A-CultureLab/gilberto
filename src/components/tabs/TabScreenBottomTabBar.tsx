@@ -46,7 +46,7 @@ const TabScreenBottomTabBar: React.FC<TabScreenBottomTabBarProps> = ({ smallMode
     const { name: routeName } = useRoute()
     const { navigate } = useNavigation()
 
-    const { data } = useIUser({ fetchPolicy: 'cache-only' })
+    const { data } = useIUser({ fetchPolicy: 'cache-first' })
 
     const animation = useSharedValue(1)
 

@@ -14,13 +14,14 @@ const ChatDetailCard: React.FC<chats_chats> = (props) => {
     const { user: iUser } = useContext(AuthContext)
     const userId = iUser?.uid
 
+
     if (userId === user.id) return ( // iUserMessageCard
         <View style={styles.iUserMessageCardContainer} >
             <Text style={styles.date} >{dayjs(createdAt).format('a hh:mm')}</Text>
             {image
                 ?
                 <FastImage
-                    source={{ uri: image }}
+                    source={{ uri: image || '' }}
                     style={styles.image}
                 />
                 : <View style={styles.iUserMessageCardMessageBox} >
@@ -33,14 +34,14 @@ const ChatDetailCard: React.FC<chats_chats> = (props) => {
         <View style={styles.normalMessageCardContainer} >
             <Pressable>
                 <FastImage
-                    source={{ uri: user.image }}
+                    source={{ uri: user.image || '' }}
                     style={styles.normalMessageCardProfileImage}
                 />
             </Pressable>
             {image
                 ?
                 <FastImage
-                    source={{ uri: image }}
+                    source={{ uri: image || '' }}
                     style={styles.image}
                 />
                 : <View style={{ maxWidth: '60%' }} >
