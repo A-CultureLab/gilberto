@@ -51,6 +51,8 @@ subscription chatRoomUpdated($userId:String!) {
 
 export const useChatRoomUpdated = createSubscriptionHook<chatRoomUpdated, chatRoomUpdatedVariables>(CHAT_ROOM_UPDATED, {
     onSubscriptionData: ({ client, subscriptionData }) => {
+
+        // console.log('chatRoomUpdated')
         if (!subscriptionData.data?.chatRoomUpdated) return
 
         // 해당 챗룸을 맨 앞으로 빼주기

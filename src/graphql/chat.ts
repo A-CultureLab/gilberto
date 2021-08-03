@@ -86,6 +86,7 @@ subscription chatCreated($userId:String!, $chatRoomId:Int!) {
 export const useChatCreated = createSubscriptionHook<chatCreated, chatCreatedVariables>(CHAT_CREATED, {
     onSubscriptionData: ({ client, subscriptionData }) => {
         // console.log(subscriptionData)
+        // console.log('chatCreated')
         if (!subscriptionData.data?.chatCreated) return
 
         // 해당 챗룸 아이디에 맨 앞에 chat 넣어주기

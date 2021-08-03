@@ -119,10 +119,11 @@ const TabScreenBottomTabBar: React.FC<TabScreenBottomTabBarProps> = ({ smallMode
                     >
                         <Animated.View style={iconConatinerStyle} >
                             {icon({ color: routeName === name ? COLOR1 : GRAY2, focus: routeName === name })}
+                            {(name === 'Chat' && data && data.iUser.notReadChatCount > 0) && <View style={styles.notReadChatCountBadge} ><Text style={styles.notReadChatCount} >{data.iUser.notReadChatCount > 100 ? 99 : data.iUser.notReadChatCount}</Text></View>}
                         </Animated.View>
                         {routeName === name && <Animated.View style={[styles.line, lineStyle]} />}
                         <Animated.Text style={[{ color: routeName === name ? '#333' : GRAY1 }, textStyle]}>{label}</Animated.Text>
-                        {name === 'Chat' && data && <View><Text>{data.iUser.notReadChatCount}</Text></View>}
+
                     </AnimatedPressable>
                 )
             })}
@@ -154,5 +155,23 @@ const styles = StyleSheet.create({
         backgroundColor: COLOR1,
         position: 'absolute',
         top: 0
+    },
+    notReadChatCountBadge: {
+        width: 16,
+        height: 16,
+        borderRadius: 8,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#fff',
+        position: 'absolute',
+        top: -5,
+        right: -5
+    },
+    notReadChatCount: {
+        fontSize: 10,
+        color: COLOR1,
+        fontWeight: 'bold',
+        margin: 0,
+        padding: 0
     }
 })
