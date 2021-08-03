@@ -14,10 +14,19 @@ export interface chatCreated_chatCreated_user {
   image: string;
 }
 
+export interface chatCreated_chatCreated_chatRoom_recentChat {
+  __typename: "Chat";
+  id: number;
+  createdAt: any;
+  message: string | null;
+}
+
 export interface chatCreated_chatCreated_chatRoom {
   __typename: "ChatRoom";
   id: number;
   name: string;
+  notReadChatCount: number;
+  recentChat: chatCreated_chatCreated_chatRoom_recentChat | null;
 }
 
 export interface chatCreated_chatCreated {

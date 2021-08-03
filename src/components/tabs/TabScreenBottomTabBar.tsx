@@ -11,6 +11,8 @@ import IconMA from 'react-native-vector-icons/MaterialIcons'
 import auth from '@react-native-firebase/auth';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated'
 import { useEffect } from 'react'
+import { useApolloClient } from '@apollo/client'
+import { useIUser } from '../../graphql/user'
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
 
@@ -43,6 +45,8 @@ const TabScreenBottomTabBar: React.FC<TabScreenBottomTabBarProps> = ({ smallMode
     const { bottom } = useSafeAreaInsets()
     const { name: routeName } = useRoute()
     const { navigate } = useNavigation()
+
+    const { data } = useIUser({ fetchPolicy: 'cache-only' })
 
     const animation = useSharedValue(1)
 
@@ -118,6 +122,7 @@ const TabScreenBottomTabBar: React.FC<TabScreenBottomTabBarProps> = ({ smallMode
                         </Animated.View>
                         {routeName === name && <Animated.View style={[styles.line, lineStyle]} />}
                         <Animated.Text style={[{ color: routeName === name ? '#333' : GRAY1 }, textStyle]}>{label}</Animated.Text>
+                        {name === 'Chat' && data && <View><Text>{data.iUser.notReadChatCount}</Text></View>}
                     </AnimatedPressable>
                 )
             })}

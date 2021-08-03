@@ -23,10 +23,19 @@ export interface chats_chats {
   user: chats_chats_user;
 }
 
+export interface chats_chatRoom_recentChat {
+  __typename: "Chat";
+  id: number;
+  createdAt: any;
+  message: string | null;
+}
+
 export interface chats_chatRoom {
   __typename: "ChatRoom";
   id: number;
   name: string;
+  notReadChatCount: number;
+  recentChat: chats_chatRoom_recentChat | null;
 }
 
 export interface chats {

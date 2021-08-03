@@ -41,6 +41,7 @@ const ChatDetail = () => {
                             <FlatList
                                 data={data?.chats}
                                 inverted
+                                style={{ overflow: IS_IOS ? 'visible' : 'hidden' }}
                                 overScrollMode='never'
                                 onEndReachedThreshold={0.5}
                                 onEndReached={() => fetchMore({ variables: { cursor: data?.chats[data.chats.length - 1].id } })}

@@ -27,6 +27,7 @@ export interface iUser_iUser {
   addressPostcode: string;
   instagramId: string | null;
   introduce: string;
+  notReadChatCount: number;
   address: iUser_iUser_address;
 }
 

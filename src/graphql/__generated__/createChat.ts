@@ -20,8 +20,8 @@ export interface createChat_createChat_chatRoom {
   __typename: "ChatRoom";
   id: number;
   name: string;
-  recentChat: createChat_createChat_chatRoom_recentChat | null;
   notReadChatCount: number;
+  recentChat: createChat_createChat_chatRoom_recentChat | null;
 }
 
 export interface createChat_createChat {

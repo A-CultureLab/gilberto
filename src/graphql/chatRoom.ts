@@ -3,6 +3,7 @@ import { createQueryHook, createSubscriptionHook } from "../lib/createApolloHook
 
 import { gql } from "@apollo/client";
 import { chatRooms, chatRoomsVariables } from "./__generated__/chatRooms";
+import { I_USER_NOT_READ_CHAT_NUM } from "./user";
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const CHAT_ROOMS = gql`
@@ -15,6 +16,7 @@ query chatRooms ($cursor:Int, $take:Int) {
             id
             name,
             image
+            notReadChatCount
         }    
         recentChat {
             id
@@ -36,6 +38,7 @@ subscription chatRoomUpdated($userId:String!) {
             id
             name,
             image
+            notReadChatCount
         }    
         recentChat {
             id
@@ -53,7 +56,7 @@ export const useChatRoomUpdated = createSubscriptionHook<chatRoomUpdated, chatRo
         // 해당 챗룸을 맨 앞으로 빼주기
         const chatRoom = subscriptionData.data.chatRoomUpdated
         const preData = client.cache.readQuery<chatRooms, chatRoomsVariables>({ query: CHAT_ROOMS })?.chatRooms || []
-        console.log(preData)
+        // console.log(preData)
         client.cache.writeQuery<chatRooms, chatRoomsVariables>({
             query: CHAT_ROOMS,
             data: {
