@@ -12,6 +12,7 @@ export interface chats_chats_user {
   id: string;
   name: string;
   image: string;
+  notReadChatCount: number;
 }
 
 export interface chats_chats {

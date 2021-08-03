@@ -12,6 +12,7 @@ export interface chatCreated_chatCreated_user {
   id: string;
   name: string;
   image: string;
+  notReadChatCount: number;
 }
 
 export interface chatCreated_chatCreated_chatRoom_recentChat {

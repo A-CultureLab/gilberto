@@ -353,6 +353,7 @@ export interface UserWhereInput {
   agreementDate?: DateTimeFilter | null;
   marketingPushDate?: DateTimeNullableFilter | null;
   marketingEmailDate?: DateTimeNullableFilter | null;
+  fcmToken?: StringNullableFilter | null;
   withdrawDate?: DateTimeNullableFilter | null;
   withdrawReason?: StringNullableFilter | null;
   addressPostcode?: StringFilter | null;

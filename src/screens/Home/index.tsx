@@ -2,7 +2,7 @@ import { COLOR2, DEFAULT_SHADOW, HEIGHT, STATUSBAR_HEIGHT, WIDTH } from '../../c
 import { FlatList, StyleSheet, Text, View } from 'react-native'
 import MapView, { Coordinate, LatLng, Marker, Region } from 'react-native-maps';
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
-import { useChatCreated, useCreateChat } from '../../graphql/chat';
+import messaging from '@react-native-firebase/messaging'
 
 import { AuthContext } from '..';
 import Geolocation from '@react-native-community/geolocation';
@@ -14,7 +14,7 @@ import PetsBottomSheet from './PetsBottomSheet';
 import ScreenLayout from '../../components/layout/ScreenLayout';
 import TabScreenBottomTabBar from '../../components/tabs/TabScreenBottomTabBar';
 import auth from '@react-native-firebase/auth'
-import { useIsSignedup } from '../../graphql/user';
+import { useIsSignedup, useUpdateFcmToken } from '../../graphql/user';
 import { useMapPets } from '../../graphql/pet';
 
 interface HomeScreenContextInterface {
@@ -31,6 +31,7 @@ const Home = () => {
 
     const { user } = useContext(AuthContext)
     const { data } = useIsSignedup({ fetchPolicy: 'network-only' })
+    const [updateFcmToken, setUpdateFcmToken] = useUpdateFcmToken()
 
 
     const [cameraPos, setCameraPos] = useState<Region>({
@@ -101,6 +102,24 @@ const Home = () => {
         })
     }, [myPos])
 
+
+    // fcm token listner
+    useEffect(() => {
+        if (!user) return
+
+        const fcmInit = async () => {
+            await messaging().requestPermission()
+            const token = await messaging().getToken()
+            await updateFcmToken({ variables: { token } })
+        }
+
+        const fcmRefresh = async (token: string) => {
+            await updateFcmToken({ variables: { token } })
+        }
+
+        fcmInit()
+        return messaging().onTokenRefresh(fcmRefresh)
+    }, [user])
 
 
 

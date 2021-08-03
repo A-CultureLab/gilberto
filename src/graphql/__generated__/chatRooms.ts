@@ -12,6 +12,7 @@ export interface chatRooms_chatRooms_users {
   id: string;
   name: string;
   image: string;
+  notReadChatCount: number;
 }
 
 export interface chatRooms_chatRooms_recentChat {

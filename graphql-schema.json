@@ -1034,6 +1034,18 @@
             "deprecationReason": null
           },
           {
+            "name": "fcmToken",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "withdrawReason",
             "description": null,
             "args": [],
@@ -2618,7 +2630,7 @@
                   "name": "Int",
                   "ofType": null
                 },
-                "defaultValue": "10",
+                "defaultValue": "20",
                 "isDeprecated": false,
                 "deprecationReason": null
               }
@@ -2683,7 +2695,7 @@
                   "name": "Int",
                   "ofType": null
                 },
-                "defaultValue": "10",
+                "defaultValue": "20",
                 "isDeprecated": false,
                 "deprecationReason": null
               }
@@ -2815,6 +2827,35 @@
                 "name": "User",
                 "ofType": null
               }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "updateFcmToken",
+            "description": null,
+            "args": [
+              {
+                "name": "token",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "User",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -3528,6 +3569,18 @@
             "deprecationReason": null
           },
           {
+            "name": "fcmToken",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "StringNullableFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "withdrawDate",
             "description": null,
             "type": {
@@ -3781,6 +3834,18 @@
           },
           {
             "name": "marketingEmailDate",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "SortOrder",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "fcmToken",
             "description": null,
             "type": {
               "kind": "ENUM",

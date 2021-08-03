@@ -4,6 +4,7 @@ import { coordToRegion, coordToRegionVariables } from "./__generated__/coordToRe
 import { isSignedup } from "./__generated__/isSignedup";
 import { iUser } from "./__generated__/iUser";
 import { signup, signupVariables } from "./__generated__/signup";
+import { updateFcmToken, updateFcmTokenVariables } from "./__generated__/updateFcmToken";
 import { updateUser, updateUserVariables } from "./__generated__/updateUser";
 import { user, userVariables } from "./__generated__/user";
 import { withdraw, withdrawVariables } from "./__generated__/withdraw";
@@ -125,7 +126,15 @@ export const I_USER_NOT_READ_CHAT_NUM = gql`
   }
 `
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
-
+export const UPDATE_FCM_TOKEN = gql`
+  mutation updateFcmToken ($token: String!) {
+    updateFcmToken(token:$token) {
+      id
+      fcmToken
+    }
+  }
+`
+export const useUpdateFcmToken = createMutationHook<updateFcmToken, updateFcmTokenVariables>(UPDATE_FCM_TOKEN)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
