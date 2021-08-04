@@ -1,12 +1,13 @@
 import { Platform } from "react-native";
 import deviceInfoModule from "react-native-device-info";
-import { AnimalType } from "./type";
 
 export const IS_ANDROID = Platform.OS === 'android'
 export const IS_IOS = Platform.OS === 'ios'
 
+const PROD_TEST_MODE = true
+
 export const GRAPHQL_SERVER_URL = (() => {
-    // return 'https://api-server-dev-5gq6bfkwja-du.a.run.app/graphql'
+    if (PROD_TEST_MODE) return 'https://api-server-dev-5gq6bfkwja-du.a.run.app/graphql'
     if (!__DEV__) return 'https://api-server-dev-5gq6bfkwja-du.a.run.app/graphql'
     if (IS_ANDROID) {
         if (deviceInfoModule.isEmulatorSync()) return 'http://10.0.2.2:8080/graphql'
@@ -21,16 +22,16 @@ export const GRAPHQL_SERVER_URL = (() => {
 })()
 
 export const WEBSOCKET_SERVER_URL = (() => {
-    // return 'https://api-server-dev-5gq6bfkwja-du.a.run.app/graphql'
-    if (!__DEV__) return 'ws://api-server-dev-5gq6bfkwja-du.a.run.app/graphql'
+    if (PROD_TEST_MODE) return 'https://api-server-dev-5gq6bfkwja-du.a.run.app/graphql'
+    if (!__DEV__) return 'https://api-server-dev-5gq6bfkwja-du.a.run.app/graphql'
     if (IS_ANDROID) {
-        if (deviceInfoModule.isEmulatorSync()) return 'ws://10.0.2.2:8080/graphql'
-        else return 'ws://192.168.35.105:8080/graphql'
-        // else return 'ws://192.168.10.36:8080/graphql'
+        if (deviceInfoModule.isEmulatorSync()) return 'http://10.0.2.2:8080/graphql'
+        else return 'http://192.168.35.105:8080/graphql'
+        // else return 'http://192.168.10.36:8080/graphql'
     }
     if (IS_IOS) {
-        if (deviceInfoModule.isEmulatorSync()) return 'ws://localhost:8080/graphql'
-        else return 'ws://192.168.35.105:8080/graphql'
+        if (deviceInfoModule.isEmulatorSync()) return 'http://localhost:8080/graphql'
+        else return 'http://192.168.35.105:8080/graphql'
         // else return 'ws://192.168.10.18:8080/graphql'
     }
 })()
