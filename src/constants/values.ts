@@ -7,8 +7,7 @@ export const IS_IOS = Platform.OS === 'ios'
 const PROD_TEST_MODE = true
 
 export const GRAPHQL_SERVER_URL = (() => {
-    if (PROD_TEST_MODE) return 'https://api-server-dev-5gq6bfkwja-du.a.run.app/graphql'
-    if (!__DEV__) return 'https://api-server-dev-5gq6bfkwja-du.a.run.app/graphql'
+    if (!__DEV__ || PROD_TEST_MODE) return 'https://api-server-dev-5gq6bfkwja-du.a.run.app/graphql'
     if (IS_ANDROID) {
         if (deviceInfoModule.isEmulatorSync()) return 'http://10.0.2.2:8080/graphql'
         else return 'http://192.168.35.105:8080/graphql'
@@ -22,8 +21,7 @@ export const GRAPHQL_SERVER_URL = (() => {
 })()
 
 export const WEBSOCKET_SERVER_URL = (() => {
-    if (PROD_TEST_MODE) return 'https://api-server-dev-5gq6bfkwja-du.a.run.app/graphql'
-    if (!__DEV__) return 'https://api-server-dev-5gq6bfkwja-du.a.run.app/graphql'
+    if (!__DEV__ || PROD_TEST_MODE) return 'https://api-server-dev-5gq6bfkwja-du.a.run.app/graphql'
     if (IS_ANDROID) {
         if (deviceInfoModule.isEmulatorSync()) return 'http://10.0.2.2:8080/graphql'
         else return 'http://192.168.35.105:8080/graphql'
