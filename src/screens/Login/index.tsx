@@ -18,6 +18,7 @@ import { iUser } from '../../graphql/__generated__/iUser'
 import { isSignedup } from '../../graphql/__generated__/isSignedup'
 import useGlobalUi from '../../hooks/useGlobalUi'
 import appleAuth from '@invertase/react-native-apple-authentication'
+import { IS_IOS } from '../../constants/values'
 
 const Login = () => {
 
@@ -104,7 +105,7 @@ const Login = () => {
                             style={{ width: 24, height: 24 }}
                         />
                     </TouchableScale>
-                    <TouchableScale
+                    {IS_IOS && <TouchableScale
                         style={[styles.btn, { backgroundColor: APPLE_COLOR }]}
                         onPress={onApple}
                     >
@@ -113,7 +114,7 @@ const Login = () => {
                             style={{ width: 24, height: 24 }}
 
                         />
-                    </TouchableScale>
+                    </TouchableScale>}
                 </View>
             </View>
             {loading && <View style={styles.loading} >
