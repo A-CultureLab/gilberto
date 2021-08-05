@@ -12,7 +12,6 @@ import React from 'react'
 import ScreenLayout from '../../components/layout/ScreenLayout'
 import { useContext } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import useImageUpload from '../../hooks/useImageUpload'
 
 export interface ChatDetailProps {
     id: number

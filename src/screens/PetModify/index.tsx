@@ -141,7 +141,7 @@ const PetModify = () => {
                                         width: 1024,
                                         height: 1024,
                                         freeStyleCropEnabled: false
-                                    }, 'profile/')
+                                    }, 'petProfile/')
                                     field.onChange(uri)
                                 } catch (error) {
                                     toast({ content: '이미지 업로드 실패' })

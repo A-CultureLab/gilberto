@@ -84,14 +84,14 @@ const Footer: React.FC<{ chatRoomId: number }> = ({ chatRoomId }) => {
             title: '앨범',
             icon: <Icon name='album' color='#fff' size={24} />,
             onPress: () => {
-                upload().then(v => onSend(v))
+                upload({}, 'chatImage/').then(v => onSend(v))
             }
         },
         {
             title: '카메라',
             icon: <Icon name='camera' color='#fff' size={24} />,
             onPress: () => {
-                upload({ camera: true }).then(v => onSend(v))
+                upload({ camera: true }, 'chatImage/').then(v => onSend(v))
             }
         },
     ]
