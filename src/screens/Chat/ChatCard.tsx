@@ -29,7 +29,7 @@ const ChatCard: React.FC<chatRooms_chatRooms> = (props) => {
                 source={{ uri: users[0].image }}
             />
             <View style={styles.contentContainer} >
-                <Text style={styles.title} >{name}</Text>
+                <Text style={styles.title} numberOfLines={1} >{name}</Text>
                 <Text style={styles.recentChat} numberOfLines={1} >{recentChat ? recentChat.message || '사진' : ''}</Text>
             </View>
             <View style={styles.metaDataContainer} >

@@ -26,7 +26,7 @@ const Header: React.FC<HeaderProps> = ({ backBtn, title, underline, right }) => 
                     <Icon name='keyboard-arrow-left' size={24} />
                 </Pressable>
             }
-            <Text style={[styles.title, { marginLeft: backBtn === 'left' ? 0 : 24 }]} >{title}</Text>
+            <Text numberOfLines={1} style={[styles.title, { marginLeft: backBtn === 'left' ? 0 : 24 }]} >{title}</Text>
             {backBtn === 'right' &&
                 <Pressable
                     onPress={goBack}
@@ -59,7 +59,8 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 18,
         fontWeight: 'bold',
-        flex: 1
+        flex: 1,
+        marginRight: 24
     },
     btn: {
         width: 56,
