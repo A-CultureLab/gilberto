@@ -44,7 +44,7 @@ const ChatDetailCard: React.FC<chats_chats> = (props) => {
                     source={{ uri: image || '' }}
                     style={styles.image}
                 />
-                : <View style={{ maxWidth: '60%' }} >
+                : <View style={{ maxWidth: '60%', alignItems: 'flex-start' }} >
                     <Text style={styles.normalMessageCardUserName} >{user.name}</Text>
                     <View style={styles.normalMessageCardMessageBox} >
                         <Text numberOfLines={100} style={styles.normalMessageCardMessage} >{message}</Text>
