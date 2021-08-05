@@ -10,7 +10,7 @@ import Footer from '../../components/footers/Footer'
 import ScreenLayout from '../../components/layout/ScreenLayout'
 import LocationHereIcon from '../../components/svgs/LocationHereIcon'
 import { DEFAULT_SHADOW, GRAY2, STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles'
-import { IS_IOS } from '../../constants/values'
+import { DEFAULT_REGION, DEFAULT_REGION_DELTA, IS_IOS } from '../../constants/values'
 import { useCoordToRegion } from '../../graphql/user'
 import { coordToRegion } from '../../graphql/__generated__/coordToRegion'
 
@@ -28,12 +28,7 @@ const SelectLocation = () => {
 
     const { bottom } = useSafeAreaInsets()
 
-    const [cameraPos, setCameraPos] = useState<Region>({
-        latitude: 37.50367232610927,
-        longitude: 126.98522503284602,
-        latitudeDelta: 0.003,
-        longitudeDelta: 0.003
-    })
+    const [cameraPos, setCameraPos] = useState<Region>(DEFAULT_REGION)
     const [myPos, setMyPos] = useState<LatLng | null>(null)
     const [cameraInitTrigger, setCameraInitTrigger] = useState(true)
     const [timer, setTimer] = useState<NodeJS.Timeout | null>(null)
@@ -60,8 +55,7 @@ const SelectLocation = () => {
             mapRef.current?.animateToRegion({
                 latitude: myPos.latitude,
                 longitude: myPos.longitude,
-                latitudeDelta: 0.005,
-                longitudeDelta: 0.005
+                ...DEFAULT_REGION_DELTA
             })
             setCameraInitTrigger(false)
         }
@@ -72,8 +66,7 @@ const SelectLocation = () => {
         mapRef.current?.animateToRegion({
             latitude: myPos.latitude,
             longitude: myPos.longitude,
-            latitudeDelta: 0.005,
-            longitudeDelta: 0.005
+            ...DEFAULT_REGION_DELTA
         })
     }, [myPos])
 

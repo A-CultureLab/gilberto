@@ -5,7 +5,7 @@ import { Region } from "react-native-maps";
 export const IS_ANDROID = Platform.OS === 'android'
 export const IS_IOS = Platform.OS === 'ios'
 
-const PROD_TEST_MODE = true
+const PROD_TEST_MODE = false
 
 export const GRAPHQL_SERVER_URL = (() => {
     if (!__DEV__ || PROD_TEST_MODE) return 'https://api-server-dev-5gq6bfkwja-du.a.run.app/graphql'
@@ -94,8 +94,12 @@ export const DEFAULT_REGION_DELTA: Omit<Region, 'latitude' | 'longitude'> = {
     longitudeDelta: 0.025
 }
 
-export const DEFAULT_REGION: Region = {
+export const DEFAULT_REGION_LAT_LOG: Omit<Region, 'latitudeDelta' | 'longitudeDelta'> = {
     latitude: 37.377712,
     longitude: 127.129062,
+}
+
+export const DEFAULT_REGION: Region = {
+    ...DEFAULT_REGION_LAT_LOG,
     ...DEFAULT_REGION_DELTA
 }
