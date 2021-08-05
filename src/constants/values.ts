@@ -1,5 +1,6 @@
 import { Platform } from "react-native";
 import deviceInfoModule from "react-native-device-info";
+import { Region } from "react-native-maps";
 
 export const IS_ANDROID = Platform.OS === 'android'
 export const IS_IOS = Platform.OS === 'ios'
@@ -86,4 +87,15 @@ export const ANIMAL_SPECIES: { [type: string]: { [key: string]: string[] } } = {
         'ㅍ': ['파라오 하운드', '파슨 러셀 테리어', '파피용', '패터데일 테리어', '퍼그', '페키니즈', '펨브록 웰시 코기', '포르투기즈 워터 도그', '포메라니안', '포인터', '폭스 테리어', '폴리시 롤런드 시프도그', '폼피츠', '푸들', '푸미', '풀리', '풍산개', '프렌치 불도그', '프티 바세 그리퐁 방댕', '플랫코티드 레트리버', '플롯 하운드', '피니시 스피츠', '피레니안 마스티프', '피레니안 쉽독', '피레니언 셰퍼드', '필드 스패니얼', '필라 브라질레이로', '핏 불 테리어',],
         'ㅎ': ['해리어', '하바니즈', '홋카이도 이누', '휘핏'],
     }
+}
+
+export const DEFAULT_REGION_DELTA: Omit<Region, 'latitude' | 'longitude'> = {
+    latitudeDelta: 0.025,
+    longitudeDelta: 0.025
+}
+
+export const DEFAULT_REGION: Region = {
+    latitude: 37.377712,
+    longitude: 127.129062,
+    ...DEFAULT_REGION_DELTA
 }

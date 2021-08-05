@@ -7,7 +7,7 @@ import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messag
 import { AuthContext } from '..';
 import Geolocation from '@react-native-community/geolocation';
 import HomeHeader from './HomeHeader'
-import { IS_IOS } from '../../constants/values';
+import { DEFAULT_REGION, DEFAULT_REGION_DELTA, IS_IOS } from '../../constants/values';
 import MyPosFab from '../../components/fabs/MyPosFab';
 import PetMarker from './PetMarker';
 import PetsBottomSheet from './PetsBottomSheet';
@@ -41,12 +41,7 @@ const Home = () => {
     const [updateFcmToken] = useUpdateFcmToken()
 
 
-    const [cameraPos, setCameraPos] = useState<Region>({
-        latitude: 37.50367232610927,
-        longitude: 126.98522503284602,
-        latitudeDelta: 0.005,
-        longitudeDelta: 0.005
-    })
+    const [cameraPos, setCameraPos] = useState<Region>(DEFAULT_REGION)
 
     const { data: mapPetsData } = useMapPets({ variables: { cameraRegion: cameraPos } })
 
@@ -71,7 +66,6 @@ const Home = () => {
 
     // 내위치 초기화
     useEffect(() => {
-        // auth().signOut()
         if (IS_IOS) Geolocation.requestAuthorization()
         const watch = Geolocation.watchPosition(
             (position) => {
@@ -91,8 +85,7 @@ const Home = () => {
             mapRef.current?.animateToRegion({
                 latitude: myPos.latitude,
                 longitude: myPos.longitude,
-                latitudeDelta: 0.005,
-                longitudeDelta: 0.005
+                ...DEFAULT_REGION_DELTA
             })
             setCameraInitTrigger(false)
         }
@@ -104,8 +97,7 @@ const Home = () => {
         mapRef.current?.animateToRegion({
             latitude: myPos.latitude,
             longitude: myPos.longitude,
-            latitudeDelta: 0.005,
-            longitudeDelta: 0.005
+            ...DEFAULT_REGION_DELTA
         })
     }, [myPos])
 
