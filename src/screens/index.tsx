@@ -90,7 +90,12 @@ const Navigation = () => {
                 <Stack.Navigator
                     initialRouteName='Tab'
                     headerMode='none'
-                    screenOptions={{ cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS }}
+                    screenOptions={({ navigation }) => {
+                        return {
+                            detachPreviousScreen: !navigation.isFocused(),
+                            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+                        }
+                    }}
                 >
                     <Stack.Screen name='Tab' component={TabNavigation} />
                     <Stack.Screen name='Login' component={Login} />

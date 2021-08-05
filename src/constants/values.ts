@@ -5,7 +5,7 @@ import { Region } from "react-native-maps";
 export const IS_ANDROID = Platform.OS === 'android'
 export const IS_IOS = Platform.OS === 'ios'
 
-const PROD_TEST_MODE = false
+const PROD_TEST_MODE = true
 
 export const GRAPHQL_SERVER_URL = (() => {
     if (!__DEV__ || PROD_TEST_MODE) return 'https://api-server-dev-5gq6bfkwja-du.a.run.app/graphql'
