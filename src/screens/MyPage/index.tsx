@@ -3,7 +3,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View, Linking, TouchableOpacit
 import Header from '../../components/headers/Header'
 import ScreenLayout from '../../components/layout/ScreenLayout'
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import { COLOR2, COLOR3, GRAY1, GRAY2, GRAY3 } from '../../constants/styles'
+import { COLOR2, COLOR3, GRAY1, GRAY2, GRAY3, WIDTH } from '../../constants/styles'
 import { useNavigation } from '@react-navigation/core'
 import { KAKAO_LINK } from '../../constants/values'
 import { useIUser } from '../../graphql/user'
@@ -56,7 +56,7 @@ const MyPage = () => {
                     <Pressable
                         onPress={() => navigate('Profile')}
                         android_ripple={{ color: GRAY2 }}
-                        style={{ height: '100%', flexDirection: 'row', alignItems: 'center' }}
+                        style={{ height: '100%', flexDirection: 'row', alignItems: 'center', minWidth: WIDTH }}
                     >
                         <FastImage
                             style={styles.image}
