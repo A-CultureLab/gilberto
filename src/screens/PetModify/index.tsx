@@ -41,14 +41,22 @@ const PetModify = () => {
     const { toast, confirm } = useGlobalUi()
     const [petTypeTrigger, setPetTypeTrigger] = useState(true)
     const { control, handleSubmit, setValue, watch, formState, clearErrors } = useForm<RegistPetInput>({
-        defaultValues: (() => {
-            let data = {
-                ...cache.readQuery<myPets>({ query: MY_PETS })?.myPets.find(v => v.id === params.id),
-                age: undefined,
-                id: undefined,
-                __typename: undefined
+        defaultValues: ((): RegistPetInput => {
+            const pet = cache.readQuery<myPets>({ query: MY_PETS })?.myPets.find(v => v.id === params.id)
+            //@ts-ignore
+            if (!pet) return {}
+            return {
+                birth: pet.birth,
+                character: pet.character,
+                gender: pet.gender,
+                image: pet.image,
+                name: pet.name,
+                neutered: pet.neutered,
+                species: pet.species,
+                type: pet.type,
+                vaccinated: pet.vaccinated,
+                weight: pet.weight
             }
-            return data
         })()
     })
 

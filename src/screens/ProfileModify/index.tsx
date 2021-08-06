@@ -37,13 +37,13 @@ const ProfileModify = () => {
 
     const { control, handleSubmit, setValue, formState, clearErrors } = useForm<UpdateUserInput>({
         defaultValues: {
-            ...user,
-            //@ts-ignore
-            id: undefined,
-            email: undefined,
-            __typename: undefined,
-            age: undefined,
-            address: undefined
+            addressPostcode: user?.addressPostcode,
+            birth: user?.birth,
+            gender: user?.gender,
+            image: user?.image,
+            instagramId: user?.instagramId,
+            introduce: user?.introduce,
+            name: user?.name
         }
     })
 
