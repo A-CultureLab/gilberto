@@ -32,13 +32,16 @@ export const cursorPagination = <T = Reference>(keyArgs: KeyArgs = false): Field
             let merged = existing ? existing.slice(0) : [];
             let index = merged.length - 1
 
-            for (let i = merged.length - 1; i >= 0; i--) {
+            for (let i = merged.length - 1; i >= 0; i--) { // find cursur index
                 if (readField('id', merged[i]) === cursor) {
                     index = i
                     break
                 }
             }
+
             merged = merged.slice(0, index)
+            const incommingIds = incoming.map(v => readField('id', v))
+            merged.filter(v => !incommingIds.includes(readField('id', v)))
             merged = [...merged, ...incoming]
 
             return merged
