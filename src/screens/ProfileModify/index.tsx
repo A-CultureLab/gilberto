@@ -236,10 +236,11 @@ const ProfileModify = () => {
                                 placeholder='(선택) 소개'
                                 multiline
                                 maxLength={2000}
-                                style={{ minHeight: 120 }}
+                                style={{ minHeight: 120, borderBottomWidth: 0 }}
                             />
                         )}
                     />
+                    <View style={{ height: 100 }} />
                 </ScrollView>
             </KeyboardAvoidingView>
             <Footer
