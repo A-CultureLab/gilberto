@@ -1,9 +1,9 @@
 import { useCallback, useContext } from "react"
-import { GlobalAlertProps, GlobalConfirmProps, GlobalToastProps, GlobalUIContext } from "../screens"
+import { GlobalAlertProps, GlobalConfirmProps, GlobalSelectBottomSheetProps, GlobalToastProps, GlobalUIContext } from "../screens"
 
 const useGlobalUi = () => {
 
-    const { setAlert, setConfirm, setToast } = useContext(GlobalUIContext)
+    const { setAlert, setConfirm, setToast, setSelector } = useContext(GlobalUIContext)
 
     const alert = useCallback((p: Omit<GlobalAlertProps, 'visible'>) => {
         setAlert({
@@ -29,11 +29,21 @@ const useGlobalUi = () => {
         }, duration)
     }, [])
 
+    const selector = useCallback((p: Omit<GlobalSelectBottomSheetProps, 'visible'>) => {
+        setSelector({
+            selectedDataIndex: undefined,
+            closeToSelect: false,
+            ...p,
+            visible: true,
+        })
+    }, [])
+
 
     return {
         alert,
         confirm,
-        toast
+        toast,
+        selector
     }
 }
 

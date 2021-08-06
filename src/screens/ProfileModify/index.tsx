@@ -112,11 +112,11 @@ const ProfileModify = () => {
                         rules={{ required: '사진을 선택해주세요' }}
                         render={({ field }) => {
 
-                            const { imageTemp, clear, upload } = useImageUpload('profile')
+                            const { imageTemp, clear, selectAndUpload } = useImageUpload('profile')
 
                             const uploadImage = useCallback(async () => {
                                 try {
-                                    const uri = await upload({
+                                    const uri = await selectAndUpload({
                                         width: 1024,
                                         height: 1024,
                                         freeStyleCropEnabled: false
@@ -126,7 +126,7 @@ const ProfileModify = () => {
                                     toast({ content: '이미지 업로드 실패' })
                                     clear()
                                 }
-                            }, [upload])
+                            }, [selectAndUpload])
 
                             return (
                                 <>

@@ -4,28 +4,39 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { COLOR1, GRAY1, GRAY2, WIDTH } from '../../constants/styles'
 import DefaultBottomSheet from '../bottomSheets/DefaultBottomSheet'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import { useState } from 'react'
+import { useEffect } from 'react'
 
-interface SelectBottomSheetProps {
+export interface SelectBottomSheetProps {
     visible: boolean
     onClose: () => void
     list: string[]
     onSelect: (index: number) => void
     selectedDataIndex?: number
+    closeToSelect?: boolean
 }
 
-const SelectBottomSheet: React.FC<SelectBottomSheetProps> = ({ onClose, visible, list, onSelect: _onSelect, selectedDataIndex }) => {
+const SelectBottomSheet: React.FC<SelectBottomSheetProps> = ({ onClose, visible, list, onSelect: _onSelect, selectedDataIndex, closeToSelect }) => {
 
     const { bottom } = useSafeAreaInsets()
+    const [selected, setSelected] = useState(false)
 
     const onSelect = useCallback((i: number) => {
+        if (selected) return // 두번 실행 방지
         onClose && onClose()
         _onSelect(i)
-    }, [onClose])
+        setSelected(true)
+    }, [onClose, _onSelect, selected])
+
+    useEffect(() => {
+        if (visible) setSelected(false)
+    }, [visible])
+
 
     return (
         <DefaultBottomSheet
             visible={visible}
-            onClose={onClose}
+            onClose={() => closeToSelect ? onSelect(-1) : onClose()}
         >
             <ScrollView
                 overScrollMode='never'

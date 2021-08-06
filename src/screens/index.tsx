@@ -31,6 +31,7 @@ import WebView from './WebView';
 import Withdraw from './Withdraw';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useChatRoomUpdated } from '../graphql/chatRoom';
+import SelectBottomSheet, { SelectBottomSheetProps } from '../components/selectors/SelectBottomSheet';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -122,15 +123,20 @@ const Navigation = () => {
 export type GlobalAlertProps = Omit<AlertProps, 'onClose'>
 export type GlobalConfirmProps = Omit<ConfirmProps, 'onClose'>
 export type GlobalToastProps = ToastProps
+export type GlobalSelectBottomSheetProps = Omit<SelectBottomSheetProps, 'onClose'>
 
-export const GlobalUIContext = createContext<{
+export type GlobalUiContextType = {
     alert: GlobalAlertProps,
     setAlert: (p: GlobalAlertProps) => void
     confirm: GlobalConfirmProps
     setConfirm: (p: GlobalConfirmProps) => void
     toast: GlobalToastProps
     setToast: (p: GlobalToastProps) => void
-}>({} as any)
+    selector: GlobalSelectBottomSheetProps
+    setSelector: (p: GlobalSelectBottomSheetProps) => void
+}
+
+export const GlobalUIContext = createContext<GlobalUiContextType>({} as any)
 
 
 const GlobalUiWrapper = () => {
@@ -151,14 +157,25 @@ const GlobalUiWrapper = () => {
         content: ''
     })
 
-    const contextValue = useMemo(() => ({
+    const [selector, setSelector] = useState<GlobalSelectBottomSheetProps>({
+        visible: false,
+        list: [],
+        onSelect: () => { },
+        selectedDataIndex: undefined,
+        closeToSelect: false
+    })
+
+
+    const contextValue = useMemo<GlobalUiContextType>(() => ({
         alert,
         setAlert,
         confirm,
         setConfirm,
         toast,
-        setToast
-    }), [alert, confirm, toast])
+        setToast,
+        selector,
+        setSelector
+    }), [alert, setAlert, confirm, setConfirm, toast, setToast, selector, setSelector])
 
 
     useEffect(() => {
@@ -183,6 +200,10 @@ const GlobalUiWrapper = () => {
                     />
                     <Toast
                         {...toast}
+                    />
+                    <SelectBottomSheet
+                        {...selector}
+                        onClose={() => setSelector(v => ({ ...v, visible: false }))}
                     />
                 </BottomSheetModalProvider>
             </GlobalUIContext.Provider>
