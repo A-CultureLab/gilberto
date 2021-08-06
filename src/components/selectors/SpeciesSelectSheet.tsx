@@ -1,11 +1,12 @@
 import React, { useCallback, useState } from 'react'
 import { useEffect } from 'react'
-import { Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { GRAY2, GRAY3, WIDTH } from '../../constants/styles'
 import { AnimalType } from '../../constants/type'
 import { ANIMAL_SPECIES } from '../../constants/values'
 import DefaultBottomSheet from '../bottomSheets/DefaultBottomSheet'
+import UnderLineInput from '../inputs/UnderLineInput'
 
 const DOG_FILTER_KEYS = ['ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ']
 const CAT_FILTER_KEYS = ['ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ']
@@ -39,6 +40,7 @@ const SpeciesSelectPicker: React.FC<SpeciesSelectPickerProps> = ({ onClose, onSe
         <DefaultBottomSheet
             visible={visible}
             onClose={onClose}
+            disableKeyboardAvoidingView
         >
             <View>
                 <ScrollView
@@ -64,6 +66,11 @@ const SpeciesSelectPicker: React.FC<SpeciesSelectPickerProps> = ({ onClose, onSe
                         <View style={{ width: 8 }} />
                     </TouchableOpacity>
                 </ScrollView>
+                <UnderLineInput
+                    placeholder='직접입력'
+                    style={{ paddingHorizontal: 16, borderBottomColor: GRAY2 }}
+                    onSubmitEditing={(e) => onSubmit(e.nativeEvent.text)}
+                />
                 <ScrollView
                     style={styles.scrollView}
                     overScrollMode='never'

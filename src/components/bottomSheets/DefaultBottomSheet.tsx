@@ -11,9 +11,10 @@ interface DefaultBottomSheetProps {
     visible: boolean
     onClose: () => void
     enableBottomSafeArea?: boolean
+    disableKeyboardAvoidingView?: boolean
 }
 
-const DefaultBottomSheet: React.FC<DefaultBottomSheetProps> = ({ visible, onClose, children, enableBottomSafeArea }) => {
+const DefaultBottomSheet: React.FC<DefaultBottomSheetProps> = ({ visible, onClose, children, enableBottomSafeArea, disableKeyboardAvoidingView }) => {
 
     const { bottom } = useSafeAreaInsets()
 
@@ -39,7 +40,7 @@ const DefaultBottomSheet: React.FC<DefaultBottomSheetProps> = ({ visible, onClos
                 style={{ margin: 0, justifyContent: 'flex-end' }}
             >
 
-                <KeyboardAvoidingView behavior='padding' >
+                <KeyboardAvoidingView behavior='padding' enabled={!disableKeyboardAvoidingView} >
                     <View style={styles.extraSwipeRange} />
                     <View style={styles.swiperContainer} >
                         <View style={styles.swiper} />
