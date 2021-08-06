@@ -10,7 +10,7 @@ import Header from '../../components/headers/Header'
 import ScreenLayout from '../../components/layout/ScreenLayout'
 import Loading from '../../components/loadings/Loading'
 import ThinLine from '../../components/views/ThinLine'
-import { COLOR1, GRAY1, GRAY2, GRAY3 } from '../../constants/styles'
+import { COLOR1, COLOR2, GRAY1, GRAY2, GRAY3 } from '../../constants/styles'
 import { MY_PETS, useMyPets, useSortPets } from '../../graphql/pet'
 import { useIUser } from '../../graphql/user'
 import { myPets_myPets } from '../../graphql/__generated__/myPets'
@@ -64,13 +64,14 @@ const Profile = () => {
                             style={styles.profileImage}
                             source={{ uri: userData.iUser.image }}
                         />
-                        <View>
-                            <Text>
+                        <View style={{ flex: 1 }} >
+                            <Text numberOfLines={1} >
                                 <Text style={styles.profileName} >{userData.iUser.name}</Text>
                                 <Text style={styles.profileInfo} > · {userData.iUser.age}살 {userData.iUser.gender === Gender.male ? '남자' : '여자'}</Text>
                             </Text>
-                            <Text style={styles.profileAddress} >{userData.iUser.address.addressName + ' ' + userData.iUser.address.buildingName}</Text>
+                            <Text numberOfLines={1} style={styles.profileAddress} >{userData.iUser.address.addressName + ' ' + userData.iUser.address.buildingName}</Text>
                         </View>
+                        <Icon name='edit' color={GRAY2} size={16} style={{ marginRight: 4 }} />
                     </Pressable>
                     <ThinLine />
                 </>
