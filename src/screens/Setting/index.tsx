@@ -8,12 +8,15 @@ import useGlobalUi from '../../hooks/useGlobalUi'
 import auth from '@react-native-firebase/auth'
 import { useApolloClient } from '@apollo/client'
 import useAuth from '../../hooks/useAuth'
+import { useContext } from 'react'
+import { AuthContext } from '..'
 
 const Setting = () => {
 
     const { navigate } = useNavigation()
     const { confirm } = useGlobalUi()
     const { logout } = useAuth()
+    const { user } = useContext(AuthContext)
 
     const MENUS = [
         {
@@ -42,6 +45,8 @@ const Setting = () => {
             onPress: () => navigate('Withdraw')
         }
     ]
+
+    if (!user) MENUS.length = 2
 
     return (
         <ScreenLayout>

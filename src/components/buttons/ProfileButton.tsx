@@ -2,30 +2,30 @@ import { useNavigation } from '@react-navigation/native'
 import React, { useMemo } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
-import { DEFAULT_SHADOW } from '../../constants/styles'
+import { DEFAULT_SHADOW, GRAY1, GRAY2, GRAY3 } from '../../constants/styles'
 import { useMyPets } from '../../graphql/pet'
-import { useIUser } from '../../graphql/user'
+import Icon from 'react-native-vector-icons/MaterialIcons'
 import getRandomPet from '../../utils/getRandomPet'
 
 const ProfileButton = () => {
 
     const { data } = useMyPets()
-    const { data: userData } = useIUser()
     const { navigate } = useNavigation()
 
     const randomPet = useMemo(() => getRandomPet(data?.myPets || []), [data?.myPets])
-
-    if (!randomPet && !userData) return null
 
     return (
         <Pressable
             style={styles.container}
             onPress={() => navigate('MyPage')}
         >
-            <FastImage
-                style={styles.image}
-                source={{ uri: randomPet?.image || userData?.iUser.image }}
-            />
+            {randomPet
+                ? <FastImage
+                    style={styles.image}
+                    source={{ uri: randomPet.image }}
+                />
+                : <Icon name='settings' size={24} color={GRAY1} />
+            }
         </Pressable>
     )
 }
@@ -38,7 +38,10 @@ const styles = StyleSheet.create({
         height: 56,
         borderRadius: 28,
         ...DEFAULT_SHADOW,
-        marginLeft: 16
+        marginLeft: 16,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     image: {
         flex: 1,

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Pressable, ScrollView, StyleSheet, Text, View, Linking, TouchableOpacity } from 'react-native'
 import Header from '../../components/headers/Header'
 import ScreenLayout from '../../components/layout/ScreenLayout'
@@ -9,12 +9,14 @@ import { KAKAO_LINK } from '../../constants/values'
 import { useIUser } from '../../graphql/user'
 import { useMyPets } from '../../graphql/pet'
 import FastImage from 'react-native-fast-image'
+import { AuthContext } from '..'
 
 
 
 const MyPage = () => {
 
     const { navigate } = useNavigation()
+    const { user } = useContext(AuthContext)
     const { data: userData } = useIUser()
     const { data: petData } = useMyPets()
 
@@ -48,36 +50,44 @@ const MyPage = () => {
             <View
                 style={styles.profileContainer}
             >
-                <ScrollView
-                    horizontal
-                    overScrollMode='never'
-                    showsHorizontalScrollIndicator={false}
-                >
-                    <Pressable
-                        onPress={() => navigate('Profile')}
-                        android_ripple={{ color: GRAY2 }}
-                        style={{ height: '100%', flexDirection: 'row', alignItems: 'center', minWidth: WIDTH }}
+                {user ?
+                    <ScrollView
+                        horizontal
+                        overScrollMode='never'
+                        showsHorizontalScrollIndicator={false}
                     >
-                        <FastImage
-                            style={styles.image}
-                            source={{ uri: userData?.iUser?.image }}
-                        />
-                        <View style={styles.line} />
-                        {(petData?.myPets || []).length
-                            ? <>
-                                {(petData?.myPets || []).map(({ image }, index) => (
-                                    <FastImage
-                                        key={index.toString()}
-                                        style={styles.image}
-                                        source={{ uri: image }}
-                                    />
-                                ))}
-                                <Icon name='arrow-forward' color={GRAY2} size={24} style={{ alignSelf: 'center', marginHorizontal: 24 }} />
-                            </>
-                            : <Text style={styles.petRegistComment} >반려동물을 등록해주세요</Text>
-                        }
-                    </Pressable>
-                </ScrollView>
+                        <Pressable
+                            onPress={() => navigate('Profile')}
+                            android_ripple={{ color: GRAY2 }}
+                            style={{ height: '100%', flexDirection: 'row', alignItems: 'center', minWidth: WIDTH }}
+                        >
+                            <FastImage
+                                style={styles.image}
+                                source={{ uri: userData?.iUser?.image }}
+                            />
+                            <View style={styles.line} />
+                            {(petData?.myPets || []).length
+                                ? <>
+                                    {(petData?.myPets || []).map(({ image }, index) => (
+                                        <FastImage
+                                            key={index.toString()}
+                                            style={styles.image}
+                                            source={{ uri: image }}
+                                        />
+                                    ))}
+                                    <Icon name='arrow-forward' color={GRAY2} size={24} style={{ alignSelf: 'center', marginHorizontal: 24 }} />
+                                </>
+                                : <Text style={styles.petRegistComment} >반려동물을 등록해주세요</Text>
+                            }
+                        </Pressable>
+                    </ScrollView>
+                    : <Pressable
+                        onPress={() => navigate('Login')}
+                        android_ripple={{ color: GRAY2 }}
+                        style={{ height: '100%', flexDirection: 'row', alignItems: 'center', width: WIDTH }}
+                    >
+                        <Text style={[styles.petRegistComment, { marginLeft: 24 }]} >로그인을 해주세요</Text>
+                    </Pressable>}
             </View>
             <View style={{ marginTop: 16 }}>
                 {MENUS.map(({ icon, title, onPress }) => (

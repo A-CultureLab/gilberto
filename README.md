@@ -34,14 +34,5 @@ RELEASE-SHA-256=F5:91:1A:A0:98:5E:36:5B:54:36:01:BA:BE:3D:96:CA:38:4C:BF:51:3C:D
 RELEASE-KEYHASH=o3Mm/zbJky42Wf10Ukj8zB1Goxo=
 ```
 
-# .env
-```
-APOLLO_KEY=Apollo Studio Key (VSC Apollo Extension 용으로 사용됨)
-```
-
 
 # TODO
-+ firebase messaging
-+ invertase react native apple autnetication
-+ appcenter
-+ rn rate

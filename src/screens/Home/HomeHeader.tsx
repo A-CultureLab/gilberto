@@ -2,8 +2,6 @@ import React, { useContext } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { DEFAULT_SHADOW, GRAY1, GRAY2, STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles'
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import { HomeScreenContext } from '.'
-import { BaseButton } from 'react-native-gesture-handler'
 import { IS_ANDROID } from '../../constants/values'
 import ProfileButton from '../../components/buttons/ProfileButton'
 import { useMyPets } from '../../graphql/pet'
@@ -18,7 +16,6 @@ const HomeHeader: React.FC<HomeHeaderProps> = () => {
 
     const { data } = useMyPets()
 
-    const randomPet = useMemo(() => getRandomPet(data?.myPets || []), [data?.myPets])
 
     return (
         <View style={[styles.container]} >
