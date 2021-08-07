@@ -24,6 +24,7 @@ import useGlobalUi from '../../hooks/useGlobalUi'
 import useImageUpload from '../../hooks/useImageUpload'
 import { useApolloClient } from '@apollo/client'
 import { iUser } from '../../graphql/__generated__/iUser'
+import UnderLineText from '../../components/texts/UnderLineText'
 
 
 const ProfileModify = () => {
@@ -33,17 +34,14 @@ const ProfileModify = () => {
     const { toast } = useGlobalUi()
     const { cache } = useApolloClient()
     const user = cache.readQuery<iUser>({ query: I_USER })?.iUser
-    const [address, setAddress] = useState(user?.address.addressName + ' ' + user?.address.buildingName)
+    const [address, setAddress] = useState(user?.address?.addressName + ' ' + user?.address?.buildingName)
 
-    const { control, handleSubmit, setValue, formState, clearErrors } = useForm<UpdateUserInput>({
+    const { control, handleSubmit, setValue, formState, clearErrors, watch } = useForm<UpdateUserInput>({
         defaultValues: {
-            addressPostcode: user?.addressPostcode,
-            birth: user?.birth,
-            gender: user?.gender,
+            addressPostcode: user?.addressPostcode || undefined,
             image: user?.image,
             instagramId: user?.instagramId,
             introduce: user?.introduce,
-            name: user?.name
         }
     })
 
@@ -93,19 +91,11 @@ const ProfileModify = () => {
                     showsVerticalScrollIndicator={false}
                     overScrollMode='never'
                 >
-                    <Controller
-                        control={control}
-                        name='name'
-                        rules={{ required: '이름을 입력해주세요' }}
-                        render={({ field }) => (
-                            <UnderLineInput
-                                inputStyle={{ marginTop: 24 }}
-                                value={field.value}
-                                onChangeText={field.onChange}
-                                placeholder='이름'
-                            />
-                        )}
-                    />
+                    <>
+                        <UnderLineText style={{ marginTop: 24 }}>{user?.name}</UnderLineText>
+                        <UnderLineText >{user?.gender === Gender.male ? '남자' : '여자'}</UnderLineText>
+                        <UnderLineText >{dayjs(user?.birth).format('YYYY.MM.DD')}</UnderLineText>
+                    </>
                     <Controller
                         control={control}
                         name='image'
@@ -150,55 +140,7 @@ const ProfileModify = () => {
                         }}
                     />
 
-                    <Controller
-                        control={control}
-                        name='gender'
-                        rules={{ required: '성별을 선택해주세요' }}
-                        render={({ field }) => {
-                            const [visible, setVisible] = useState(false)
-                            return (
-                                <>
-                                    <UnderLineInput
-                                        placeholder='성별'
-                                        value={field.value === Gender.male ? '남자' : field.value === Gender.female ? '여자' : ''}
-                                        editable={false}
-                                        pointerEvents='none'
-                                        onPress={() => setVisible(true)}
-                                    />
-                                    <SelectBottomSheet
-                                        list={['남자', '여자']}
-                                        onClose={() => setVisible(false)}
-                                        visible={visible}
-                                        onSelect={(i) => field.onChange(i === 0 ? Gender.male : Gender.female)}
-                                    />
-                                </>
-                            )
-                        }}
-                    />
-                    <Controller
-                        control={control}
-                        name='birth'
-                        rules={{ required: '출생일을 선택해주세요' }}
-                        render={({ field }) => {
-                            const [visible, setVisible] = useState(false)
-                            return (
-                                <>
-                                    <UnderLineInput
-                                        placeholder='출생'
-                                        value={field.value ? dayjs(field.value).format('YYYY.MM.DD') : ''}
-                                        editable={false}
-                                        pointerEvents='none'
-                                        onPress={() => setVisible(true)}
-                                    />
-                                    <DateSelectSheet
-                                        onClose={() => setVisible(false)}
-                                        visible={visible}
-                                        onSelect={(date) => field.onChange(date)}
-                                    />
-                                </>
-                            )
-                        }}
-                    />
+
                     <Controller
                         control={control}
                         name='addressPostcode'

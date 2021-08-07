@@ -322,10 +322,7 @@ export interface StringNullableFilter {
 }
 
 export interface UpdateUserInput {
-  name: string;
   image: string;
-  gender: Gender;
-  birth: any;
   addressPostcode: string;
   instagramId?: string | null;
   introduce: string;
