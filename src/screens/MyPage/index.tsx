@@ -106,7 +106,7 @@ const MyPage = () => {
             </View>
             <View style={[styles.companyInfoContainer, { marginBottom: bottom }]} >
                 <Text style={styles.companyName} >딥스펀지 주식회사</Text>
-                <Text selectable style={styles.companyInfo} >{'대표이사 홍성욱 | 사업자등록번호 286-86-01500\n서울특별시 강남구 테헤란로 44길 8, 6층 77-2호\n고객센터 | 02-123-456'}</Text>
+                <Text selectable style={styles.companyInfo} >{'대표이사 홍성욱 | 사업자등록번호 286-86-01500\n서울특별시 강남구 봉은사로 129-1(논현동, 751빌딩 7층 702-MS17호)\n고객센터 | 070-7637-8881'}</Text>
             </View>
         </ScreenLayout >
     )
