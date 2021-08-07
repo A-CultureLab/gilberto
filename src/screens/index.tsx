@@ -32,6 +32,7 @@ import Withdraw from './Withdraw';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useChatRoomUpdated } from '../graphql/chatRoom';
 import SelectBottomSheet, { SelectBottomSheetProps } from '../components/selectors/SelectBottomSheet';
+import UserCertification from './UserCertification';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -114,6 +115,7 @@ const Navigation = () => {
                     <Stack.Screen name='Withdraw' component={Withdraw} />
                     <Stack.Screen name='UserDetail' component={UserDetail} />
                     <Stack.Screen name='ChatDetail' component={ChatDetail} />
+                    <Stack.Screen name='UserCertification' component={UserCertification} />
                 </Stack.Navigator>
             </NavigationContainer>
         </AuthContext.Provider>

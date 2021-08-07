@@ -5,6 +5,8 @@ import { Region } from "react-native-maps";
 export const IS_ANDROID = Platform.OS === 'android'
 export const IS_IOS = Platform.OS === 'ios'
 
+export const IAMPORT_CODE = 'imp01398045'
+
 const PROD_TEST_MODE = false
 
 export const GRAPHQL_SERVER_URL = (() => {

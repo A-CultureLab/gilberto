@@ -24,10 +24,10 @@ export interface updateUser_updateUser {
   gender: Gender;
   age: number;
   birth: any;
-  addressPostcode: string;
+  addressPostcode: string | null;
   instagramId: string | null;
   introduce: string;
-  address: updateUser_updateUser_address;
+  address: updateUser_updateUser_address | null;
 }
 
 export interface updateUser {

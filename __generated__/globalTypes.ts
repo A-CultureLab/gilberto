@@ -280,8 +280,9 @@ export interface RegistPetInput {
 
 export interface SignupInput {
   email: string;
-  name: string;
   image: string;
+  uniqueKey: string;
+  name: string;
   gender: Gender;
   birth: any;
   addressPostcode: string;
@@ -340,12 +341,13 @@ export interface UserWhereInput {
   AND?: UserWhereInput[] | null;
   OR?: UserWhereInput[] | null;
   NOT?: UserWhereInput[] | null;
-  id?: StringFilter | null;
   createdAt?: DateTimeFilter | null;
   updatedAt?: DateTimeFilter | null;
+  id?: StringFilter | null;
   email?: StringFilter | null;
-  name?: StringFilter | null;
   image?: StringFilter | null;
+  uniqueKey?: StringFilter | null;
+  name?: StringFilter | null;
   gender?: EnumGenderFilter | null;
   birth?: DateTimeFilter | null;
   instagramId?: StringNullableFilter | null;
@@ -356,7 +358,7 @@ export interface UserWhereInput {
   fcmToken?: StringNullableFilter | null;
   withdrawDate?: DateTimeNullableFilter | null;
   withdrawReason?: StringNullableFilter | null;
-  addressPostcode?: StringFilter | null;
+  addressPostcode?: StringNullableFilter | null;
   address?: AddressWhereInput | null;
   pets?: PetListRelationFilter | null;
   chatRooms?: ChatRoomListRelationFilter | null;
@@ -367,6 +369,7 @@ export interface UserWhereInput {
 export interface UserWhereUniqueInput {
   id?: string | null;
   email?: string | null;
+  uniqueKey?: string | null;
 }
 
 //==============================================================

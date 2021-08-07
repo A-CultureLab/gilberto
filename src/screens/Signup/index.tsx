@@ -16,13 +16,15 @@ import dayjs from 'dayjs'
 import auth from '@react-native-firebase/auth'
 import DateSelectSheet from '../../components/selectors/DateSelectSheet'
 import FastImage from 'react-native-fast-image'
-import { COLOR1, GRAY2, GRAY3 } from '../../constants/styles'
+import { COLOR1, GRAY1, GRAY2, GRAY3 } from '../../constants/styles'
 import Toggle from '../../components/toggles/Toggle'
 import { TouchableOpacity } from '@gorhom/bottom-sheet'
 import { SelectLocationProps } from '../SelectLocation'
 import { coordToRegion } from '../../graphql/__generated__/coordToRegion'
 import useGlobalUi from '../../hooks/useGlobalUi'
 import useImageUpload from '../../hooks/useImageUpload'
+import { UserCertificationProps } from '../UserCertification'
+import UnderLineText from '../../components/texts/UnderLineText'
 
 
 const Signup = () => {
@@ -38,10 +40,8 @@ const Signup = () => {
             marketingPushDate: null,
             instagramId: '',
             introduce: '',
-            name: auth().currentUser?.displayName || undefined,
             email: auth().currentUser?.email || undefined,
-            image: auth().currentUser?.photoURL || undefined,
-
+            image: auth().currentUser?.photoURL || undefined
         }
     })
 
@@ -82,6 +82,18 @@ const Signup = () => {
         navigate('SelectLocation', props)
     }, [])
 
+    const onUserCertification = useCallback(() => {
+        const props: UserCertificationProps = {
+            onCertificated: (res) => {
+                setValue('uniqueKey', res.uniqueKey)
+                setValue('name', res.name)
+                setValue('gender', res.gender)
+                setValue('birth', res.birth)
+            }
+        }
+        navigate('UserCertification', props)
+    }, [])
+
     useEffect(() => {
         const errors = formState.errors
         if (Object.keys(errors).length === 0) return
@@ -118,19 +130,18 @@ const Signup = () => {
                             />
                         )}
                     />}
-                    <Controller
-                        control={control}
-                        name='name'
-                        rules={{ required: '이름을 입력해주세요' }}
-                        render={({ field }) => (
-                            <UnderLineInput
-                                inputStyle={{ marginTop: 24 }}
-                                value={field.value}
-                                onChangeText={field.onChange}
-                                placeholder='이름'
-                            />
-                        )}
-                    />
+
+                    <Pressable onPress={onUserCertification}>
+                        {watch('uniqueKey')
+                            ? <>
+                                <UnderLineText style={{ marginTop: 24 }}>{watch('name')}</UnderLineText>
+                                <UnderLineText >{watch('gender') === Gender.male ? '남자' : '여자'}</UnderLineText>
+                                <UnderLineText >{dayjs(watch('birth')).format('YYYY.MM.DD')}</UnderLineText>
+                            </>
+                            :
+                            <UnderLineText textStyle={{ color: GRAY1 }} style={{ marginTop: 24 }}>본인인증</UnderLineText>
+                        }
+                    </Pressable>
                     <Controller
                         control={control}
                         name='image'
@@ -174,57 +185,6 @@ const Signup = () => {
                             )
                         }}
                     />
-
-                    <Controller
-                        control={control}
-                        name='gender'
-                        rules={{ required: '성별을 선택해주세요' }}
-                        render={({ field }) => {
-                            const [visible, setVisible] = useState(false)
-                            return (
-                                <>
-                                    <UnderLineInput
-                                        placeholder='성별'
-                                        value={field.value === Gender.male ? '남자' : field.value === Gender.female ? '여자' : ''}
-                                        editable={false}
-                                        pointerEvents='none'
-                                        onPress={() => setVisible(true)}
-                                    />
-                                    <SelectBottomSheet
-                                        list={['남자', '여자']}
-                                        onClose={() => setVisible(false)}
-                                        visible={visible}
-                                        onSelect={(i) => field.onChange(i === 0 ? Gender.male : Gender.female)}
-                                    />
-                                </>
-                            )
-                        }}
-                    />
-                    <Controller
-                        control={control}
-                        name='birth'
-                        rules={{ required: '출생일을 선택해주세요' }}
-                        render={({ field }) => {
-                            const [visible, setVisible] = useState(false)
-                            return (
-                                <>
-                                    <UnderLineInput
-                                        placeholder='출생'
-                                        value={field.value ? dayjs(field.value).format('YYYY.MM.DD') : ''}
-                                        editable={false}
-                                        pointerEvents='none'
-                                        onPress={() => setVisible(true)}
-                                    />
-                                    <DateSelectSheet
-                                        onClose={() => setVisible(false)}
-                                        visible={visible}
-                                        onSelect={(date) => field.onChange(date)}
-                                    />
-                                </>
-                            )
-                        }}
-                    />
-
                     <Controller
                         control={control}
                         name='addressPostcode'

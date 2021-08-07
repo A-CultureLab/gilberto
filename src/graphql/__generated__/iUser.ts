@@ -24,11 +24,11 @@ export interface iUser_iUser {
   gender: Gender;
   birth: any;
   age: number;
-  addressPostcode: string;
+  addressPostcode: string | null;
   instagramId: string | null;
   introduce: string;
   notReadChatCount: number;
-  address: iUser_iUser_address;
+  address: iUser_iUser_address | null;
 }
 
 export interface iUser {
