@@ -6,6 +6,7 @@ import { DEFAULT_SHADOW, GRAY1, GRAY2, GRAY3 } from '../../constants/styles'
 import { useMyPets } from '../../graphql/pet'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import getRandomPet from '../../utils/getRandomPet'
+import { useIUser } from '../../graphql/user'
 
 const ProfileButton = () => {
 
@@ -13,10 +14,10 @@ const ProfileButton = () => {
     const { navigate } = useNavigation()
 
     const randomPet = useMemo(() => getRandomPet(data?.myPets || []), [data?.myPets])
-
+    console.log(randomPet)
     return (
         <Pressable
-            style={styles.container}
+            style={[styles.container]}
             onPress={() => navigate('MyPage')}
         >
             {randomPet
@@ -24,7 +25,7 @@ const ProfileButton = () => {
                     style={styles.image}
                     source={{ uri: randomPet.image }}
                 />
-                : <Icon name='settings' size={24} color={GRAY1} />
+                : <Icon name='settings' style={{ alignSelf: 'center' }} size={24} color={GRAY1} />
             }
         </Pressable>
     )
@@ -40,7 +41,6 @@ const styles = StyleSheet.create({
         ...DEFAULT_SHADOW,
         marginLeft: 16,
         backgroundColor: '#fff',
-        alignItems: 'center',
         justifyContent: 'center'
     },
     image: {

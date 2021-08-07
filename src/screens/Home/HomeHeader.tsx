@@ -13,10 +13,6 @@ interface HomeHeaderProps {
 }
 
 const HomeHeader: React.FC<HomeHeaderProps> = () => {
-
-    const { data } = useMyPets()
-
-
     return (
         <View style={[styles.container]} >
             <View style={styles.searchContainer} >
