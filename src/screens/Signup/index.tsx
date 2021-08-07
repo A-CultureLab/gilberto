@@ -52,6 +52,7 @@ const Signup = () => {
 
     const onSubmit = handleSubmit(async (data) => {
         if (!data.agreementDate) return
+        if (!data.uniqueKey) return toast({ content: '본인인증을 해주세요' })
         const { errors } = await signup({ variables: { data } })
         if (errors) {
             toast({ content: '오류 : 정보를 다시 한번 확인해주세요' })

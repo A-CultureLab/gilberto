@@ -14,7 +14,7 @@ const ProfileButton = () => {
     const { navigate } = useNavigation()
 
     const randomPet = useMemo(() => getRandomPet(data?.myPets || []), [data?.myPets])
-    console.log(randomPet)
+
     return (
         <Pressable
             style={[styles.container]}

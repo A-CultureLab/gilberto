@@ -14,11 +14,13 @@ import PetsBottomSheet from './PetsBottomSheet';
 import ScreenLayout from '../../components/layout/ScreenLayout';
 import TabScreenBottomTabBar from '../../components/tabs/TabScreenBottomTabBar';
 import auth from '@react-native-firebase/auth'
-import { useIsSignedup, useUpdateFcmToken } from '../../graphql/user';
+import { IS_SIGNEDUP, useIsSignedup, useUpdateFcmToken } from '../../graphql/user';
 import { useMapPets } from '../../graphql/pet';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import PushNotification, { Importance } from 'react-native-push-notification';
 import useAuth from '../../hooks/useAuth';
+import { useApolloClient, useLazyQuery } from '@apollo/client';
+import { isSignedup } from '../../graphql/__generated__/isSignedup';
 
 
 interface HomeScreenContextInterface {
@@ -33,11 +35,11 @@ const Home = () => {
 
     const mapRef = useRef<MapView>(null)
 
+    const { query } = useApolloClient()
     const { navigate } = useNavigation()
 
     const { user } = useContext(AuthContext)
     const { logout } = useAuth()
-    const { data } = useIsSignedup({ fetchPolicy: 'network-only' })
     const [updateFcmToken] = useUpdateFcmToken()
 
 
@@ -59,10 +61,13 @@ const Home = () => {
 
     // 회원가입 안되있을시 파이어베이스 로그아웃
     useEffect(() => {
-        if (!auth().currentUser) return
-        if (!data) return
-        if (!data.isSignedup) logout()
-    }, [data])
+        (async () => {
+            if (!auth().currentUser) return // 파이어베이스 로그인이 안되어있다면 이 프로세스와는 무관함
+            const { data } = await query<isSignedup, {}>({ query: IS_SIGNEDUP, fetchPolicy: 'network-only' })
+            if (!data.isSignedup) logout()
+        })()
+
+    }, [])
 
     // 내위치 초기화
     useEffect(() => {

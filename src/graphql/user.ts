@@ -72,7 +72,7 @@ export const IS_SIGNEDUP = gql`
     isSignedup
   }
 `
-export const useIsSignedup = createQueryHook<isSignedup, {}>(IS_SIGNEDUP, { fetchPolicy: 'network-only' })
+export const useIsSignedup = createLazyQueryHook<isSignedup, {}>(IS_SIGNEDUP, { fetchPolicy: 'network-only' })
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const UPDATE_USER = gql`
   mutation updateUser($data: UpdateUserInput!) {
