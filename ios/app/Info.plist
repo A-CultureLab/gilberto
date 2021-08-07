@@ -1,104 +1,146 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>ko_KR</string>
-	<key>CFBundleDisplayName</key>
-	<string>38°</string>
-	<key>CFBundleExecutable</key>
-	<string>$(EXECUTABLE_NAME)</string>
-	<key>CFBundleIdentifier</key>
-	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundleName</key>
-	<string>$(PRODUCT_NAME)</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleShortVersionString</key>
-	<string>$(MARKETING_VERSION)</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>kakaoc32bf1fb86394aa69b0a83d660e4687b</string>
-			</array>
-		</dict>
-	</array>
-	<key>CFBundleVersion</key>
-	<string>$(CURRENT_PROJECT_VERSION)</string>
-	<key>KAKAO_APP_KEY</key>
-	<string>c32bf1fb86394aa69b0a83d660e4687b</string>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>kakaokompassauth</string>
-		<string>storykompassauth</string>
-		<string>kakaolink</string>
-	</array>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
-	<key>NSAppTransportSecurity</key>
 	<dict>
-		<key>NSAllowsArbitraryLoads</key>
+		<key>CFBundleDevelopmentRegion</key>
+		<string>ko_KR</string>
+		<key>CFBundleDisplayName</key>
+		<string>38°</string>
+		<key>CFBundleExecutable</key>
+		<string>$(EXECUTABLE_NAME)</string>
+		<key>CFBundleIdentifier</key>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+		<key>CFBundleInfoDictionaryVersion</key>
+		<string>6.0</string>
+		<key>CFBundleName</key>
+		<string>$(PRODUCT_NAME)</string>
+		<key>CFBundlePackageType</key>
+		<string>APPL</string>
+		<key>CFBundleShortVersionString</key>
+		<string>$(MARKETING_VERSION)</string>
+		<key>CFBundleSignature</key>
+		<string>????</string>
+		<key>CFBundleURLTypes</key>
+		<array>
+			<dict>
+				<key>CFBundleTypeRole</key>
+				<string>Editor</string>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>kakaoc32bf1fb86394aa69b0a83d660e4687b</string>
+					<string>38do</string>
+				</array>
+			</dict>
+		</array>
+		<key>CFBundleVersion</key>
+		<string>$(CURRENT_PROJECT_VERSION)</string>
+		<key>KAKAO_APP_KEY</key>
+		<string>c32bf1fb86394aa69b0a83d660e4687b</string>
+		<key>LSApplicationQueriesSchemes</key>
+		<array>
+			<string>kakaokompassauth</string>
+			<string>storykompassauth</string>
+			<string>kakaolink</string>
+			<string>kftc-bankpay</string>			<!-- 계좌이체 -->
+			<string>ispmobile</string>			<!-- ISP모바일 -->
+			<string>itms-apps</string>			<!-- 앱스토어 -->
+			<string>hdcardappcardansimclick</string>			<!-- 현대카드-앱카드 -->
+			<string>smhyundaiansimclick</string>			<!-- 현대카드-공인인증서 -->
+			<string>shinhan-sr-ansimclick</string>			<!-- 신한카드-앱카드 -->
+			<string>smshinhanansimclick</string>			<!-- 신한카드-공인인증서 -->
+			<string>kb-acp</string>			<!-- 국민카드-앱카드 -->
+			<string>mpocket.online.ansimclick</string>			<!-- 삼성카드-앱카드 -->
+			<string>ansimclickscard</string>			<!-- 삼성카드-온라인결제 -->
+			<string>ansimclickipcollect</string>			<!-- 삼성카드-온라인결제 -->
+			<string>vguardstart</string>			<!-- 삼성카드-백신 -->
+			<string>samsungpay</string>			<!-- 삼성카드-삼성페이 -->
+			<string>scardcertiapp</string>			<!-- 삼성카드-공인인증서 -->
+			<string>lottesmartpay</string>			<!-- 롯데카드-모바일결제 -->
+			<string>lotteappcard</string>			<!-- 롯데카드-앱카드 -->
+			<string>cloudpay</string>			<!-- 하나카드-앱카드 -->
+			<string>nhappcardansimclick</string>			<!-- 농협카드-앱카드 -->
+			<string>nonghyupcardansimclick</string>			<!-- 농협카드-공인인증서 -->
+			<string>citispay</string>			<!-- 씨티카드-앱카드 -->
+			<string>citicardappkr</string>			<!-- 씨티카드-공인인증서 -->
+			<string>citimobileapp</string>			<!-- 씨티카드-간편결제 -->
+			<string>kakaotalk</string>			<!-- 카카오톡 -->
+			<string>payco</string>			<!-- 페이코 -->
+			<string>lpayapp</string>			<!-- (구)롯데 L페이 -->
+			<string>hanamopmoasign</string>			<!-- 하나카드 공인인증앱 -->
+			<string>wooripay</string>			<!-- (구) 우리페이 -->
+			<string>nhallonepayansimclick</string>			<!-- NH 올원페이 -->
+			<string>hanawalletmembers</string>			<!-- 하나카드(하나멤버스 월렛) -->
+			<string>chaipayment</string>			<!-- 차이 -->
+			<string>kb-auth</string>			<!-- 국민 -->
+			<string>hyundaicardappcardid</string>			<!-- 현대카드 -->
+			<string>com.wooricard.wcard</string>			<!-- 우리won페이 -->
+			<string>lmslpay</string>			<!-- 롯데 L페이 -->
+			<string>lguthepay-xpay</string>			<!-- 페이나우 -->
+			<string>liivbank</string>			<!-- Liiv 국민 -->
+			<string>supertoss</string>			<!-- 토스 -->
+		</array>
+		<key>LSRequiresIPhoneOS</key>
 		<true/>
+		<key>NSAppTransportSecurity</key>
+		<dict>
+			<key>NSAllowsArbitraryLoadsInWebContent</key>
+			<true/>
+			<key>NSAllowsArbitraryLoads</key>
+			<true/>
+			<key>NSAllowsLocalNetworking</key>
+			<true/>
+		</dict>
+		<key>NSCameraUsageDescription</key>
+		<string>프로필, 반려동물 이미지를 업로드 할때 사용됩니다</string>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>산책시 유저들과 위치정보를 공유하기 위해 사용됩니다.</string>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>지도에 현재 위치 정보를 표시하기 위해 사용됩니다.</string>
+		<key>NSMicrophoneUsageDescription</key>
+		<string>프로필, 반려동물 이미지를 업로드 할때 사용됩니다</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>프로필, 반려동물 이미지를 업로드 할때 사용됩니다</string>
+		<key>UIAppFonts</key>
+		<array>
+			<string>BMJUA.ttf</string>
+			<string>Fonts/AntDesign.ttf</string>
+			<string>Entypo.ttf</string>
+			<string>EvilIcons.ttf</string>
+			<string>Feather.ttf</string>
+			<string>FontAwesome.ttf</string>
+			<string>FontAwesome5_Brands.ttf</string>
+			<string>FontAwesome5_Regular.ttf</string>
+			<string>FontAwesome5_Solid.ttf</string>
+			<string>Foundation.ttf</string>
+			<string>Ionicons.ttf</string>
+			<string>MaterialIcons.ttf</string>
+			<string>MaterialCommunityIcons.ttf</string>
+			<string>SimpleLineIcons.ttf</string>
+			<string>Octicons.ttf</string>
+			<string>Zocial.ttf</string>
+		</array>
+		<key>UIBackgroundModes</key>
+		<array>
+			<string>location</string>
+			<string>remote-notification</string>
+		</array>
+		<key>UILaunchStoryboardName</key>
+		<string>LaunchScreen</string>
+		<key>UIMainStoryboardFile</key>
+		<string>LaunchScreen</string>
+		<key>UIRequiredDeviceCapabilities</key>
+		<array>
+			<string>armv7</string>
+		</array>
+		<key>UIStatusBarStyle</key>
+		<string>UIStatusBarStyleDarkContent</string>
+		<key>UISupportedInterfaceOrientations</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+		</array>
+		<key>UIUserInterfaceStyle</key>
+		<string>Light</string>
+		<key>UIViewControllerBasedStatusBarAppearance</key>
+		<false/>
 	</dict>
-	<key>NSCameraUsageDescription</key>
-	<string>프로필, 반려동물 이미지를 업로드 할때 사용됩니다</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>산책시 유저들과 위치정보를 공유하기 위해 사용됩니다.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>지도에 현재 위치 정보를 표시하기 위해 사용됩니다.</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>프로필, 반려동물 이미지를 업로드 할때 사용됩니다</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>프로필, 반려동물 이미지를 업로드 할때 사용됩니다</string>
-	<key>UIAppFonts</key>
-	<array>
-		<string>BMJUA.ttf</string>
-		<string>Fonts/AntDesign.ttf</string>
-		<string>Entypo.ttf</string>
-		<string>EvilIcons.ttf</string>
-		<string>Feather.ttf</string>
-		<string>FontAwesome.ttf</string>
-		<string>FontAwesome5_Brands.ttf</string>
-		<string>FontAwesome5_Regular.ttf</string>
-		<string>FontAwesome5_Solid.ttf</string>
-		<string>Foundation.ttf</string>
-		<string>Ionicons.ttf</string>
-		<string>MaterialIcons.ttf</string>
-		<string>MaterialCommunityIcons.ttf</string>
-		<string>SimpleLineIcons.ttf</string>
-		<string>Octicons.ttf</string>
-		<string>Zocial.ttf</string>
-	</array>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>location</string>
-		<string>remote-notification</string>
-	</array>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
-	<key>UIMainStoryboardFile</key>
-	<string>LaunchScreen</string>
-	<key>UIRequiredDeviceCapabilities</key>
-	<array>
-		<string>armv7</string>
-	</array>
-	<key>UIStatusBarStyle</key>
-	<string>UIStatusBarStyleDarkContent</string>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-	</array>
-	<key>UIUserInterfaceStyle</key>
-	<string>Light</string>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
-</dict>
 </plist>

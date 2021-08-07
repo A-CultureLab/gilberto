@@ -4719,6 +4719,11 @@ hyperlinker@^1.0.0:
   resolved "https://registry.yarnpkg.com/hyperlinker/-/hyperlinker-1.0.0.tgz#23dc9e38a206b208ee49bc2d6c8ef47027df0c0e"
   integrity sha512-Ty8UblRWFEcfSuIaajM34LdPXIhbs1ajEX/BBPv24J+enSVaEVY63xQ6lTO9VRYS5LAoghIG0IDJ+p+IPzKUQQ==
 
+iamport-react-native@^2.0.0-rc.0:
+  version "2.0.0-rc.0"
+  resolved "https://registry.yarnpkg.com/iamport-react-native/-/iamport-react-native-2.0.0-rc.0.tgz#e7063ac12e6c8adc75ebbdf7fd788e2badb80f19"
+  integrity sha512-6i5N7RooivCeEx4KiUuxYR6cw/WjZGM4YAkxjAMv2VeI4S5ysYmtA8y/2PRi694OrPTWbkB2diWo45GODYiFCQ==
+
 iconv-lite@0.4.24:
   version "0.4.24"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.24.tgz#2022b4b25fbddc21d2f524974a474aafe733908b"
