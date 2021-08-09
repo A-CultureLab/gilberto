@@ -1,14 +1,14 @@
-import { gql } from "@apollo/client";
 import { createLazyQueryHook, createMutationHook, createQueryHook } from "../lib/createApolloHook";
-import { coordToRegion, coordToRegionVariables } from "./__generated__/coordToRegion";
-import { isSignedup } from "./__generated__/isSignedup";
-import { iUser } from "./__generated__/iUser";
 import { signup, signupVariables } from "./__generated__/signup";
 import { updateFcmToken, updateFcmTokenVariables } from "./__generated__/updateFcmToken";
 import { updateUser, updateUserVariables } from "./__generated__/updateUser";
 import { user, userVariables } from "./__generated__/user";
 import { withdraw, withdrawVariables } from "./__generated__/withdraw";
 
+import { gql } from "@apollo/client";
+import { iUser } from "./__generated__/iUser";
+import { isSignedup } from "./__generated__/isSignedup";
+import { createAddress, createAddressVariables } from "./__generated__/createAddress";
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const KAKAO_TOKEN_TO_FIREBASE_TOKEN = gql`
@@ -27,14 +27,15 @@ export const I_USER = gql`
       gender
       birth
       age
-      addressPostcode
       instagramId
       introduce
       notReadChatCount
       address {
-        addressName
-        buildingName
-        postcode
+        id
+        land {
+          id
+          fullName
+        }
       }
     }
   }
@@ -55,18 +56,7 @@ export const SIGN_UP = gql`
 `
 export const useSignup = createMutationHook<signup, signupVariables>(SIGN_UP)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
-export const COORDS_TO_REGION = gql`
-mutation coordToRegion ($latitude:Float!, $longitude:Float!) {
-  coordsToRegion(latitude: $latitude, longitude: $longitude) {
-    postcode
-    addressName
-    buildingName
-  }
-}
-`
 
-export const useCoordToRegion = createMutationHook<coordToRegion, coordToRegionVariables>(COORDS_TO_REGION)
-//--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const IS_SIGNEDUP = gql`
   query isSignedup {
     isSignedup
@@ -83,13 +73,14 @@ export const UPDATE_USER = gql`
       gender
       age
       birth
-      addressPostcode 
       instagramId
       introduce
       address {
-        postcode
-        addressName
-        buildingName
+        id
+        land {
+          id
+          fullName
+        }
       }
     }
   }

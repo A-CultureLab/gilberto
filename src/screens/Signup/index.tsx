@@ -11,16 +11,13 @@ import ScreenLayout from '../../components/layout/ScreenLayout'
 import { IS_IOS } from '../../constants/values'
 import { useSignup } from '../../graphql/user'
 import { Gender, SignupInput } from '../../../__generated__/globalTypes'
-import SelectBottomSheet from '../../components/selectors/SelectBottomSheet'
 import dayjs from 'dayjs'
 import auth from '@react-native-firebase/auth'
-import DateSelectSheet from '../../components/selectors/DateSelectSheet'
 import FastImage from 'react-native-fast-image'
 import { COLOR1, GRAY1, GRAY2, GRAY3 } from '../../constants/styles'
 import Toggle from '../../components/toggles/Toggle'
 import { TouchableOpacity } from '@gorhom/bottom-sheet'
 import { SelectLocationProps } from '../SelectLocation'
-import { coordToRegion } from '../../graphql/__generated__/coordToRegion'
 import useGlobalUi from '../../hooks/useGlobalUi'
 import useImageUpload from '../../hooks/useImageUpload'
 import { UserCertificationProps } from '../UserCertification'
@@ -75,9 +72,8 @@ const Signup = () => {
     const onSelectLocation = useCallback(() => {
         const props: SelectLocationProps = {
             onSelect: (data) => {
-                if (!data.coordsToRegion) return
-                setValue('addressPostcode', data.coordsToRegion.postcode)
-                setAddress(data.coordsToRegion.addressName + ' ' + data.coordsToRegion.buildingName)
+                setValue('addressId', data.id)
+                setAddress(data.land.fullName)
             }
         }
         navigate('SelectLocation', props)
@@ -188,7 +184,7 @@ const Signup = () => {
                     />
                     <Controller
                         control={control}
-                        name='addressPostcode'
+                        name='addressId'
                         rules={{ required: '위치를 선택해주세요' }}
                         render={({ field }) => (
                             <UnderLineInput

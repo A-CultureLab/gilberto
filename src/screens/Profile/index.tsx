@@ -69,7 +69,7 @@ const Profile = () => {
                                 <Text style={styles.profileName} >{userData.iUser.name}</Text>
                                 <Text style={styles.profileInfo} > · {userData.iUser.age}살 {userData.iUser.gender === Gender.male ? '남자' : '여자'}</Text>
                             </Text>
-                            <Text numberOfLines={1} style={styles.profileAddress} >{userData.iUser.address.addressName + ' ' + userData.iUser.address.buildingName}</Text>
+                            <Text numberOfLines={1} style={styles.profileAddress} >{userData.iUser.address?.land.fullName}</Text>
                         </View>
                         <Icon name='edit' color={GRAY2} size={16} style={{ marginRight: 4 }} />
                     </Pressable>

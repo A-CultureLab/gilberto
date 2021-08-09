@@ -11,14 +11,9 @@ import ScreenLayout from '../../components/layout/ScreenLayout'
 import { IS_IOS } from '../../constants/values'
 import { I_USER, useIUser, useSignup, useUpdateUser } from '../../graphql/user'
 import { Gender, SignupInput, UpdateUserInput } from '../../../__generated__/globalTypes'
-import SelectBottomSheet from '../../components/selectors/SelectBottomSheet'
 import dayjs from 'dayjs'
-import auth from '@react-native-firebase/auth'
-import DateSelectSheet from '../../components/selectors/DateSelectSheet'
 import FastImage from 'react-native-fast-image'
 import { COLOR1, GRAY2, GRAY3 } from '../../constants/styles'
-import Toggle from '../../components/toggles/Toggle'
-import { TouchableOpacity } from '@gorhom/bottom-sheet'
 import { SelectLocationProps } from '../SelectLocation'
 import useGlobalUi from '../../hooks/useGlobalUi'
 import useImageUpload from '../../hooks/useImageUpload'
@@ -34,11 +29,11 @@ const ProfileModify = () => {
     const { toast } = useGlobalUi()
     const { cache } = useApolloClient()
     const user = cache.readQuery<iUser>({ query: I_USER })?.iUser
-    const [address, setAddress] = useState(user?.address?.addressName + ' ' + user?.address?.buildingName)
+    const [address, setAddress] = useState(user?.address?.land.fullName)
 
     const { control, handleSubmit, setValue, formState, clearErrors, watch } = useForm<UpdateUserInput>({
         defaultValues: {
-            addressPostcode: user?.addressPostcode || undefined,
+            addressId: user?.address?.id,
             image: user?.image,
             instagramId: user?.instagramId,
             introduce: user?.introduce,
@@ -61,9 +56,8 @@ const ProfileModify = () => {
     const onSelectLocation = useCallback(() => {
         const props: SelectLocationProps = {
             onSelect: (data) => {
-                if (!data.coordsToRegion) return
-                setValue('addressPostcode', data.coordsToRegion.postcode)
-                setAddress(data.coordsToRegion.addressName + ' ' + data.coordsToRegion.buildingName)
+                setValue('addressId', data.id)
+                setAddress(data.land.fullName)
             }
         }
         navigate('SelectLocation', props)
@@ -143,7 +137,7 @@ const ProfileModify = () => {
 
                     <Controller
                         control={control}
-                        name='addressPostcode'
+                        name='addressId'
                         rules={{ required: '위치를 선택해주세요' }}
                         render={({ field }) => (
                             <UnderLineInput

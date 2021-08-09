@@ -9,11 +9,10 @@ import { CameraRegionInput } from "./../../../__generated__/globalTypes";
 // GraphQL query operation: mapPets
 // ====================================================
 
-export interface mapPets_mapPets_address {
-  __typename: "Address";
+export interface mapPets_mapPets_region {
+  __typename: "Region";
   latitude: number;
   longitude: number;
-  postcode: string;
 }
 
 export interface mapPets_mapPets_pets {
@@ -24,7 +23,7 @@ export interface mapPets_mapPets_pets {
 
 export interface mapPets_mapPets {
   __typename: "PetGroupByAddress";
-  address: mapPets_mapPets_address;
+  region: mapPets_mapPets_region;
   count: number;
   pets: mapPets_mapPets_pets[];
 }

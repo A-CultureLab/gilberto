@@ -17,17 +17,58 @@ export enum PetType {
   dog = "dog",
 }
 
+export interface AddressListRelationFilter {
+  every?: AddressWhereInput | null;
+  some?: AddressWhereInput | null;
+  none?: AddressWhereInput | null;
+}
+
 export interface AddressWhereInput {
   AND?: AddressWhereInput[] | null;
   OR?: AddressWhereInput[] | null;
   NOT?: AddressWhereInput[] | null;
-  postcode?: StringFilter | null;
+  id?: IntFilter | null;
+  createdAt?: DateTimeFilter | null;
   updatedAt?: DateTimeFilter | null;
-  addressName?: StringFilter | null;
-  buildingName?: StringFilter | null;
+  area1Id?: StringFilter | null;
+  area2Id?: StringFilter | null;
+  area3Id?: StringFilter | null;
+  landId?: StringFilter | null;
+  area1?: Area1WhereInput | null;
+  area2?: Area2WhereInput | null;
+  area3?: Area3WhereInput | null;
+  land?: LandWhereInput | null;
+  user?: UserWhereInput | null;
+}
+
+export interface Area1WhereInput {
+  AND?: Area1WhereInput[] | null;
+  OR?: Area1WhereInput[] | null;
+  NOT?: Area1WhereInput[] | null;
+  id?: StringFilter | null;
   latitude?: FloatFilter | null;
   longitude?: FloatFilter | null;
-  users?: UserListRelationFilter | null;
+  addresses?: AddressListRelationFilter | null;
+}
+
+export interface Area2WhereInput {
+  AND?: Area2WhereInput[] | null;
+  OR?: Area2WhereInput[] | null;
+  NOT?: Area2WhereInput[] | null;
+  id?: StringFilter | null;
+  latitude?: FloatFilter | null;
+  longitude?: FloatFilter | null;
+  addresses?: AddressListRelationFilter | null;
+}
+
+export interface Area3WhereInput {
+  AND?: Area3WhereInput[] | null;
+  OR?: Area3WhereInput[] | null;
+  NOT?: Area3WhereInput[] | null;
+  id?: StringFilter | null;
+  latitude?: FloatFilter | null;
+  longitude?: FloatFilter | null;
+  addresses?: AddressListRelationFilter | null;
 }
 
 export interface BoolFilter {
@@ -146,6 +187,29 @@ export interface IntFilter {
   not?: NestedIntFilter | null;
 }
 
+export interface IntNullableFilter {
+  equals?: number | null;
+  in?: number[] | null;
+  notIn?: number[] | null;
+  lt?: number | null;
+  lte?: number | null;
+  gt?: number | null;
+  gte?: number | null;
+  not?: NestedIntNullableFilter | null;
+}
+
+export interface LandWhereInput {
+  AND?: LandWhereInput[] | null;
+  OR?: LandWhereInput[] | null;
+  NOT?: LandWhereInput[] | null;
+  id?: StringFilter | null;
+  addressName?: StringFilter | null;
+  buildingName?: StringFilter | null;
+  latitude?: FloatFilter | null;
+  longitude?: FloatFilter | null;
+  addresses?: AddressListRelationFilter | null;
+}
+
 export interface NestedBoolFilter {
   equals?: boolean | null;
   not?: NestedBoolFilter | null;
@@ -207,6 +271,17 @@ export interface NestedIntFilter {
   gt?: number | null;
   gte?: number | null;
   not?: NestedIntFilter | null;
+}
+
+export interface NestedIntNullableFilter {
+  equals?: number | null;
+  in?: number[] | null;
+  notIn?: number[] | null;
+  lt?: number | null;
+  lte?: number | null;
+  gt?: number | null;
+  gte?: number | null;
+  not?: NestedIntNullableFilter | null;
 }
 
 export interface NestedStringFilter {
@@ -285,7 +360,7 @@ export interface SignupInput {
   name: string;
   gender: Gender;
   birth: any;
-  addressPostcode: string;
+  addressId: number;
   instagramId?: string | null;
   introduce: string;
   agreementDate: any;
@@ -323,7 +398,7 @@ export interface StringNullableFilter {
 
 export interface UpdateUserInput {
   image: string;
-  addressPostcode: string;
+  addressId: number;
   instagramId?: string | null;
   introduce: string;
 }
@@ -355,7 +430,7 @@ export interface UserWhereInput {
   fcmToken?: StringNullableFilter | null;
   withdrawDate?: DateTimeNullableFilter | null;
   withdrawReason?: StringNullableFilter | null;
-  addressPostcode?: StringNullableFilter | null;
+  addressId?: IntNullableFilter | null;
   address?: AddressWhereInput | null;
   pets?: PetListRelationFilter | null;
   chatRooms?: ChatRoomListRelationFilter | null;

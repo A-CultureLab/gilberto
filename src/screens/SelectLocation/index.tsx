@@ -1,4 +1,4 @@
-import { DEFAULT_REGION, DEFAULT_REGION_DELTA, IS_IOS } from '../../constants/values'
+import { DEFAULT_REGION, DEFAULT_REGION_DELTA, DEFAULT_REGION_LAT_LOG, IS_IOS } from '../../constants/values'
 import { DEFAULT_SHADOW, GRAY2, STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles'
 import MapView, { LatLng, Marker, Region } from 'react-native-maps'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
@@ -11,25 +11,24 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import LocationHereIcon from '../../components/svgs/LocationHereIcon'
 import MyPosFab from '../../components/fabs/MyPosFab'
 import ScreenLayout from '../../components/layout/ScreenLayout'
-import { coordToRegion } from '../../graphql/__generated__/coordToRegion'
-import { useCoordToRegion } from '../../graphql/user'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { createAddress_createAddress } from '../../graphql/__generated__/createAddress'
+import { useCreateAddress } from '../../graphql/address'
 
 export interface SelectLocationProps {
-    onSelect: (data: coordToRegion) => void
+    onSelect: (data: createAddress_createAddress) => void
 }
 
 const SelectLocation = () => {
 
     const { goBack } = useNavigation()
     const { params } = useRoute<Route<'SelectLocation', SelectLocationProps>>()
-    const [coordToRegion, { loading, data }] = useCoordToRegion()
+    const [createAddress, { loading, data }] = useCreateAddress()
 
     const mapRef = useRef<MapView>(null)
 
     const { bottom } = useSafeAreaInsets()
 
-    const [cameraPos, setCameraPos] = useState<Region>(DEFAULT_REGION)
     const [myPos, setMyPos] = useState<LatLng | null>(null)
     const [timer, setTimer] = useState<NodeJS.Timeout | null>(null)
 
@@ -64,7 +63,7 @@ const SelectLocation = () => {
         if (timer) clearTimeout(timer)
         const id = setTimeout(() => {
             setTimer(null)
-            coordToRegion({
+            createAddress({
                 variables: {
                     latitude: region.latitude,
                     longitude: region.longitude
@@ -77,8 +76,8 @@ const SelectLocation = () => {
     const onSubmit = useCallback(() => {
         if (loading) return
         if (!data) return
-        if (!data.coordsToRegion) return
-        params.onSelect(data)
+        if (!data.createAddress) return
+        params.onSelect(data.createAddress)
         goBack()
     }, [data, params, loading])
 
@@ -90,7 +89,7 @@ const SelectLocation = () => {
                 ref={mapRef}
                 style={{ flex: 1, zIndex: -999 }}
                 rotateEnabled={false}
-                initialRegion={cameraPos}
+                initialRegion={DEFAULT_REGION}
                 mapPadding={{ bottom: 56, top: 56, left: 0, right: 0 }}
                 onRegionChange={onRegionChange}
             />
@@ -112,9 +111,9 @@ const SelectLocation = () => {
             <View style={[styles.addressContainer, { bottom: 56 + bottom + 16 }]} >
                 {!data
                     ? <Text>검색중...</Text>
-                    : !data.coordsToRegion
+                    : !data.createAddress
                         ? <Text>검색 결과 없음</Text>
-                        : <Text>{data.coordsToRegion.addressName} {data.coordsToRegion.buildingName}</Text>
+                        : <Text>{data.createAddress.land.fullName}</Text>
                 }
             </View>
 

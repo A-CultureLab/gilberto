@@ -1,9 +1,7 @@
 import { chatCreated, chatCreatedVariables } from "./__generated__/chatCreated";
 import { chats, chatsVariables } from "./__generated__/chats";
 import { createChat, createChatVariables } from "./__generated__/createChat";
-import { createLazyQueryHook, createMutationHook, createQueryHook, createSubscriptionHook } from "../lib/createApolloHook";
-
-import { client } from "../lib/apollo";
+import { createMutationHook, createQueryHook, createSubscriptionHook } from "../lib/createApolloHook";
 import { gql } from "@apollo/client";
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
