@@ -1,27 +1,26 @@
 import { COLOR2, DEFAULT_SHADOW, HEIGHT, STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles';
+import { DEFAULT_REGION, DEFAULT_REGION_DELTA, IS_IOS } from '../../constants/values';
 import { FlatList, StyleSheet, Text, View } from 'react-native'
+import { IS_SIGNEDUP, useIsSignedup, useUpdateFcmToken } from '../../graphql/user';
 import MapView, { Coordinate, LatLng, Marker, Region } from 'react-native-maps';
+import PushNotification, { Importance } from 'react-native-push-notification';
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
+import { useApolloClient, useLazyQuery } from '@apollo/client';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { AuthContext } from '..';
 import Geolocation from '@react-native-community/geolocation';
 import HomeHeader from './HomeHeader'
-import { DEFAULT_REGION, DEFAULT_REGION_DELTA, IS_IOS } from '../../constants/values';
 import MyPosFab from '../../components/fabs/MyPosFab';
 import PetMarker from './PetMarker';
 import PetsBottomSheet from './PetsBottomSheet';
 import ScreenLayout from '../../components/layout/ScreenLayout';
 import TabScreenBottomTabBar from '../../components/tabs/TabScreenBottomTabBar';
 import auth from '@react-native-firebase/auth'
-import { IS_SIGNEDUP, useIsSignedup, useUpdateFcmToken } from '../../graphql/user';
-import { useMapPets } from '../../graphql/pet';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import PushNotification, { Importance } from 'react-native-push-notification';
-import useAuth from '../../hooks/useAuth';
-import { useApolloClient, useLazyQuery } from '@apollo/client';
 import { isSignedup } from '../../graphql/__generated__/isSignedup';
-
+import useAuth from '../../hooks/useAuth';
+import { useMapPets } from '../../graphql/pet';
 
 interface HomeScreenContextInterface {
     selectedPostcode: string | null
@@ -72,29 +71,35 @@ const Home = () => {
     // 내위치 초기화
     useEffect(() => {
         if (IS_IOS) Geolocation.requestAuthorization()
-        const watch = Geolocation.watchPosition(
+
+        // 최초 1회 카메라 위치, 내 위치 지정
+        Geolocation.getCurrentPosition(
             (position) => {
-                // setMyPos(position.coords)
+                setMyPos({ latitude: position.coords.latitude, longitude: position.coords.longitude })
+                setTimeout(() => {
+                    mapRef.current?.animateToRegion({
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                        ...DEFAULT_REGION_DELTA
+                    })
+                }, 500); // animateToRegion이 안드로이드에서 앱을켠후 작동가능까지 조금 시간이 걸리는 듯
+
             },
             (error) => { console.log(error.code, error.message) }
         )
+
+        // 내 위치로 사용할 위치 옵져빙
+        const watch = Geolocation.watchPosition(
+            (position) => {
+                setMyPos({ latitude: position.coords.latitude, longitude: position.coords.longitude })
+            },
+            (error) => { console.log(error.code, error.message) }
+        )
+
         return () => {
-            watch && Geolocation.clearWatch(watch)
+            Geolocation.clearWatch(watch)
         }
     }, [])
-
-    // 카메라 초기화
-    useEffect(() => {
-        if (!myPos) return
-        if (cameraInitTrigger) {
-            mapRef.current?.animateToRegion({
-                latitude: myPos.latitude,
-                longitude: myPos.longitude,
-                ...DEFAULT_REGION_DELTA
-            })
-            setCameraInitTrigger(false)
-        }
-    }, [myPos])
 
     const onMyPos = useCallback(() => {
         setSelectedPostcode(null)
@@ -107,7 +112,6 @@ const Home = () => {
     }, [myPos])
 
     // PUSH MESSAGE ------------------------------------------------------------------------------------------------------------------------------------------------------//
-
 
     // foreground push listner
     useEffect(() => {

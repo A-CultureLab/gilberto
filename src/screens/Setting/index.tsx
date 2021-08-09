@@ -1,15 +1,14 @@
-import { useNavigation } from '@react-navigation/native'
-import React from 'react'
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
-import Header from '../../components/headers/Header'
-import ScreenLayout from '../../components/layout/ScreenLayout'
 import { GRAY2, GRAY3 } from '../../constants/styles'
-import useGlobalUi from '../../hooks/useGlobalUi'
-import auth from '@react-native-firebase/auth'
-import { useApolloClient } from '@apollo/client'
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+
+import { AuthContext } from '..'
+import Header from '../../components/headers/Header'
+import React from 'react'
+import ScreenLayout from '../../components/layout/ScreenLayout'
 import useAuth from '../../hooks/useAuth'
 import { useContext } from 'react'
-import { AuthContext } from '..'
+import useGlobalUi from '../../hooks/useGlobalUi'
+import { useNavigation } from '@react-navigation/native'
 
 const Setting = () => {
 

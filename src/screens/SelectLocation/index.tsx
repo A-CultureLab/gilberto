@@ -1,18 +1,19 @@
-import Geolocation from '@react-native-community/geolocation'
-import { Route, useNavigation, useRoute } from '@react-navigation/native'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Pressable, StyleSheet, Text, View } from 'react-native'
-import MapView, { LatLng, Marker, Region } from 'react-native-maps'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import Icon from 'react-native-vector-icons/MaterialIcons'
-import MyPosFab from '../../components/fabs/MyPosFab'
-import Footer from '../../components/footers/Footer'
-import ScreenLayout from '../../components/layout/ScreenLayout'
-import LocationHereIcon from '../../components/svgs/LocationHereIcon'
-import { DEFAULT_SHADOW, GRAY2, STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles'
 import { DEFAULT_REGION, DEFAULT_REGION_DELTA, IS_IOS } from '../../constants/values'
-import { useCoordToRegion } from '../../graphql/user'
+import { DEFAULT_SHADOW, GRAY2, STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles'
+import MapView, { LatLng, Marker, Region } from 'react-native-maps'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Route, useNavigation, useRoute } from '@react-navigation/native'
+
+import Footer from '../../components/footers/Footer'
+import Geolocation from '@react-native-community/geolocation'
+import Icon from 'react-native-vector-icons/MaterialIcons'
+import LocationHereIcon from '../../components/svgs/LocationHereIcon'
+import MyPosFab from '../../components/fabs/MyPosFab'
+import ScreenLayout from '../../components/layout/ScreenLayout'
 import { coordToRegion } from '../../graphql/__generated__/coordToRegion'
+import { useCoordToRegion } from '../../graphql/user'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 export interface SelectLocationProps {
     onSelect: (data: coordToRegion) => void
@@ -30,36 +31,25 @@ const SelectLocation = () => {
 
     const [cameraPos, setCameraPos] = useState<Region>(DEFAULT_REGION)
     const [myPos, setMyPos] = useState<LatLng | null>(null)
-    const [cameraInitTrigger, setCameraInitTrigger] = useState(true)
     const [timer, setTimer] = useState<NodeJS.Timeout | null>(null)
 
 
-    // 내위치 초기화
+    // 내위치 & 카메라 초기화
     useEffect(() => {
         if (IS_IOS) Geolocation.requestAuthorization()
-        const watch = Geolocation.watchPosition(
+        Geolocation.getCurrentPosition(
             (position) => {
                 setMyPos(position.coords)
+                setTimeout(() => {
+                    mapRef.current?.animateToRegion({
+                        ...position.coords,
+                        ...DEFAULT_REGION_DELTA
+                    })
+                }, 500);
             },
             (error) => { console.log(error.code, error.message) }
         )
-        return () => {
-            watch && Geolocation.clearWatch(watch)
-        }
     }, [])
-
-    // 카메라 쵝기화
-    useEffect(() => {
-        if (!myPos) return
-        if (cameraInitTrigger) {
-            mapRef.current?.animateToRegion({
-                latitude: myPos.latitude,
-                longitude: myPos.longitude,
-                ...DEFAULT_REGION_DELTA
-            })
-            setCameraInitTrigger(false)
-        }
-    }, [myPos])
 
     const onMyPos = useCallback(() => {
         if (!myPos) return
