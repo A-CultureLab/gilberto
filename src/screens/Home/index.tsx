@@ -116,7 +116,7 @@ const Home = () => {
         const id = setTimeout(() => {
             setTimer(null)
             petGroupByAddress({ variables: { cameraRegion: region } })
-        }, 500)
+        }, 1000)
         setTimer(id)
     }, [timer, selectedPetGroupId])
 
@@ -196,6 +196,7 @@ const Home = () => {
                     ))}
                     {myPos && <Marker
                         coordinate={myPos}
+                        zIndex={99}
                     >
                         <View style={[{ width: 24, height: 24, backgroundColor: COLOR2 }, styles.myPosMarker]}>
                             <View style={[{ width: 20, height: 20, backgroundColor: '#fff', }, styles.myPosMarker]}>
