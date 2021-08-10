@@ -1,4 +1,4 @@
-import { createMutationHook, createQueryHook } from "../lib/createApolloHook";
+import { createLazyQueryHook, createMutationHook, createQueryHook } from "../lib/createApolloHook";
 import { deletePet, deletePetVariables } from "./__generated__/deletePet";
 import { mapPets, mapPetsVariables } from "./__generated__/mapPets";
 import { pets, petsVariables } from "./__generated__/pets";
@@ -133,7 +133,7 @@ export const PET_GROUP_BY_ADDRESS = gql`
     }
 `
 
-export const usePetGroupByAddress = createQueryHook<petGroupByAddress, petGroupByAddressVariables>(PET_GROUP_BY_ADDRESS)
+export const usePetGroupByAddress = createLazyQueryHook<petGroupByAddress, petGroupByAddressVariables>(PET_GROUP_BY_ADDRESS)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const PETS = gql`
     query pets ($where:PetWhereInput,$skip:Int, $take:Int) {

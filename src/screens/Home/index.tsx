@@ -42,11 +42,10 @@ const Home = () => {
     const [updateFcmToken] = useUpdateFcmToken()
 
 
-    const [cameraPos, setCameraPos] = useState<Region>(DEFAULT_REGION)
-
-    const { data: petGroupByAddressData } = usePetGroupByAddress({ variables: { cameraRegion: cameraPos } })
-
     const [myPos, setMyPos] = useState<LatLng | null>(null)
+    const [timer, setTimer] = useState<NodeJS.Timeout | null>(null)
+
+    const [petGroupByAddress, { data: petGroupByAddressData, loading: petGroupByAddressLoading }] = usePetGroupByAddress()
 
     // Context Values
     const [selectedPetGroupId, setSelectedPetGroupId] = useState<string | null>(null)
@@ -109,6 +108,18 @@ const Home = () => {
             ...DEFAULT_REGION_DELTA
         })
     }, [myPos])
+
+    const onRegionChange = useCallback(async (region: Region) => {
+        if (timer) clearTimeout(timer)
+        if (!!selectedPetGroupId) return
+        console.log('latDelta : ' + region.latitudeDelta)
+        const id = setTimeout(() => {
+            setTimer(null)
+            petGroupByAddress({ variables: { cameraRegion: region } })
+        }, 500)
+        setTimer(id)
+    }, [timer, selectedPetGroupId])
+
 
     // PUSH MESSAGE ------------------------------------------------------------------------------------------------------------------------------------------------------//
 
@@ -176,7 +187,8 @@ const Home = () => {
                     ref={mapRef}
                     style={{ flex: 1, zIndex: -999 }}
                     rotateEnabled={false}
-                    initialRegion={cameraPos}
+                    initialRegion={DEFAULT_REGION}
+                    onRegionChange={onRegionChange}
                     mapPadding={{ bottom: IS_IOS ? 56 : 0, top: IS_IOS ? 56 : 0, left: 0, right: 0 }}
                 >
                     {petGroupByAddressData?.petGroupByAddress.petGroup.map((v) => (

@@ -92,8 +92,8 @@ export const ANIMAL_SPECIES: { [type: string]: { [key: string]: string[] } } = {
 }
 
 export const DEFAULT_REGION_DELTA: Omit<Region, 'latitude' | 'longitude'> = {
-    latitudeDelta: 0.025,
-    longitudeDelta: 0.025
+    latitudeDelta: 0.019,
+    longitudeDelta: 0.001
 }
 
 export const DEFAULT_REGION_LAT_LOG: Omit<Region, 'latitudeDelta' | 'longitudeDelta'> = {

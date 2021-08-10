@@ -16,11 +16,11 @@ const PetMarker: React.FC<petGroupByAddress_petGroupByAddress_petGroup & Pick<pe
 
     const onPress = useCallback(() => {
         setSelectedPetGroupId(id)
-        mapRef.current?.animateToRegion({
-            latitudeDelta: 0.005,
-            longitudeDelta: 0.005,
-            latitude: region.latitude,
-            longitude: region.longitude
+        mapRef.current?.animateCamera({
+            center: {
+                latitude: region.latitude,
+                longitude: region.longitude,
+            }
         })
     }, [id, mapRef])
 
