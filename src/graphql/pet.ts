@@ -8,6 +8,7 @@ import { updatePet, updatePetVariables } from "./__generated__/updatePet";
 
 import { gql } from "@apollo/client";
 import { myPets, } from "./__generated__/myPets";
+import { petGroupByAddress, petGroupByAddressVariables } from "./__generated__/petGroupByAddress";
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const REGIST_PET = gql`
@@ -111,23 +112,28 @@ export const useDeletePet = createMutationHook<deletePet, deletePetVariables>(DE
     }
 })
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
-export const MAP_PETS = gql`
-    query mapPets ($cameraRegion:CameraRegionInput!) {
-        mapPets(cameraRegion: $cameraRegion) {
-            region {
-                latitude
-                longitude
-            }
-            count
-            pets {
+export const PET_GROUP_BY_ADDRESS = gql`
+    query petGroupByAddress ($cameraRegion:CameraRegionInput!) {
+        petGroupByAddress(cameraRegion: $cameraRegion) {
+            groupBy
+            petGroup {
                 id
-                image
+                groupName
+                count
+                region {
+                    latitude
+                    longitude
+                }
+                pets {
+                    id
+                    image
+                }
             }
         }
     }
 `
 
-export const useMapPets = createQueryHook<mapPets, mapPetsVariables>(MAP_PETS)
+export const usePetGroupByAddress = createQueryHook<petGroupByAddress, petGroupByAddressVariables>(PET_GROUP_BY_ADDRESS)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const PETS = gql`
     query pets ($where:PetWhereInput,$skip:Int, $take:Int) {

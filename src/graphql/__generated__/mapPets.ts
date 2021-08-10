@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { CameraRegionInput } from "./../../../__generated__/globalTypes";
+import { CameraRegionInput, PetGroupByAddressGroupBy } from "./../../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL query operation: mapPets
@@ -23,6 +23,9 @@ export interface mapPets_mapPets_pets {
 
 export interface mapPets_mapPets {
   __typename: "PetGroupByAddress";
+  key: string;
+  groupBy: PetGroupByAddressGroupBy;
+  groupName: string;
   region: mapPets_mapPets_region;
   count: number;
   pets: mapPets_mapPets_pets[];

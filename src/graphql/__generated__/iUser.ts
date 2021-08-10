@@ -32,7 +32,7 @@ export interface iUser_iUser {
   instagramId: string | null;
   introduce: string;
   notReadChatCount: number;
-  address: iUser_iUser_address | null;
+  address: iUser_iUser_address;
 }
 
 export interface iUser {

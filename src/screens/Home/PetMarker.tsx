@@ -6,28 +6,28 @@ import FastImage from 'react-native-fast-image'
 import { Marker } from 'react-native-maps'
 import { HomeScreenContext } from '.'
 import { COLOR1, DEFAULT_SHADOW } from '../../constants/styles'
-import { mapPets_mapPets } from '../../graphql/__generated__/mapPets'
+import { petGroupByAddress_petGroupByAddress, petGroupByAddress_petGroupByAddress_petGroup } from '../../graphql/__generated__/petGroupByAddress'
 
-const PetMarker: React.FC<mapPets_mapPets> = ({ address, count, pets }) => {
+const PetMarker: React.FC<petGroupByAddress_petGroupByAddress_petGroup & Pick<petGroupByAddress_petGroupByAddress, 'groupBy'>> = ({ region, count, pets, id, groupBy }) => {
 
-    const { selectedPostcode, setSelectedPostcode, mapRef } = useContext(HomeScreenContext)
+    const { selectedPetGroupId, setSelectedPetGroupId, mapRef } = useContext(HomeScreenContext)
 
-    const isSelected = selectedPostcode === address.postcode
+    const isSelected = selectedPetGroupId === id
 
     const onPress = useCallback(() => {
-        setSelectedPostcode(address.postcode)
+        setSelectedPetGroupId(id)
         mapRef.current?.animateToRegion({
             latitudeDelta: 0.005,
             longitudeDelta: 0.005,
-            latitude: address.latitude,
-            longitude: address.longitude
+            latitude: region.latitude,
+            longitude: region.longitude
         })
-    }, [address, mapRef])
+    }, [id, mapRef])
 
     return (
         <Marker
             onPress={onPress}
-            coordinate={{ latitude: address.latitude, longitude: address.longitude }}
+            coordinate={{ latitude: region.latitude, longitude: region.longitude }}
         >
             <View style={styles.container} >
                 {pets.length >= 2 && <FastImage

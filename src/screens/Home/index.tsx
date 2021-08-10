@@ -20,11 +20,11 @@ import TabScreenBottomTabBar from '../../components/tabs/TabScreenBottomTabBar';
 import auth from '@react-native-firebase/auth'
 import { isSignedup } from '../../graphql/__generated__/isSignedup';
 import useAuth from '../../hooks/useAuth';
-import { useMapPets } from '../../graphql/pet';
+import { usePetGroupByAddress } from '../../graphql/pet';
 
 interface HomeScreenContextInterface {
-    selectedPostcode: string | null
-    setSelectedPostcode: (v: string | null) => void
+    selectedPetGroupId: string | null
+    setSelectedPetGroupId: (v: string | null) => void
     mapRef: React.RefObject<MapView>
 }
 
@@ -44,18 +44,17 @@ const Home = () => {
 
     const [cameraPos, setCameraPos] = useState<Region>(DEFAULT_REGION)
 
-    const { data: mapPetsData } = useMapPets({ variables: { cameraRegion: cameraPos } })
+    const { data: petGroupByAddressData } = usePetGroupByAddress({ variables: { cameraRegion: cameraPos } })
 
     const [myPos, setMyPos] = useState<LatLng | null>(null)
-    const [cameraInitTrigger, setCameraInitTrigger] = useState(true)
 
     // Context Values
-    const [selectedPostcode, setSelectedPostcode] = useState<string | null>(null)
-    const contextValue = useMemo(() => ({
-        selectedPostcode,
-        setSelectedPostcode,
+    const [selectedPetGroupId, setSelectedPetGroupId] = useState<string | null>(null)
+    const contextValue = useMemo<HomeScreenContextInterface>(() => ({
+        selectedPetGroupId,
+        setSelectedPetGroupId,
         mapRef
-    }), [selectedPostcode, setSelectedPostcode, mapRef])
+    }), [selectedPetGroupId, setSelectedPetGroupId, mapRef])
 
 
     // 회원가입 안되있을시 파이어베이스 로그아웃
@@ -102,7 +101,7 @@ const Home = () => {
     }, [])
 
     const onMyPos = useCallback(() => {
-        setSelectedPostcode(null)
+        setSelectedPetGroupId(null)
         if (!myPos) return
         mapRef.current?.animateToRegion({
             latitude: myPos.latitude,
@@ -180,8 +179,8 @@ const Home = () => {
                     initialRegion={cameraPos}
                     mapPadding={{ bottom: IS_IOS ? 56 : 0, top: IS_IOS ? 56 : 0, left: 0, right: 0 }}
                 >
-                    {mapPetsData?.mapPets.map((v) => (
-                        <PetMarker {...v} key={v.address.postcode} />
+                    {petGroupByAddressData?.petGroupByAddress.petGroup.map((v) => (
+                        <PetMarker {...v} groupBy={petGroupByAddressData.petGroupByAddress.groupBy} key={v.id} />
                     ))}
                     {myPos && <Marker
                         coordinate={myPos}
@@ -197,7 +196,7 @@ const Home = () => {
 
                 <HomeHeader />
                 <MyPosFab onPress={onMyPos} />
-                <TabScreenBottomTabBar isMap smallMode={!!selectedPostcode} />
+                <TabScreenBottomTabBar isMap smallMode={!!selectedPetGroupId} />
 
                 <PetsBottomSheet />
             </ScreenLayout>

@@ -14,10 +14,10 @@ const PetsBottomSheet = () => {
 
 
     const { navigate } = useNavigation()
-    const { selectedPostcode, setSelectedPostcode } = useContext(HomeScreenContext)
+    const { selectedPetGroupId, setSelectedPetGroupId } = useContext(HomeScreenContext)
     const { data, loading, fetchMore } = usePets({
         variables: {
-            where: { user: { addressPostcode: { equals: selectedPostcode } } },
+            where: { user: { addressPostcode: { equals: selectedPetGroupId } } },
             take: 5
         }
     })
@@ -27,19 +27,19 @@ const PetsBottomSheet = () => {
     const snapPoints = useMemo(() => [0, HEIGHT / 2 - 100, HEIGHT - STATUSBAR_HEIGHT - 16 - 56 - 40], [])
 
     const handleSheetChanges = useCallback((index: number) => {
-        if (index === 0) setSelectedPostcode(null)
+        if (index === 0) setSelectedPetGroupId(null)
     }, [])
 
     useEffect(() => {
-        if (!selectedPostcode) bottomSheetRef.current?.snapTo(0)
+        if (!selectedPetGroupId) bottomSheetRef.current?.snapTo(0)
         else bottomSheetRef.current?.snapTo(1)
-    }, [selectedPostcode])
+    }, [selectedPetGroupId])
 
     const onEndReached = useCallback(() => {
-        if (!selectedPostcode) return
+        if (!selectedPetGroupId) return
         console.log(data?.pets.length)
         fetchMore({ variables: { skip: data?.pets.length } })
-    }, [selectedPostcode, data])
+    }, [selectedPetGroupId, data])
 
     return (
         <BottomSheet

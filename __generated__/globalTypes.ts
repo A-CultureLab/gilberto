@@ -12,6 +12,13 @@ export enum Gender {
   male = "male",
 }
 
+export enum PetGroupByAddressGroupBy {
+  area1 = "area1",
+  area2 = "area2",
+  area3 = "area3",
+  land = "land",
+}
+
 export enum PetType {
   cat = "cat",
   dog = "dog",
@@ -78,8 +85,8 @@ export interface BoolFilter {
 
 export interface CameraRegionInput {
   latitude: number;
-  latitudeDelta: number;
   longitude: number;
+  latitudeDelta: number;
   longitudeDelta: number;
 }
 
@@ -187,17 +194,6 @@ export interface IntFilter {
   not?: NestedIntFilter | null;
 }
 
-export interface IntNullableFilter {
-  equals?: number | null;
-  in?: number[] | null;
-  notIn?: number[] | null;
-  lt?: number | null;
-  lte?: number | null;
-  gt?: number | null;
-  gte?: number | null;
-  not?: NestedIntNullableFilter | null;
-}
-
 export interface LandWhereInput {
   AND?: LandWhereInput[] | null;
   OR?: LandWhereInput[] | null;
@@ -271,17 +267,6 @@ export interface NestedIntFilter {
   gt?: number | null;
   gte?: number | null;
   not?: NestedIntFilter | null;
-}
-
-export interface NestedIntNullableFilter {
-  equals?: number | null;
-  in?: number[] | null;
-  notIn?: number[] | null;
-  lt?: number | null;
-  lte?: number | null;
-  gt?: number | null;
-  gte?: number | null;
-  not?: NestedIntNullableFilter | null;
 }
 
 export interface NestedStringFilter {
@@ -430,7 +415,7 @@ export interface UserWhereInput {
   fcmToken?: StringNullableFilter | null;
   withdrawDate?: DateTimeNullableFilter | null;
   withdrawReason?: StringNullableFilter | null;
-  addressId?: IntNullableFilter | null;
+  addressId?: IntFilter | null;
   address?: AddressWhereInput | null;
   pets?: PetListRelationFilter | null;
   chatRooms?: ChatRoomListRelationFilter | null;
