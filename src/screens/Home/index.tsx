@@ -112,13 +112,13 @@ const Home = () => {
     const onRegionChange = useCallback(async (region: Region) => {
         if (timer) clearTimeout(timer)
         if (!!selectedPetGroupId) return
-        console.log('latDelta : ' + region.latitudeDelta)
+        if (petGroupByAddressLoading) return
         const id = setTimeout(() => {
             setTimer(null)
             petGroupByAddress({ variables: { cameraRegion: region } })
         }, 1000)
         setTimer(id)
-    }, [timer, selectedPetGroupId])
+    }, [timer, selectedPetGroupId, petGroupByAddressLoading, petGroupByAddressData])
 
 
     // PUSH MESSAGE ------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -189,6 +189,7 @@ const Home = () => {
                     rotateEnabled={false}
                     initialRegion={DEFAULT_REGION}
                     onRegionChange={onRegionChange}
+
                     mapPadding={{ bottom: IS_IOS ? 56 : 0, top: IS_IOS ? 56 : 0, left: 0, right: 0 }}
                 >
                     {petGroupByAddressData?.petGroupByAddress.petGroup.map((v) => (
