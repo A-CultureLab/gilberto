@@ -1,11 +1,13 @@
 import React from 'react'
+import { useMemo } from 'react'
 import { useCallback } from 'react'
 import { useContext } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import FastImage from 'react-native-fast-image'
-import { Marker } from 'react-native-maps'
+import { StyleSheet } from 'react-native'
+import { Align, Circle, Marker } from 'react-native-nmap'
 import { HomeScreenContext } from '.'
-import { COLOR1, DEFAULT_SHADOW } from '../../constants/styles'
+import { PetGroupByAddressGroupBy } from '../../../__generated__/globalTypes'
+import { COLOR1, COLOR2, COLOR3 } from '../../constants/styles'
+import { IS_IOS } from '../../constants/values'
 import { petGroupByAddress_petGroupByAddress, petGroupByAddress_petGroupByAddress_petGroup } from '../../graphql/__generated__/petGroupByAddress'
 
 const PetMarker: React.FC<petGroupByAddress_petGroupByAddress_petGroup & Pick<petGroupByAddress_petGroupByAddress, 'groupBy'>> = ({ region, count, pets, id, groupBy }) => {
@@ -16,26 +18,30 @@ const PetMarker: React.FC<petGroupByAddress_petGroupByAddress_petGroup & Pick<pe
 
     const onPress = useCallback(() => {
         setSelectedPetGroupId(id)
-        mapRef.current?.animateCamera({
-            center: {
-                latitude: region.latitude,
-                longitude: region.longitude,
-            }
-        })
-    }, [id, mapRef])
+        mapRef.current?.animateToCoordinate(region)
+    }, [id, mapRef, region])
 
     return (
-        <Marker
-            onPress={onPress}
-            zIndex={isSelected ? 999 : 0}
-            coordinate={{ latitude: region.latitude, longitude: region.longitude }}
-        >
-            <View style={styles.container} >
-                <View style={[styles.countContainer, { borderWidth: isSelected ? 3 : 0 }]} >
-                    <Text style={styles.count} >{count < 100 ? count : '99+'}</Text>
-                </View>
-            </View>
-        </Marker>
+        <>
+            {/* <Circle
+                onClick={onPress}
+                zIndex={99}
+                coordinate={region}
+                color='rgba(0, 0, 0, 0.4)'
+                radius={radius}
+                outlineColor={COLOR1}
+                outlineWidth={isSelected ? IS_IOS ? 3 : Math.sqrt(radius) : 0}
+            /> */}
+            <Marker
+                coordinate={region}
+                width={56}
+                height={56}
+                image={isSelected ? require('../../assets/circle-marker-bordered.png') : require('../../assets/circle-marker.png')}
+                caption={{ text: count.toString(), color: '#ffffff', textSize: 14, haloColor: IS_IOS ? 'rgba(0, 0, 0, 0)' : '#000000', align: Align.Center }}
+                zIndex={99}
+                onClick={onPress}
+            />
+        </>
     )
 }
 

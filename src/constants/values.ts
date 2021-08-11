@@ -1,6 +1,6 @@
 import { Platform } from "react-native";
 import deviceInfoModule from "react-native-device-info";
-import { Region } from "react-native-maps";
+import { Region } from "react-native-nmap";
 
 export const IS_ANDROID = Platform.OS === 'android'
 export const IS_IOS = Platform.OS === 'ios'

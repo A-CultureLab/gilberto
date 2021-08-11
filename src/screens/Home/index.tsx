@@ -1,13 +1,14 @@
-import { COLOR2, DEFAULT_SHADOW, HEIGHT, STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles';
+import { COLOR1, COLOR2, DEFAULT_SHADOW, HEIGHT, STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles';
 import { DEFAULT_REGION, DEFAULT_REGION_DELTA, IS_IOS } from '../../constants/values';
 import { FlatList, StyleSheet, Text, View } from 'react-native'
-import { IS_SIGNEDUP, useIsSignedup, useUpdateFcmToken } from '../../graphql/user';
-import MapView, { Coordinate, LatLng, Marker, Region } from 'react-native-maps';
+import { IS_SIGNEDUP, useUpdateFcmToken } from '../../graphql/user';
 import PushNotification, { Importance } from 'react-native-push-notification';
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 import { useApolloClient, useLazyQuery } from '@apollo/client';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import NaverMapView, { Coord, Region, NaverMapViewProps } from "react-native-nmap";
+
 
 import { AuthContext } from '..';
 import Geolocation from '@react-native-community/geolocation';
@@ -21,18 +22,22 @@ import auth from '@react-native-firebase/auth'
 import { isSignedup } from '../../graphql/__generated__/isSignedup';
 import useAuth from '../../hooks/useAuth';
 import { usePetGroupByAddress } from '../../graphql/pet';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface HomeScreenContextInterface {
     selectedPetGroupId: string | null
     setSelectedPetGroupId: (v: string | null) => void
-    mapRef: React.RefObject<MapView>
+    mapRef: React.RefObject<NaverMapView>
 }
+
 
 export const HomeScreenContext = createContext<HomeScreenContextInterface>({} as any)
 
 const Home = () => {
 
-    const mapRef = useRef<MapView>(null)
+    const mapRef = useRef<NaverMapView>(null)
+    // const mapView = useRef<NaverMapView>(null);
+
 
     const { query } = useApolloClient()
     const { navigate } = useNavigation()
@@ -40,9 +45,10 @@ const Home = () => {
     const { user } = useContext(AuthContext)
     const { logout } = useAuth()
     const [updateFcmToken] = useUpdateFcmToken()
+    const { bottom } = useSafeAreaInsets()
 
 
-    const [myPos, setMyPos] = useState<LatLng | null>(null)
+    const [myPos, setMyPos] = useState<Coord | null>(null)
     const [timer, setTimer] = useState<NodeJS.Timeout | null>(null)
 
     const [petGroupByAddress, { data: petGroupByAddressData, loading: petGroupByAddressLoading }] = usePetGroupByAddress()
@@ -56,20 +62,16 @@ const Home = () => {
     }), [selectedPetGroupId, setSelectedPetGroupId, mapRef])
 
 
-    // 회원가입 안되있을시 파이어베이스 로그아웃
     useEffect(() => {
+        // 회원가입 안되있을시 파이어베이스 로그아웃
         (async () => {
             if (!auth().currentUser) return // 파이어베이스 로그인이 안되어있다면 이 프로세스와는 무관함
             const { data } = await query<isSignedup, {}>({ query: IS_SIGNEDUP, fetchPolicy: 'network-only' })
             if (!data.isSignedup) logout()
         })()
 
-    }, [])
-
-    // 내위치 초기화
-    useEffect(() => {
+        // 내위치 초기화
         if (IS_IOS) Geolocation.requestAuthorization()
-
         // 최초 1회 카메라 위치, 내 위치 지정
         Geolocation.getCurrentPosition(
             (position) => {
@@ -94,6 +96,7 @@ const Home = () => {
             (error) => { console.log(error.code, error.message) }
         )
 
+
         return () => {
             Geolocation.clearWatch(watch)
         }
@@ -109,20 +112,38 @@ const Home = () => {
         })
     }, [myPos])
 
-    const onRegionChange = useCallback(async (region: Region) => {
+    const onRegionChange = useCallback(async (event: {
+        latitude: number;
+        longitude: number;
+        zoom: number;
+        contentsRegion: [Coord, Coord, Coord, Coord, Coord];
+        coveringRegion: [Coord, Coord, Coord, Coord, Coord];
+    }) => {
         if (timer) clearTimeout(timer)
         if (!!selectedPetGroupId) return
         if (petGroupByAddressLoading) return
+
+        const latitudeDelta = event.coveringRegion[1].latitude - event.coveringRegion[0].latitude
+        const longitudeDelta = event.coveringRegion[2].longitude - event.coveringRegion[1].longitude
+
         const id = setTimeout(() => {
             setTimer(null)
-            petGroupByAddress({ variables: { cameraRegion: region } })
+            petGroupByAddress({
+                variables: {
+                    cameraRegion: {
+                        latitude: event.latitude,
+                        longitude: event.longitude,
+                        latitudeDelta,
+                        longitudeDelta
+                    }
+                }
+            })
         }, 1000)
         setTimer(id)
     }, [timer, selectedPetGroupId, petGroupByAddressLoading, petGroupByAddressData])
 
 
     // PUSH MESSAGE ------------------------------------------------------------------------------------------------------------------------------------------------------//
-
     // foreground push listner
     useEffect(() => {
         const unsubscribe = messaging().onMessage(async (message: FirebaseMessagingTypes.RemoteMessage) => {
@@ -138,7 +159,6 @@ const Home = () => {
         })
         return unsubscribe
     }, [])
-
     // background push listner
     useEffect(() => {
         const backgroundNotificationHandler = async (remoteMessage: FirebaseMessagingTypes.RemoteMessage) => {
@@ -157,8 +177,6 @@ const Home = () => {
         // 트리거 형식이라 한번만 작동함
         messaging().getInitialNotification().then((remoteMessage) => remoteMessage ? backgroundNotificationHandler(remoteMessage) : null)
     }, [])
-
-
     // fcm token listner
     useEffect(() => {
         if (!user) return
@@ -183,35 +201,27 @@ const Home = () => {
     return (
         <HomeScreenContext.Provider value={contextValue} >
             <ScreenLayout translucent >
-                <MapView
+                <NaverMapView
                     ref={mapRef}
-                    style={{ flex: 1, zIndex: -999 }}
-                    rotateEnabled={false}
-                    initialRegion={DEFAULT_REGION}
-                    onRegionChange={onRegionChange}
-
-                    mapPadding={{ bottom: IS_IOS ? 56 : 0, top: IS_IOS ? 56 : 0, left: 0, right: 0 }}
+                    style={{ flex: 1 }}
+                    onCameraChange={onRegionChange}
+                    useTextureView={false}
+                    showsMyLocationButton={false}
+                    scaleBar={false}
+                    zoomControl={false}
+                    rotateGesturesEnabled={false}
+                    tiltGesturesEnabled={false}
+                    mapPadding={{ bottom: IS_IOS ? 56 : 0, top: IS_IOS ? 56 : 0 }}
+                    logoMargin={{ bottom: 56 + 16 + bottom, left: 16 }}
                 >
                     {petGroupByAddressData?.petGroupByAddress.petGroup.map((v) => (
                         <PetMarker {...v} groupBy={petGroupByAddressData.petGroupByAddress.groupBy} key={v.id} />
                     ))}
-                    {myPos && <Marker
-                        coordinate={myPos}
-                        zIndex={99}
-                    >
-                        <View style={[{ width: 24, height: 24, backgroundColor: COLOR2 }, styles.myPosMarker]}>
-                            <View style={[{ width: 20, height: 20, backgroundColor: '#fff', }, styles.myPosMarker]}>
-                                <View style={[{ width: 16, height: 16, backgroundColor: COLOR2, }, styles.myPosMarker]} />
-                            </View>
-                        </View>
-                    </Marker>}
-                </MapView>
-
+                </NaverMapView>
 
                 <HomeHeader />
                 <MyPosFab onPress={onMyPos} />
                 <TabScreenBottomTabBar isMap smallMode={!!selectedPetGroupId} />
-
                 <PetsBottomSheet />
             </ScreenLayout>
         </HomeScreenContext.Provider>
