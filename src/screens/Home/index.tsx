@@ -7,7 +7,7 @@ import React, { createContext, useCallback, useContext, useEffect, useMemo, useR
 import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 import { useApolloClient, useLazyQuery } from '@apollo/client';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import NaverMapView, { Coord, Region, NaverMapViewProps } from "react-native-nmap";
+import NaverMapView, { Coord, Marker } from "react-native-nmap";
 
 
 import { AuthContext } from '..';
@@ -213,10 +213,19 @@ const Home = () => {
                     tiltGesturesEnabled={false}
                     mapPadding={{ bottom: IS_IOS ? 56 : 0, top: IS_IOS ? 56 : 0 }}
                     logoMargin={{ bottom: 56 + 16 + bottom, left: 16 }}
+                    //@ts-ignore
+                    useTextureView
                 >
                     {petGroupByAddressData?.petGroupByAddress.petGroup.map((v) => (
                         <PetMarker {...v} groupBy={petGroupByAddressData.petGroupByAddress.groupBy} key={v.id} />
                     ))}
+                    {myPos && <Marker
+                        zIndex={-1}
+                        coordinate={myPos}
+                        width={56}
+                        height={56}
+                        image={require('../../assets/my-pos.png')}
+                    />}
                 </NaverMapView>
 
                 <HomeHeader />

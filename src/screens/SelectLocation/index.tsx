@@ -1,6 +1,6 @@
 import { DEFAULT_REGION, DEFAULT_REGION_DELTA, DEFAULT_REGION_LAT_LOG, IS_IOS } from '../../constants/values'
 import { DEFAULT_SHADOW, GRAY2, STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles'
-import MapView, { LatLng, Marker, Region } from 'react-native-maps'
+import MapView, { Coord, Region } from 'react-native-nmap'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Route, useNavigation, useRoute } from '@react-navigation/native'
@@ -29,7 +29,7 @@ const SelectLocation = () => {
 
     const { bottom } = useSafeAreaInsets()
 
-    const [myPos, setMyPos] = useState<LatLng | null>(null)
+    const [myPos, setMyPos] = useState<Coord | null>(null)
     const [timer, setTimer] = useState<NodeJS.Timeout | null>(null)
 
 
@@ -59,14 +59,20 @@ const SelectLocation = () => {
         })
     }, [myPos])
 
-    const onRegionChange = useCallback(async (region: Region) => {
+    const onRegionChange = useCallback(async (event: {
+        latitude: number;
+        longitude: number;
+        zoom: number;
+        contentsRegion: [Coord, Coord, Coord, Coord, Coord];
+        coveringRegion: [Coord, Coord, Coord, Coord, Coord];
+    }) => {
         if (timer) clearTimeout(timer)
         const id = setTimeout(() => {
             setTimer(null)
             createAddress({
                 variables: {
-                    latitude: region.latitude,
-                    longitude: region.longitude
+                    latitude: event.latitude,
+                    longitude: event.longitude
                 }
             })
         }, 1000)
@@ -88,10 +94,17 @@ const SelectLocation = () => {
             <MapView
                 ref={mapRef}
                 style={{ flex: 1, zIndex: -999 }}
-                rotateEnabled={false}
-                initialRegion={DEFAULT_REGION}
-                mapPadding={{ bottom: 56, top: 56, left: 0, right: 0 }}
-                onRegionChange={onRegionChange}
+                onCameraChange={onRegionChange}
+                useTextureView={false}
+                showsMyLocationButton={false}
+                scaleBar={false}
+                zoomControl={false}
+                rotateGesturesEnabled={false}
+                tiltGesturesEnabled={false}
+                mapPadding={{ bottom: IS_IOS ? 56 : 0, top: IS_IOS ? 56 : 0 }}
+                logoMargin={{ bottom: 56 + 16 + bottom, left: 16 }}
+                //@ts-ignore
+                useTextureView
             />
 
             <Pressable
