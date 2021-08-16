@@ -8,32 +8,33 @@ export const IS_IOS = Platform.OS === 'ios'
 export const IAMPORT_CODE = 'imp01398045'
 
 const PROD_TEST_MODE = false
+const LOCAL_IP = '192.168.218.254'
 
 export const GRAPHQL_SERVER_URL = (() => {
     if (!__DEV__ || PROD_TEST_MODE) return 'https://api-server-dev-5gq6bfkwja-du.a.run.app/graphql'
     if (IS_ANDROID) {
         if (deviceInfoModule.isEmulatorSync()) return 'http://10.0.2.2:8080/graphql'
-        else return 'http://192.168.35.105:8080/graphql'
-        // else return 'http://192.168.10.36:8080/graphql'
+        else return `http://${LOCAL_IP}:8080/graphql`
+        // else return `http://${LOCAL_IP}:8080/graphql`
     }
     if (IS_IOS) {
-        if (deviceInfoModule.isEmulatorSync()) return 'http://localhost:8080/graphql'
-        else return 'http://192.168.35.105:8080/graphql'
-        // else return 'http://192.168.10.18:8080/graphql'
+        if (deviceInfoModule.isEmulatorSync()) return `http://localhost:8080/graphql`
+        else return `http://${LOCAL_IP}:8080/graphql`
+        // else return `http://${LOCAL_IP}:8080/graphql`
     }
 })()
 
 export const WEBSOCKET_SERVER_URL = (() => {
-    if (!__DEV__ || PROD_TEST_MODE) return 'https://api-server-dev-5gq6bfkwja-du.a.run.app/graphql'
+    if (!__DEV__ || PROD_TEST_MODE) return `https://api-server-dev-5gq6bfkwja-du.a.run.app/graphql`
     if (IS_ANDROID) {
-        if (deviceInfoModule.isEmulatorSync()) return 'http://10.0.2.2:8080/graphql'
-        else return 'http://192.168.35.105:8080/graphql'
-        // else return 'http://192.168.10.36:8080/graphql'
+        if (deviceInfoModule.isEmulatorSync()) return `http://10.0.2.2:8080/graphql`
+        else return `http://${LOCAL_IP}:8080/graphql`
+        // else return `http://${LOCAL_IP}:8080/graphql`
     }
     if (IS_IOS) {
-        if (deviceInfoModule.isEmulatorSync()) return 'http://localhost:8080/graphql'
-        else return 'http://192.168.35.105:8080/graphql'
-        // else return 'ws://192.168.10.18:8080/graphql'
+        if (deviceInfoModule.isEmulatorSync()) return `http://localhost:8080/graphql`
+        else return `http://${LOCAL_IP}:8080/graphql`
+        // else return 'ws://${LOCAL_IP}:8080/graphql'
     }
 })()
 

@@ -16,7 +16,7 @@
     <meta-data android:name="com.dieam.reactnativepushnotification.notification_foreground" android:value="false"/>
     <meta-data android:name="com.dieam.reactnativepushnotification.notification_color" android:resource="@color/notificationColor"/>
     <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyDn4_ts8PKHExbK-T6_m4AuPbcfkgi9IIk"/>
-    <meta-data android:name="com.naver.maps.map.CLIENT_ID" android:value="e72zankdbg" />
+    <meta-data android:name="com.naver.maps.map.CLIENT_ID" android:value="i7myppzqdg" />
 
     <uses-library android:name="org.apache.http.legacy" android:required="false"/>
 
