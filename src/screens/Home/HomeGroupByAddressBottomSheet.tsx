@@ -5,40 +5,42 @@ import { useEffect } from 'react'
 import { useContext } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { HomeScreenContext } from '.'
-import { COLOR3, GRAY2, GRAY3, HEIGHT, STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles'
+import { GRAY2, GRAY3, HEIGHT, STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles'
+import { useUserGroupByAddress } from '../../graphql/user'
 
-const PetsBottomSheet = () => {
+const HomeGroupByAddressBottomSheet = () => {
 
 
     const { navigate } = useNavigation()
-    const { selectedPetGroupId, setSelectedPetGroupId } = useContext(HomeScreenContext)
-    const { data, loading, fetchMore } = usePets({
+    const { selectedGroupByAddressId, setSelectedGroupByAddressId } = useContext(HomeScreenContext)
+    const { data, loading, fetchMore } = useUserGroupByAddress({
+        skip: !selectedGroupByAddressId,
         variables: {
-            where: { user: { addressPostcode: { equals: selectedPetGroupId } } },
-            take: 5
+            groupByAddress: selectedGroupByAddressId || '',
         }
     })
+
+    console.log(data)
 
     const bottomSheetRef = useRef<BottomSheet>(null)
 
     const snapPoints = useMemo(() => [0, HEIGHT / 2 - 100, HEIGHT - STATUSBAR_HEIGHT - 16 - 56 - 40], [])
 
     const handleSheetChanges = useCallback((index: number) => {
-        if (index === 0) setSelectedPetGroupId(null)
+        if (index === 0) setSelectedGroupByAddressId(null)
     }, [])
 
     useEffect(() => {
-        if (!selectedPetGroupId) bottomSheetRef.current?.snapTo(0)
+        if (!selectedGroupByAddressId) bottomSheetRef.current?.snapTo(0)
         else bottomSheetRef.current?.snapTo(1)
-    }, [selectedPetGroupId])
+    }, [selectedGroupByAddressId])
 
     const onEndReached = useCallback(() => {
-        if (!selectedPetGroupId) return
-        console.log(data?.pets.length)
-        fetchMore({ variables: { skip: data?.pets.length } })
-    }, [selectedPetGroupId, data])
+        if (!selectedGroupByAddressId) return
+
+        fetchMore({ variables: { skip: data?.userGroupByAddress.length } })
+    }, [selectedGroupByAddressId, data])
 
     return (
         <BottomSheet
@@ -54,7 +56,7 @@ const PetsBottomSheet = () => {
         >
 
             {data && <BottomSheetFlatList
-                data={data?.pets}
+                data={data?.userGroupByAddress}
                 keyExtractor={({ id }) => id.toString()}
                 overScrollMode='never'
                 showsVerticalScrollIndicator={false}
@@ -62,14 +64,14 @@ const PetsBottomSheet = () => {
                 onEndReachedThreshold={0.5}
                 renderItem={({ item }) =>
                     <Pressable
-                        onPress={() => navigate('UserDetail', { id: item.userId })}
+                        onPress={() => navigate('UserDetail', { id: item.id })}
                         style={{ height: 100, borderBottomColor: GRAY3, borderBottomWidth: 1 }}
                     >
                         <FastImage
                             style={{ width: 80, height: 80, marginLeft: 20 }}
                             source={{ uri: item.image }}
                         />
-                        <Text>{item.name}</Text>
+                        <Text>{item.id}</Text>
                     </Pressable>
                 }
             />}
@@ -77,7 +79,7 @@ const PetsBottomSheet = () => {
     )
 }
 
-export default PetsBottomSheet
+export default HomeGroupByAddressBottomSheet
 
 const styles = StyleSheet.create({
     swiperContainer: {

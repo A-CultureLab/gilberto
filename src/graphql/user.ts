@@ -9,6 +9,7 @@ import { gql } from "@apollo/client";
 import { iUser } from "./__generated__/iUser";
 import { isSignedup } from "./__generated__/isSignedup";
 import { createAddress, createAddressVariables } from "./__generated__/createAddress";
+import { userGroupByAddress, userGroupByAddressVariables } from "./__generated__/userGroupByAddress";
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const KAKAO_TOKEN_TO_FIREBASE_TOKEN = gql`
@@ -127,7 +128,19 @@ export const UPDATE_FCM_TOKEN = gql`
 `
 export const useUpdateFcmToken = createMutationHook<updateFcmToken, updateFcmTokenVariables>(UPDATE_FCM_TOKEN)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
-
+export const USER_GROUP_BY_ADDRESS = gql`
+  query userGroupByAddress ($groupByAddress:String!, $take:Int, $skip:Int) {
+    userGroupByAddress(groupByAddress: $groupByAddress, take:$take, skip:$skip ) {
+      id
+      image
+      pets {
+        id
+        image
+      }
+    }
+  }
+`
+export const useUserGroupByAddress = createQueryHook<userGroupByAddress, userGroupByAddressVariables>(USER_GROUP_BY_ADDRESS)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//

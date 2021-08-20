@@ -8,16 +8,16 @@ import { COLOR1 } from '../../constants/styles'
 import { IS_IOS } from '../../constants/values'
 import { petGroupByAddress_petGroupByAddress, petGroupByAddress_petGroupByAddress_petGroup } from '../../graphql/__generated__/petGroupByAddress'
 
-const PetMarker: React.FC<petGroupByAddress_petGroupByAddress_petGroup & Pick<petGroupByAddress_petGroupByAddress, 'groupBy'>> = ({ region, count, pets, id, groupBy }) => {
+const HomePetMarker: React.FC<petGroupByAddress_petGroupByAddress_petGroup & Pick<petGroupByAddress_petGroupByAddress, 'groupBy'>> = ({ region, count, pets, id, groupBy }) => {
 
-    const { selectedPetGroupId, setSelectedPetGroupId, mapRef } = useContext(HomeScreenContext)
+    const { selectedGroupByAddressId, setSelectedGroupByAddressId, mapRef } = useContext(HomeScreenContext)
 
-    const isSelected = selectedPetGroupId === id
+    const isSelected = selectedGroupByAddressId === id
 
     const onPress = useCallback(() => {
-        setSelectedPetGroupId(id)
+        setSelectedGroupByAddressId(id)
         mapRef.current?.animateToCoordinate(region)
-    }, [id, mapRef, region])
+    }, [id, mapRef, region, setSelectedGroupByAddressId])
 
     return (
         <Marker
@@ -32,26 +32,4 @@ const PetMarker: React.FC<petGroupByAddress_petGroupByAddress_petGroup & Pick<pe
     )
 }
 
-export default React.memo(PetMarker)
-
-const styles = StyleSheet.create({
-    container: {
-        width: 80,
-        height: 64,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    countContainer: {
-        width: 56,
-        height: 56,
-        borderRadius: 28,
-        position: 'absolute',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderColor: COLOR1
-    },
-    count: {
-        color: '#fff'
-    }
-})
+export default React.memo(HomePetMarker)

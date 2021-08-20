@@ -14,8 +14,7 @@ import { AuthContext } from '..';
 import Geolocation from '@react-native-community/geolocation';
 import HomeHeader from './HomeHeader'
 import MyPosFab from '../../components/fabs/MyPosFab';
-import PetMarker from './PetMarker';
-import PetsBottomSheet from './PetsBottomSheet';
+import HomePetMarker from './HomePetMarker';
 import ScreenLayout from '../../components/layout/ScreenLayout';
 import TabScreenBottomTabBar from '../../components/tabs/TabScreenBottomTabBar';
 import auth from '@react-native-firebase/auth'
@@ -23,10 +22,11 @@ import { isSignedup } from '../../graphql/__generated__/isSignedup';
 import useAuth from '../../hooks/useAuth';
 import { usePetGroupByAddress } from '../../graphql/pet';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import HomeGroupByAddressBottomSheet from './HomeGroupByAddressBottomSheet';
 
 interface HomeScreenContextInterface {
-    selectedPetGroupId: string | null
-    setSelectedPetGroupId: (v: string | null) => void
+    selectedGroupByAddressId: string | null
+    setSelectedGroupByAddressId: (v: string | null) => void
     mapRef: React.RefObject<NaverMapView>
 }
 
@@ -54,12 +54,12 @@ const Home = () => {
     const [petGroupByAddress, { data: petGroupByAddressData, loading: petGroupByAddressLoading }] = usePetGroupByAddress()
 
     // Context Values
-    const [selectedPetGroupId, setSelectedPetGroupId] = useState<string | null>(null)
+    const [selectedGroupByAddressId, setSelectedGroupByAddressId] = useState<string | null>(null)
     const contextValue = useMemo<HomeScreenContextInterface>(() => ({
-        selectedPetGroupId,
-        setSelectedPetGroupId,
+        selectedGroupByAddressId,
+        setSelectedGroupByAddressId,
         mapRef
-    }), [selectedPetGroupId, setSelectedPetGroupId, mapRef])
+    }), [selectedGroupByAddressId, setSelectedGroupByAddressId, mapRef])
 
 
     useEffect(() => {
@@ -103,7 +103,7 @@ const Home = () => {
     }, [])
 
     const onMyPos = useCallback(() => {
-        setSelectedPetGroupId(null)
+        setSelectedGroupByAddressId(null)
         if (!myPos) return
         mapRef.current?.animateToRegion({
             latitude: myPos.latitude,
@@ -120,7 +120,7 @@ const Home = () => {
         coveringRegion: [Coord, Coord, Coord, Coord, Coord];
     }) => {
         if (timer) clearTimeout(timer)
-        if (!!selectedPetGroupId) return
+        if (!!selectedGroupByAddressId) return
         if (petGroupByAddressLoading) return
 
         const latitudeDelta = event.coveringRegion[1].latitude - event.coveringRegion[0].latitude
@@ -140,7 +140,7 @@ const Home = () => {
             })
         }, 1000)
         setTimer(id)
-    }, [timer, selectedPetGroupId, petGroupByAddressLoading, petGroupByAddressData])
+    }, [timer, selectedGroupByAddressId, petGroupByAddressLoading, petGroupByAddressData])
 
 
     // PUSH MESSAGE ------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -217,7 +217,7 @@ const Home = () => {
                     useTextureView
                 >
                     {petGroupByAddressData?.petGroupByAddress.petGroup.map((v) => (
-                        <PetMarker {...v} groupBy={petGroupByAddressData.petGroupByAddress.groupBy} key={v.id} />
+                        <HomePetMarker {...v} groupBy={petGroupByAddressData.petGroupByAddress.groupBy} key={v.id} />
                     ))}
                     {myPos && <Marker
                         zIndex={-1}
@@ -230,8 +230,8 @@ const Home = () => {
 
                 <HomeHeader />
                 <MyPosFab onPress={onMyPos} />
-                <TabScreenBottomTabBar isMap smallMode={!!selectedPetGroupId} />
-                {/* <PetsBottomSheet /> */}
+                <TabScreenBottomTabBar isMap smallMode={!!selectedGroupByAddressId} />
+                <HomeGroupByAddressBottomSheet />
             </ScreenLayout>
         </HomeScreenContext.Provider>
     )
