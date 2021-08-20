@@ -11,14 +11,14 @@ import { CreateChatInput } from "./../../../__generated__/globalTypes";
 
 export interface createChat_createChat_chatRoom_recentChat {
   __typename: "Chat";
-  id: number;
+  id: string;
   createdAt: any;
   message: string | null;
 }
 
 export interface createChat_createChat_chatRoom {
   __typename: "ChatRoom";
-  id: number;
+  id: string;
   name: string;
   notReadChatCount: number;
   recentChat: createChat_createChat_chatRoom_recentChat | null;
@@ -26,7 +26,7 @@ export interface createChat_createChat_chatRoom {
 
 export interface createChat_createChat {
   __typename: "Chat";
-  id: number;
+  id: string;
   chatRoom: createChat_createChat_chatRoom;
 }
 

@@ -17,7 +17,7 @@ export interface petGroupByAddress_petGroupByAddress_petGroup_region {
 
 export interface petGroupByAddress_petGroupByAddress_petGroup_pets {
   __typename: "Pet";
-  id: number;
+  id: string;
   image: string;
 }
 

@@ -9,7 +9,7 @@
 
 export interface deletePet_deletePet {
   __typename: "Pet";
-  id: number;
+  id: string;
 }
 
 export interface deletePet {
@@ -17,5 +17,5 @@ export interface deletePet {
 }
 
 export interface deletePetVariables {
-  id: number;
+  id: string;
 }

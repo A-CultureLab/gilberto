@@ -17,7 +17,7 @@ export interface updateUser_updateUser_address_land {
 
 export interface updateUser_updateUser_address {
   __typename: "Address";
-  id: number;
+  id: string;
   land: updateUser_updateUser_address_land;
 }
 

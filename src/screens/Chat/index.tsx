@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native'
+import { FlatList, StyleSheet, View } from 'react-native'
 
 import ChatCard from './ChatCard'
 import Header from '../../components/headers/Header'

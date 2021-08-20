@@ -9,7 +9,7 @@
 
 export interface sortPets_sortPets {
   __typename: "Pet";
-  id: number;
+  id: string;
   orderKey: number;
 }
 
@@ -18,5 +18,5 @@ export interface sortPets {
 }
 
 export interface sortPetsVariables {
-  data: number[];
+  data: string[];
 }

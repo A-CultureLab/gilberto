@@ -17,7 +17,7 @@ export interface chats_chats_user {
 
 export interface chats_chats {
   __typename: "Chat";
-  id: number;
+  id: string;
   createdAt: any;
   message: string | null;
   image: string | null;
@@ -26,14 +26,14 @@ export interface chats_chats {
 
 export interface chats_chatRoom_recentChat {
   __typename: "Chat";
-  id: number;
+  id: string;
   createdAt: any;
   message: string | null;
 }
 
 export interface chats_chatRoom {
   __typename: "ChatRoom";
-  id: number;
+  id: string;
   name: string;
   notReadChatCount: number;
   recentChat: chats_chatRoom_recentChat | null;
@@ -45,7 +45,7 @@ export interface chats {
 }
 
 export interface chatsVariables {
-  chatRoomId: number;
-  cursor?: number | null;
+  chatRoomId: string;
+  cursor?: string | null;
   take?: number | null;
 }

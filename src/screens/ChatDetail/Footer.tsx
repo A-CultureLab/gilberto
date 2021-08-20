@@ -2,15 +2,14 @@ import React, { useEffect } from 'react'
 import { useCallback } from 'react'
 import { useState } from 'react'
 import { ActivityIndicator, Pressable, StyleSheet, TextInput, View, Keyboard, Text, BackHandler } from 'react-native'
-import { COLOR1, COLOR2, GRAY3 } from '../../constants/styles'
+import { COLOR1, GRAY3 } from '../../constants/styles'
 import { useCreateChat } from '../../graphql/chat'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import useGlobalUi from '../../hooks/useGlobalUi'
 import { useRef } from 'react'
 import useImageUpload from '../../hooks/useImageUpload'
-import Animated, { useSharedValue, useAnimatedStyle, withTiming, withSpring } from 'react-native-reanimated'
 
-const Footer: React.FC<{ chatRoomId: number }> = ({ chatRoomId }) => {
+const Footer: React.FC<{ chatRoomId: string }> = ({ chatRoomId }) => {
 
 
     const inputRef = useRef<TextInput>(null)

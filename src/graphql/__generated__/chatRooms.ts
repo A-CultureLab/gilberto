@@ -17,14 +17,14 @@ export interface chatRooms_chatRooms_users {
 
 export interface chatRooms_chatRooms_recentChat {
   __typename: "Chat";
-  id: number;
+  id: string;
   createdAt: any;
   message: string | null;
 }
 
 export interface chatRooms_chatRooms {
   __typename: "ChatRoom";
-  id: number;
+  id: string;
   notReadChatCount: number;
   name: string;
   users: chatRooms_chatRooms_users[];
@@ -36,6 +36,6 @@ export interface chatRooms {
 }
 
 export interface chatRoomsVariables {
-  cursor?: number | null;
+  cursor?: string | null;
   take?: number | null;
 }

@@ -11,7 +11,7 @@ import { PetType, Gender } from "./../../../__generated__/globalTypes";
 
 export interface myPets_myPets {
   __typename: "Pet";
-  id: number;
+  id: string;
   type: PetType;
   name: string;
   image: string;

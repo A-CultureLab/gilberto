@@ -24,7 +24,7 @@ import useGlobalUi from '../../hooks/useGlobalUi'
 import useImageUpload from '../../hooks/useImageUpload'
 
 export interface PetModifyProps {
-    id: number
+    id: string
 }
 
 const PetModify = () => {

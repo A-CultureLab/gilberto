@@ -6,7 +6,7 @@ import { gql } from "@apollo/client";
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const CHATS = gql`
-query chats ($chatRoomId:Int!,  $cursor:Int, $take:Int) {
+query chats ($chatRoomId:String!,  $cursor:String, $take:Int) {
     chats(chatRoomId:$chatRoomId, cursor:$cursor, take:$take) {
         id
         createdAt
@@ -54,7 +54,7 @@ mutation createChat ($input:CreateChatInput!) {
 export const useCreateChat = createMutationHook<createChat, createChatVariables>(CREATE_CHAT)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const CHAT_CREATED = gql`
-subscription chatCreated($userId:String!, $chatRoomId:Int!) {
+subscription chatCreated($userId:String!, $chatRoomId:String!) {
     chatCreated (userId:$userId, chatRoomId:$chatRoomId) {
         id
         createdAt

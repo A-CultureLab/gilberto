@@ -11,7 +11,7 @@ import { RegistPetInput, PetType, Gender } from "./../../../__generated__/global
 
 export interface updatePet_updatePet {
   __typename: "Pet";
-  id: number;
+  id: string;
   type: PetType;
   name: string;
   image: string;
@@ -30,6 +30,6 @@ export interface updatePet {
 }
 
 export interface updatePetVariables {
-  id: number;
+  id: string;
   data: RegistPetInput;
 }

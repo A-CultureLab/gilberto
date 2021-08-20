@@ -15,7 +15,7 @@ export interface createAddress_createAddress_land {
 
 export interface createAddress_createAddress {
   __typename: "Address";
-  id: number;
+  id: string;
   land: createAddress_createAddress_land;
 }
 

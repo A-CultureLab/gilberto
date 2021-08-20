@@ -7,7 +7,7 @@ import { I_USER_NOT_READ_CHAT_NUM } from "./user";
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const CHAT_ROOMS = gql`
-query chatRooms ($cursor:Int, $take:Int) {
+query chatRooms ($cursor:String, $take:Int) {
     chatRooms(cursor:$cursor, take:$take) {
         id
         notReadChatCount

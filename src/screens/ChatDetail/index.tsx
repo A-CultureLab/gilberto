@@ -14,7 +14,7 @@ import { useContext } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 export interface ChatDetailProps {
-    id: number
+    id: string
 }
 
 const ChatDetail = () => {

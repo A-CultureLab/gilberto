@@ -17,14 +17,14 @@ export interface chatRoomUpdated_chatRoomUpdated_users {
 
 export interface chatRoomUpdated_chatRoomUpdated_recentChat {
   __typename: "Chat";
-  id: number;
+  id: string;
   createdAt: any;
   message: string | null;
 }
 
 export interface chatRoomUpdated_chatRoomUpdated {
   __typename: "ChatRoom";
-  id: number;
+  id: string;
   notReadChatCount: number;
   name: string;
   users: chatRoomUpdated_chatRoomUpdated_users[];

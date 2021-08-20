@@ -1,7 +1,6 @@
 import React from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { chats_chats } from '../../graphql/__generated__/chats'
-import auth from '@react-native-firebase/auth'
 import dayjs from 'dayjs'
 import { COLOR1, GRAY1, GRAY3, WIDTH } from '../../constants/styles'
 import FastImage from 'react-native-fast-image'

@@ -4,7 +4,6 @@ import { Pressable, StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { COLOR1, GRAY1, GRAY2 } from '../../constants/styles'
 import { chatRooms_chatRooms } from '../../graphql/__generated__/chatRooms'
-import auth from '@react-native-firebase/auth'
 import { useNavigation } from '@react-navigation/core'
 import dayjs from 'dayjs'
 

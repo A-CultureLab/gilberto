@@ -166,7 +166,7 @@ const Home = () => {
             if (!data) return
             if (data.type === 'chat') {
                 console.log(data.chatRoomId)
-                navigate('ChatDetail', { id: Number(data.chatRoomId) })
+                navigate('ChatDetail', { id: data.chatRoomId })
             }
         }
         // 푸시를 눌러서 열었을때 IOS는 백그라운드, QUIT상태 둘다 onNotificationOpendApp이 작동함
@@ -231,7 +231,7 @@ const Home = () => {
                 <HomeHeader />
                 <MyPosFab onPress={onMyPos} />
                 <TabScreenBottomTabBar isMap smallMode={!!selectedPetGroupId} />
-                <PetsBottomSheet />
+                {/* <PetsBottomSheet /> */}
             </ScreenLayout>
         </HomeScreenContext.Provider>
     )

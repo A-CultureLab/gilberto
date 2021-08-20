@@ -11,7 +11,7 @@ import { SignupInput } from "./../../../__generated__/globalTypes";
 
 export interface signup_signup_pets {
   __typename: "Pet";
-  id: number;
+  id: string;
   image: string;
 }
 

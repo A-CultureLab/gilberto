@@ -8,7 +8,6 @@ import FastImage from 'react-native-fast-image'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { HomeScreenContext } from '.'
 import { COLOR3, GRAY2, GRAY3, HEIGHT, STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles'
-import { usePets } from '../../graphql/pet'
 
 const PetsBottomSheet = () => {
 

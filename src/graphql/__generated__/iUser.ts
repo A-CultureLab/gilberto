@@ -17,7 +17,7 @@ export interface iUser_iUser_address_land {
 
 export interface iUser_iUser_address {
   __typename: "Address";
-  id: number;
+  id: string;
   land: iUser_iUser_address_land;
 }
 

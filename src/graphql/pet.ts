@@ -1,7 +1,5 @@
 import { createLazyQueryHook, createMutationHook, createQueryHook } from "../lib/createApolloHook";
 import { deletePet, deletePetVariables } from "./__generated__/deletePet";
-import { mapPets, mapPetsVariables } from "./__generated__/mapPets";
-import { pets, petsVariables } from "./__generated__/pets";
 import { registPet, registPetVariables } from "./__generated__/registPet";
 import { sortPets, sortPetsVariables } from "./__generated__/sortPets";
 import { updatePet, updatePetVariables } from "./__generated__/updatePet";
@@ -63,7 +61,7 @@ export const MY_PETS = gql`
 export const useMyPets = createQueryHook<myPets, {}>(MY_PETS)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const SORT_PETS = gql`
-    mutation sortPets ($data: [Int!]!) {
+    mutation sortPets ($data: [String!]!) {
         sortPets(data: $data) {
             id
             orderKey
@@ -74,7 +72,7 @@ export const SORT_PETS = gql`
 export const useSortPets = createMutationHook<sortPets, sortPetsVariables>(SORT_PETS)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const UPDATE_PET = gql`
-    mutation updatePet ($id:Int!, $data:RegistPetInput!) {
+    mutation updatePet ($id:String!, $data:RegistPetInput!) {
         updatePet(id:$id data:$data) {
             id
             type
@@ -95,7 +93,7 @@ export const UPDATE_PET = gql`
 export const useUpdatePet = createMutationHook<updatePet, updatePetVariables>(UPDATE_PET)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const DELETE_PET = gql`
-    mutation deletePet ($id:Int!) {
+    mutation deletePet ($id:String!) {
         deletePet(id:$id) {
             id
         }
@@ -135,17 +133,7 @@ export const PET_GROUP_BY_ADDRESS = gql`
 
 export const usePetGroupByAddress = createLazyQueryHook<petGroupByAddress, petGroupByAddressVariables>(PET_GROUP_BY_ADDRESS)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
-export const PETS = gql`
-    query pets ($where:PetWhereInput,$skip:Int, $take:Int) {
-        pets (where:$where, take:$take, skip:$skip) {
-            id
-            name
-            image
-            userId
-        }
-    }
-`
-export const usePets = createQueryHook<pets, petsVariables>(PETS)
+
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
