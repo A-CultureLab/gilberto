@@ -59,7 +59,7 @@ const Home = () => {
     const [petGroupByAddressRefetchEnable, setPetGroupByAddressRefetchEnable] = useState(false)
     // Context Values
     const [selectedGroupByAddress, setSelectedGroupByAddress] = useState<petGroupByAddress_petGroupByAddress_petGroup | null>(null)
-    const [bottomSheetSnapIndex, setBottomSheetSnapIndex] = useState(0)
+    const [bottomSheetSnapIndex, setBottomSheetSnapIndex] = useState(-1)
     const contextValue = useMemo<HomeScreenContextInterface>(() => ({
         selectedGroupByAddress,
         setSelectedGroupByAddress,
@@ -236,7 +236,7 @@ const Home = () => {
                 </NaverMapView>
 
                 <HomeHeader />
-                <HomeRefetchButton onPress={onPetGroupByAddressRefetch} enable={bottomSheetSnapIndex === 0 && petGroupByAddressRefetchEnable} />
+                <HomeRefetchButton onPress={onPetGroupByAddressRefetch} enable={bottomSheetSnapIndex === -1 && petGroupByAddressRefetchEnable} />
                 <MyPosFab onPress={onMyPos} />
                 <TabScreenBottomTabBar isMap smallMode={!!selectedGroupByAddress} />
                 <HomeGroupByAddressBottomSheet />
