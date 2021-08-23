@@ -9,7 +9,8 @@ export const IAMPORT_CODE = 'imp01398045'
 
 const PROD_TEST_MODE = false
 // const LOCAL_IP = '192.168.218.254'
-const LOCAL_IP = '192.168.35.105'
+// const LOCAL_IP = '192.168.35.105'
+const LOCAL_IP = '10.9.10.3'
 
 export const GRAPHQL_SERVER_URL = (() => {
     if (!__DEV__ || PROD_TEST_MODE) return 'https://api-server-dev-5gq6bfkwja-du.a.run.app/graphql'
@@ -95,7 +96,7 @@ export const ANIMAL_SPECIES: { [type: string]: { [key: string]: string[] } } = {
 
 export const DEFAULT_REGION_DELTA: Omit<Region, 'latitude' | 'longitude'> = {
     latitudeDelta: 0.018,
-    longitudeDelta: 0.0001
+    longitudeDelta: 0.009
 }
 
 export const DEFAULT_REGION_LAT_LOG: Omit<Region, 'latitudeDelta' | 'longitudeDelta'> = {

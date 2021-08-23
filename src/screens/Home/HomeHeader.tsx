@@ -15,8 +15,8 @@ interface HomeHeaderProps {
 const HomeHeader: React.FC<HomeHeaderProps> = () => {
     return (
         <View style={[styles.container]} >
-            <View style={styles.searchContainer} >
-            </View>
+            {/* <View style={styles.searchContainer} >
+            </View> */}
             <ProfileButton />
         </View>
     )
@@ -27,6 +27,7 @@ export default HomeHeader
 const styles = StyleSheet.create({
     container: {
         position: 'absolute',
+        justifyContent: 'flex-end',
         width: WIDTH,
         top: STATUSBAR_HEIGHT + 16,
         left: 0, right: 0,

@@ -7,7 +7,7 @@ import React, { createContext, useCallback, useContext, useEffect, useMemo, useR
 import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 import { useApolloClient, useLazyQuery } from '@apollo/client';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import NaverMapView, { Coord, Marker } from "react-native-nmap";
+import NaverMapView, { Coord, Marker, Region } from "react-native-nmap";
 
 
 import { AuthContext } from '..';
@@ -23,6 +23,7 @@ import useAuth from '../../hooks/useAuth';
 import { usePetGroupByAddress } from '../../graphql/pet';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import HomeGroupByAddressBottomSheet from './HomeGroupByAddressBottomSheet';
+import HomeRefetchButton from './HomeRefetchButton';
 
 interface HomeScreenContextInterface {
     selectedGroupByAddressId: string | null
@@ -49,9 +50,10 @@ const Home = () => {
 
 
     const [myPos, setMyPos] = useState<Coord | null>(null)
-    const [timer, setTimer] = useState<NodeJS.Timeout | null>(null)
+    const [cameraRegion, setCameraRegion] = useState<Region | null>(null)
 
     const [petGroupByAddress, { data: petGroupByAddressData, loading: petGroupByAddressLoading }] = usePetGroupByAddress()
+    const [petGroupByAddressRefetchEnable, setPetGroupByAddressRefetchEnable] = useState(false)
 
     // Context Values
     const [selectedGroupByAddressId, setSelectedGroupByAddressId] = useState<string | null>(null)
@@ -60,6 +62,7 @@ const Home = () => {
         setSelectedGroupByAddressId,
         mapRef
     }), [selectedGroupByAddressId, setSelectedGroupByAddressId, mapRef])
+
 
 
     useEffect(() => {
@@ -76,23 +79,20 @@ const Home = () => {
         Geolocation.getCurrentPosition(
             (position) => {
                 setMyPos({ latitude: position.coords.latitude, longitude: position.coords.longitude })
-                setTimeout(() => {
-                    mapRef.current?.animateToRegion({
-                        latitude: position.coords.latitude,
-                        longitude: position.coords.longitude,
-                        ...DEFAULT_REGION_DELTA
-                    })
-                }, 500); // animateToRegion이 안드로이드에서 앱을켠후 작동가능까지 조금 시간이 걸리는 듯
-
+                const defaultCameraRegion = {
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                    ...DEFAULT_REGION_DELTA
+                }
+                mapRef.current?.animateToRegion(defaultCameraRegion)
+                petGroupByAddress({ variables: { cameraRegion: defaultCameraRegion } })
             },
             (error) => { console.log(error.code, error.message) }
         )
 
         // 내 위치로 사용할 위치 옵져빙
         const watch = Geolocation.watchPosition(
-            (position) => {
-                setMyPos({ latitude: position.coords.latitude, longitude: position.coords.longitude })
-            },
+            (position) => setMyPos({ latitude: position.coords.latitude, longitude: position.coords.longitude }),
             (error) => { console.log(error.code, error.message) }
         )
 
@@ -101,6 +101,17 @@ const Home = () => {
             Geolocation.clearWatch(watch)
         }
     }, [])
+
+    useEffect(() => {
+        setPetGroupByAddressRefetchEnable(false)
+    }, [petGroupByAddressLoading])
+
+    const onPetGroupByAddressRefetch = useCallback(() => {
+        if (!cameraRegion) return
+        if (!petGroupByAddressRefetchEnable) return
+
+        petGroupByAddress({ variables: { cameraRegion } })
+    }, [petGroupByAddressRefetchEnable, cameraRegion])
 
     const onMyPos = useCallback(() => {
         setSelectedGroupByAddressId(null)
@@ -119,28 +130,19 @@ const Home = () => {
         contentsRegion: [Coord, Coord, Coord, Coord, Coord];
         coveringRegion: [Coord, Coord, Coord, Coord, Coord];
     }) => {
-        if (timer) clearTimeout(timer)
-        if (!!selectedGroupByAddressId) return
-        if (petGroupByAddressLoading) return
+
+        if (!petGroupByAddressLoading) setPetGroupByAddressRefetchEnable(true)
 
         const latitudeDelta = event.coveringRegion[1].latitude - event.coveringRegion[0].latitude
         const longitudeDelta = event.coveringRegion[2].longitude - event.coveringRegion[1].longitude
 
-        const id = setTimeout(() => {
-            setTimer(null)
-            petGroupByAddress({
-                variables: {
-                    cameraRegion: {
-                        latitude: event.latitude,
-                        longitude: event.longitude,
-                        latitudeDelta,
-                        longitudeDelta
-                    }
-                }
-            })
-        }, 1000)
-        setTimer(id)
-    }, [timer, selectedGroupByAddressId, petGroupByAddressLoading, petGroupByAddressData])
+        setCameraRegion({
+            latitude: event.latitude,
+            longitude: event.longitude,
+            latitudeDelta,
+            longitudeDelta
+        })
+    }, [setCameraRegion])
 
 
     // PUSH MESSAGE ------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -229,6 +231,7 @@ const Home = () => {
                 </NaverMapView>
 
                 <HomeHeader />
+                <HomeRefetchButton onPress={onPetGroupByAddressRefetch} enable={petGroupByAddressRefetchEnable} />
                 <MyPosFab onPress={onMyPos} />
                 <TabScreenBottomTabBar isMap smallMode={!!selectedGroupByAddressId} />
                 <HomeGroupByAddressBottomSheet />
