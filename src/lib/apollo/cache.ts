@@ -5,7 +5,7 @@ export default new InMemoryCache({
     typePolicies: {
         Query: {
             fields: {
-                userGroupByAddress: offsetLimitPagination(['groupByAddress']),
+                petsByAddress: offsetLimitPagination(['addressGroupId']),
                 chatRooms: cursorPagination([]),
                 chats: cursorPagination(['chatRoomId'])
             }

@@ -8,16 +8,15 @@ import FastImage from 'react-native-fast-image'
 import { HomeScreenContext } from '.'
 import { GRAY2, GRAY3, HEIGHT, STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles'
 import { usePetsByAddress } from '../../graphql/pet'
+import HomeGroupByAddressBottomSheetCard from './HomeGroupByAddressBottomSheetCard'
 
 const HomeGroupByAddressBottomSheet = () => {
 
-
-    const { navigate } = useNavigation()
-    const { selectedGroupByAddressId, setSelectedGroupByAddressId } = useContext(HomeScreenContext)
+    const { selectedGroupByAddress, setSelectedGroupByAddress, setBottomSheetSnapIndex } = useContext(HomeScreenContext)
     const { data, loading, fetchMore } = usePetsByAddress({
-        skip: !selectedGroupByAddressId,
+        skip: !selectedGroupByAddress,
         variables: {
-            addressGroupId: selectedGroupByAddressId || '',
+            addressGroupId: selectedGroupByAddress?.id || '',
         }
     })
 
@@ -27,19 +26,20 @@ const HomeGroupByAddressBottomSheet = () => {
     const snapPoints = useMemo(() => [0, HEIGHT / 2 - 100, HEIGHT - STATUSBAR_HEIGHT - 16 - 56 - 40], [])
 
     const handleSheetChanges = useCallback((index: number) => {
-        if (index === 0) setSelectedGroupByAddressId(null)
-    }, [])
+        setBottomSheetSnapIndex(index)
+        if (index === 0) setSelectedGroupByAddress(null)
+    }, [setBottomSheetSnapIndex])
 
     useEffect(() => {
-        if (!selectedGroupByAddressId) bottomSheetRef.current?.snapTo(0)
+        if (!selectedGroupByAddress) bottomSheetRef.current?.snapTo(0)
         else bottomSheetRef.current?.snapTo(1)
-    }, [selectedGroupByAddressId])
+    }, [selectedGroupByAddress])
 
     const onEndReached = useCallback(() => {
-        if (!selectedGroupByAddressId) return
+        if (!selectedGroupByAddress) return
 
         fetchMore({ variables: { skip: data?.petsByAddress.length } })
-    }, [selectedGroupByAddressId, data])
+    }, [selectedGroupByAddress, data])
 
     return (
         <BottomSheet
@@ -47,9 +47,12 @@ const HomeGroupByAddressBottomSheet = () => {
             snapPoints={snapPoints}
             index={0}
             handleComponent={() =>
-                <View style={styles.swiperContainer} >
-                    <View style={styles.swiper} />
-                </View>
+                <>
+                    <View style={styles.swiperContainer} >
+                        <View style={styles.swiper} />
+                    </View>
+                    <View style={styles.headerContainer} ><Text numberOfLines={1} style={styles.headerTitle} >{selectedGroupByAddress?.groupName}</Text></View>
+                </>
             }
             onChange={handleSheetChanges}
         >
@@ -61,18 +64,7 @@ const HomeGroupByAddressBottomSheet = () => {
                 showsVerticalScrollIndicator={false}
                 onEndReached={onEndReached}
                 onEndReachedThreshold={0.5}
-                renderItem={({ item }) =>
-                    <Pressable
-                        onPress={() => navigate('UserDetail', { id: item.id })}
-                        style={{ height: 100, borderBottomColor: GRAY3, borderBottomWidth: 1 }}
-                    >
-                        <FastImage
-                            style={{ width: 80, height: 80, marginLeft: 20 }}
-                            source={{ uri: item.image }}
-                        />
-                        <Text>{item.id}</Text>
-                    </Pressable>
-                }
+                renderItem={({ item }) => <HomeGroupByAddressBottomSheetCard {...item} />}
             />}
         </BottomSheet>
     )
@@ -83,7 +75,7 @@ export default HomeGroupByAddressBottomSheet
 const styles = StyleSheet.create({
     swiperContainer: {
         width: WIDTH,
-        height: 40,
+        height: 16,
         paddingTop: 16,
         alignItems: 'center',
         borderTopLeftRadius: 8,
@@ -96,4 +88,14 @@ const styles = StyleSheet.create({
         borderRadius: 1.5,
         backgroundColor: GRAY2
     },
+    headerContainer: {
+        marginTop: 24,
+        marginBottom: 16,
+        paddingLeft: 16,
+        justifyContent: 'center',
+    },
+    headerTitle: {
+        fontSize: 18,
+        fontWeight: 'bold'
+    }
 })

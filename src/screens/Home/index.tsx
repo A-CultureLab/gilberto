@@ -24,10 +24,13 @@ import { usePetGroupByAddress } from '../../graphql/pet';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import HomeGroupByAddressBottomSheet from './HomeGroupByAddressBottomSheet';
 import HomeRefetchButton from './HomeRefetchButton';
+import { petGroupByAddress_petGroupByAddress_petGroup } from '../../graphql/__generated__/petGroupByAddress';
 
 interface HomeScreenContextInterface {
-    selectedGroupByAddressId: string | null
-    setSelectedGroupByAddressId: (v: string | null) => void
+    selectedGroupByAddress: petGroupByAddress_petGroupByAddress_petGroup | null
+    setSelectedGroupByAddress: (v: petGroupByAddress_petGroupByAddress_petGroup | null) => void
+    bottomSheetSnapIndex: number
+    setBottomSheetSnapIndex: (v: number) => void
     mapRef: React.RefObject<NaverMapView>
 }
 
@@ -54,14 +57,16 @@ const Home = () => {
 
     const [petGroupByAddress, { data: petGroupByAddressData, loading: petGroupByAddressLoading }] = usePetGroupByAddress()
     const [petGroupByAddressRefetchEnable, setPetGroupByAddressRefetchEnable] = useState(false)
-
     // Context Values
-    const [selectedGroupByAddressId, setSelectedGroupByAddressId] = useState<string | null>(null)
+    const [selectedGroupByAddress, setSelectedGroupByAddress] = useState<petGroupByAddress_petGroupByAddress_petGroup | null>(null)
+    const [bottomSheetSnapIndex, setBottomSheetSnapIndex] = useState(0)
     const contextValue = useMemo<HomeScreenContextInterface>(() => ({
-        selectedGroupByAddressId,
-        setSelectedGroupByAddressId,
+        selectedGroupByAddress,
+        setSelectedGroupByAddress,
+        bottomSheetSnapIndex,
+        setBottomSheetSnapIndex,
         mapRef
-    }), [selectedGroupByAddressId, setSelectedGroupByAddressId, mapRef])
+    }), [selectedGroupByAddress, setSelectedGroupByAddress, mapRef, setBottomSheetSnapIndex, bottomSheetSnapIndex])
 
 
 
@@ -114,14 +119,14 @@ const Home = () => {
     }, [petGroupByAddressRefetchEnable, cameraRegion])
 
     const onMyPos = useCallback(() => {
-        setSelectedGroupByAddressId(null)
+        setSelectedGroupByAddress(null)
         if (!myPos) return
         mapRef.current?.animateToRegion({
             latitude: myPos.latitude,
             longitude: myPos.longitude,
             ...DEFAULT_REGION_DELTA
         })
-    }, [myPos])
+    }, [myPos, setSelectedGroupByAddress])
 
     const onRegionChange = useCallback(async (event: {
         latitude: number;
@@ -231,9 +236,9 @@ const Home = () => {
                 </NaverMapView>
 
                 <HomeHeader />
-                <HomeRefetchButton onPress={onPetGroupByAddressRefetch} enable={petGroupByAddressRefetchEnable} />
+                <HomeRefetchButton onPress={onPetGroupByAddressRefetch} enable={bottomSheetSnapIndex === 0 && petGroupByAddressRefetchEnable} />
                 <MyPosFab onPress={onMyPos} />
-                <TabScreenBottomTabBar isMap smallMode={!!selectedGroupByAddressId} />
+                <TabScreenBottomTabBar isMap smallMode={!!selectedGroupByAddress} />
                 <HomeGroupByAddressBottomSheet />
             </ScreenLayout>
         </HomeScreenContext.Provider>

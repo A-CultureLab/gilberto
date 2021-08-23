@@ -8,16 +8,17 @@ import { COLOR1 } from '../../constants/styles'
 import { IS_IOS } from '../../constants/values'
 import { petGroupByAddress_petGroupByAddress, petGroupByAddress_petGroupByAddress_petGroup } from '../../graphql/__generated__/petGroupByAddress'
 
-const HomePetMarker: React.FC<petGroupByAddress_petGroupByAddress_petGroup & Pick<petGroupByAddress_petGroupByAddress, 'groupBy'>> = ({ region, count, pets, id, groupBy }) => {
+const HomePetMarker: React.FC<petGroupByAddress_petGroupByAddress_petGroup & Pick<petGroupByAddress_petGroupByAddress, 'groupBy'>> = (props) => {
 
-    const { selectedGroupByAddressId, setSelectedGroupByAddressId, mapRef } = useContext(HomeScreenContext)
+    const { id, region, count } = props
+    const { setSelectedGroupByAddress, selectedGroupByAddress, mapRef } = useContext(HomeScreenContext)
 
-    const isSelected = selectedGroupByAddressId === id
+    const isSelected = selectedGroupByAddress?.id === id
 
     const onPress = useCallback(() => {
-        setSelectedGroupByAddressId(id)
+        setSelectedGroupByAddress(props)
         mapRef.current?.animateToCoordinate(region)
-    }, [id, mapRef, region, setSelectedGroupByAddressId])
+    }, [mapRef, region, setSelectedGroupByAddress])
 
     return (
         <Marker
