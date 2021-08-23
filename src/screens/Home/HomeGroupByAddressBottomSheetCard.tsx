@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native'
 import React from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
-import { COLOR1, GRAY1, GRAY3 } from '../../constants/styles'
+import { COLOR1, GRAY1, GRAY2, GRAY3 } from '../../constants/styles'
 import { petsByAddress_petsByAddress } from '../../graphql/__generated__/petsByAddress'
 import genderGenerator from '../../lib/genderGenerator'
 
@@ -14,7 +14,7 @@ const HomeGroupByAddressBottomSheetCard: React.FC<petsByAddress_petsByAddress> =
 
 
     return (
-        <Pressable onPress={() => navigate('PetDetail', { id })} style={styles.container} >
+        <Pressable android_ripple={{ color: GRAY2 }} onPress={() => navigate('PetDetail', { id })} style={styles.container} >
             <FastImage style={styles.image} source={{ uri: image }} />
             <View>
                 <Text numberOfLines={1} style={styles.name} >{name}<Text style={styles.species} > · {species}</Text></Text>

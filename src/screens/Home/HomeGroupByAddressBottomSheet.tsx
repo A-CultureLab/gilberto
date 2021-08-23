@@ -2,13 +2,16 @@ import BottomSheet, { BottomSheetFlatList } from '@gorhom/bottom-sheet'
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { useEffect } from 'react'
 import { useContext } from 'react'
-import { Pressable, StyleSheet, Text, View } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { Pressable, StyleSheet, Text, View, BackHandler } from 'react-native'
+import { useSafeAreaFrame, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { HomeScreenContext } from '.'
 import { COLOR1, DEFAULT_SHADOW, GRAY2, GRAY3, HEIGHT, STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles'
 import { usePetsByAddress } from '../../graphql/pet'
 import HomeGroupByAddressBottomSheetCard from './HomeGroupByAddressBottomSheetCard'
 import Icon from 'react-native-vector-icons/MaterialIcons'
+import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
+
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
 
 const HomeGroupByAddressBottomSheet = () => {
 
@@ -21,10 +24,12 @@ const HomeGroupByAddressBottomSheet = () => {
     })
 
 
-    const { bottom } = useSafeAreaInsets()
+    const { bottom, top } = useSafeAreaInsets()
+    const { height } = useSafeAreaFrame()
     const bottomSheetRef = useRef<BottomSheet>(null)
+    const animation = useSharedValue(-1)
 
-    const snapPoints = useMemo(() => [HEIGHT / 2 - 50, HEIGHT - STATUSBAR_HEIGHT - 16 - 56 - 40], [])
+    const snapPoints = useMemo(() => [height / 2 - 50, height - STATUSBAR_HEIGHT + 24], [height])
 
     const onChange = useCallback((index: number) => {
         setBottomSheetSnapIndex(index)
@@ -36,6 +41,16 @@ const HomeGroupByAddressBottomSheet = () => {
         else bottomSheetRef.current?.snapToIndex(0)
     }, [selectedGroupByAddress])
 
+    useEffect(() => { // 안드로이드 백버튼 핸들러
+        if (bottomSheetSnapIndex === -1) return
+        const listner = BackHandler.addEventListener('hardwareBackPress', () => {
+            bottomSheetRef.current?.close()
+            return true
+        })
+        return listner.remove
+    }, [bottomSheetSnapIndex])
+
+
     const onEndReached = useCallback(() => {
         if (!selectedGroupByAddress) return
 
@@ -45,6 +60,14 @@ const HomeGroupByAddressBottomSheet = () => {
     const onClose = useCallback(() => {
         bottomSheetRef.current?.close()
     }, [])
+
+    const statusBarWrapperStyle = useAnimatedStyle(() => ({
+        opacity: animation.value < 0 ? 0 : animation.value
+    }), [])
+
+    const closeButtonStyle = useAnimatedStyle(() => ({
+        transform: [{ translateY: animation.value > 0 ? 0 : animation.value * -150 }]
+    }), [])
 
     return (
         <>
@@ -56,6 +79,7 @@ const HomeGroupByAddressBottomSheet = () => {
                 onClose={() => setBottomSheetSnapIndex(-1)}
                 onAnimate={(_, i) => setBottomSheetSnapIndex(i)}
                 onChange={onChange}
+                animatedIndex={animation}
                 handleComponent={() =>
                     <View>
                         <View style={styles.swiperContainer} >
@@ -75,10 +99,11 @@ const HomeGroupByAddressBottomSheet = () => {
                     renderItem={({ item }) => <HomeGroupByAddressBottomSheetCard {...item} />}
                 />}
             </BottomSheet>
-            {bottomSheetSnapIndex >= 0 && <Pressable style={[styles.closeButton, { bottom: bottom + 40 }]} onPress={onClose} >
+            <AnimatedPressable style={[styles.closeButton, { bottom: bottom + 40 }, closeButtonStyle]} onPress={onClose} >
                 <Icon name="location-on" size={16} color="#fff" />
                 <Text style={styles.closeButtonText} >지도보기</Text>
-            </Pressable>}
+            </AnimatedPressable>
+            <Animated.View style={[styles.statusBarWrapper, statusBarWrapperStyle]} />
         </>
     )
 }
@@ -88,7 +113,7 @@ export default HomeGroupByAddressBottomSheet
 const styles = StyleSheet.create({
     swiperContainer: {
         width: WIDTH,
-        height: 16,
+        height: 24,
         paddingTop: 16,
         alignItems: 'center',
         borderTopLeftRadius: 8,
@@ -102,10 +127,11 @@ const styles = StyleSheet.create({
         backgroundColor: GRAY2
     },
     headerContainer: {
-        marginTop: 24,
-        marginBottom: 16,
+        height: 56,
         paddingLeft: 16,
         justifyContent: 'center',
+        borderBottomWidth: 1,
+        borderBottomColor: GRAY3
     },
     headerTitle: {
         fontSize: 18,
@@ -125,5 +151,13 @@ const styles = StyleSheet.create({
     closeButtonText: {
         color: '#fff',
         marginLeft: 8
+    },
+    statusBarWrapper: {
+        backgroundColor: '#fff',
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        left: 0,
+        height: STATUSBAR_HEIGHT
     }
 })

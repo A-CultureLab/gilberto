@@ -2,6 +2,10 @@ import React from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { COLOR2, DEFAULT_SHADOW, STATUSBAR_HEIGHT } from '../../constants/styles'
 import Icon from 'react-native-vector-icons/MaterialIcons'
+import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+import { useEffect } from 'react'
+
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
 
 interface HomeRefetchButtonProps {
     enable: boolean
@@ -10,13 +14,21 @@ interface HomeRefetchButtonProps {
 
 const HomeRefetchButton: React.FC<HomeRefetchButtonProps> = ({ enable, onPress }) => {
 
-    if (!enable) return null
+    const animation = useSharedValue(0)
+
+    useEffect(() => {
+        animation.value = withTiming(enable ? 1 : 0, { duration: 100, easing: Easing.linear })
+    }, [enable])
+
+    const buttonStyle = useAnimatedStyle(() => ({
+        transform: [{ scale: animation.value }]
+    }), [])
 
     return (
-        <Pressable onPress={onPress} style={styles.container} >
+        <AnimatedPressable onPress={onPress} style={[styles.container, buttonStyle]} >
             <Icon name="refresh" size={16} color={COLOR2} />
             <Text style={styles.text} >현 지도에서 검색</Text>
-        </Pressable>
+        </AnimatedPressable>
     )
 }
 

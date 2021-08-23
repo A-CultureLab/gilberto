@@ -25,6 +25,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import HomeGroupByAddressBottomSheet from './HomeGroupByAddressBottomSheet';
 import HomeRefetchButton from './HomeRefetchButton';
 import { petGroupByAddress_petGroupByAddress_petGroup } from '../../graphql/__generated__/petGroupByAddress';
+import Animated, { useSharedValue } from 'react-native-reanimated';
 
 interface HomeScreenContextInterface {
     selectedGroupByAddress: petGroupByAddress_petGroupByAddress_petGroup | null
@@ -41,7 +42,6 @@ const Home = () => {
 
     const mapRef = useRef<NaverMapView>(null)
     // const mapView = useRef<NaverMapView>(null);
-
 
     const { query } = useApolloClient()
     const { navigate } = useNavigation()
@@ -246,13 +246,3 @@ const Home = () => {
 }
 
 export default Home
-
-const styles = StyleSheet.create({
-    myPosMarker: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        ...DEFAULT_SHADOW,
-        borderRadius: 20,
-        elevation: 0
-    }
-})
