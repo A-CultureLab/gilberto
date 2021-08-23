@@ -7,6 +7,7 @@ import { updatePet, updatePetVariables } from "./__generated__/updatePet";
 import { gql } from "@apollo/client";
 import { myPets, } from "./__generated__/myPets";
 import { petGroupByAddress, petGroupByAddressVariables } from "./__generated__/petGroupByAddress";
+import { petsByAddress, petsByAddressVariables } from "./__generated__/petsByAddress";
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const REGIST_PET = gql`
@@ -133,7 +134,27 @@ export const PET_GROUP_BY_ADDRESS = gql`
 
 export const usePetGroupByAddress = createLazyQueryHook<petGroupByAddress, petGroupByAddressVariables>(PET_GROUP_BY_ADDRESS)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
-
+export const PETS_BY_ADDRESS = gql`
+  query petsByAddress ($addressGroupId:String!, $take:Int, $skip:Int) {
+    petsByAddress(addressGroupId: $addressGroupId, take:$take, skip:$skip ) {
+        id
+        image
+        name
+        species
+        character
+        gender
+        age
+        weight
+        age
+        user {
+            id
+            age
+            gender
+        }
+    }
+  }
+`
+export const usePetsByAddress = createQueryHook<petsByAddress, petsByAddressVariables>(PETS_BY_ADDRESS)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//

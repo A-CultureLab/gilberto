@@ -3226,11 +3226,35 @@
             "deprecationReason": null
           },
           {
-            "name": "userGroupByAddress",
+            "name": "myPets",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Pet",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "petsByAddress",
             "description": null,
             "args": [
               {
-                "name": "groupByAddress",
+                "name": "addressGroupId",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -3253,7 +3277,7 @@
                   "name": "Int",
                   "ofType": null
                 },
-                "defaultValue": null,
+                "defaultValue": "10",
                 "isDeprecated": false,
                 "deprecationReason": null
               },
@@ -3265,35 +3289,11 @@
                   "name": "Int",
                   "ofType": null
                 },
-                "defaultValue": null,
+                "defaultValue": "0",
                 "isDeprecated": false,
                 "deprecationReason": null
               }
             ],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "User",
-                    "ofType": null
-                  }
-                }
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "myPets",
-            "description": null,
-            "args": [],
             "type": {
               "kind": "NON_NULL",
               "name": null,

@@ -7,21 +7,20 @@ import { Pressable, StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { HomeScreenContext } from '.'
 import { GRAY2, GRAY3, HEIGHT, STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles'
-import { useUserGroupByAddress } from '../../graphql/user'
+import { usePetsByAddress } from '../../graphql/pet'
 
 const HomeGroupByAddressBottomSheet = () => {
 
 
     const { navigate } = useNavigation()
     const { selectedGroupByAddressId, setSelectedGroupByAddressId } = useContext(HomeScreenContext)
-    const { data, loading, fetchMore } = useUserGroupByAddress({
+    const { data, loading, fetchMore } = usePetsByAddress({
         skip: !selectedGroupByAddressId,
         variables: {
-            groupByAddress: selectedGroupByAddressId || '',
+            addressGroupId: selectedGroupByAddressId || '',
         }
     })
 
-    console.log(data)
 
     const bottomSheetRef = useRef<BottomSheet>(null)
 
@@ -39,7 +38,7 @@ const HomeGroupByAddressBottomSheet = () => {
     const onEndReached = useCallback(() => {
         if (!selectedGroupByAddressId) return
 
-        fetchMore({ variables: { skip: data?.userGroupByAddress.length } })
+        fetchMore({ variables: { skip: data?.petsByAddress.length } })
     }, [selectedGroupByAddressId, data])
 
     return (
@@ -56,7 +55,7 @@ const HomeGroupByAddressBottomSheet = () => {
         >
 
             {data && <BottomSheetFlatList
-                data={data?.userGroupByAddress}
+                data={data?.petsByAddress}
                 keyExtractor={({ id }) => id.toString()}
                 overScrollMode='never'
                 showsVerticalScrollIndicator={false}

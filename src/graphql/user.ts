@@ -128,19 +128,6 @@ export const UPDATE_FCM_TOKEN = gql`
 `
 export const useUpdateFcmToken = createMutationHook<updateFcmToken, updateFcmTokenVariables>(UPDATE_FCM_TOKEN)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
-export const USER_GROUP_BY_ADDRESS = gql`
-  query userGroupByAddress ($groupByAddress:String!, $take:Int, $skip:Int) {
-    userGroupByAddress(groupByAddress: $groupByAddress, take:$take, skip:$skip ) {
-      id
-      image
-      pets {
-        id
-        image
-      }
-    }
-  }
-`
-export const useUserGroupByAddress = createQueryHook<userGroupByAddress, userGroupByAddressVariables>(USER_GROUP_BY_ADDRESS)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
