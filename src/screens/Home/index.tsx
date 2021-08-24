@@ -26,6 +26,7 @@ import HomeGroupByAddressBottomSheet from './HomeGroupByAddressBottomSheet';
 import HomeRefetchButton from './HomeRefetchButton';
 import { petGroupByAddress_petGroupByAddress_petGroup } from '../../graphql/__generated__/petGroupByAddress';
 import Animated, { useSharedValue } from 'react-native-reanimated';
+import { PermissionsAndroid } from 'react-native';
 
 interface HomeScreenContextInterface {
     selectedGroupByAddress: petGroupByAddress_petGroupByAddress_petGroup | null
@@ -78,29 +79,37 @@ const Home = () => {
             if (!data.isSignedup) logout()
         })()
 
-        // 내위치 초기화
-        if (IS_IOS) Geolocation.requestAuthorization()
-        // 최초 1회 카메라 위치, 내 위치 지정
-        Geolocation.getCurrentPosition(
-            (position) => {
-                setMyPos({ latitude: position.coords.latitude, longitude: position.coords.longitude })
-                const defaultCameraRegion = {
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                    ...DEFAULT_REGION_DELTA
-                }
-                mapRef.current?.animateToRegion(defaultCameraRegion)
-                petGroupByAddress({ variables: { cameraRegion: defaultCameraRegion } })
-            },
-            (error) => { console.log(error.code, error.message) }
-        )
 
-        // 내 위치로 사용할 위치 옵져빙
-        const watch = Geolocation.watchPosition(
-            (position) => setMyPos({ latitude: position.coords.latitude, longitude: position.coords.longitude }),
-            (error) => { console.log(error.code, error.message) }
-        )
+        let watch: number
 
+        (async () => {
+
+            // 권한 요청
+            const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION)
+            if (!granted) return
+            if (IS_IOS) Geolocation.requestAuthorization()
+
+            // 최초 1회 카메라 위치, 내 위치 지정
+            Geolocation.getCurrentPosition(
+                (position) => {
+                    setMyPos({ latitude: position.coords.latitude, longitude: position.coords.longitude })
+                    const defaultCameraRegion = {
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                        ...DEFAULT_REGION_DELTA
+                    }
+                    mapRef.current?.animateToRegion(defaultCameraRegion)
+                    petGroupByAddress({ variables: { cameraRegion: defaultCameraRegion } })
+                },
+                (error) => { console.log(error.code, error.message) }
+            )
+
+            // 내 위치로 사용할 위치 옵져빙
+            watch = Geolocation.watchPosition(
+                (position) => setMyPos({ latitude: position.coords.latitude, longitude: position.coords.longitude }),
+                (error) => { console.log(error.code, error.message) }
+            )
+        })()
 
         return () => {
             Geolocation.clearWatch(watch)
