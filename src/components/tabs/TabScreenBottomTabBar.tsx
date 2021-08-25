@@ -23,14 +23,14 @@ const TABS = [
         icon: ({ color, focus }: { color: string, focus: boolean }) => <IconMA size={24} name={focus ? 'location-on' : 'location-on'} color={color} />
     },
     {
-        name: 'Friend',
-        label: '친구',
-        icon: ({ color, focus }: { color: string, focus: boolean }) => <IconMA size={24} name={focus ? 'person' : 'person'} color={color} />
-    },
-    {
         name: 'Chat',
         label: '채팅',
-        icon: ({ color, focus }: { color: string, focus: boolean }) => <IconMA size={22} name={focus ? 'chat' : 'chat'} color={color} />
+        icon: ({ color, focus }: { color: string, focus: boolean }) => <IconMA size={24} name={focus ? 'chat' : 'chat'} color={color} />
+    },
+    {
+        name: 'MyPage',
+        label: '마이페이지',
+        icon: ({ color, focus }: { color: string, focus: boolean }) => <IconMA size={22} name={focus ? 'account-circle' : 'account-circle'} color={color} />
     }
 ]
 
@@ -56,7 +56,7 @@ const TabScreenBottomTabBar: React.FC<TabScreenBottomTabBarProps> = ({ smallMode
 
     const onPress = (name: string) => {
         if (name === routeName) return
-        if ((name === 'Friend' || name === 'Chat') && !auth().currentUser) {
+        if (name === 'Chat' && !auth().currentUser) {
             navigate('Login')
             return
         }

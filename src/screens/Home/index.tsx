@@ -85,9 +85,11 @@ const Home = () => {
         (async () => {
 
             // 권한 요청
-            const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION)
-            if (!granted) return
             if (IS_IOS) Geolocation.requestAuthorization()
+            else {
+                const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION)
+                if (!granted) return
+            }
 
             // 최초 1회 카메라 위치, 내 위치 지정
             Geolocation.getCurrentPosition(
@@ -244,7 +246,7 @@ const Home = () => {
                     />}
                 </NaverMapView>
 
-                <HomeHeader />
+                {/* <HomeHeader /> */}
                 <HomeRefetchButton onPress={onPetGroupByAddressRefetch} enable={bottomSheetSnapIndex === -1 && petGroupByAddressRefetchEnable} />
                 <MyPosFab onPress={onMyPos} />
                 <TabScreenBottomTabBar isMap smallMode={!!selectedGroupByAddress} />

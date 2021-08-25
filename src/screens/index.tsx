@@ -22,7 +22,7 @@ import PetRegist from './PetRegist';
 import Profile from './Profile';
 import ProfileModify from './ProfileModify';
 import SelectLocation from './SelectLocation';
-import Setting from './Setting';
+import Settings from './Settings';
 import Signup from './Signup';
 import SignupPet from './SignupPet';
 import SplashScreen from 'react-native-splash-screen';
@@ -46,8 +46,8 @@ const TabNavigation = () => {
             tabBar={() => null}
         >
             <Tab.Screen name='Home' component={Home} />
-            <Tab.Screen name='Friend' component={Friend} />
             <Tab.Screen name='Chat' component={Chat} />
+            <Tab.Screen name='MyPage' component={MyPage} />
         </Tab.Navigator>
     )
 }
@@ -107,10 +107,9 @@ const Navigation = () => {
                     <Stack.Screen name='SignupPet' component={SignupPet} />
                     <Stack.Screen name='PetRegist' component={PetRegist} />
                     <Stack.Screen name='PetModify' component={PetModify} />
-                    <Stack.Screen name='MyPage' component={MyPage} options={{ cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS }} />
                     <Stack.Screen name='Profile' component={Profile} />
                     <Stack.Screen name='ProfileModify' component={ProfileModify} />
-                    <Stack.Screen name='Setting' component={Setting} />
+                    <Stack.Screen name='Settings' component={Settings} />
                     <Stack.Screen name='OpenSourceLicense' component={OpenSourceLicense} />
                     <Stack.Screen name='Withdraw' component={Withdraw} />
                     <Stack.Screen name='UserDetail' component={UserDetail} />

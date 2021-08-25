@@ -11,6 +11,7 @@ import { useMyPets } from '../../graphql/pet'
 import FastImage from 'react-native-fast-image'
 import { AuthContext } from '..'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import TabScreenBottomTabBar from '../../components/tabs/TabScreenBottomTabBar'
 
 
 
@@ -27,7 +28,7 @@ const MyPage = () => {
         {
             title: '설정',
             icon: <Icon name='settings' color={GRAY2} size={16} />,
-            onPress: () => navigate('Setting')
+            onPress: () => navigate('Settings')
         },
         {
             title: '문의/건의',
@@ -48,7 +49,7 @@ const MyPage = () => {
 
     return (
         <ScreenLayout>
-            <Header backBtn='right' title='마이페이지' underline={false} />
+            <Header backBtn='none' title='마이페이지' underline={false} />
             <View
                 style={styles.profileContainer}
             >
@@ -104,10 +105,7 @@ const MyPage = () => {
                     </Pressable>
                 ))}
             </View>
-            <View style={[styles.companyInfoContainer, { marginBottom: bottom }]} >
-                <Text style={styles.companyName} >딥스펀지 주식회사</Text>
-                <Text selectable style={styles.companyInfo} >{'대표이사 홍성욱 | 사업자등록번호 286-86-01500\n서울특별시 강남구 봉은사로 129-1(논현동, 751빌딩 7층 702-MS17호)\n고객센터 | 070-7637-8881'}</Text>
-            </View>
+            < TabScreenBottomTabBar />
         </ScreenLayout >
     )
 }
@@ -154,18 +152,5 @@ const styles = StyleSheet.create({
     menuTitle: {
         marginLeft: 16
     },
-    companyInfoContainer: {
-        paddingHorizontal: 16,
-        paddingVertical: 24
-    },
-    companyName: {
-        color: GRAY2,
-        fontWeight: 'bold',
-        marginBottom: 8
-    },
-    companyInfo: {
-        color: GRAY2,
-        fontSize: 10,
-        lineHeight: 14
-    }
+
 })
