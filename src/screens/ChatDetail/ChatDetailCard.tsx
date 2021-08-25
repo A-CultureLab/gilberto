@@ -2,40 +2,80 @@ import React from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { chats_chats } from '../../graphql/__generated__/chats'
 import dayjs from 'dayjs'
-import { COLOR1, GRAY1, GRAY3, WIDTH } from '../../constants/styles'
+import { COLOR1, COLOR2, GRAY1, GRAY3, WIDTH } from '../../constants/styles'
 import FastImage from 'react-native-fast-image'
 import { useContext } from 'react'
 import { AuthContext } from '..'
 import { useNavigation } from '@react-navigation/native'
+import HyperLink from 'react-native-hyperlink'
+import { useCallback } from 'react'
+import useGlobalUi from '../../hooks/useGlobalUi'
+import Clipboard from '@react-native-clipboard/clipboard'
+
+const IMAGE_LONG_PRESS_OPTIONS = [
+    '신고하기'
+]
+
+const IMAGE_LONG_PRESS_OPTIONS_I_USER = [
+    '삭제하기'
+]
+
+const MESSAGE_LONG_PERSS_OPTIONS = [
+    '복사하기',
+    '신고하기'
+]
+
+const MESSAGE_LONG_PERSS_OPTIONS_I_USER = [
+    '복사하기',
+    '삭제하기',
+]
 
 const ChatDetailCard: React.FC<chats_chats> = (props) => {
 
     const { navigate } = useNavigation()
     const { message, image, user, createdAt } = props
     const { user: iUser } = useContext(AuthContext)
+    const { selector } = useGlobalUi()
     const userId = iUser?.uid
 
+    const isIUser = userId === user.id
 
-    if (userId === user.id) return ( // iUserMessageCard
+    const onLongPress = useCallback(() => {
+        const currentOption = image ? isIUser ? IMAGE_LONG_PRESS_OPTIONS_I_USER : IMAGE_LONG_PRESS_OPTIONS : isIUser ? MESSAGE_LONG_PERSS_OPTIONS_I_USER : MESSAGE_LONG_PERSS_OPTIONS
+        selector({
+            list: currentOption,
+            onSelect: (i) => {
+                const option = currentOption[i]
+                if (option === '복사하기') Clipboard.setString(message || '')
+                else if (option === '신고하기') { } // TODO
+                else if (option === '삭제하기') { } // TODO
+            }
+        })
+    }, [selector, isIUser, message, image])
+
+
+    if (isIUser) return ( // iUserMessageCard
         <View style={styles.iUserMessageCardContainer} >
             <Text style={styles.date} >{dayjs(createdAt).format('a hh:mm')}</Text>
             {image
                 ?
-                <Pressable onPress={() => navigate('ImageDetail', { uris: [image], index: 0 })} >
+                <Pressable onLongPress={onLongPress} onPress={() => navigate('ImageDetail', { uris: [image], index: 0 })} >
                     <FastImage
                         source={{ uri: image || '' }}
                         style={styles.image}
                     />
                 </Pressable>
-                : <View style={styles.iUserMessageCardMessageBox} >
-                    <Text numberOfLines={100} style={styles.iUserMessageCardMessage} >{message}</Text>
-                </View>
+                : <Pressable onLongPress={onLongPress} style={styles.iUserMessageCardMessageBox} >
+                    <HyperLink linkDefault={true} onLongPress={onLongPress} linkStyle={{ color: COLOR2 }} >
+                        <Text numberOfLines={50} style={styles.iUserMessageCardMessage} >{message}</Text>
+                    </HyperLink>
+                </Pressable>
             }
         </View>
     )
     else return ( // Normal MessageCard
         <View style={styles.normalMessageCardContainer} >
-            <Pressable>
+            <Pressable onPress={() => navigate('UserDetail', { id: userId })} >
                 <FastImage
                     source={{ uri: user.image || '' }}
                     style={styles.normalMessageCardProfileImage}
@@ -43,18 +83,20 @@ const ChatDetailCard: React.FC<chats_chats> = (props) => {
             </Pressable>
             {image
                 ?
-                <Pressable onPress={() => navigate('ImageDetail', { uris: [image], index: 0 })} >
+                <Pressable onLongPress={onLongPress} onPress={() => navigate('ImageDetail', { uris: [image], index: 0 })} >
                     <FastImage
                         source={{ uri: image || '' }}
                         style={styles.image}
                     />
                 </Pressable>
-                : <View style={{ maxWidth: '60%', alignItems: 'flex-start' }} >
+                : <Pressable onLongPress={onLongPress} style={{ maxWidth: '60%', alignItems: 'flex-start' }} >
                     <Text style={styles.normalMessageCardUserName} >{user.name}</Text>
                     <View style={styles.normalMessageCardMessageBox} >
-                        <Text numberOfLines={100} style={styles.normalMessageCardMessage} >{message}</Text>
+                        <HyperLink linkDefault={true} onLongPress={onLongPress} linkStyle={{ color: COLOR2 }} >
+                            <Text numberOfLines={50} style={styles.normalMessageCardMessage} >{message}</Text>
+                        </HyperLink>
                     </View>
-                </View>
+                </Pressable>
             }
             <Text style={styles.date} >{dayjs(createdAt).format('a hh:mm')}</Text>
         </View>
