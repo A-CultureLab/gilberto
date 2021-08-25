@@ -6,9 +6,11 @@ import { COLOR1, GRAY1, GRAY3, WIDTH } from '../../constants/styles'
 import FastImage from 'react-native-fast-image'
 import { useContext } from 'react'
 import { AuthContext } from '..'
+import { useNavigation } from '@react-navigation/native'
 
 const ChatDetailCard: React.FC<chats_chats> = (props) => {
 
+    const { navigate } = useNavigation()
     const { message, image, user, createdAt } = props
     const { user: iUser } = useContext(AuthContext)
     const userId = iUser?.uid
@@ -19,10 +21,12 @@ const ChatDetailCard: React.FC<chats_chats> = (props) => {
             <Text style={styles.date} >{dayjs(createdAt).format('a hh:mm')}</Text>
             {image
                 ?
-                <FastImage
-                    source={{ uri: image || '' }}
-                    style={styles.image}
-                />
+                <Pressable onPress={() => navigate('ImageDetail', { uris: [image], index: 0 })} >
+                    <FastImage
+                        source={{ uri: image || '' }}
+                        style={styles.image}
+                    />
+                </Pressable>
                 : <View style={styles.iUserMessageCardMessageBox} >
                     <Text numberOfLines={100} style={styles.iUserMessageCardMessage} >{message}</Text>
                 </View>
@@ -39,10 +43,12 @@ const ChatDetailCard: React.FC<chats_chats> = (props) => {
             </Pressable>
             {image
                 ?
-                <FastImage
-                    source={{ uri: image || '' }}
-                    style={styles.image}
-                />
+                <Pressable onPress={() => navigate('ImageDetail', { uris: [image], index: 0 })} >
+                    <FastImage
+                        source={{ uri: image || '' }}
+                        style={styles.image}
+                    />
+                </Pressable>
                 : <View style={{ maxWidth: '60%', alignItems: 'flex-start' }} >
                     <Text style={styles.normalMessageCardUserName} >{user.name}</Text>
                     <View style={styles.normalMessageCardMessageBox} >
