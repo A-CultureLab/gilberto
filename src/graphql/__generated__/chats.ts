@@ -21,6 +21,7 @@ export interface chats_chats {
   createdAt: any;
   message: string | null;
   image: string | null;
+  isDeleted: boolean;
   user: chats_chats_user;
 }
 

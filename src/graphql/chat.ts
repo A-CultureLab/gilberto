@@ -3,6 +3,7 @@ import { chats, chatsVariables } from "./__generated__/chats";
 import { createChat, createChatVariables } from "./__generated__/createChat";
 import { createMutationHook, createQueryHook, createSubscriptionHook } from "../lib/createApolloHook";
 import { gql } from "@apollo/client";
+import { deleteChat, deleteChatVariables } from "./__generated__/deleteChat";
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const CHATS = gql`
@@ -12,6 +13,7 @@ query chats ($chatRoomId:String!,  $cursor:String, $take:Int) {
         createdAt
         message
         image
+        isDeleted
         user {
             id
             name
@@ -60,6 +62,7 @@ subscription chatCreated($userId:String!, $chatRoomId:String!) {
         createdAt
         message
         image
+        isDeleted
         user {
             id
             name
@@ -101,6 +104,17 @@ export const useChatCreated = createSubscriptionHook<chatCreated, chatCreatedVar
     },
 })
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
+export const DELETE_CHAT = gql`
+mutation deleteChat ($id: String!)  {
+    deleteChat(id: $id) {
+        id
+        message
+        image
+        isDeleted
+    }
+}
+`
+export const useDeleteChat = createMutationHook<deleteChat, deleteChatVariables>(DELETE_CHAT)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//

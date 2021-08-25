@@ -36,6 +36,7 @@ export interface chatCreated_chatCreated {
   createdAt: any;
   message: string | null;
   image: string | null;
+  isDeleted: boolean;
   user: chatCreated_chatCreated_user;
   chatRoom: chatCreated_chatCreated_chatRoom;
 }

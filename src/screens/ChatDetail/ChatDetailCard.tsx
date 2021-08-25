@@ -11,36 +11,31 @@ import HyperLink from 'react-native-hyperlink'
 import { useCallback } from 'react'
 import useGlobalUi from '../../hooks/useGlobalUi'
 import Clipboard from '@react-native-clipboard/clipboard'
+import { useDeleteChat } from '../../graphql/chat'
 
-const IMAGE_LONG_PRESS_OPTIONS = [
-    '신고하기'
-]
 
-const IMAGE_LONG_PRESS_OPTIONS_I_USER = [
-    '삭제하기'
-]
+const IMAGE_LONG_PRESS_OPTIONS = ['신고하기']
+const IMAGE_LONG_PRESS_OPTIONS_I_USER = ['삭제하기']
+const MESSAGE_LONG_PERSS_OPTIONS = ['복사하기', '신고하기']
+const MESSAGE_LONG_PERSS_OPTIONS_I_USER = ['복사하기', '삭제하기',]
 
-const MESSAGE_LONG_PERSS_OPTIONS = [
-    '복사하기',
-    '신고하기'
-]
-
-const MESSAGE_LONG_PERSS_OPTIONS_I_USER = [
-    '복사하기',
-    '삭제하기',
-]
 
 const ChatDetailCard: React.FC<chats_chats> = (props) => {
 
+
     const { navigate } = useNavigation()
-    const { message, image, user, createdAt } = props
+    const { message, image, user, createdAt, id, isDeleted } = props
     const { user: iUser } = useContext(AuthContext)
     const { selector } = useGlobalUi()
-    const userId = iUser?.uid
 
+    const userId = iUser?.uid
     const isIUser = userId === user.id
 
+    const [deleteChat] = useDeleteChat({ variables: { id } })
+
+
     const onLongPress = useCallback(() => {
+        if (isIUser && isDeleted) return
         const currentOption = image ? isIUser ? IMAGE_LONG_PRESS_OPTIONS_I_USER : IMAGE_LONG_PRESS_OPTIONS : isIUser ? MESSAGE_LONG_PERSS_OPTIONS_I_USER : MESSAGE_LONG_PERSS_OPTIONS
         selector({
             list: currentOption,
@@ -48,10 +43,10 @@ const ChatDetailCard: React.FC<chats_chats> = (props) => {
                 const option = currentOption[i]
                 if (option === '복사하기') Clipboard.setString(message || '')
                 else if (option === '신고하기') { } // TODO
-                else if (option === '삭제하기') { } // TODO
+                else if (option === '삭제하기') deleteChat()
             }
         })
-    }, [selector, isIUser, message, image])
+    }, [selector, isIUser, message, image, isDeleted])
 
 
     if (isIUser) return ( // iUserMessageCard
