@@ -1,7 +1,7 @@
 import React, { useCallback, useRef } from 'react'
 import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native'
 import { COLOR2, GRAY2, GRAY3 } from '../../constants/styles'
-import { AnimalType } from '../../constants/type'
+import { AnimalType } from '../../constants/types'
 import { ANIMAL_CHARACTER, IS_IOS } from '../../constants/values'
 import DefaultBottomSheet from '../bottomSheets/DefaultBottomSheet'
 

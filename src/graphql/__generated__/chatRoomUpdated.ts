@@ -3,6 +3,8 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { ChatRoomType } from "./../../../__generated__/globalTypes";
+
 // ====================================================
 // GraphQL subscription operation: chatRoomUpdated
 // ====================================================
@@ -27,6 +29,8 @@ export interface chatRoomUpdated_chatRoomUpdated {
   id: string;
   notReadChatCount: number;
   name: string;
+  isNotificationOn: boolean;
+  type: ChatRoomType;
   users: chatRoomUpdated_chatRoomUpdated_users[];
   recentChat: chatRoomUpdated_chatRoomUpdated_recentChat | null;
 }

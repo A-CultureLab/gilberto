@@ -1,23 +1,28 @@
-import { FlatList, KeyboardAvoidingView, StyleSheet, Text, View } from 'react-native'
+import { FlatList, KeyboardAvoidingView, Pressable, StyleSheet, Text, View } from 'react-native'
 import { Route, useNavigation, useRoute } from '@react-navigation/native'
 import { useChatCreated, useChats } from '../../graphql/chat'
 
 import { AuthContext } from '..'
-import { COLOR1 } from '../../constants/styles'
+import { COLOR1, GRAY1, WIDTH } from '../../constants/styles'
 import ChatDetailCard from './ChatDetailCard'
-import Footer from './Footer'
+import ChatDetailFooter from './ChatDetailFooter'
 import Header from '../../components/headers/Header'
 import { IS_IOS } from '../../constants/values'
 import React from 'react'
 import ScreenLayout from '../../components/layout/ScreenLayout'
 import { useContext } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { DrawerLayout } from 'react-native-gesture-handler'
+import Icon from 'react-native-vector-icons/MaterialIcons'
+import { useRef } from 'react'
+import ChatDetailDrawer from './ChatDetailDrawer'
 
 export interface ChatDetailProps {
     id: string
 }
 
 const ChatDetail = () => {
+    const drawerRef = useRef<DrawerLayout>(null)
 
     const { params: { id } } = useRoute<Route<'ChatDetail', ChatDetailProps>>()
     const { user } = useContext(AuthContext)
@@ -28,35 +33,62 @@ const ChatDetail = () => {
 
 
     return (
-        <ScreenLayout>
-            <KeyboardAvoidingView
-                behavior={IS_IOS ? 'padding' : 'height'}
-                style={{ flex: 1, backgroundColor: COLOR1 }}
-            >
-                <View style={{ backgroundColor: '#fff', flex: 1 }} >
-                    <Header title={data?.chatRoom?.name || '채팅'} />
-                    <View style={{ flex: 1, overflow: 'hidden' }} >
-                        <View>
-                            <FlatList
-                                data={data?.chats}
-                                inverted
-                                style={{ overflow: IS_IOS ? 'visible' : 'scroll' }}
-                                overScrollMode='never'
-                                onEndReachedThreshold={0.5}
-                                onEndReached={() => fetchMore({ variables: { cursor: data?.chats[data.chats.length - 1].id } })}
-                                renderItem={({ item }) => <ChatDetailCard {...item} />}
-                                ListHeaderComponent={<View style={{ height: 16 }} />}
-                            />
+
+        <DrawerLayout
+            ref={drawerRef}
+            drawerWidth={WIDTH - 96}
+            drawerPosition='right'
+            drawerType="front"
+            drawerBackgroundColor="#fff"
+            renderNavigationView={() => data?.chatRoom ? <ChatDetailDrawer data={data.chatRoom} /> : null}
+        >
+            <ScreenLayout>
+                <KeyboardAvoidingView
+                    behavior={IS_IOS ? 'padding' : 'height'}
+                    style={{ flex: 1, backgroundColor: COLOR1 }}
+                >
+                    <View style={{ backgroundColor: '#fff', flex: 1 }} >
+                        <Header
+                            title={data?.chatRoom?.name || '채팅'}
+                            right={() => (
+                                <Pressable
+                                    onPress={() => drawerRef.current?.openDrawer()}
+                                    style={styles.menuButton}
+                                >
+                                    <Icon name='menu' size={24} color={GRAY1} />
+                                </Pressable>
+                            )}
+                        />
+                        <View style={{ flex: 1, overflow: 'hidden' }} >
+                            <View>
+                                <FlatList
+                                    data={data?.chats}
+                                    inverted
+                                    style={{ overflow: IS_IOS ? 'visible' : 'scroll' }}
+                                    overScrollMode='never'
+                                    onEndReachedThreshold={0.5}
+                                    onEndReached={() => fetchMore({ variables: { cursor: data?.chats[data.chats.length - 1].id } })}
+                                    renderItem={({ item }) => <ChatDetailCard {...item} />}
+                                    ListHeaderComponent={<View style={{ height: 16 }} />}
+                                />
+                            </View>
                         </View>
+                        <ChatDetailFooter chatRoomId={id} />
                     </View>
-                    <Footer chatRoomId={id} />
-                </View>
-            </KeyboardAvoidingView>
-            <View style={{ backgroundColor: COLOR1, width: '100%', height: bottom }} />
-        </ScreenLayout>
+                </KeyboardAvoidingView>
+                <View style={{ backgroundColor: COLOR1, width: '100%', height: bottom }} />
+            </ScreenLayout>
+        </DrawerLayout>
     )
 }
 
 export default ChatDetail
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    menuButton: {
+        width: 56,
+        height: 56,
+        alignItems: 'center',
+        justifyContent: 'center'
+    }
+})

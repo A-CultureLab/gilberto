@@ -9,7 +9,7 @@ import useGlobalUi from '../../hooks/useGlobalUi'
 import { useRef } from 'react'
 import useImageUpload from '../../hooks/useImageUpload'
 
-const Footer: React.FC<{ chatRoomId: string }> = ({ chatRoomId }) => {
+const ChatDetailFooter: React.FC<{ chatRoomId: string }> = ({ chatRoomId }) => {
 
 
     const inputRef = useRef<TextInput>(null)
@@ -147,7 +147,7 @@ const Footer: React.FC<{ chatRoomId: string }> = ({ chatRoomId }) => {
     )
 }
 
-export default Footer
+export default ChatDetailFooter
 
 const styles = StyleSheet.create({
     optionContainer: {

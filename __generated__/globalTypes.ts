@@ -7,6 +7,11 @@
 // START Enums and Input Objects
 //==============================================================
 
+export enum ChatRoomType {
+  group = "group",
+  private = "private",
+}
+
 export enum Gender {
   female = "female",
   male = "male",

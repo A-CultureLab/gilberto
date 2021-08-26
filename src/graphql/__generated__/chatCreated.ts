@@ -3,6 +3,8 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { ChatRoomType } from "./../../../__generated__/globalTypes";
+
 // ====================================================
 // GraphQL subscription operation: chatCreated
 // ====================================================
@@ -13,6 +15,13 @@ export interface chatCreated_chatCreated_user {
   name: string;
   image: string;
   notReadChatCount: number;
+}
+
+export interface chatCreated_chatCreated_chatRoom_users {
+  __typename: "User";
+  id: string;
+  image: string;
+  name: string;
 }
 
 export interface chatCreated_chatCreated_chatRoom_recentChat {
@@ -27,6 +36,9 @@ export interface chatCreated_chatCreated_chatRoom {
   id: string;
   name: string;
   notReadChatCount: number;
+  isNotificationOn: boolean;
+  type: ChatRoomType;
+  users: chatCreated_chatCreated_chatRoom_users[];
   recentChat: chatCreated_chatCreated_chatRoom_recentChat | null;
 }
 

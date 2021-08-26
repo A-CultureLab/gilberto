@@ -25,6 +25,13 @@ query chats ($chatRoomId:String!,  $cursor:String, $take:Int) {
         id
         name
         notReadChatCount
+        isNotificationOn
+        type
+        users {
+            id
+            image
+            name
+        }
         recentChat {
             id
             createdAt
@@ -73,6 +80,13 @@ subscription chatCreated($userId:String!, $chatRoomId:String!) {
             id
             name
             notReadChatCount
+            isNotificationOn
+            type
+            users {
+                id
+                image
+                name
+            }
             recentChat {
                 id
                 createdAt

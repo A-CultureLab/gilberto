@@ -1,9 +1,10 @@
 import { chatRoomUpdated, chatRoomUpdatedVariables } from "./__generated__/chatRoomUpdated";
-import { createQueryHook, createSubscriptionHook } from "../lib/createApolloHook";
+import { createMutationHook, createQueryHook, createSubscriptionHook } from "../lib/createApolloHook";
 
 import { gql } from "@apollo/client";
 import { chatRooms, chatRoomsVariables } from "./__generated__/chatRooms";
 import { I_USER_NOT_READ_CHAT_NUM } from "./user";
+import { updateChatRoomNotification, updateChatRoomNotificationVariables } from "./__generated__/updateChatRoomNotification";
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const CHAT_ROOMS = gql`
@@ -12,6 +13,8 @@ query chatRooms ($cursor:String, $take:Int) {
         id
         notReadChatCount
         name
+        isNotificationOn
+        type
         users {
             id
             name,
@@ -34,6 +37,8 @@ subscription chatRoomUpdated($userId:String!) {
         id
         notReadChatCount
         name
+        isNotificationOn
+        type
         users {
             id
             name,
@@ -68,6 +73,16 @@ export const useChatRoomUpdated = createSubscriptionHook<chatRoomUpdated, chatRo
     },
 })
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
+const UPDATE_CHAT_ROOM_NOTIFICATION = gql`
+mutation updateChatRoomNotification($id:String!, $isOn:Boolean!) {
+    updateChatRoomNotification(id: $id, isOn: $isOn) {
+        id
+        isNotificationOn
+    }
+}
+`
+
+export const useUpdateChatRoomNotification = createMutationHook<updateChatRoomNotification, updateChatRoomNotificationVariables>(UPDATE_CHAT_ROOM_NOTIFICATION)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//

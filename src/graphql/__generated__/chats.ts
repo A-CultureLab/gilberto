@@ -3,6 +3,8 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { ChatRoomType } from "./../../../__generated__/globalTypes";
+
 // ====================================================
 // GraphQL query operation: chats
 // ====================================================
@@ -25,6 +27,13 @@ export interface chats_chats {
   user: chats_chats_user;
 }
 
+export interface chats_chatRoom_users {
+  __typename: "User";
+  id: string;
+  image: string;
+  name: string;
+}
+
 export interface chats_chatRoom_recentChat {
   __typename: "Chat";
   id: string;
@@ -37,6 +46,9 @@ export interface chats_chatRoom {
   id: string;
   name: string;
   notReadChatCount: number;
+  isNotificationOn: boolean;
+  type: ChatRoomType;
+  users: chats_chatRoom_users[];
   recentChat: chats_chatRoom_recentChat | null;
 }
 
