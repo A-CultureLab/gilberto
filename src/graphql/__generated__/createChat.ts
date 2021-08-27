@@ -21,6 +21,7 @@ export interface createChat_createChat_chatRoom {
   id: string;
   name: string;
   notReadChatCount: number;
+  isBookmarked: boolean;
   recentChat: createChat_createChat_chatRoom_recentChat | null;
 }
 

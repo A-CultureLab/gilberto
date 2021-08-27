@@ -8,7 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { ChatRoomType } from '../../../__generated__/globalTypes'
 import { COLOR1, COLOR2, COLOR3, GRAY2, GRAY3, STATUSBAR_HEIGHT } from '../../constants/styles'
-import { useUpdateChatRoomNotification } from '../../graphql/chatRoom'
+import { useUpdateChatRoomBookmark, useUpdateChatRoomNotification } from '../../graphql/chatRoom'
 import { chats_chatRoom } from '../../graphql/__generated__/chats'
 
 interface ChatDetailDrawerProps {
@@ -20,10 +20,12 @@ const ChatDetailDrawer: React.FC<ChatDetailDrawerProps> = ({ data }) => {
     const { bottom } = useSafeAreaInsets()
 
     const [updateChatRoomNotification] = useUpdateChatRoomNotification()
+    const [updateChatRoomBookmark] = useUpdateChatRoomBookmark()
 
     const [isNotificationOn, setIsNotificationOn] = useState(data.isNotificationOn)
+    const [isBookmarked, setIsBookmarked] = useState(data.isBookmarked)
 
-    // 알림 UI first
+    // notification on/off
     useEffect(() => {
         updateChatRoomNotification({
             variables: {
@@ -32,6 +34,15 @@ const ChatDetailDrawer: React.FC<ChatDetailDrawerProps> = ({ data }) => {
             }
         })
     }, [isNotificationOn])
+    // bookmark on/off
+    useEffect(() => {
+        updateChatRoomBookmark({
+            variables: {
+                id: data.id,
+                isBookmarked
+            }
+        })
+    }, [isBookmarked])
 
 
     return (
@@ -46,15 +57,15 @@ const ChatDetailDrawer: React.FC<ChatDetailDrawerProps> = ({ data }) => {
                             source={{ uri: item.image }}
                             style={styles.userImage}
                         />
-                        <Text>{item.name}</Text>
+                        <Text numberOfLines={1} >{item.name}</Text>
                     </Pressable>
                 )}
                 ListHeaderComponent={<>
                     <Text style={styles.title} >설정</Text>
-                    {data.type === ChatRoomType.private && <Pressable android_ripple={{ color: COLOR2 }} style={styles.settingsContainer}  >
+                    {data.type === ChatRoomType.private && <Pressable android_ripple={{ color: GRAY2 }} style={styles.settingsContainer}  >
                         <Text>차단하기</Text>
                     </Pressable>}
-                    <Pressable android_ripple={{ color: COLOR2 }} style={styles.settingsContainer}  >
+                    <Pressable android_ripple={{ color: GRAY2 }} style={styles.settingsContainer}  >
                         <Text>신고하기</Text>
                     </Pressable>
                     <Text style={[styles.title, { marginTop: 64 }]} >대화상대</Text>
@@ -62,15 +73,15 @@ const ChatDetailDrawer: React.FC<ChatDetailDrawerProps> = ({ data }) => {
             />
 
             <View style={[styles.footer, { paddingBottom: bottom, height: 56 + bottom }]} >
-                <Pressable android_ripple={{ color: COLOR2 }} style={styles.footerButton} >
+                <Pressable android_ripple={{ color: GRAY2 }} style={styles.footerButton} >
                     <Icon name='exit-to-app' color='#fff' size={24} />
                 </Pressable>
                 <View style={styles.footerRight} >
-                    <Pressable android_ripple={{ color: COLOR2 }} style={styles.footerButton} onPress={() => setIsNotificationOn(prev => !prev)} >
+                    <Pressable android_ripple={{ color: GRAY2 }} style={styles.footerButton} onPress={() => setIsNotificationOn(prev => !prev)} >
                         <Icon name={isNotificationOn ? 'notifications' : 'notifications-none'} color='#fff' size={24} />
                     </Pressable>
-                    <Pressable android_ripple={{ color: COLOR2 }} style={styles.footerButton} >
-                        <Icon name='star-border' color='#fff' size={24} />
+                    <Pressable android_ripple={{ color: GRAY2 }} style={styles.footerButton} onPress={() => setIsBookmarked(prev => !prev)}  >
+                        <Icon name={isBookmarked ? 'star' : 'star-border'} color='#fff' size={24} />
                     </Pressable>
                 </View>
             </View>

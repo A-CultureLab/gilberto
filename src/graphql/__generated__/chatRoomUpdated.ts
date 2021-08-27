@@ -30,6 +30,7 @@ export interface chatRoomUpdated_chatRoomUpdated {
   notReadChatCount: number;
   name: string;
   isNotificationOn: boolean;
+  isBookmarked: boolean;
   type: ChatRoomType;
   users: chatRoomUpdated_chatRoomUpdated_users[];
   recentChat: chatRoomUpdated_chatRoomUpdated_recentChat | null;

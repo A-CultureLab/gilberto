@@ -26,6 +26,7 @@ query chats ($chatRoomId:String!,  $cursor:String, $take:Int) {
         name
         notReadChatCount
         isNotificationOn
+        isBookmarked
         type
         users {
             id
@@ -50,6 +51,7 @@ mutation createChat ($input:CreateChatInput!) {
             id
             name
             notReadChatCount
+            isBookmarked
             recentChat {
                 id
                 createdAt
@@ -81,6 +83,7 @@ subscription chatCreated($userId:String!, $chatRoomId:String!) {
             name
             notReadChatCount
             isNotificationOn
+            isBookmarked
             type
             users {
                 id

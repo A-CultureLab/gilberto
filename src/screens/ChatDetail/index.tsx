@@ -1,4 +1,4 @@
-import { FlatList, KeyboardAvoidingView, Pressable, StyleSheet, Text, View } from 'react-native'
+import { BackHandler, FlatList, KeyboardAvoidingView, Pressable, StyleSheet, Text, View } from 'react-native'
 import { Route, useNavigation, useRoute } from '@react-navigation/native'
 import { useChatCreated, useChats } from '../../graphql/chat'
 
@@ -16,6 +16,8 @@ import { DrawerLayout } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { useRef } from 'react'
 import ChatDetailDrawer from './ChatDetailDrawer'
+import { useEffect } from 'react'
+import { useState } from 'react'
 
 export interface ChatDetailProps {
     id: string
@@ -30,6 +32,17 @@ const ChatDetail = () => {
     const { data, fetchMore } = useChats({ variables: { chatRoomId: id }, fetchPolicy: 'network-only' })
     const { bottom } = useSafeAreaInsets()
 
+    const [isDrawerOpened, setIsDrawerOpened] = useState(false)
+
+    useEffect(() => {
+        if (!isDrawerOpened) return
+        const listner = BackHandler.addEventListener('hardwareBackPress', () => {
+            drawerRef.current?.closeDrawer()
+            return true
+        })
+
+        return () => { listner.remove() }
+    }, [isDrawerOpened])
 
 
     return (
@@ -39,6 +52,7 @@ const ChatDetail = () => {
             drawerWidth={WIDTH - 96}
             drawerPosition='right'
             drawerType="front"
+            onDrawerStateChanged={(_, isOpend) => setIsDrawerOpened(isOpend)}
             drawerBackgroundColor="#fff"
             renderNavigationView={() => data?.chatRoom ? <ChatDetailDrawer data={data.chatRoom} /> : null}
         >
@@ -78,7 +92,7 @@ const ChatDetail = () => {
                 </KeyboardAvoidingView>
                 <View style={{ backgroundColor: COLOR1, width: '100%', height: bottom }} />
             </ScreenLayout>
-        </DrawerLayout>
+        </DrawerLayout >
     )
 }
 

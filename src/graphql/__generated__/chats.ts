@@ -47,6 +47,7 @@ export interface chats_chatRoom {
   name: string;
   notReadChatCount: number;
   isNotificationOn: boolean;
+  isBookmarked: boolean;
   type: ChatRoomType;
   users: chats_chatRoom_users[];
   recentChat: chats_chatRoom_recentChat | null;
