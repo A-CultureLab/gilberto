@@ -2,7 +2,7 @@ import React from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { chats_chats } from '../../graphql/__generated__/chats'
 import dayjs from 'dayjs'
-import { COLOR1, COLOR2, GRAY1, GRAY3, WIDTH } from '../../constants/styles'
+import { COLOR1, COLOR2, GRAY1, GRAY2, GRAY3, WIDTH } from '../../constants/styles'
 import FastImage from 'react-native-fast-image'
 import { useContext } from 'react'
 import { AuthContext } from '..'
@@ -54,13 +54,13 @@ const ChatDetailCard: React.FC<chats_chats> = (props) => {
             <Text style={styles.date} >{dayjs(createdAt).format('a hh:mm')}</Text>
             {image
                 ?
-                <Pressable onLongPress={onLongPress} onPress={() => navigate('ImageDetail', { uris: [image], index: 0 })} >
+                <Pressable onLongPress={onLongPress} android_ripple={{ color: GRAY2 }} onPress={() => navigate('ImageDetail', { uris: [image], index: 0 })} >
                     <FastImage
                         source={{ uri: image || '' }}
                         style={styles.image}
                     />
                 </Pressable>
-                : <Pressable onLongPress={onLongPress} style={styles.iUserMessageCardMessageBox} >
+                : <Pressable android_ripple={{ color: GRAY2 }} onLongPress={onLongPress} style={styles.iUserMessageCardMessageBox} >
                     <HyperLink linkDefault={true} onLongPress={onLongPress} linkStyle={{ color: COLOR2 }} >
                         <Text numberOfLines={50} style={styles.iUserMessageCardMessage} >{message}</Text>
                     </HyperLink>
@@ -78,20 +78,20 @@ const ChatDetailCard: React.FC<chats_chats> = (props) => {
             </Pressable>
             {image
                 ?
-                <Pressable onLongPress={onLongPress} onPress={() => navigate('ImageDetail', { uris: [image], index: 0 })} >
+                <Pressable android_ripple={{ color: GRAY2 }} onLongPress={onLongPress} onPress={() => navigate('ImageDetail', { uris: [image], index: 0 })} >
                     <FastImage
                         source={{ uri: image || '' }}
                         style={styles.image}
                     />
                 </Pressable>
-                : <Pressable onLongPress={onLongPress} style={{ maxWidth: '60%', alignItems: 'flex-start' }} >
+                : <View style={{ maxWidth: '60%', alignItems: 'flex-start' }} >
                     <Text style={styles.normalMessageCardUserName} >{user.name}</Text>
-                    <View style={styles.normalMessageCardMessageBox} >
+                    <Pressable android_ripple={{ color: GRAY2 }} onLongPress={onLongPress} style={styles.normalMessageCardMessageBox} >
                         <HyperLink linkDefault={true} onLongPress={onLongPress} linkStyle={{ color: COLOR2 }} >
                             <Text numberOfLines={50} style={styles.normalMessageCardMessage} >{message}</Text>
                         </HyperLink>
-                    </View>
-                </Pressable>
+                    </Pressable>
+                </View>
             }
             <Text style={styles.date} >{dayjs(createdAt).format('a hh:mm')}</Text>
         </View>
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
         backgroundColor: COLOR1,
         borderRadius: 4,
         padding: 8,
-        maxWidth: '70%'
+        maxWidth: '70%',
     },
     iUserMessageCardMessage: {
         color: '#fff'
