@@ -1,15 +1,18 @@
 import { useNavigation } from '@react-navigation/native'
 import React from 'react'
+import { useCallback } from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
-import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, FlatList, Pressable, StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { ChatRoomType } from '../../../__generated__/globalTypes'
 import { COLOR1, COLOR2, COLOR3, GRAY2, GRAY3, STATUSBAR_HEIGHT } from '../../constants/styles'
+import { useExitChatRoom } from '../../graphql/chatRoom'
 import { useUpdateUserChatRoomInfo } from '../../graphql/userChatRoomInfo'
 import { chats_chatRoom } from '../../graphql/__generated__/chats'
+import useGlobalUi from '../../hooks/useGlobalUi'
 
 interface ChatDetailDrawerProps {
     data: chats_chatRoom
@@ -17,10 +20,12 @@ interface ChatDetailDrawerProps {
 
 const ChatDetailDrawer: React.FC<ChatDetailDrawerProps> = ({ data }) => {
 
-    const { navigate } = useNavigation()
+    const { navigate, goBack } = useNavigation()
     const { bottom } = useSafeAreaInsets()
+    const { confirm } = useGlobalUi()
 
     const [updateUserChatRoomInfo] = useUpdateUserChatRoomInfo()
+    const [exitChatRoom, { loading: exitChatRoomLoading }] = useExitChatRoom({ variables: { id: data.id } })
 
     const [notificated, setNotificated] = useState(data.iUserChatRoomInfo.notificated)
     const [notificatedTrigger, setNotificatedTrigger] = useState(true)
@@ -52,6 +57,18 @@ const ChatDetailDrawer: React.FC<ChatDetailDrawerProps> = ({ data }) => {
         })
     }, [bookmarked])
 
+    const onExitChatRoom = useCallback(async () => {
+        confirm({
+            title: '채팅방 나가기',
+            content: '정말 나가시겠습니까?',
+            onPress: async (isYes) => {
+                if (!isYes) return
+                await exitChatRoom()
+                goBack()
+            }
+        })
+    }, [])
+
 
     return (
         <View style={styles.container} >
@@ -81,8 +98,8 @@ const ChatDetailDrawer: React.FC<ChatDetailDrawerProps> = ({ data }) => {
             />
 
             <View style={[styles.footer, { paddingBottom: bottom, height: 56 + bottom }]} >
-                <Pressable android_ripple={{ color: GRAY2 }} style={styles.footerButton} >
-                    <Icon name='exit-to-app' color='#fff' size={24} />
+                <Pressable onPress={onExitChatRoom} android_ripple={{ color: GRAY2 }} style={styles.footerButton} >
+                    {exitChatRoomLoading ? <ActivityIndicator color='#fff' size='small' /> : <Icon name='exit-to-app' color='#fff' size={24} />}
                 </Pressable>
                 <View style={styles.footerRight} >
                     <Pressable android_ripple={{ color: GRAY2 }} style={styles.footerButton} onPress={() => setNotificated(prev => !prev)} >

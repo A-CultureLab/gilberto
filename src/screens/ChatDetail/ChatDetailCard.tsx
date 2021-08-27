@@ -24,6 +24,8 @@ const ChatDetailCard: React.FC<chats_chats> = (props) => {
 
 
     const { navigate } = useNavigation()
+    const { confirm } = useGlobalUi()
+
     const { message, image, user, createdAt, id, isDeleted } = props
     const { user: iUser } = useContext(AuthContext)
     const { selector } = useGlobalUi()
@@ -43,7 +45,18 @@ const ChatDetailCard: React.FC<chats_chats> = (props) => {
                 const option = currentOption[i]
                 if (option === '복사하기') Clipboard.setString(message || '')
                 else if (option === '신고하기') { } // TODO
-                else if (option === '삭제하기') deleteChat()
+                else if (option === '삭제하기') {
+                    setTimeout(() => {
+                        confirm({
+                            title: '삭제하기',
+                            content: '정말 삭제하시겠습니까?',
+                            onPress: (isYes) => {
+                                if (!isYes) return
+                                deleteChat()
+                            }
+                        })
+                    }, 500)
+                }
             }
         })
     }, [selector, isIUser, message, image, isDeleted])

@@ -3,6 +3,7 @@ import { createMutationHook, createQueryHook, createSubscriptionHook } from "../
 
 import { gql } from "@apollo/client";
 import { chatRooms, chatRoomsVariables } from "./__generated__/chatRooms";
+import { exitChatRoom, exitChatRoomVariables } from "./__generated__/exitChatRoom";
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const CHAT_ROOMS = gql`
@@ -83,6 +84,14 @@ export const useChatRoomUpdated = createSubscriptionHook<chatRoomUpdated, chatRo
     },
 })
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
+export const EXIT_CHAT_ROOM = gql`
+mutation exitChatRoom ($id:String!) {
+    exitChatRoom(id: $id) {
+        id
+    }
+}
+`
+export const useExitChatRoom = createMutationHook<exitChatRoom, exitChatRoomVariables>(EXIT_CHAT_ROOM)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
