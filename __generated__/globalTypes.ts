@@ -70,6 +70,12 @@ export interface SignupInput {
   marketingEmailDate?: any | null;
 }
 
+export interface UpdateUserChatRoomInfoInput {
+  id: string;
+  notificated?: boolean | null;
+  bookmarked?: boolean | null;
+}
+
 export interface UpdateUserInput {
   image: string;
   addressId: string;

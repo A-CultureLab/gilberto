@@ -3,26 +3,28 @@ import { createMutationHook, createQueryHook, createSubscriptionHook } from "../
 
 import { gql } from "@apollo/client";
 import { chatRooms, chatRoomsVariables } from "./__generated__/chatRooms";
-import { I_USER_NOT_READ_CHAT_NUM } from "./user";
-import { updateChatRoomNotification, updateChatRoomNotificationVariables } from "./__generated__/updateChatRoomNotification";
-import { updateChatRoomBookmarkVariables } from "./__generated__/updateChatRoomBookmark";
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const CHAT_ROOMS = gql`
 query chatRooms ($cursor:String, $take:Int) {
     chatRooms(cursor:$cursor, take:$take) {
         id
-        notReadChatCount
         name
-        isNotificationOn
-        isBookmarked
-        type
-        users {
+        iUserChatRoomInfo {
             id
-            name,
-            image
+            bookmarked
+            notificated
             notReadChatCount
-        }    
+        }
+        type
+        userChatRoomInfos {
+            id
+            user {
+                id
+                image
+                name
+            }  
+        } 
         recentChat {
             id
             createdAt
@@ -37,17 +39,22 @@ export const CHAT_ROOM_UPDATED = gql`
 subscription chatRoomUpdated($userId:String!) {
     chatRoomUpdated(userId: $userId) {
         id
-        notReadChatCount
         name
-        isNotificationOn
-        isBookmarked
         type
-        users {
+        iUserChatRoomInfo {
             id
-            name,
-            image
+            bookmarked
+            notificated
             notReadChatCount
-        }    
+        }
+        userChatRoomInfos {
+            id
+            user {
+                id
+                image
+                name
+            }  
+        } 
         recentChat {
             id
             createdAt
@@ -76,27 +83,6 @@ export const useChatRoomUpdated = createSubscriptionHook<chatRoomUpdated, chatRo
     },
 })
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
-const UPDATE_CHAT_ROOM_NOTIFICATION = gql`
-mutation updateChatRoomNotification($id:String!, $isOn:Boolean!) {
-    updateChatRoomNotification(id: $id, isOn: $isOn) {
-        id
-        isNotificationOn
-    }
-}
-`
-
-export const useUpdateChatRoomNotification = createMutationHook<updateChatRoomNotification, updateChatRoomNotificationVariables>(UPDATE_CHAT_ROOM_NOTIFICATION)
-//--------------------------------------------------------------------------------------------------------------------------------------------------------//
-const UPDATE_CHAT_ROOM_BOOKMARK = gql`
-mutation updateChatRoomBookmark($id:String!, $isBookmarked:Boolean!) {
-    updateChatRoomBookmark(id: $id, isBookmarked: $isBookmarked) {
-        id
-        isBookmarked
-    }
-}
-`
-
-export const useUpdateChatRoomBookmark = createMutationHook<updateChatRoomNotification, updateChatRoomBookmarkVariables>(UPDATE_CHAT_ROOM_BOOKMARK)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//

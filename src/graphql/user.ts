@@ -8,8 +8,6 @@ import { withdraw, withdrawVariables } from "./__generated__/withdraw";
 import { gql } from "@apollo/client";
 import { iUser } from "./__generated__/iUser";
 import { isSignedup } from "./__generated__/isSignedup";
-import { createAddress, createAddressVariables } from "./__generated__/createAddress";
-import { userGroupByAddress, userGroupByAddressVariables } from "./__generated__/userGroupByAddress";
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const KAKAO_TOKEN_TO_FIREBASE_TOKEN = gql`

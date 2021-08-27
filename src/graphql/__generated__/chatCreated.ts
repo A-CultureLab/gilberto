@@ -17,11 +17,25 @@ export interface chatCreated_chatCreated_user {
   notReadChatCount: number;
 }
 
-export interface chatCreated_chatCreated_chatRoom_users {
+export interface chatCreated_chatCreated_chatRoom_iUserChatRoomInfo {
+  __typename: "UserChatRoomInfo";
+  id: string;
+  bookmarked: boolean;
+  notificated: boolean;
+  notReadChatCount: number;
+}
+
+export interface chatCreated_chatCreated_chatRoom_userChatRoomInfos_user {
   __typename: "User";
   id: string;
   image: string;
   name: string;
+}
+
+export interface chatCreated_chatCreated_chatRoom_userChatRoomInfos {
+  __typename: "UserChatRoomInfo";
+  id: string;
+  user: chatCreated_chatCreated_chatRoom_userChatRoomInfos_user;
 }
 
 export interface chatCreated_chatCreated_chatRoom_recentChat {
@@ -35,11 +49,9 @@ export interface chatCreated_chatCreated_chatRoom {
   __typename: "ChatRoom";
   id: string;
   name: string;
-  notReadChatCount: number;
-  isNotificationOn: boolean;
-  isBookmarked: boolean;
   type: ChatRoomType;
-  users: chatCreated_chatCreated_chatRoom_users[];
+  iUserChatRoomInfo: chatCreated_chatCreated_chatRoom_iUserChatRoomInfo;
+  userChatRoomInfos: chatCreated_chatCreated_chatRoom_userChatRoomInfos[];
   recentChat: chatCreated_chatCreated_chatRoom_recentChat | null;
 }
 

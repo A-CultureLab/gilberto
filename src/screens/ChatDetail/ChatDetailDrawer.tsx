@@ -2,14 +2,13 @@ import { useNavigation } from '@react-navigation/native'
 import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
-import { useCallback } from 'react'
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { ChatRoomType } from '../../../__generated__/globalTypes'
 import { COLOR1, COLOR2, COLOR3, GRAY2, GRAY3, STATUSBAR_HEIGHT } from '../../constants/styles'
-import { useUpdateChatRoomBookmark, useUpdateChatRoomNotification } from '../../graphql/chatRoom'
+import { useUpdateUserChatRoomInfo } from '../../graphql/userChatRoomInfo'
 import { chats_chatRoom } from '../../graphql/__generated__/chats'
 
 interface ChatDetailDrawerProps {
@@ -21,30 +20,33 @@ const ChatDetailDrawer: React.FC<ChatDetailDrawerProps> = ({ data }) => {
     const { navigate } = useNavigation()
     const { bottom } = useSafeAreaInsets()
 
-    const [updateChatRoomNotification] = useUpdateChatRoomNotification()
-    const [updateChatRoomBookmark] = useUpdateChatRoomBookmark()
+    const [updateUserChatRoomInfo] = useUpdateUserChatRoomInfo()
 
-    const [isNotificationOn, setIsNotificationOn] = useState(data.isNotificationOn)
-    const [isBookmarked, setIsBookmarked] = useState(data.isBookmarked)
+    const [notificated, setNotificated] = useState(data.iUserChatRoomInfo.notificated)
+    const [bookmarked, setBookmarked] = useState(data.iUserChatRoomInfo.bookmarked)
 
     // notification on/off
     useEffect(() => {
-        updateChatRoomNotification({
+        updateUserChatRoomInfo({
             variables: {
-                id: data.id,
-                isOn: isNotificationOn
+                input: {
+                    id: data.iUserChatRoomInfo.id,
+                    notificated: notificated
+                }
             }
         })
-    }, [isNotificationOn])
+    }, [notificated])
     // bookmark on/off
     useEffect(() => {
-        updateChatRoomBookmark({
+        updateUserChatRoomInfo({
             variables: {
-                id: data.id,
-                isBookmarked
+                input: {
+                    id: data.iUserChatRoomInfo.id,
+                    bookmarked: bookmarked
+                }
             }
         })
-    }, [isBookmarked])
+    }, [bookmarked])
 
 
     return (
@@ -52,7 +54,7 @@ const ChatDetailDrawer: React.FC<ChatDetailDrawerProps> = ({ data }) => {
             <FlatList
                 showsHorizontalScrollIndicator={false}
                 overScrollMode='never'
-                data={data.users}
+                data={data.userChatRoomInfos.map(({ user }) => user)}
                 renderItem={({ item }) => (
                     <Pressable onPress={() => navigate('UserDetail', { id: item.id })} android_ripple={{ color: GRAY2 }} style={styles.userContainer} >
                         <FastImage
@@ -79,11 +81,11 @@ const ChatDetailDrawer: React.FC<ChatDetailDrawerProps> = ({ data }) => {
                     <Icon name='exit-to-app' color='#fff' size={24} />
                 </Pressable>
                 <View style={styles.footerRight} >
-                    <Pressable android_ripple={{ color: GRAY2 }} style={styles.footerButton} onPress={() => setIsNotificationOn(prev => !prev)} >
-                        <Icon name={isNotificationOn ? 'notifications' : 'notifications-none'} color='#fff' size={24} />
+                    <Pressable android_ripple={{ color: GRAY2 }} style={styles.footerButton} onPress={() => setNotificated(prev => !prev)} >
+                        <Icon name={notificated ? 'notifications' : 'notifications-none'} color='#fff' size={24} />
                     </Pressable>
-                    <Pressable android_ripple={{ color: GRAY2 }} style={styles.footerButton} onPress={() => setIsBookmarked(prev => !prev)}  >
-                        <Icon name={isBookmarked ? 'star' : 'star-border'} color='#fff' size={24} />
+                    <Pressable android_ripple={{ color: GRAY2 }} style={styles.footerButton} onPress={() => setBookmarked(prev => !prev)}  >
+                        <Icon name={bookmarked ? 'star' : 'star-border'} color='#fff' size={24} />
                     </Pressable>
                 </View>
             </View>
