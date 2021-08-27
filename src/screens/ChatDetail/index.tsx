@@ -18,7 +18,6 @@ import { useRef } from 'react'
 import ChatDetailDrawer from './ChatDetailDrawer'
 import { useEffect } from 'react'
 import { useState } from 'react'
-import { isObjectType } from 'graphql'
 
 export interface ChatDetailProps {
     id: string
@@ -33,7 +32,7 @@ const ChatDetail = () => {
     const { bottom } = useSafeAreaInsets()
     const { user } = useContext(AuthContext)
 
-    const { } = useChatCreated({ variables: { userId: user?.uid || '', chatRoomId: id } })
+    // const { } = useChatCreated({ variables: { userId: user?.uid || '', chatRoomId: id } })
     const { data, fetchMore } = useChats({ variables: { chatRoomId: id }, fetchPolicy: 'network-only' })
 
     const [isDrawerOpened, setIsDrawerOpened] = useState(false)

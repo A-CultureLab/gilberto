@@ -23,10 +23,13 @@ const ChatDetailDrawer: React.FC<ChatDetailDrawerProps> = ({ data }) => {
     const [updateUserChatRoomInfo] = useUpdateUserChatRoomInfo()
 
     const [notificated, setNotificated] = useState(data.iUserChatRoomInfo.notificated)
+    const [notificatedTrigger, setNotificatedTrigger] = useState(true)
     const [bookmarked, setBookmarked] = useState(data.iUserChatRoomInfo.bookmarked)
+    const [bookmarkedTrigger, setBookmarkedTrigger] = useState(true)
 
     // notification on/off
     useEffect(() => {
+        if (notificatedTrigger) return setNotificatedTrigger(false)
         updateUserChatRoomInfo({
             variables: {
                 input: {
@@ -38,6 +41,7 @@ const ChatDetailDrawer: React.FC<ChatDetailDrawerProps> = ({ data }) => {
     }, [notificated])
     // bookmark on/off
     useEffect(() => {
+        if (bookmarkedTrigger) return setBookmarkedTrigger(false)
         updateUserChatRoomInfo({
             variables: {
                 input: {
