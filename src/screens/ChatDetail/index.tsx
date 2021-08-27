@@ -18,31 +18,48 @@ import { useRef } from 'react'
 import ChatDetailDrawer from './ChatDetailDrawer'
 import { useEffect } from 'react'
 import { useState } from 'react'
+import { isObjectType } from 'graphql'
 
 export interface ChatDetailProps {
     id: string
 }
 
 const ChatDetail = () => {
+
     const drawerRef = useRef<DrawerLayout>(null)
 
+    const { addListener } = useNavigation()
     const { params: { id } } = useRoute<Route<'ChatDetail', ChatDetailProps>>()
+    const { bottom } = useSafeAreaInsets()
     const { user } = useContext(AuthContext)
+
     const { } = useChatCreated({ variables: { userId: user?.uid || '', chatRoomId: id } })
     const { data, fetchMore } = useChats({ variables: { chatRoomId: id }, fetchPolicy: 'network-only' })
-    const { bottom } = useSafeAreaInsets()
 
     const [isDrawerOpened, setIsDrawerOpened] = useState(false)
+    const [isScreenFocused, setIsScreenFocused] = useState(true)
 
+    // android backbutton handler listner for drawer layout close
     useEffect(() => {
-        if (!isDrawerOpened) return
+        if (!isDrawerOpened || !isScreenFocused) return
         const listner = BackHandler.addEventListener('hardwareBackPress', () => {
             drawerRef.current?.closeDrawer()
             return true
         })
 
         return () => { listner.remove() }
-    }, [isDrawerOpened])
+    }, [isDrawerOpened, isScreenFocused])
+
+    // Screen focus listner
+    useEffect(() => {
+        const focusListner = addListener('focus', () => setIsScreenFocused(true))
+        const blurListner = addListener('blur', () => setIsScreenFocused(false))
+
+        return () => {
+            focusListner()
+            blurListner()
+        }
+    }, [])
 
 
     return (

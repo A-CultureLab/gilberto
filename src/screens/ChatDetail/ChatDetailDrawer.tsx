@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native'
 import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
@@ -17,6 +18,7 @@ interface ChatDetailDrawerProps {
 
 const ChatDetailDrawer: React.FC<ChatDetailDrawerProps> = ({ data }) => {
 
+    const { navigate } = useNavigation()
     const { bottom } = useSafeAreaInsets()
 
     const [updateChatRoomNotification] = useUpdateChatRoomNotification()
@@ -52,7 +54,7 @@ const ChatDetailDrawer: React.FC<ChatDetailDrawerProps> = ({ data }) => {
                 overScrollMode='never'
                 data={data.users}
                 renderItem={({ item }) => (
-                    <Pressable android_ripple={{ color: GRAY2 }} style={styles.userContainer} >
+                    <Pressable onPress={() => navigate('UserDetail', { id: item.id })} android_ripple={{ color: GRAY2 }} style={styles.userContainer} >
                         <FastImage
                             source={{ uri: item.image }}
                             style={styles.userImage}
