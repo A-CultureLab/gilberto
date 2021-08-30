@@ -22,6 +22,7 @@ export interface chatCreated_chatCreated_chatRoom_iUserChatRoomInfo {
   id: string;
   bookmarked: boolean;
   notificated: boolean;
+  blocked: boolean;
   notReadChatCount: number;
 }
 
@@ -50,6 +51,8 @@ export interface chatCreated_chatCreated_chatRoom {
   id: string;
   name: string;
   type: ChatRoomType;
+  isIBlocked: boolean;
+  isBlockedMe: boolean;
   iUserChatRoomInfo: chatCreated_chatCreated_chatRoom_iUserChatRoomInfo;
   userChatRoomInfos: chatCreated_chatCreated_chatRoom_userChatRoomInfos[];
   recentChat: chatCreated_chatCreated_chatRoom_recentChat | null;

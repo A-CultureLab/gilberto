@@ -25,10 +25,13 @@ query chats ($chatRoomId:String!,  $cursor:String, $take:Int) {
         id
         name
         type
+        isIBlocked
+        isBlockedMe
         iUserChatRoomInfo {
             id
             bookmarked
             notificated
+            blocked
             notReadChatCount
         }
         userChatRoomInfos {
@@ -60,6 +63,7 @@ mutation createChat ($input:CreateChatInput!) {
                 id
                 bookmarked
                 notificated
+                blocked
                 notReadChatCount
             }
             recentChat {
@@ -91,10 +95,13 @@ subscription chatCreated($userId:String!, $chatRoomId:String!) {
             id
             name
             type
+            isIBlocked
+            isBlockedMe
             iUserChatRoomInfo {
                 id
                 bookmarked
                 notificated
+                blocked
                 notReadChatCount
             }
             userChatRoomInfos {

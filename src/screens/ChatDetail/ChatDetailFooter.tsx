@@ -8,9 +8,16 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import useGlobalUi from '../../hooks/useGlobalUi'
 import { useRef } from 'react'
 import useImageUpload from '../../hooks/useImageUpload'
+import { chats_chatRoom } from '../../graphql/__generated__/chats'
 
-const ChatDetailFooter: React.FC<{ chatRoomId: string }> = ({ chatRoomId }) => {
 
+interface ChatDetailFooterProps {
+    data: chats_chatRoom
+}
+
+const ChatDetailFooter: React.FC<ChatDetailFooterProps> = (props) => {
+
+    const { id, isIBlocked, isBlockedMe } = props.data
 
     const inputRef = useRef<TextInput>(null)
 
@@ -59,7 +66,7 @@ const ChatDetailFooter: React.FC<{ chatRoomId: string }> = ({ chatRoomId }) => {
         const { errors } = await createChat({
             variables: {
                 input: {
-                    chatRoomId,
+                    chatRoomId: id,
                     message: image ? undefined : message || undefined,
                     image: image || undefined
                 }
@@ -71,12 +78,13 @@ const ChatDetailFooter: React.FC<{ chatRoomId: string }> = ({ chatRoomId }) => {
         }
         setMessage('')
         clear()
-    }, [message, chatRoomId, loading, inputRef, imageUploadLoading])
+    }, [message, id, loading, inputRef, imageUploadLoading])
 
     const onOptions = useCallback(() => {
+        if (isIBlocked || isBlockedMe) return setOptionVisible(false)
         if (!optionVisible) Keyboard.dismiss()
         setOptionVisible(prev => !prev)
-    }, [optionVisible])
+    }, [optionVisible, isIBlocked, isBlockedMe])
 
     const OPTIONS = [
         {
@@ -105,16 +113,22 @@ const ChatDetailFooter: React.FC<{ chatRoomId: string }> = ({ chatRoomId }) => {
                 >
                     <Icon name='add' color='#fff' size={24} />
                 </Pressable>
-                {(!message && !focused) && <View style={styles.line} />}
-                <TextInput
-                    ref={inputRef}
-                    value={message}
-                    onChangeText={(t) => setMessage(t)}
-                    style={styles.input}
-                    maxLength={1000}
-                    multiline
-                    editable={!(loading || imageUploadLoading)}
-                />
+                {!(isIBlocked || isBlockedMe) ?
+                    <>
+                        {(!message && !focused) && <View style={styles.line} />}
+                        <TextInput
+                            ref={inputRef}
+                            value={message}
+                            onChangeText={(t) => setMessage(t)}
+                            style={styles.input}
+                            maxLength={1000}
+                            multiline
+                            editable={!(loading || imageUploadLoading)}
+                        />
+                    </>
+                    :
+                    <Text style={[styles.input, { opacity: 0.5 }]} >{isIBlocked ? '차단한 사용자와는 채팅할 수 없습니다' : '상대방이 차단하여 채팅할 수 없습니다'}</Text>
+                }
                 <Pressable
                     onPress={() => onSend()}
                     style={styles.sendBtn}

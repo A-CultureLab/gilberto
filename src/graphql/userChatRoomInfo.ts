@@ -8,6 +8,12 @@ mutation updateUserChatRoomInfo($input: UpdateUserChatRoomInfoInput!) {
         id
         bookmarked
         notificated
+        blocked
+        chatRoom {
+            id
+            isBlockedMe
+            isIBlocked
+        }
     }
 }
 `

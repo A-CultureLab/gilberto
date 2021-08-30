@@ -9,11 +9,20 @@ import { UpdateUserChatRoomInfoInput } from "./../../../__generated__/globalType
 // GraphQL mutation operation: updateUserChatRoomInfo
 // ====================================================
 
+export interface updateUserChatRoomInfo_updateUserChatRoomInfo_chatRoom {
+  __typename: "ChatRoom";
+  id: string;
+  isBlockedMe: boolean;
+  isIBlocked: boolean;
+}
+
 export interface updateUserChatRoomInfo_updateUserChatRoomInfo {
   __typename: "UserChatRoomInfo";
   id: string;
   bookmarked: boolean;
   notificated: boolean;
+  blocked: boolean;
+  chatRoom: updateUserChatRoomInfo_updateUserChatRoomInfo_chatRoom;
 }
 
 export interface updateUserChatRoomInfo {

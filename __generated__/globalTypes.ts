@@ -74,6 +74,7 @@ export interface UpdateUserChatRoomInfoInput {
   id: string;
   notificated?: boolean | null;
   bookmarked?: boolean | null;
+  blocked?: boolean | null;
 }
 
 export interface UpdateUserInput {

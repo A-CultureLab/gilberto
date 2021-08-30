@@ -11,13 +11,16 @@ query chatRooms ($cursor:String, $take:Int) {
     chatRooms(cursor:$cursor, take:$take) {
         id
         name
+        type
+        isIBlocked
+        isBlockedMe
         iUserChatRoomInfo {
             id
             bookmarked
             notificated
+            blocked
             notReadChatCount
         }
-        type
         userChatRoomInfos {
             id
             user {
@@ -42,10 +45,13 @@ subscription chatRoomUpdated($userId:String!) {
         id
         name
         type
+        isIBlocked
+        isBlockedMe
         iUserChatRoomInfo {
             id
             bookmarked
             notificated
+            blocked
             notReadChatCount
         }
         userChatRoomInfos {

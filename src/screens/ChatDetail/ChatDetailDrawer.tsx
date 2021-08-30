@@ -31,31 +31,24 @@ const ChatDetailDrawer: React.FC<ChatDetailDrawerProps> = ({ data }) => {
     const [notificatedTrigger, setNotificatedTrigger] = useState(true)
     const [bookmarked, setBookmarked] = useState(data.iUserChatRoomInfo.bookmarked)
     const [bookmarkedTrigger, setBookmarkedTrigger] = useState(true)
+    const [blocked, setBlocked] = useState(data.iUserChatRoomInfo.blocked)
+    const [blockedTrigger, setBlockedTrigger] = useState(true)
 
     // notification on/off
     useEffect(() => {
         if (notificatedTrigger) return setNotificatedTrigger(false)
-        updateUserChatRoomInfo({
-            variables: {
-                input: {
-                    id: data.iUserChatRoomInfo.id,
-                    notificated: notificated
-                }
-            }
-        })
+        updateUserChatRoomInfo({ variables: { input: { id: data.iUserChatRoomInfo.id, notificated } } })
     }, [notificated])
     // bookmark on/off
     useEffect(() => {
         if (bookmarkedTrigger) return setBookmarkedTrigger(false)
-        updateUserChatRoomInfo({
-            variables: {
-                input: {
-                    id: data.iUserChatRoomInfo.id,
-                    bookmarked: bookmarked
-                }
-            }
-        })
+        updateUserChatRoomInfo({ variables: { input: { id: data.iUserChatRoomInfo.id, bookmarked } } })
     }, [bookmarked])
+    // blocked on/off
+    useEffect(() => {
+        if (blockedTrigger) return setBlockedTrigger(false)
+        updateUserChatRoomInfo({ variables: { input: { id: data.iUserChatRoomInfo.id, blocked } } })
+    }, [blocked])
 
     const onExitChatRoom = useCallback(async () => {
         confirm({
@@ -87,8 +80,8 @@ const ChatDetailDrawer: React.FC<ChatDetailDrawerProps> = ({ data }) => {
                 )}
                 ListHeaderComponent={<>
                     <Text style={styles.title} >설정</Text>
-                    {data.type === ChatRoomType.private && <Pressable android_ripple={{ color: GRAY2 }} style={styles.settingsContainer}  >
-                        <Text>차단하기</Text>
+                    {data.type === ChatRoomType.private && <Pressable onPress={() => setBlocked(prev => !prev)} android_ripple={{ color: GRAY2 }} style={styles.settingsContainer}  >
+                        <Text>{data.iUserChatRoomInfo.blocked ? '차단해제' : '차단하기'}</Text>
                     </Pressable>}
                     <Pressable android_ripple={{ color: GRAY2 }} style={styles.settingsContainer}  >
                         <Text>신고하기</Text>

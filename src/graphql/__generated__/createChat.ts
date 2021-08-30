@@ -14,6 +14,7 @@ export interface createChat_createChat_chatRoom_iUserChatRoomInfo {
   id: string;
   bookmarked: boolean;
   notificated: boolean;
+  blocked: boolean;
   notReadChatCount: number;
 }
 

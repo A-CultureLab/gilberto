@@ -103,7 +103,7 @@ const ChatDetail = () => {
                                 />
                             </View>
                         </View>
-                        <ChatDetailFooter chatRoomId={id} />
+                        {data?.chatRoom && <ChatDetailFooter data={data.chatRoom} />}
                     </View>
                 </KeyboardAvoidingView>
                 <View style={{ backgroundColor: COLOR1, width: '100%', height: bottom }} />
