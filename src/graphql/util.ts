@@ -6,5 +6,14 @@ export const UPLOAD_IMAGE = gql`
         uploadImage(image: $image, path:$path)
     }
 `
-
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
+export const USER_CERTIFICATION_INFO = gql`
+    query userCertificationInfo ($imp_uid: String!) {
+        userCertificationInfo(imp_uid: $imp_uid) {
+            uniqueKey
+            name
+            gender
+            birth
+        }
+    }
+`

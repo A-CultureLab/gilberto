@@ -1,3 +1,4 @@
+import { useApolloClient } from '@apollo/client'
 import { Route, useNavigation, useRoute } from '@react-navigation/native'
 import IMP from 'iamport-react-native'
 import React from 'react'
@@ -7,8 +8,9 @@ import { StyleSheet, Text, View } from 'react-native'
 import { Gender } from '../../../__generated__/globalTypes'
 import Header from '../../components/headers/Header'
 import ScreenLayout from '../../components/layout/ScreenLayout'
-import Loading from '../../components/loadings/Loading'
 import { IAMPORT_CODE } from '../../constants/values'
+import { USER_CERTIFICATION_INFO } from '../../graphql/util'
+import { userCertificationInfo, userCertificationInfoVariables } from '../../graphql/__generated__/userCertificationInfo'
 import useGlobalUi from '../../hooks/useGlobalUi'
 
 export interface UserCertificationProps {
@@ -21,15 +23,23 @@ const UserCertification = () => {
     const { params } = useRoute<Route<'UserCertification', UserCertificationProps>>()
     const { toast } = useGlobalUi()
 
-    const callback = useCallback((res) => {
-        const success = res.params?.success;
-        if (success) {
-            params.onCertificated({
-                uniqueKey: Math.random().toString(),
-                name: '테스터',
-                gender: Gender.male,
-                birth: new Date(),
-            })
+    const { query } = useApolloClient()
+
+    const callback = useCallback(async (res) => {
+        console.log(res)
+        if (res.success) {
+            try {
+                const { data, error } = await query<userCertificationInfo, userCertificationInfoVariables>({
+                    query: USER_CERTIFICATION_INFO,
+                    variables: { imp_uid: res.imp_uid },
+                    fetchPolicy: 'no-cache'
+                })
+                if (error) throw error
+                params.onCertificated(data.userCertificationInfo)
+            } catch (error) {
+                console.log(error)
+                toast({ content: '본인인증 실패' })
+            }
         } else {
             toast({ content: '본인인증 실패' })
         }
@@ -37,9 +47,7 @@ const UserCertification = () => {
     }, [params, goBack])
 
     useEffect(() => {
-        setTimeout(() => {
-            callback({ params: { success: true } })
-        }, 1000);
+
     }, [])
 
     return (
