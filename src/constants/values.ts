@@ -7,7 +7,7 @@ export const IS_IOS = Platform.OS === 'ios'
 
 export const IAMPORT_CODE = 'imp01398045'
 
-const PROD_TEST_MODE = false
+const PROD_TEST_MODE = true
 // const LOCAL_IP = '192.168.218.254'
 const LOCAL_IP = '192.168.35.105'
 // const LOCAL_IP = '192.168.10.22'

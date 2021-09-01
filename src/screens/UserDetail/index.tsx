@@ -106,6 +106,8 @@ const styles = StyleSheet.create({
     introCotnainer: {
         paddingVertical: 24,
         paddingHorizontal: 16,
+        borderBottomWidth: 1,
+        borderBottomColor: GRAY3
     },
     intro: {
 

@@ -16,6 +16,7 @@ import { useIUser } from '../../graphql/user'
 import { myPets_myPets } from '../../graphql/__generated__/myPets'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import genderGenerator from '../../lib/genderGenerator'
 
 const Profile = () => {
 
@@ -67,7 +68,7 @@ const Profile = () => {
                         <View style={{ flex: 1 }} >
                             <Text numberOfLines={1} >
                                 <Text style={styles.profileName} >{userData.iUser.name}</Text>
-                                <Text style={styles.profileInfo} > · {userData.iUser.age}살 {userData.iUser.gender === Gender.male ? '남자' : '여자'}</Text>
+                                <Text style={styles.profileInfo} > · {genderGenerator.user(userData.iUser.gender)}, {userData.iUser.age}세</Text>
                             </Text>
                             <Text numberOfLines={1} style={styles.profileAddress} >{userData.iUser.address?.land.fullName}</Text>
                         </View>
