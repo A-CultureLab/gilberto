@@ -99,11 +99,21 @@ export const useWithdraw = createMutationHook<withdraw, withdrawVariables>(WITHD
 export const USER = gql`
 query user($where:UserWhereUniqueInput!) {
   user(where:$where) {
+    id
     image
     name
     age
     gender
-    id
+    introduce
+    pets {
+      id
+      image
+    }
+    address {
+      land {
+        fullName
+      }
+    }
   }
 }
 `

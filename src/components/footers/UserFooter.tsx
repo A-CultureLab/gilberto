@@ -25,7 +25,7 @@ const UserFooter: React.FC<UserFooterProps> = ({ user }) => {
         <View style={[styles.container, { height: 56 + bottom, paddingBottom: bottom }]} >
             <Pressable style={styles.left} onPress={() => navigate('UserDetail', { id })} >
                 <Text style={styles.name} >{name}</Text>
-                <Text style={styles.genderAge} >{genderGenerator.user(gender)}, {age}</Text>
+                <Text style={styles.genderAge} >{genderGenerator.user(gender)}, {age}세</Text>
             </Pressable>
             <Pressable
                 style={styles.chatButton}

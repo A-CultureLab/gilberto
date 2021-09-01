@@ -9,17 +9,36 @@ import { UserWhereUniqueInput, Gender } from "./../../../__generated__/globalTyp
 // GraphQL query operation: user
 // ====================================================
 
+export interface user_user_pets {
+  __typename: "Pet";
+  id: string;
+  image: string;
+}
+
+export interface user_user_address_land {
+  __typename: "Land";
+  fullName: string;
+}
+
+export interface user_user_address {
+  __typename: "Address";
+  land: user_user_address_land;
+}
+
 export interface user_user {
   __typename: "User";
+  id: string;
   image: string;
   name: string;
   age: number;
   gender: Gender;
-  id: string;
+  introduce: string;
+  pets: user_user_pets[];
+  address: user_user_address;
 }
 
 export interface user {
-  user: user_user | null;
+  user: user_user;
 }
 
 export interface userVariables {
