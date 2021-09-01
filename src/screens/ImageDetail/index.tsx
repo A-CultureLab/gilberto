@@ -9,17 +9,17 @@ import ScreenLayout from '../../components/layout/ScreenLayout'
 import { GRAY2, HEIGHT, STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles'
 
 interface ImageDetailProps {
-    uris: string[]
+    urls: string[]
     index: number
 }
 const ImageDetail: React.FC<ImageDetailProps> = () => {
 
-    const { params: { index, uris } } = useRoute<Route<'ImageDetail', ImageDetailProps>>()
+    const { params: { index, urls } } = useRoute<Route<'ImageDetail', ImageDetailProps>>()
     const { goBack } = useNavigation()
 
     const [currentIndex, setCurrentIndex] = useState(index)
 
-    const title = useMemo(() => uris.length === 1 ? '' : `${currentIndex + 1}/${uris.length}`, [currentIndex])
+    const title = useMemo(() => urls.length === 1 ? '' : `${currentIndex + 1}/${urls.length}`, [currentIndex])
 
     const onScroll = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
         const x = event.nativeEvent.contentOffset.x
@@ -41,7 +41,7 @@ const ImageDetail: React.FC<ImageDetailProps> = () => {
             <FlatList
                 horizontal
                 pagingEnabled
-                data={uris}
+                data={urls}
                 onScroll={onScroll}
                 showsHorizontalScrollIndicator={false}
                 keyExtractor={(item) => item}

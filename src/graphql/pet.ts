@@ -8,6 +8,7 @@ import { gql } from "@apollo/client";
 import { myPets, } from "./__generated__/myPets";
 import { petGroupByAddress, petGroupByAddressVariables } from "./__generated__/petGroupByAddress";
 import { petsByAddress, petsByAddressVariables } from "./__generated__/petsByAddress";
+import { pet, petVariables } from "./__generated__/pet";
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const REGIST_PET = gql`
@@ -156,6 +157,33 @@ export const PETS_BY_ADDRESS = gql`
 `
 export const usePetsByAddress = createQueryHook<petsByAddress, petsByAddressVariables>(PETS_BY_ADDRESS)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
-
+export const PET = gql`
+  query pet ($id:String!) {
+    pet(where: {id:$id}) {
+        id
+        image
+        name
+        species
+        character
+        gender
+        age
+        weight
+        neutered
+        vaccinated
+        user {
+            id
+            image
+            name
+            gender
+            age
+            pets {
+                id
+                image
+            }
+        } 
+    }
+  }
+`
+export const usePet = createQueryHook<pet, petVariables>(PET)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 

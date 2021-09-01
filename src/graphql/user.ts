@@ -101,6 +101,8 @@ query user($where:UserWhereUniqueInput!) {
   user(where:$where) {
     image
     name
+    age
+    gender
     id
   }
 }

@@ -34,6 +34,7 @@ import { useChatRoomUpdated } from '../graphql/chatRoom';
 import SelectBottomSheet, { SelectBottomSheetProps } from '../components/selectors/SelectBottomSheet';
 import UserCertification from './UserCertification';
 import ImageDetail from './ImageDetail';
+import PetDetail from './PetDetail';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -43,7 +44,7 @@ const Tab = createBottomTabNavigator()
 const TabNavigation = () => {
     return (
         <Tab.Navigator
-            initialRouteName='MyPage'
+            initialRouteName='Home'
             tabBar={() => null}
         >
             <Tab.Screen name='Home' component={Home} />
@@ -113,6 +114,7 @@ const Navigation = () => {
                     <Stack.Screen name='Settings' component={Settings} />
                     <Stack.Screen name='OpenSourceLicense' component={OpenSourceLicense} />
                     <Stack.Screen name='Withdraw' component={Withdraw} />
+                    <Stack.Screen name='PetDetail' component={PetDetail} options={{ cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS }} />
                     <Stack.Screen name='UserDetail' component={UserDetail} />
                     <Stack.Screen name='ChatDetail' component={ChatDetail} />
                     <Stack.Screen name='UserCertification' component={UserCertification} />

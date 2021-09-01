@@ -20,7 +20,8 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 
 export interface ChatDetailProps {
-    id: string
+    id?: string
+    userId?: string
 }
 
 const ChatDetail = () => {

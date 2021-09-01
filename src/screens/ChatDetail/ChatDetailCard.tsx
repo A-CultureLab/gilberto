@@ -67,7 +67,7 @@ const ChatDetailCard: React.FC<chats_chats> = (props) => {
             <Text style={styles.date} >{dayjs(createdAt).format('a hh:mm')}</Text>
             {image
                 ?
-                <Pressable onLongPress={onLongPress} android_ripple={{ color: GRAY2 }} onPress={() => navigate('ImageDetail', { uris: [image], index: 0 })} >
+                <Pressable onLongPress={onLongPress} android_ripple={{ color: GRAY2 }} onPress={() => navigate('ImageDetail', { urls: [image], index: 0 })} >
                     <FastImage
                         source={{ uri: image || '' }}
                         style={styles.image}
@@ -91,7 +91,7 @@ const ChatDetailCard: React.FC<chats_chats> = (props) => {
             </Pressable>
             {image
                 ?
-                <Pressable android_ripple={{ color: GRAY2 }} onLongPress={onLongPress} onPress={() => navigate('ImageDetail', { uris: [image], index: 0 })} >
+                <Pressable android_ripple={{ color: GRAY2 }} onLongPress={onLongPress} onPress={() => navigate('ImageDetail', { urls: [image], index: 0 })} >
                     <FastImage
                         source={{ uri: image || '' }}
                         style={styles.image}
