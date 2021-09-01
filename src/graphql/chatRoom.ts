@@ -1,10 +1,44 @@
 import { chatRoomUpdated, chatRoomUpdatedVariables } from "./__generated__/chatRoomUpdated";
-import { createMutationHook, createQueryHook, createSubscriptionHook } from "../lib/createApolloHook";
+import { createLazyQueryHook, createMutationHook, createQueryHook, createSubscriptionHook } from "../lib/createApolloHook";
 
 import { gql } from "@apollo/client";
 import { chatRooms, chatRoomsVariables } from "./__generated__/chatRooms";
 import { exitChatRoom, exitChatRoomVariables } from "./__generated__/exitChatRoom";
+import { chatRoom, chatRoomVariables } from "./__generated__/chatRoom";
 
+//--------------------------------------------------------------------------------------------------------------------------------------------------------//
+export const CHAT_ROOM = gql`
+query chatRoom ($id:String, $userId: String) {
+    chatRoom(id:$id, userId:$userId) {
+        id
+        name
+        type
+        isIBlocked
+        isBlockedMe
+        iUserChatRoomInfo {
+            id
+            bookmarked
+            notificated
+            blocked
+            notReadChatCount
+        }
+        userChatRoomInfos {
+          id
+          user {
+            id
+            image
+            name
+          }  
+        } 
+        recentChat {
+            id
+            createdAt
+            message
+        }
+    }
+}
+`
+export const useChatRoom = createQueryHook<chatRoom, chatRoomVariables>(CHAT_ROOM)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const CHAT_ROOMS = gql`
 query chatRooms ($cursor:String, $take:Int) {

@@ -11,11 +11,11 @@ import { ChatRoomType } from '../../../__generated__/globalTypes'
 import { COLOR1, COLOR2, COLOR3, GRAY2, GRAY3, STATUSBAR_HEIGHT } from '../../constants/styles'
 import { useExitChatRoom } from '../../graphql/chatRoom'
 import { useUpdateUserChatRoomInfo } from '../../graphql/userChatRoomInfo'
-import { chats_chatRoom } from '../../graphql/__generated__/chats'
+import { chatRoom_chatRoom } from '../../graphql/__generated__/chatRoom'
 import useGlobalUi from '../../hooks/useGlobalUi'
 
 interface ChatDetailDrawerProps {
-    data: chats_chatRoom
+    data: chatRoom_chatRoom
 }
 
 const ChatDetailDrawer: React.FC<ChatDetailDrawerProps> = ({ data }) => {

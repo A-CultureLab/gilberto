@@ -8,11 +8,11 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import useGlobalUi from '../../hooks/useGlobalUi'
 import { useRef } from 'react'
 import useImageUpload from '../../hooks/useImageUpload'
-import { chats_chatRoom } from '../../graphql/__generated__/chats'
+import { chatRoom_chatRoom } from '../../graphql/__generated__/chatRoom'
 
 
 interface ChatDetailFooterProps {
-    data: chats_chatRoom
+    data: chatRoom_chatRoom
 }
 
 const ChatDetailFooter: React.FC<ChatDetailFooterProps> = (props) => {

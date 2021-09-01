@@ -18,6 +18,7 @@ import { useRef } from 'react'
 import ChatDetailDrawer from './ChatDetailDrawer'
 import { useEffect } from 'react'
 import { useState } from 'react'
+import { useChatRoom } from '../../graphql/chatRoom'
 
 export interface ChatDetailProps {
     id?: string
@@ -29,12 +30,24 @@ const ChatDetail = () => {
     const drawerRef = useRef<DrawerLayout>(null)
 
     const { addListener } = useNavigation()
-    const { params: { id } } = useRoute<Route<'ChatDetail', ChatDetailProps>>()
+    const { params: { id, userId } } = useRoute<Route<'ChatDetail', ChatDetailProps>>()
     const { bottom } = useSafeAreaInsets()
     const { user } = useContext(AuthContext)
 
-    // const { } = useChatCreated({ variables: { userId: user?.uid || '', chatRoomId: id } })
-    const { data, fetchMore } = useChats({ variables: { chatRoomId: id }, fetchPolicy: 'network-only' })
+    const { data: chatRoomData } = useChatRoom({
+        variables: { id, userId },
+        fetchPolicy: 'network-only'
+    })
+    const { data, fetchMore } = useChats({
+        variables: { chatRoomId: id || chatRoomData?.chatRoom.id || '' },
+        fetchPolicy: 'network-only',
+        skip: !(id || chatRoomData?.chatRoom.id)
+    })
+
+    const { } = useChatCreated({
+        skip: !(id || chatRoomData?.chatRoom.id),
+        variables: { userId: user?.uid || '', chatRoomId: id || chatRoomData?.chatRoom.id || '' }
+    })
 
     const [isDrawerOpened, setIsDrawerOpened] = useState(false)
     const [isScreenFocused, setIsScreenFocused] = useState(true)
@@ -71,7 +84,7 @@ const ChatDetail = () => {
             drawerType="front"
             onDrawerStateChanged={(_, isOpend) => setIsDrawerOpened(isOpend)}
             drawerBackgroundColor="#fff"
-            renderNavigationView={() => data?.chatRoom ? <ChatDetailDrawer data={data.chatRoom} /> : null}
+            renderNavigationView={() => chatRoomData ? <ChatDetailDrawer data={chatRoomData.chatRoom} /> : null}
         >
             <ScreenLayout>
                 <KeyboardAvoidingView
@@ -80,7 +93,7 @@ const ChatDetail = () => {
                 >
                     <View style={{ backgroundColor: '#fff', flex: 1 }} >
                         <Header
-                            title={data?.chatRoom?.name || '채팅'}
+                            title={chatRoomData?.chatRoom.name || '채팅'}
                             right={() => (
                                 <Pressable
                                     onPress={() => drawerRef.current?.openDrawer()}
@@ -104,7 +117,7 @@ const ChatDetail = () => {
                                 />
                             </View>
                         </View>
-                        {data?.chatRoom && <ChatDetailFooter data={data.chatRoom} />}
+                        {chatRoomData && <ChatDetailFooter data={chatRoomData.chatRoom} />}
                     </View>
                 </KeyboardAvoidingView>
                 <View style={{ backgroundColor: COLOR1, width: '100%', height: bottom }} />

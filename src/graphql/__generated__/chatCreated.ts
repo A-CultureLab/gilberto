@@ -3,8 +3,6 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { ChatRoomType } from "./../../../__generated__/globalTypes";
-
 // ====================================================
 // GraphQL subscription operation: chatCreated
 // ====================================================
@@ -17,28 +15,6 @@ export interface chatCreated_chatCreated_user {
   notReadChatCount: number;
 }
 
-export interface chatCreated_chatCreated_chatRoom_iUserChatRoomInfo {
-  __typename: "UserChatRoomInfo";
-  id: string;
-  bookmarked: boolean;
-  notificated: boolean;
-  blocked: boolean;
-  notReadChatCount: number;
-}
-
-export interface chatCreated_chatCreated_chatRoom_userChatRoomInfos_user {
-  __typename: "User";
-  id: string;
-  image: string;
-  name: string;
-}
-
-export interface chatCreated_chatCreated_chatRoom_userChatRoomInfos {
-  __typename: "UserChatRoomInfo";
-  id: string;
-  user: chatCreated_chatCreated_chatRoom_userChatRoomInfos_user;
-}
-
 export interface chatCreated_chatCreated_chatRoom_recentChat {
   __typename: "Chat";
   id: string;
@@ -49,12 +25,6 @@ export interface chatCreated_chatCreated_chatRoom_recentChat {
 export interface chatCreated_chatCreated_chatRoom {
   __typename: "ChatRoom";
   id: string;
-  name: string;
-  type: ChatRoomType;
-  isIBlocked: boolean;
-  isBlockedMe: boolean;
-  iUserChatRoomInfo: chatCreated_chatCreated_chatRoom_iUserChatRoomInfo;
-  userChatRoomInfos: chatCreated_chatCreated_chatRoom_userChatRoomInfos[];
   recentChat: chatCreated_chatCreated_chatRoom_recentChat | null;
 }
 

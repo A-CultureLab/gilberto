@@ -7,7 +7,7 @@ import { deleteChat, deleteChatVariables } from "./__generated__/deleteChat";
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const CHATS = gql`
-query chats ($chatRoomId:String!,  $cursor:String, $take:Int) {
+query chats ($chatRoomId:String!, $cursor:String, $take:Int) {
     chats(chatRoomId:$chatRoomId, cursor:$cursor, take:$take) {
         id
         createdAt
@@ -19,33 +19,6 @@ query chats ($chatRoomId:String!,  $cursor:String, $take:Int) {
             name
             image
             notReadChatCount
-        }
-    }
-    chatRoom(where: {id:$chatRoomId}) {
-        id
-        name
-        type
-        isIBlocked
-        isBlockedMe
-        iUserChatRoomInfo {
-            id
-            bookmarked
-            notificated
-            blocked
-            notReadChatCount
-        }
-        userChatRoomInfos {
-          id
-          user {
-            id
-            image
-            name
-          }  
-        } 
-        recentChat {
-            id
-            createdAt
-            message
         }
     }
 }
@@ -93,25 +66,6 @@ subscription chatCreated($userId:String!, $chatRoomId:String!) {
         }
         chatRoom {
             id
-            name
-            type
-            isIBlocked
-            isBlockedMe
-            iUserChatRoomInfo {
-                id
-                bookmarked
-                notificated
-                blocked
-                notReadChatCount
-            }
-            userChatRoomInfos {
-                id
-                user {
-                    id
-                    image
-                    name
-                }  
-            } 
             recentChat {
                 id
                 createdAt
@@ -136,7 +90,7 @@ export const useChatCreated = createSubscriptionHook<chatCreated, chatCreatedVar
             query: CHATS,
             variables: { chatRoomId },
             data: {
-                chatRoom: subscriptionData.data.chatCreated.chatRoom,
+                // chatRoom: subscriptionData.data.chatCreated.chatRoom,
                 chats: [subscriptionData.data.chatCreated, ...preData]
             }
         })
