@@ -83,7 +83,7 @@ const ChatDetailCard: React.FC<chats_chats> = (props) => {
     )
     else return ( // Normal MessageCard
         <View style={styles.normalMessageCardContainer} >
-            <Pressable onPress={() => navigate('UserDetail', { id: userId })} >
+            <Pressable onPress={() => navigate('UserDetail', { id: user.id })} >
                 <FastImage
                     source={{ uri: user.image || '' }}
                     style={styles.normalMessageCardProfileImage}

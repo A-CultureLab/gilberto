@@ -43,7 +43,7 @@ const Withdraw = () => {
             <ScreenLayout>
                 <Header title='회원탈퇴' />
                 <View style={{ flex: 1 }} >
-                    <Text style={styles.comment} >계정을 삭제하시면 추후에 데이터를 북구 하실 수 없습니다.</Text>
+                    <Text style={styles.comment} >계정을 삭제하시면 추후에 데이터를 복구 하실 수 없습니다.</Text>
                     <Pressable
                         onPress={() => setVisible(true)}
                         style={styles.reasonContainer}

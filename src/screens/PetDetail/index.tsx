@@ -107,7 +107,7 @@ const PetDetail = () => {
             >
                 <Header
                     backBtnColor='#fff'
-                    backBtn='right'
+
                     underline={false}
                     style={{ marginTop: STATUSBAR_HEIGHT }}
                 />

@@ -82,7 +82,6 @@ const ProfileModify = () => {
             >
                 <ScrollView
                     style={{ flex: 1 }}
-                    showsVerticalScrollIndicator={false}
                     overScrollMode='never'
                 >
                     <>

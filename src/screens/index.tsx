@@ -114,7 +114,7 @@ const Navigation = () => {
                     <Stack.Screen name='Settings' component={Settings} />
                     <Stack.Screen name='OpenSourceLicense' component={OpenSourceLicense} />
                     <Stack.Screen name='Withdraw' component={Withdraw} />
-                    <Stack.Screen name='PetDetail' component={PetDetail} options={{ cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS }} />
+                    <Stack.Screen name='PetDetail' component={PetDetail} />
                     <Stack.Screen name='UserDetail' component={UserDetail} />
                     <Stack.Screen name='ChatDetail' component={ChatDetail} />
                     <Stack.Screen name='UserCertification' component={UserCertification} />

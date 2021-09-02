@@ -110,7 +110,6 @@ const Signup = () => {
             >
                 <ScrollView
                     style={{ flex: 1 }}
-                    showsVerticalScrollIndicator={false}
                     overScrollMode='never'
                 >
                     {!auth().currentUser?.email && <Controller

@@ -69,7 +69,6 @@ const PetRegist = () => {
                 <ScrollView
                     style={{ flex: 1 }}
                     overScrollMode='never'
-                    showsVerticalScrollIndicator={false}
                 >
                     <Controller
                         control={control}
