@@ -7325,15 +7325,16 @@ react-native-push-notification@^7.4.0:
   resolved "https://registry.yarnpkg.com/react-native-push-notification/-/react-native-push-notification-7.4.0.tgz#81192356eddfee8eeaf72a9a696c7c90bf5b0ece"
   integrity sha512-Ac3Ep71e2D8Q/Vy0OHBAO5JwhsFsNSuf9knkpXQWS0B9488nIZJLEMuTpF8610xPvGw7XxVrL/q0oZO5F1pOzw==
 
-react-native-reanimated@2.3.0-alpha.2:
-  version "2.3.0-alpha.2"
-  resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-2.3.0-alpha.2.tgz#2bd0655f7a3b90606f93c59199a99885ee72b745"
-  integrity sha512-SpzW1rPMjpy7dMEKo30873pmgj0cgczBgUHvrOKKCCPJbaQXR6w6pOGrTW5M6BQtM8zpIPPwSJN+p3G9W49aiA==
+react-native-reanimated@2.3.0-alpha.3:
+  version "2.3.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-2.3.0-alpha.3.tgz#022f5b4eaa847304a155942165a77125c86428bc"
+  integrity sha512-Ln+edkTrepKUETKKmGl+GxL8RiB7awBDQFcRJIK39m5ggiLfksOAfqzclpKPLWbAfOvB4cSg+QdowzRN570FXA==
   dependencies:
     "@babel/plugin-transform-object-assign" "^7.10.4"
     invariant "^2.2.4"
     lodash.isequal "^4.5.0"
     mockdate "^3.0.2"
+    react-native-screens "^3.4.0"
     string-hash-64 "^1.0.3"
 
 react-native-redash@^16.1.1:
