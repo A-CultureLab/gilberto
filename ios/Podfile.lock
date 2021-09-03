@@ -115,24 +115,24 @@ PODS:
     - GoogleUtilities/Environment (~> 7.2)
     - nanopb (~> 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleUtilities/AppDelegateSwizzler (7.5.1):
+  - GoogleUtilities/AppDelegateSwizzler (7.5.2):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-  - GoogleUtilities/Environment (7.5.1):
+  - GoogleUtilities/Environment (7.5.2):
     - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleUtilities/Logger (7.5.1):
+  - GoogleUtilities/Logger (7.5.2):
     - GoogleUtilities/Environment
-  - GoogleUtilities/Network (7.5.1):
+  - GoogleUtilities/Network (7.5.2):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (7.5.1)"
-  - GoogleUtilities/Reachability (7.5.1):
+  - "GoogleUtilities/NSData+zlib (7.5.2)"
+  - GoogleUtilities/Reachability (7.5.2):
     - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (7.5.1):
+  - GoogleUtilities/UserDefaults (7.5.2):
     - GoogleUtilities/Logger
-  - GTMSessionFetcher/Core (1.6.1)
+  - GTMSessionFetcher/Core (1.7.0)
   - iamport-react-native (2.0.0-rc.0):
     - React-Core
   - kakao-login (3.3.3):
@@ -397,7 +397,7 @@ PODS:
   - react-native-nmap (0.0.66):
     - NMapsMap
     - React
-  - react-native-safe-area-context (3.3.0):
+  - react-native-safe-area-context (3.3.2):
     - React-Core
   - react-native-splash-screen (3.2.0):
     - React
@@ -481,14 +481,14 @@ PODS:
     - React-Core
     - SDWebImage (~> 5.8)
     - SDWebImageWebPCoder (~> 0.6.1)
-  - RNFBApp (12.7.2):
+  - RNFBApp (12.7.4):
     - Firebase/CoreOnly (= 8.6.0)
     - React-Core
-  - RNFBAuth (12.7.2):
+  - RNFBAuth (12.7.4):
     - Firebase/Auth (= 8.6.0)
     - React-Core
     - RNFBApp
-  - RNFBMessaging (12.7.2):
+  - RNFBMessaging (12.7.4):
     - Firebase/Messaging (= 8.6.0)
     - React-Core
     - RNFBApp
@@ -803,8 +803,8 @@ SPEC CHECKSUMS:
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 5337263514dd6f09803962437687240c5dc39aa4
   GoogleDataTransport: 85fd18ff3019bb85d3f2c551d04c481dedf71fc9
-  GoogleUtilities: 3df19e3c24f7bbc291d8b5809aa6b0d41e642437
-  GTMSessionFetcher: 36689134877faeb055b27dfa4ccc9ceaa42e029e
+  GoogleUtilities: 8de2a97a17e15b6b98e38e8770e2d129a57c0040
+  GTMSessionFetcher: 43748f93435c2aa068b1cbe39655aaf600652e91
   iamport-react-native: 418f463f15566324e80325d7f5bc590ece3b80c9
   kakao-login: 8569f9925c765b9cea5b27ded4629c298b4f85d0
   KakaoSDK: 1e80d6877c0eac6a310f93c73fb15ca56c05f2bd
@@ -836,7 +836,7 @@ SPEC CHECKSUMS:
   react-native-flipper: 7936453fec474d5360a14cf6ac035bd689611ffd
   react-native-geolocation: c956aeb136625c23e0dce0467664af2c437888c9
   react-native-nmap: cfcc5402746040494c544ea90a6062f49505acdf
-  react-native-safe-area-context: 61c8c484a3a9e7d1fda19f7b1794b35bbfd2262a
+  react-native-safe-area-context: 584dc04881deb49474363f3be89e4ca0e854c057
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   react-native-webview: 133a6a5149f963259646e710b4545c67ef35d7c9
   React-perflogger: fd28ee1f2b5b150b00043f0301d96bd417fdc339
@@ -857,9 +857,9 @@ SPEC CHECKSUMS:
   RNCPushNotificationIOS: 5ee247e594d0b5df3cd7be74b51035a0d91807eb
   RNDeviceInfo: 7b82d1467b87f7e74d1c7ba9439a9a57d0c68ee9
   RNFastImage: a7384db75df352500261e8e8f1ac2026def26102
-  RNFBApp: 9c4eb84da8418346829c0d0220c4794d1de7b1f6
-  RNFBAuth: 9a1a0e6fb9b3ccba2159a5f52a2891df437f0ce4
-  RNFBMessaging: b0d11e7d62d7d13f93dbc965b2e6da4fba38c67e
+  RNFBApp: 150a5a9f4b4cbadd7be07b08d524bd5cfba9fc7b
+  RNFBAuth: 92b81be442a9fb244537fdcc9d790c5c87bd44a9
+  RNFBMessaging: 78808bc3dd8caedbbeeb770bbbe3ffd3ecd08df0
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNImageCropPicker: 35a3ceb837446fa11547704709bb22b5fac6d584
   RNReanimated: 48e578538b2fad573d3d5ce2e80ad375e1534d87
