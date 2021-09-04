@@ -9,6 +9,12 @@ import { ChatRoomType } from "./../../../__generated__/globalTypes";
 // GraphQL subscription operation: chatRoomUpdated
 // ====================================================
 
+export interface chatRoomUpdated_chatRoomUpdated_iUserChatRoomInfo_user {
+  __typename: "User";
+  id: string;
+  notReadChatCount: number;
+}
+
 export interface chatRoomUpdated_chatRoomUpdated_iUserChatRoomInfo {
   __typename: "UserChatRoomInfo";
   id: string;
@@ -16,19 +22,7 @@ export interface chatRoomUpdated_chatRoomUpdated_iUserChatRoomInfo {
   notificated: boolean;
   blocked: boolean;
   notReadChatCount: number;
-}
-
-export interface chatRoomUpdated_chatRoomUpdated_userChatRoomInfos_user {
-  __typename: "User";
-  id: string;
-  image: string;
-  name: string;
-}
-
-export interface chatRoomUpdated_chatRoomUpdated_userChatRoomInfos {
-  __typename: "UserChatRoomInfo";
-  id: string;
-  user: chatRoomUpdated_chatRoomUpdated_userChatRoomInfos_user;
+  user: chatRoomUpdated_chatRoomUpdated_iUserChatRoomInfo_user;
 }
 
 export interface chatRoomUpdated_chatRoomUpdated_recentChat {
@@ -42,11 +36,11 @@ export interface chatRoomUpdated_chatRoomUpdated {
   __typename: "ChatRoom";
   id: string;
   name: string;
+  image: string;
   type: ChatRoomType;
   isIBlocked: boolean;
   isBlockedMe: boolean;
   iUserChatRoomInfo: chatRoomUpdated_chatRoomUpdated_iUserChatRoomInfo;
-  userChatRoomInfos: chatRoomUpdated_chatRoomUpdated_userChatRoomInfos[];
   recentChat: chatRoomUpdated_chatRoomUpdated_recentChat | null;
 }
 

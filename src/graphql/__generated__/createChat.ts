@@ -12,9 +12,6 @@ import { CreateChatInput } from "./../../../__generated__/globalTypes";
 export interface createChat_createChat_chatRoom_iUserChatRoomInfo {
   __typename: "UserChatRoomInfo";
   id: string;
-  bookmarked: boolean;
-  notificated: boolean;
-  blocked: boolean;
   notReadChatCount: number;
 }
 

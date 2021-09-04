@@ -50,8 +50,15 @@ export interface chatRoom_chatRoom {
   recentChat: chatRoom_chatRoom_recentChat | null;
 }
 
+export interface chatRoom_iUser {
+  __typename: "User";
+  id: string;
+  notReadChatCount: number;
+}
+
 export interface chatRoom {
   chatRoom: chatRoom_chatRoom;
+  iUser: chatRoom_iUser;
 }
 
 export interface chatRoomVariables {

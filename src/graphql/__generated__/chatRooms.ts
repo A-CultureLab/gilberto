@@ -18,19 +18,6 @@ export interface chatRooms_chatRooms_iUserChatRoomInfo {
   notReadChatCount: number;
 }
 
-export interface chatRooms_chatRooms_userChatRoomInfos_user {
-  __typename: "User";
-  id: string;
-  image: string;
-  name: string;
-}
-
-export interface chatRooms_chatRooms_userChatRoomInfos {
-  __typename: "UserChatRoomInfo";
-  id: string;
-  user: chatRooms_chatRooms_userChatRoomInfos_user;
-}
-
 export interface chatRooms_chatRooms_recentChat {
   __typename: "Chat";
   id: string;
@@ -42,11 +29,11 @@ export interface chatRooms_chatRooms {
   __typename: "ChatRoom";
   id: string;
   name: string;
+  image: string;
   type: ChatRoomType;
   isIBlocked: boolean;
   isBlockedMe: boolean;
   iUserChatRoomInfo: chatRooms_chatRooms_iUserChatRoomInfo;
-  userChatRoomInfos: chatRooms_chatRooms_userChatRoomInfos[];
   recentChat: chatRooms_chatRooms_recentChat | null;
 }
 

@@ -11,7 +11,7 @@ const ChatCard: React.FC<chatRooms_chatRooms> = (props) => {
 
 
     const { navigate } = useNavigation()
-    const { id, iUserChatRoomInfo: { notReadChatCount }, recentChat, userChatRoomInfos, name } = props
+    const { id, iUserChatRoomInfo: { notReadChatCount }, recentChat, image, name } = props
 
     const onPress = useCallback(() => {
         navigate('ChatDetail', { id })
@@ -25,7 +25,7 @@ const ChatCard: React.FC<chatRooms_chatRooms> = (props) => {
         >
             <FastImage
                 style={styles.image}
-                source={{ uri: userChatRoomInfos[0].user.image }}
+                source={{ uri: image }}
             />
             <View style={styles.contentContainer} >
                 <Text style={styles.title} numberOfLines={1} ellipsizeMode='tail' >{name}</Text>

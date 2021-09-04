@@ -12,7 +12,19 @@ export interface chatCreated_chatCreated_user {
   id: string;
   name: string;
   image: string;
+}
+
+export interface chatCreated_chatCreated_chatRoom_iUserChatRoomInfo_user {
+  __typename: "User";
+  id: string;
   notReadChatCount: number;
+}
+
+export interface chatCreated_chatCreated_chatRoom_iUserChatRoomInfo {
+  __typename: "UserChatRoomInfo";
+  id: string;
+  notReadChatCount: number;
+  user: chatCreated_chatCreated_chatRoom_iUserChatRoomInfo_user;
 }
 
 export interface chatCreated_chatCreated_chatRoom_recentChat {
@@ -26,6 +38,7 @@ export interface chatCreated_chatCreated_chatRoom_recentChat {
 export interface chatCreated_chatCreated_chatRoom {
   __typename: "ChatRoom";
   id: string;
+  iUserChatRoomInfo: chatCreated_chatCreated_chatRoom_iUserChatRoomInfo;
   recentChat: chatCreated_chatCreated_chatRoom_recentChat | null;
 }
 

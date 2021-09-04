@@ -21,6 +21,10 @@ query chatRoom ($id:String, $userId: String) {
             notificated
             blocked
             notReadChatCount
+            user {
+                id
+                notReadChatCount
+            }
         }
         userChatRoomInfos {
           id
@@ -45,6 +49,7 @@ query chatRooms ($cursor:String, $take:Int) {
     chatRooms(cursor:$cursor, take:$take) {
         id
         name
+        image
         type
         isIBlocked
         isBlockedMe
@@ -55,14 +60,6 @@ query chatRooms ($cursor:String, $take:Int) {
             blocked
             notReadChatCount
         }
-        userChatRoomInfos {
-            id
-            user {
-                id
-                image
-                name
-            }  
-        } 
         recentChat {
             id
             createdAt
@@ -78,6 +75,7 @@ subscription chatRoomUpdated($userId:String!) {
     chatRoomUpdated(userId: $userId) {
         id
         name
+        image
         type
         isIBlocked
         isBlockedMe
@@ -87,15 +85,11 @@ subscription chatRoomUpdated($userId:String!) {
             notificated
             blocked
             notReadChatCount
-        }
-        userChatRoomInfos {
-            id
             user {
                 id
-                image
-                name
-            }  
-        } 
+                notReadChatCount
+            }
+        }
         recentChat {
             id
             createdAt

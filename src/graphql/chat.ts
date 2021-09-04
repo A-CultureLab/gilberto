@@ -19,7 +19,6 @@ query chats ($chatRoomId:String!, $cursor:String, $take:Int) {
             id
             name
             image
-            notReadChatCount
         }
     }
 }
@@ -35,9 +34,6 @@ mutation createChat ($input:CreateChatInput!) {
             name
             iUserChatRoomInfo {
                 id
-                bookmarked
-                notificated
-                blocked
                 notReadChatCount
             }
             recentChat {
@@ -63,10 +59,13 @@ subscription chatCreated($userId:String!, $chatRoomId:String!) {
             id
             name
             image
-            notReadChatCount
         }
         chatRoom {
             id
+            iUserChatRoomInfo {
+                id
+                notReadChatCount
+            }
             recentChat {
                 id
                 createdAt
