@@ -20,6 +20,7 @@ export interface chatCreated_chatCreated_chatRoom_recentChat {
   id: string;
   createdAt: any;
   message: string | null;
+  image: string | null;
 }
 
 export interface chatCreated_chatCreated_chatRoom {

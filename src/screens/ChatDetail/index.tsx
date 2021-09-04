@@ -1,6 +1,6 @@
 import { BackHandler, FlatList, KeyboardAvoidingView, Pressable, StyleSheet, Text, View } from 'react-native'
 import { Route, useNavigation, useRoute } from '@react-navigation/native'
-import { useChatCreated, useChats } from '../../graphql/chat'
+import { useChatCreated, useChats, useChatUpdated } from '../../graphql/chat'
 
 import { AuthContext } from '..'
 import { COLOR1, GRAY1, WIDTH } from '../../constants/styles'
@@ -45,6 +45,11 @@ const ChatDetail = () => {
     })
 
     const { } = useChatCreated({
+        skip: !(id || chatRoomData?.chatRoom.id),
+        variables: { userId: user?.uid || '', chatRoomId: id || chatRoomData?.chatRoom.id || '' }
+    })
+
+    const { } = useChatUpdated({
         skip: !(id || chatRoomData?.chatRoom.id),
         variables: { userId: user?.uid || '', chatRoomId: id || chatRoomData?.chatRoom.id || '' }
     })

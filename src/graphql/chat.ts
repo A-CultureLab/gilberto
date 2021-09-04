@@ -4,6 +4,7 @@ import { createChat, createChatVariables } from "./__generated__/createChat";
 import { createMutationHook, createQueryHook, createSubscriptionHook } from "../lib/createApolloHook";
 import { gql } from "@apollo/client";
 import { deleteChat, deleteChatVariables } from "./__generated__/deleteChat";
+import { chatUpdated, chatUpdatedVariables } from "./__generated__/chatUpdated";
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const CHATS = gql`
@@ -70,6 +71,7 @@ subscription chatCreated($userId:String!, $chatRoomId:String!) {
                 id
                 createdAt
                 message
+                image
             }
         }
     }
@@ -109,6 +111,29 @@ mutation deleteChat ($id: String!)  {
 `
 export const useDeleteChat = createMutationHook<deleteChat, deleteChatVariables>(DELETE_CHAT)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
+export const CHAT_UPDATED = gql`
+subscription chatUpdated($userId:String!, $chatRoomId:String!) {
+    chatUpdated (userId:$userId, chatRoomId:$chatRoomId) {
+       id
+       updatedAt
+       isDeleted
+       message
+       image
+       chatRoom {
+            id
+            recentChat {
+                id
+                createdAt
+                message
+                image
+            }
+        }
+    }
+}
+`
+
+
+export const useChatUpdated = createSubscriptionHook<chatUpdated, chatUpdatedVariables>(CHAT_UPDATED)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
