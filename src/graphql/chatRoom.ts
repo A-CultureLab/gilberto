@@ -131,7 +131,18 @@ mutation exitChatRoom ($id:String!) {
     }
 }
 `
-export const useExitChatRoom = createMutationHook<exitChatRoom, exitChatRoomVariables>(EXIT_CHAT_ROOM)
+export const useExitChatRoom = createMutationHook<exitChatRoom, exitChatRoomVariables>(EXIT_CHAT_ROOM, {
+    update: (cache, { data }) => {
+        // 채팅 스크린에서 채팅방 삭제
+        cache.modify({
+            fields: {
+                chatRooms: (existingRefs, { readField }) => {
+                    return existingRefs.filter((ref: any) => data?.exitChatRoom.id !== readField('id', ref))
+                }
+            }
+        })
+    }
+})
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
