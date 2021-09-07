@@ -9,6 +9,7 @@ import { enableFlipperApolloDevtools } from 'react-native-flipper-apollo-devtool
 import relativeTime from 'dayjs/plugin/relativeTime'
 import 'dayjs/locale/ko'
 import dayjs from 'dayjs';
+import codePush from 'react-native-code-push';
 
 dayjs.locale('ko')
 dayjs.extend(relativeTime)
@@ -32,6 +33,4 @@ const App = () => {
   )
 }
 
-export default App
-
-const styles = StyleSheet.create({})
+export default codePush(App)
