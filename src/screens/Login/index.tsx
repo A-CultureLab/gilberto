@@ -1,9 +1,8 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import Header from '../../components/headers/Header'
 import ScreenLayout from '../../components/layout/ScreenLayout'
 import { APPLE_COLOR, DEFAULT_SHADOW, KAKAO_COLOR } from '../../constants/styles'
-import Image from 'react-native-fast-image'
 import TouchableScale from '../../components/buttons/TouchableScale'
 import { useCallback } from 'react'
 import auth from '@react-native-firebase/auth';
