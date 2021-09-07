@@ -1,4 +1,4 @@
-import { BackHandler, FlatList, KeyboardAvoidingView, Pressable, StyleSheet, Text, View } from 'react-native'
+import { BackHandler, FlatList, KeyboardAvoidingView, Pressable, StatusBar, StyleSheet, Text, View } from 'react-native'
 import { Route, useNavigation, useRoute } from '@react-navigation/native'
 import { useChatCreated, useChats, useChatUpdated } from '../../graphql/chat'
 
@@ -92,6 +92,7 @@ const ChatDetail = () => {
             renderNavigationView={() => chatRoomData ? <ChatDetailDrawer data={chatRoomData.chatRoom} /> : null}
         >
             <ScreenLayout>
+                <StatusBar barStyle='dark-content' />
                 <KeyboardAvoidingView
                     behavior={IS_IOS ? 'padding' : 'height'}
                     style={{ flex: 1, backgroundColor: COLOR1 }}

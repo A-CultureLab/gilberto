@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "start": "react-native start",
     "android": "adb devices && react-native run-android",
     "ios": "react-native run-ios",
     "android:release": "adb devices && react-native run-android --variant=release",
@@ -25,7 +26,6 @@
     "pod:clean:force": "sudo rm -rf ~/Library/Caches/CocoaPods",
     "ios:clean": "cd ios && xcodebuild clean",
     "ios:clean:force": "rm -rf ~/Library/Developer/Xcode/DerivedData/*",
-    "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "oss": "license-checker --json --out ./src/assets/oss.json"
