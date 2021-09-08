@@ -9,6 +9,12 @@ import { ChatRoomType } from "./../../../__generated__/globalTypes";
 // GraphQL query operation: chatRoom
 // ====================================================
 
+export interface chatRoom_chatRoom_iUserChatRoomInfo_user {
+  __typename: "User";
+  id: string;
+  notReadChatCount: number;
+}
+
 export interface chatRoom_chatRoom_iUserChatRoomInfo {
   __typename: "UserChatRoomInfo";
   id: string;
@@ -16,6 +22,7 @@ export interface chatRoom_chatRoom_iUserChatRoomInfo {
   notificated: boolean;
   blocked: boolean;
   notReadChatCount: number;
+  user: chatRoom_chatRoom_iUserChatRoomInfo_user;
 }
 
 export interface chatRoom_chatRoom_userChatRoomInfos_user {
@@ -50,15 +57,8 @@ export interface chatRoom_chatRoom {
   recentChat: chatRoom_chatRoom_recentChat | null;
 }
 
-export interface chatRoom_iUser {
-  __typename: "User";
-  id: string;
-  notReadChatCount: number;
-}
-
 export interface chatRoom {
   chatRoom: chatRoom_chatRoom;
-  iUser: chatRoom_iUser;
 }
 
 export interface chatRoomVariables {

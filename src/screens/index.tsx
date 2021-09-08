@@ -35,6 +35,7 @@ import SelectBottomSheet, { SelectBottomSheetProps } from '../components/selecto
 import UserCertification from './UserCertification';
 import ImageDetail from './ImageDetail';
 import PetDetail from './PetDetail';
+import Report from './Report';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -119,6 +120,7 @@ const Navigation = () => {
                     <Stack.Screen name='ChatDetail' component={ChatDetail} />
                     <Stack.Screen name='UserCertification' component={UserCertification} />
                     <Stack.Screen name='ImageDetail' component={ImageDetail} />
+                    <Stack.Screen name='Report' component={Report} />
                 </Stack.Navigator>
             </NavigationContainer>
         </AuthContext.Provider>

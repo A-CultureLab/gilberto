@@ -59,6 +59,7 @@ const ChatDetail = () => {
 
     // android backbutton handler listner for drawer layout close
     useEffect(() => {
+        if (IS_IOS) return
         if (!isDrawerOpened || !isScreenFocused) return
         const listner = BackHandler.addEventListener('hardwareBackPress', () => {
             drawerRef.current?.closeDrawer()

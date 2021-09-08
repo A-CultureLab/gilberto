@@ -9,7 +9,7 @@ export const IAMPORT_CODE = 'imp01398045'
 export const APPSTORE_ID = '1576824009'
 export const PLAYSTORE_PACKAGE_NAME = 'com.gilberto.silva'
 
-const PROD_TEST_MODE = true
+const PROD_TEST_MODE = false
 // const LOCAL_IP = '192.168.218.254'
 const LOCAL_IP = '192.168.35.105'
 // const LOCAL_IP = '192.168.10.22'
@@ -114,3 +114,16 @@ export const DEFAULT_REGION: Region = {
 export const RATE_OPEN_TIMES_KEY = '@OPEN_TIMES'
 export const IS_RATED = '@IS_RATED'
 export const RATE_PERIOD = 50
+
+export const REPORT_USER_REASONS = [
+    '성희롱, 욕설등 혐오 표현',
+    '나이, 성별등의 정보가 실제와 다름',
+    '지나치게 채팅을 많이 보냄',
+    '광고, 홍보'
+]
+export const REPORT_CHAT_REASONS = [
+    '성희롱, 욕설등 혐오 표현'
+]
+export const REPORT_CHAT_ROOM_REASONS = [
+    '성희롱, 욕설등 혐오 표현',
+]

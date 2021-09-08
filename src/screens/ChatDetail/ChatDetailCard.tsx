@@ -12,6 +12,7 @@ import { useCallback } from 'react'
 import useGlobalUi from '../../hooks/useGlobalUi'
 import Clipboard from '@react-native-clipboard/clipboard'
 import { useDeleteChat } from '../../graphql/chat'
+import { ReportProps } from '../Report'
 
 
 const IMAGE_LONG_PRESS_OPTIONS = ['신고하기']
@@ -44,7 +45,12 @@ const ChatDetailCard: React.FC<chats_chats> = (props) => {
             onSelect: (i) => {
                 const option = currentOption[i]
                 if (option === '복사하기') Clipboard.setString(message || '')
-                else if (option === '신고하기') { } // TODO
+                else if (option === '신고하기') {
+                    const params: ReportProps = {
+                        chatId: id
+                    }
+                    navigate('Report', params)
+                }
                 else if (option === '삭제하기') {
                     setTimeout(() => {
                         confirm({
@@ -59,7 +65,7 @@ const ChatDetailCard: React.FC<chats_chats> = (props) => {
                 }
             }
         })
-    }, [selector, isIUser, message, image, isDeleted])
+    }, [selector, isIUser, message, image, isDeleted, id])
 
 
     if (isIUser) return ( // iUserMessageCard

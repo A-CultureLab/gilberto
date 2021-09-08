@@ -222,7 +222,7 @@ const Home = () => {
     const onRate = useCallback(async () => {
         const openTimes = Number(await AsyncStorage.getItem(RATE_OPEN_TIMES_KEY) || 0)
         const isRated = !!(await AsyncStorage.getItem(IS_RATED))
-        console.log(openTimes)
+
         await AsyncStorage.setItem(RATE_OPEN_TIMES_KEY, (openTimes + 1).toString())
         if (isRated) return
 

@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
-import React from 'react'
+import React, { useContext } from 'react'
 import { useCallback } from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
@@ -7,12 +7,14 @@ import { ActivityIndicator, FlatList, Pressable, StyleSheet, Text, View } from '
 import FastImage from 'react-native-fast-image'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Icon from 'react-native-vector-icons/MaterialIcons'
+import { AuthContext } from '..'
 import { ChatRoomType } from '../../../__generated__/globalTypes'
 import { COLOR1, COLOR2, COLOR3, GRAY2, GRAY3, STATUSBAR_HEIGHT } from '../../constants/styles'
 import { useExitChatRoom } from '../../graphql/chatRoom'
 import { useUpdateUserChatRoomInfo } from '../../graphql/userChatRoomInfo'
 import { chatRoom_chatRoom } from '../../graphql/__generated__/chatRoom'
 import useGlobalUi from '../../hooks/useGlobalUi'
+import { ReportProps } from '../Report'
 
 interface ChatDetailDrawerProps {
     data: chatRoom_chatRoom
@@ -23,6 +25,7 @@ const ChatDetailDrawer: React.FC<ChatDetailDrawerProps> = ({ data }) => {
     const { navigate, goBack } = useNavigation()
     const { bottom } = useSafeAreaInsets()
     const { confirm } = useGlobalUi()
+    const { user } = useContext(AuthContext)
 
     const [updateUserChatRoomInfo] = useUpdateUserChatRoomInfo()
     const [exitChatRoom, { loading: exitChatRoomLoading }] = useExitChatRoom({ variables: { id: data.id } })
@@ -62,6 +65,15 @@ const ChatDetailDrawer: React.FC<ChatDetailDrawerProps> = ({ data }) => {
         })
     }, [])
 
+    const onReport = useCallback(() => {
+        console.log(data.type)
+        const params: ReportProps = {
+            chatRoomId: data.type === ChatRoomType.group ? data.id : undefined,
+            userId: data.type === ChatRoomType.private ? data.userChatRoomInfos.find(v => v.user.id !== user?.uid)?.user.id || '' : undefined
+        }
+        navigate('Report', params)
+    }, [data, user])
+
 
     return (
         <View style={styles.container} >
@@ -83,7 +95,7 @@ const ChatDetailDrawer: React.FC<ChatDetailDrawerProps> = ({ data }) => {
                     {data.type === ChatRoomType.private && <Pressable onPress={() => setBlocked(prev => !prev)} android_ripple={{ color: GRAY2 }} style={styles.settingsContainer}  >
                         <Text>{data.iUserChatRoomInfo.blocked ? '차단해제' : '차단하기'}</Text>
                     </Pressable>}
-                    <Pressable android_ripple={{ color: GRAY2 }} style={styles.settingsContainer}  >
+                    <Pressable onPress={onReport} android_ripple={{ color: GRAY2 }} style={styles.settingsContainer}  >
                         <Text>신고하기</Text>
                     </Pressable>
                     <Text style={[styles.title, { marginTop: 64 }]} >대화상대</Text>
