@@ -6,8 +6,10 @@ export const IS_ANDROID = Platform.OS === 'android'
 export const IS_IOS = Platform.OS === 'ios'
 
 export const IAMPORT_CODE = 'imp01398045'
+export const APPSTORE_ID = '1576824009'
+export const PLAYSTORE_PACKAGE_NAME = 'com.gilberto.silva'
 
-const PROD_TEST_MODE = false
+const PROD_TEST_MODE = true
 // const LOCAL_IP = '192.168.218.254'
 const LOCAL_IP = '192.168.35.105'
 // const LOCAL_IP = '192.168.10.22'
@@ -108,3 +110,7 @@ export const DEFAULT_REGION: Region = {
     ...DEFAULT_REGION_LAT_LOG,
     ...DEFAULT_REGION_DELTA
 }
+
+export const RATE_OPEN_TIMES_KEY = '@OPEN_TIMES'
+export const IS_RATED = '@IS_RATED'
+export const RATE_PERIOD = 50

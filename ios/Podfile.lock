@@ -477,6 +477,8 @@ PODS:
     - React-perflogger (= 0.65.1)
   - RNAppleAuthentication (2.1.2):
     - React-Core
+  - RNCAsyncStorage (1.15.7):
+    - React-Core
   - RNCClipboard (1.8.4):
     - React-Core
   - RNCMaskedView (0.1.11):
@@ -511,6 +513,8 @@ PODS:
     - React-Core
     - React-RCTImage
     - TOCropViewController
+  - RNRate (1.2.6):
+    - React-Core
   - RNReanimated (2.3.0-alpha.2):
     - DoubleConversion
     - FBLazyVector
@@ -621,6 +625,7 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNAppleAuthentication (from `../node_modules/@invertase/react-native-apple-authentication`)"
+  - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCClipboard (from `../node_modules/@react-native-clipboard/clipboard`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
@@ -631,6 +636,7 @@ DEPENDENCIES:
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
+  - RNRate (from `../node_modules/react-native-rate`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -761,6 +767,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNAppleAuthentication:
     :path: "../node_modules/@invertase/react-native-apple-authentication"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCClipboard:
     :path: "../node_modules/@react-native-clipboard/clipboard"
   RNCMaskedView:
@@ -781,6 +789,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-gesture-handler"
   RNImageCropPicker:
     :path: "../node_modules/react-native-image-crop-picker"
+  RNRate:
+    :path: "../node_modules/react-native-rate"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -870,6 +880,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 85187f19dd9c47a7c102f9994f9d14e4dc2110de
   ReactCommon: eafed38eec7b591c31751bfa7494801618460459
   RNAppleAuthentication: e95bcfbd044013667f35c5ca20ae17d39500c009
+  RNCAsyncStorage: 7102fe8985f889579a3ae148d957bbb3f308122b
   RNCClipboard: ddd4d291537f1667209c9c405aaa4307297e252e
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNCPushNotificationIOS: 5ee247e594d0b5df3cd7be74b51035a0d91807eb
@@ -880,6 +891,7 @@ SPEC CHECKSUMS:
   RNFBMessaging: 78808bc3dd8caedbbeeb770bbbe3ffd3ecd08df0
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNImageCropPicker: 35a3ceb837446fa11547704709bb22b5fac6d584
+  RNRate: cb88d5a0aa7be8bfae67dafbbbba2c9cd5e6faf2
   RNReanimated: f89561404f0efaa5352b627dc35e5a97a845a2cd
   RNScreens: eb0dfb2d6b21d2d7f980ad46b14eb306d2f1062e
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f

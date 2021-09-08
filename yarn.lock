@@ -1347,6 +1347,13 @@
   resolved "https://registry.yarnpkg.com/@oclif/screen/-/screen-1.0.4.tgz#b740f68609dfae8aa71c3a6cab15d816407ba493"
   integrity sha512-60CHpq+eqnTxLZQ4PGHYNwUX572hgpMHGPtTWMjdTMsAvlm69lZV/4ly6O3sAYkomo4NggGcomrDpBe34rxUqw==
 
+"@react-native-async-storage/async-storage@^1.15.7":
+  version "1.15.7"
+  resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.15.7.tgz#736ac5cfe211b081e70389e80c237398d1451f08"
+  integrity sha512-ctD51BxjBxSSZ/3xCxQ//e10nP3rWFuOABsOGCGCqCXO4ypznK+fcWONHI6fIZubfV5KdyBJnNXcKtXRjocE5Q==
+  dependencies:
+    merge-options "^3.0.4"
+
 "@react-native-clipboard/clipboard@^1.8.2":
   version "1.8.4"
   resolved "https://registry.yarnpkg.com/@react-native-clipboard/clipboard/-/clipboard-1.8.4.tgz#4bc1fb00643688e489d8220cd635844ab5c066f9"
@@ -5197,6 +5204,11 @@ is-observable@^1.1.0:
   dependencies:
     symbol-observable "^1.1.0"
 
+is-plain-obj@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/is-plain-obj/-/is-plain-obj-2.1.0.tgz#45e42e37fccf1f40da8e5f76ee21515840c09287"
+  integrity sha512-YWnfyRwxL/+SsrWYfOpUtz5b3YD+nyfkHvjbcanzk8zgyO4ASD67uVMRt8k5bM4lLMDnXfriRhOpemw+NfT1eA==
+
 is-plain-object@^2.0.3, is-plain-object@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/is-plain-object/-/is-plain-object-2.0.4.tgz#2c163b3fafb1b606d9d17928f05c2a1c38e07677"
@@ -6274,6 +6286,13 @@ mdurl@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/mdurl/-/mdurl-1.0.1.tgz#fe85b2ec75a59037f2adfec100fd6c601761152e"
   integrity sha1-/oWy7HWlkDfyrf7BAP1sYBdhFS4=
+
+merge-options@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/merge-options/-/merge-options-3.0.4.tgz#84709c2aa2a4b24c1981f66c179fe5565cc6dbb7"
+  integrity sha512-2Sug1+knBjkaMsMgf1ctR1Ujx+Ayku4EdJN4Z+C2+JzoeF7A3OZ9KM2GY0CpQS51NR61LTurMJrRKPhSs3ZRTQ==
+  dependencies:
+    is-plain-obj "^2.1.0"
 
 merge-stream@^2.0.0:
   version "2.0.0"
@@ -7605,6 +7624,11 @@ react-native-push-notification@^7.4.0:
   version "7.4.0"
   resolved "https://registry.yarnpkg.com/react-native-push-notification/-/react-native-push-notification-7.4.0.tgz#81192356eddfee8eeaf72a9a696c7c90bf5b0ece"
   integrity sha512-Ac3Ep71e2D8Q/Vy0OHBAO5JwhsFsNSuf9knkpXQWS0B9488nIZJLEMuTpF8610xPvGw7XxVrL/q0oZO5F1pOzw==
+
+react-native-rate@^1.2.6:
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/react-native-rate/-/react-native-rate-1.2.6.tgz#85c817caf0feac459bf9d4eb8fd9a245932b0f4d"
+  integrity sha512-sCAwNo9DxM7TA6Dwc81WXboPu+UppXkkUiAxKuh31KF+VXbknhwKNw5sUzCaJUJ3M5PKV+WKgfYrAPoByQRVww==
 
 react-native-reanimated@2.3.0-alpha.2:
   version "2.3.0-alpha.2"

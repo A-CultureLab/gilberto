@@ -47,7 +47,6 @@ const useImageUpload = (fileName = 'image') => {
                     ...option,
                     multiple: false,
                 })
-            console.log(path)
             setImageTemp(path) // 미리보기용
 
             const imageFile = generateImageToRNFile(path, fileName)
@@ -76,7 +75,6 @@ const useImageUpload = (fileName = 'image') => {
                 closeToSelect: true,
                 onSelect: async (i) => {
                     try {
-                        console.log(i)
                         if (i === -1) throw new Error('이미지 업로드 취소')
                         await new Promise(res => setTimeout(res, 500)) // ios modal 띄워저 있는동안 호출하면 오류남
                         const uploadData = await upload({ ...option, camera: i === 0 ? true : false }, path)

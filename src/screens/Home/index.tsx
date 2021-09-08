@@ -1,5 +1,5 @@
 import { COLOR1, COLOR2, DEFAULT_SHADOW, HEIGHT, STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles';
-import { DEFAULT_REGION, DEFAULT_REGION_DELTA, IS_IOS } from '../../constants/values';
+import { APPSTORE_ID, DEFAULT_REGION, DEFAULT_REGION_DELTA, IS_IOS, IS_RATED, PLAYSTORE_PACKAGE_NAME, RATE_OPEN_TIMES_KEY, RATE_PERIOD } from '../../constants/values';
 import { FlatList, StyleSheet, Text, View } from 'react-native'
 import { IS_SIGNEDUP, useUpdateFcmToken } from '../../graphql/user';
 import PushNotification, { Importance } from 'react-native-push-notification';
@@ -27,6 +27,9 @@ import HomeRefetchButton from './HomeRefetchButton';
 import { petGroupByAddress_petGroupByAddress_petGroup } from '../../graphql/__generated__/petGroupByAddress';
 import Animated, { useSharedValue } from 'react-native-reanimated';
 import { PermissionsAndroid } from 'react-native';
+import Rate from 'react-native-rate';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import useGlobalUi from '../../hooks/useGlobalUi';
 
 interface HomeScreenContextInterface {
     selectedGroupByAddress: petGroupByAddress_petGroupByAddress_petGroup | null
@@ -48,6 +51,7 @@ const Home = () => {
     const { navigate } = useNavigation()
 
     const { user } = useContext(AuthContext)
+    const { confirm } = useGlobalUi()
     const { logout } = useAuth()
     const [updateFcmToken] = useUpdateFcmToken()
     const { bottom } = useSafeAreaInsets()
@@ -212,6 +216,38 @@ const Home = () => {
         fcmInit()
         return messaging().onTokenRefresh(fcmRefresh)
     }, [user])
+    // ------------------------------------------------------------------------------------------------------------------------------------------------------//
+    // 평가요청
+
+    const onRate = useCallback(async () => {
+        const openTimes = Number(await AsyncStorage.getItem(RATE_OPEN_TIMES_KEY) || 0)
+        const isRated = !!(await AsyncStorage.getItem(IS_RATED))
+        console.log(openTimes)
+        await AsyncStorage.setItem(RATE_OPEN_TIMES_KEY, (openTimes + 1).toString())
+        if (isRated) return
+
+        if (openTimes % RATE_PERIOD === 0) {
+            confirm({
+                title: '평가남기기',
+                content: '평가는 개발자에게 힘이 됩니다!',
+                noText: '다음에',
+                yesText: '지금',
+                onPress: (isYes) => {
+                    if (!isYes) return
+                    Rate.rate({
+                        AppleAppID: APPSTORE_ID,
+                        GooglePackageName: PLAYSTORE_PACKAGE_NAME,
+                        preferInApp: true,
+                        openAppStoreIfInAppFails: true
+                    }, async (success) => {
+                        if (success) await AsyncStorage.setItem(IS_RATED, JSON.stringify(true))
+                    })
+                }
+            })
+        }
+    }, [])
+
+    useEffect(() => { onRate() }, [])
     // ------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 
