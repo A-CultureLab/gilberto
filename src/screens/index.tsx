@@ -36,6 +36,12 @@ import UserCertification from './UserCertification';
 import ImageDetail from './ImageDetail';
 import PetDetail from './PetDetail';
 import Report from './Report';
+import { useApolloClient } from '@apollo/client';
+import { IS_UPDATE_REQUIRE } from '../graphql/util';
+import { isUpdateRequire, isUpdateRequireVariables } from '../graphql/__generated__/isUpdateRequire';
+import deviceInfoModule from 'react-native-device-info';
+import SpInAppUpdates, { AndroidUpdateType, IAUUpdateKind } from 'sp-react-native-in-app-updates';
+import { IS_ANDROID } from '../constants/values';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -148,6 +154,8 @@ export const GlobalUIContext = createContext<GlobalUiContextType>({} as any)
 
 const GlobalUiWrapper = () => {
 
+    const { query } = useApolloClient()
+
     const [alert, setAlert] = useState<GlobalAlertProps>({
         visible: false,
         content: '',
@@ -186,9 +194,25 @@ const GlobalUiWrapper = () => {
 
 
     useEffect(() => {
+        // splash 숨기기
         setTimeout(() => {
             SplashScreen.hide()
-        }, 750)
+        }, 750);
+
+        // 버전 체크
+        (async () => {
+            const { data } = await query<isUpdateRequire, isUpdateRequireVariables>({
+                query: IS_UPDATE_REQUIRE,
+                variables: { version: deviceInfoModule.getVersion() }
+            })
+            console.log("isUpdateRequire : " + data.isUpdateRequire)
+            if (data.isUpdateRequire) {
+                const inAppUpdates = new SpInAppUpdates(__DEV__)
+                await inAppUpdates.startUpdate({
+                    updateType: IS_ANDROID ? IAUUpdateKind.IMMEDIATE : undefined,
+                })
+            }
+        })()
     }, [])
 
 

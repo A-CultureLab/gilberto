@@ -139,6 +139,7 @@ PODS:
   - GoogleUtilities/UserDefaults (7.5.2):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.7.0)
+  - hermes-engine (0.8.1)
   - iamport-react-native (2.0.0-rc.0):
     - React-Core
   - JWT (3.0.0-beta.14):
@@ -214,6 +215,12 @@ PODS:
     - DoubleConversion
     - fmt (~> 6.2.1)
     - glog
+  - RCT-Folly/Futures (2021.04.26.00):
+    - boost-for-react-native
+    - DoubleConversion
+    - fmt (~> 6.2.1)
+    - glog
+    - libevent
   - RCTRequired (0.65.1)
   - RCTTypeSafety (0.65.1):
     - FBLazyVector (= 0.65.1)
@@ -379,6 +386,17 @@ PODS:
     - React-jsinspector (= 0.65.1)
     - React-perflogger (= 0.65.1)
     - React-runtimeexecutor (= 0.65.1)
+  - React-hermes (0.65.1):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2021.04.26.00)
+    - RCT-Folly/Futures (= 2021.04.26.00)
+    - React-cxxreact (= 0.65.1)
+    - React-jsi (= 0.65.1)
+    - React-jsiexecutor (= 0.65.1)
+    - React-jsinspector (= 0.65.1)
+    - React-perflogger (= 0.65.1)
   - React-jsi (0.65.1):
     - boost-for-react-native (= 1.63.0)
     - DoubleConversion
@@ -591,8 +609,10 @@ DEPENDENCIES:
   - FlipperKit/FlipperKitUserDefaultsPlugin (= 0.93.0)
   - FlipperKit/SKIOSNetworkPlugin (= 0.93.0)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - hermes-engine (~> 0.8.1)
   - iamport-react-native (from `../node_modules/iamport-react-native`)
   - "kakao-login (from `../node_modules/@react-native-seoul/kakao-login`)"
+  - libevent (~> 2.1.12)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
@@ -603,6 +623,7 @@ DEPENDENCIES:
   - React-Core/RCTWebSocket (from `../node_modules/react-native/`)
   - React-CoreModules (from `../node_modules/react-native/React/CoreModules`)
   - React-cxxreact (from `../node_modules/react-native/ReactCommon/cxxreact`)
+  - React-hermes (from `../node_modules/react-native/ReactCommon/hermes`)
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
@@ -668,6 +689,7 @@ SPEC REPOS:
     - GoogleDataTransport
     - GoogleUtilities
     - GTMSessionFetcher
+    - hermes-engine
     - JWT
     - KakaoSDK
     - KakaoSDKAuth
@@ -723,6 +745,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/React/CoreModules"
   React-cxxreact:
     :path: "../node_modules/react-native/ReactCommon/cxxreact"
+  React-hermes:
+    :path: "../node_modules/react-native/ReactCommon/hermes"
   React-jsi:
     :path: "../node_modules/react-native/ReactCommon/jsi"
   React-jsiexecutor:
@@ -832,6 +856,7 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 85fd18ff3019bb85d3f2c551d04c481dedf71fc9
   GoogleUtilities: 8de2a97a17e15b6b98e38e8770e2d129a57c0040
   GTMSessionFetcher: 43748f93435c2aa068b1cbe39655aaf600652e91
+  hermes-engine: 7dcd1dbd908e6353bd7e4a4add72dba7bf76bf84
   iamport-react-native: 418f463f15566324e80325d7f5bc590ece3b80c9
   JWT: ef71dfb03e1f842081e64dc42eef0e164f35d251
   kakao-login: 8569f9925c765b9cea5b27ded4629c298b4f85d0
@@ -858,6 +883,7 @@ SPEC CHECKSUMS:
   React-Core: 001e21bad5ca41e59e9d90df5c0b53da04c3ce8e
   React-CoreModules: 0a0410ab296a62ab38e2f8d321e822d1fcc2fe49
   React-cxxreact: 8d904967134ae8ff0119c5357c42eaae976806f8
+  React-hermes: ae17bfbf550cefc6331b9544f00b66ad1d9b9d99
   React-jsi: 12913c841713a15f64eabf5c9ad98592c0ec5940
   React-jsiexecutor: 43f2542aed3c26e42175b339f8d37fe3dd683765
   React-jsinspector: 41e58e5b8e3e0bf061fdf725b03f2144014a8fb0
@@ -903,6 +929,6 @@ SPEC CHECKSUMS:
   Yoga: aa0cb45287ebe1004c02a13f279c55a95f1572f4
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: cdaba4cfab1f1e408a144f0797e8cba1674e4054
+PODFILE CHECKSUM: 6636ee095e0ec1e13db724e137a1a5a87f2d1b8d
 
 COCOAPODS: 1.11.0

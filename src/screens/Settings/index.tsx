@@ -12,7 +12,7 @@ import { useNavigation } from '@react-navigation/native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import deviceInfoModule from 'react-native-device-info'
 import CodePush from 'react-native-code-push'
-import SpInAppUpdates, { AndroidUpdateType } from 'sp-react-native-in-app-updates'
+import SpInAppUpdates, { AndroidUpdateType, IAUUpdateKind } from 'sp-react-native-in-app-updates'
 import { IS_ANDROID } from '../../constants/values'
 
 const inAppUpdates = new SpInAppUpdates(__DEV__)
@@ -35,7 +35,7 @@ const Settings = () => {
             title: `버전 ${deviceInfoModule.getVersion()} (${shouldUpdate ? '업데이트 가능' : '최신'})`,
             onPress: () => {
                 if (!shouldUpdate) return
-                inAppUpdates.startUpdate({ updateType: IS_ANDROID ? AndroidUpdateType.FLEXIBLE : undefined })
+                inAppUpdates.startUpdate({ updateType: IS_ANDROID ? IAUUpdateKind.FLEXIBLE : undefined })
             },
             onLongPress: async () => {
                 const data = await CodePush.getUpdateMetadata()
