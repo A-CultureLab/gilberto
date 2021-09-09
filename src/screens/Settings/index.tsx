@@ -3,20 +3,28 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 
 import { AuthContext } from '..'
 import Header from '../../components/headers/Header'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ScreenLayout from '../../components/layout/ScreenLayout'
 import useAuth from '../../hooks/useAuth'
 import { useContext } from 'react'
 import useGlobalUi from '../../hooks/useGlobalUi'
 import { useNavigation } from '@react-navigation/native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import deviceInfoModule from 'react-native-device-info'
+import CodePush from 'react-native-code-push'
+import SpInAppUpdates, { AndroidUpdateType } from 'sp-react-native-in-app-updates'
+import { IS_ANDROID } from '../../constants/values'
+
+const inAppUpdates = new SpInAppUpdates(__DEV__)
 
 const Settings = () => {
     const { bottom } = useSafeAreaInsets()
     const { navigate } = useNavigation()
-    const { confirm } = useGlobalUi()
+    const { confirm, toast } = useGlobalUi()
     const { logout } = useAuth()
     const { user } = useContext(AuthContext)
+
+    const [shouldUpdate, setShouldUpdate] = useState(false)
 
     const MENUS = [
         {
@@ -24,8 +32,15 @@ const Settings = () => {
             onPress: () => navigate('OpenSourceLicense')
         },
         {
-            title: `버전`,
-            onPress: () => { }
+            title: `버전 ${deviceInfoModule.getVersion()} (${shouldUpdate ? '업데이트 가능' : '최신'})`,
+            onPress: () => {
+                if (!shouldUpdate) return
+                inAppUpdates.startUpdate({ updateType: IS_ANDROID ? AndroidUpdateType.FLEXIBLE : undefined })
+            },
+            onLongPress: async () => {
+                const data = await CodePush.getUpdateMetadata()
+                toast({ content: data?.label || '오류' })
+            }
         },
         {
             title: '로그아웃',
@@ -45,17 +60,25 @@ const Settings = () => {
             onPress: () => navigate('Withdraw')
         }
     ]
-
     if (!user) MENUS.length = 2 // 미 로그인시 로그아웃, 탈퇴하기 기능은 제공하지 않음
+
+    useEffect(() => {
+        (async () => {
+            const result = await inAppUpdates.checkNeedsUpdate({ curVersion: deviceInfoModule.getVersion() })
+            setShouldUpdate(result.shouldUpdate)
+        })()
+    }, [])
+
 
     return (
         <ScreenLayout>
             <Header title='설정' />
             <View>
-                {MENUS.map(({ onPress, title }) => (
+                {MENUS.map(({ onPress, title, onLongPress }) => (
                     <Pressable
                         key={title}
                         onPress={onPress}
+                        onLongPress={onLongPress}
                         android_ripple={{ color: GRAY2 }}
                         style={styles.menuContainer}
                     >

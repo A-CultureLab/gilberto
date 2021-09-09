@@ -11,8 +11,9 @@ export const PLAYSTORE_PACKAGE_NAME = 'com.gilberto.silva'
 
 const PROD_TEST_MODE = false
 // const LOCAL_IP = '192.168.218.254'
-const LOCAL_IP = '192.168.35.105'
+// const LOCAL_IP = '192.168.35.105'
 // const LOCAL_IP = '192.168.10.22'
+const LOCAL_IP = '192.168.0.135'
 
 export const GRAPHQL_SERVER_URL = (() => {
     if (!__DEV__ || PROD_TEST_MODE) return 'https://api-server-dev-5gq6bfkwja-du.a.run.app/graphql'
