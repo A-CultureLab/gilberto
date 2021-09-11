@@ -18,6 +18,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import genderGenerator from '../../lib/genderGenerator'
 
+
 const Profile = () => {
 
     const { data: userData } = useIUser()

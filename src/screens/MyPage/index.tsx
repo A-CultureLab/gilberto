@@ -19,8 +19,8 @@ const MyPage = () => {
 
     const { navigate } = useNavigation()
     const { user } = useContext(AuthContext)
-    const { data: userData } = useIUser()
-    const { data: petData } = useMyPets()
+    const { data: userData } = useIUser({ skip: !user })
+    const { data: petData } = useMyPets({ skip: !user })
     const { bottom } = useSafeAreaInsets()
 
 

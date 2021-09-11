@@ -74,6 +74,14 @@ const ChatDetailDrawer: React.FC<ChatDetailDrawerProps> = ({ data }) => {
         navigate('Report', params)
     }, [data, user])
 
+    const onBlock = useCallback(() => {
+        confirm({
+            title: blocked ? '차단해제' : '차단하기',
+            content: blocked ? '차단 해제하시겠습니까?' : '차단시 서로 채팅을 보낼 수 없습니다',
+            onPress: () => setBlocked(!blocked)
+        })
+    }, [blocked])
+
 
     return (
         <View style={styles.container} >
@@ -92,8 +100,8 @@ const ChatDetailDrawer: React.FC<ChatDetailDrawerProps> = ({ data }) => {
                 )}
                 ListHeaderComponent={<>
                     <Text style={styles.title} >설정</Text>
-                    {data.type === ChatRoomType.private && <Pressable onPress={() => setBlocked(prev => !prev)} android_ripple={{ color: GRAY2 }} style={styles.settingsContainer}  >
-                        <Text>{data.iUserChatRoomInfo.blocked ? '차단해제' : '차단하기'}</Text>
+                    {data.type === ChatRoomType.private && <Pressable onPress={onBlock} android_ripple={{ color: GRAY2 }} style={styles.settingsContainer}  >
+                        <Text>{blocked ? '차단해제' : '차단하기'}</Text>
                     </Pressable>}
                     <Pressable onPress={onReport} android_ripple={{ color: GRAY2 }} style={styles.settingsContainer}  >
                         <Text>신고하기</Text>

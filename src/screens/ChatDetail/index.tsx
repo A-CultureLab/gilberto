@@ -29,7 +29,7 @@ const ChatDetail = () => {
 
     const drawerRef = useRef<DrawerLayout>(null)
 
-    const { addListener } = useNavigation()
+    const { addListener, goBack, navigate } = useNavigation()
     const { params: { id, userId } } = useRoute<Route<'ChatDetail', ChatDetailProps>>()
     const { bottom } = useSafeAreaInsets()
     const { user } = useContext(AuthContext)
@@ -77,6 +77,13 @@ const ChatDetail = () => {
         return () => {
             focusListner()
             blurListner()
+        }
+    }, [])
+
+    useEffect(() => {
+        if (!user) {
+            goBack()
+            navigate('Login')
         }
     }, [])
 

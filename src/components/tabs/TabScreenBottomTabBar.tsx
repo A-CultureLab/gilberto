@@ -3,7 +3,7 @@ Home, Friend 스크린의 하단 네비게이션 바
 */
 
 import { useNavigation, useRoute } from '@react-navigation/native'
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { COLOR1, COLOR3, DEFAULT_SHADOW, GRAY1, GRAY2, GRAY3, WIDTH } from '../../constants/styles'
@@ -13,6 +13,7 @@ import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } fr
 import { useEffect } from 'react'
 import { useApolloClient } from '@apollo/client'
 import { useIUser } from '../../graphql/user'
+import { AuthContext } from '../../screens'
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
 
@@ -45,8 +46,9 @@ const TabScreenBottomTabBar: React.FC<TabScreenBottomTabBarProps> = ({ smallMode
     const { bottom } = useSafeAreaInsets()
     const { name: routeName } = useRoute()
     const { navigate } = useNavigation()
+    const { user } = useContext(AuthContext)
 
-    const { data } = useIUser()
+    const { data } = useIUser({ skip: !user })
     const animation = useSharedValue(1)
 
     useEffect(() => {

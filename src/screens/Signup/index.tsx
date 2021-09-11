@@ -38,7 +38,7 @@ const Signup = () => {
             instagramId: '',
             introduce: '',
             email: auth().currentUser?.email || undefined,
-            image: auth().currentUser?.photoURL || undefined
+            // image: auth().currentUser?.photoURL || undefined
         }
     })
 
