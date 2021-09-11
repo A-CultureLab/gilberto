@@ -226,7 +226,7 @@ const Home = () => {
         await AsyncStorage.setItem(RATE_OPEN_TIMES_KEY, (openTimes + 1).toString())
         if (isRated) return
 
-        if (openTimes % RATE_PERIOD === 0) {
+        if (openTimes !== 0 && openTimes % RATE_PERIOD === 0) {
             confirm({
                 title: '평가남기기',
                 content: '평가는 개발자에게 힘이 됩니다!',
