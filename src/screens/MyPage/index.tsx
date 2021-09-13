@@ -38,12 +38,17 @@ const MyPage = () => {
         {
             title: '이용약관',
             icon: <Icon name='check-circle' color={GRAY2} size={16} />,
-            onPress: () => navigate('WebView', { title: '서비스 이용약관', url: 'https://38do.com/agreement' })
+            onPress: () => navigate('WebView', { title: '서비스 이용약관', url: 'https://38do.kr/agreement' })
         },
         {
             title: '개인정보 처리방침',
             icon: <Icon name='verified-user' color={GRAY2} size={16} />,
-            onPress: () => navigate('WebView', { title: '개인정보 처리방침', url: 'https://38do.com/privacy' })
+            onPress: () => navigate('WebView', { title: '개인정보 처리방침', url: 'https://38do.kr/privacy-policy' })
+        },
+        {
+            title: '위치기반 서비스 이용약관',
+            icon: <Icon name='my-location' color={GRAY2} size={16} />,
+            onPress: () => navigate('WebView', { title: '위치기반 서비스 이용약관', url: 'https://38do.kr/agreement-location' })
         }
     ]
 
