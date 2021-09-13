@@ -8,6 +8,7 @@ import ScreenLayout from '../../components/layout/ScreenLayout'
 import SelectBottomSheet from '../../components/selectors/SelectBottomSheet'
 import SelectOrInputBottomSheet from '../../components/selectors/SelectOrInputBottomSheet'
 import { GRAY1, GRAY3 } from '../../constants/styles'
+import { WITHDRAW_REASONS } from '../../constants/values'
 import { useWithdraw } from '../../graphql/user'
 import useAuth from '../../hooks/useAuth'
 import useGlobalUi from '../../hooks/useGlobalUi'
@@ -59,7 +60,7 @@ const Withdraw = () => {
                 />
             </ScreenLayout>
             <SelectOrInputBottomSheet
-                list={['재미없어요', '계정을 새로 만들고 싶어요', '비매너 사용자가 너무 많아요']}
+                list={WITHDRAW_REASONS}
                 onClose={() => setVisible(false)}
                 visible={visible}
                 onSelect={t => setReason(t)}
