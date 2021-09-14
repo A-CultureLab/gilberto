@@ -1,21 +1,18 @@
 // GLOBAL UI
 import Alert, { AlertProps } from '../components/bottomSheets/Alert';
-import { BottomSheetModalProvider, useBottomSheet } from '@gorhom/bottom-sheet'
-import { CHAT_CREATED, useChatCreated } from '../graphql/chat';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 import Confirm, { ConfirmProps } from '../components/bottomSheets/Confirm';
 import { DefaultTheme, NavigationContainer, NavigationContainerRef, Theme } from '@react-navigation/native';
+import { NavigationState } from '@react-navigation/routers'
 import React, { createContext, useEffect, useMemo, useRef, useState } from 'react';
 import Toast, { ToastProps } from '../components/toasts/Toast';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
-import stringHash from 'string-hash'
 
 import Chat from './Chat';
 import ChatDetail from './ChatDetail';
-import Friend from './Friend';
 import Home from './Home'
 import Login from './Login';
-import { MessageTypes } from 'subscriptions-transport-ws';
 import MyPage from './MyPage';
 import OpenSourceLicense from './OpenSourceLicense';
 import PetModify from './PetModify';
@@ -47,6 +44,7 @@ import PushNotification, { Importance } from 'react-native-push-notification';
 import { useUpdateFcmToken } from '../graphql/user';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import notificationIdGenerator from '../utils/notificationIdGenerator';
+import useAppState from 'react-native-appstate-hook';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -81,74 +79,49 @@ export const AuthContext = createContext<{
 const Navigation = () => {
 
     const navigationRef = useRef<NavigationContainerRef>(null)
+    const [navigationState, setNavigationState] = useState<NavigationState>()
+
+    const { appState } = useAppState()
 
     const [user, setUser] = useState<FirebaseAuthTypes.User | null>(auth().currentUser)
 
     const [updateFcmToken] = useUpdateFcmToken()
     const { } = useChatRoomUpdated({ variables: { userId: user?.uid || '' }, skip: !user })
 
-    const authContextValue = useMemo(() => ({
-        user, setUser
-    }), [user])
+    const authContextValue = useMemo(() => ({ user, setUser }), [user])
 
     useEffect(() => {
-        const userUnsubscribe = auth().onUserChanged((user) => {
-            setUser(user)
-        })
-        return () => {
-            userUnsubscribe()
-        }
+        const userUnsubscribe = auth().onUserChanged((user) => setUser(user))
+        return () => { userUnsubscribe() }
     }, [])
 
     useEffect(() => {
-        PushNotification.createChannel(
-            {
-                channelId: "chat",
-                channelName: "채팅",
-                channelDescription: "채팅에 사용되는 채널입니다",
-                playSound: true,
-                soundName: "default",
-                importance: Importance.HIGH,
-                vibrate: true,
-            },
-            (created) => console.log(`createChannel returned '${created}'`)
-        )
-
-        PushNotification.createChannel(
-            {
-                channelId: "chat_no_notificated",
-                channelName: "무음 채팅",
-                channelDescription: "무음 채팅에 사용되는 채널입니다",
-                playSound: false,
-                importance: Importance.LOW,
-                vibrate: false
-            },
-            (created) => console.log(`createChannel returned '${created}'`)
-        )
+        const currentRoute = navigationState?.routes[navigationState.routes.length - 1].name
 
         PushNotification.configure({
             onRegister: ({ token }) => updateFcmToken({ variables: { token } }),
-            onAction: ({ data }) => {
-                console.log(data)
-                if (!data) return
-                if (data.type === 'chat') {
-                    console.log(data.chatRoomId)
-                    navigationRef.current?.navigate('ChatDetail', { id: data.chatRoomId })
-                }
-            },
             onNotification: (notification) => {
-                if (notification.data.type === 'chat') {
-                    console.log(notification.data)
-                    PushNotification.localNotification({
-                        id: notificationIdGenerator(notification.data.chatRoomId),
-                        channelId: !!notification.data.notificated ? 'chat' : 'chat_no_notificated',
-                        title: notification.data.title,
-                        message: notification.data.message,
-                        largeIconUrl: notification.data.image,
-                        playSound: !!notification.data.notificated,
-                    })
+                console.log('onNotification')
+                console.log(notification.data)
+                if (notification.userInteraction) {
+                    if (notification.data.type === 'chat') {
+                        navigationRef.current?.navigate('ChatDetail', { id: notification.data.chatRoomId })
+                    }
                 }
-
+                else {
+                    if (notification.data.type === 'chat' && (currentRoute !== 'ChatDetail' || appState !== 'active')) {
+                        PushNotification.localNotification({
+                            id: notificationIdGenerator(notification.data.chatRoomId),
+                            channelId: !!notification.data.notificated ? 'chat' : 'chat_no_notificated',
+                            title: notification.data.title,
+                            message: notification.data.message,
+                            largeIconUrl: notification.data.image,
+                            playSound: !!notification.data.notificated,
+                            //@ts-ignore
+                            data: notification.data
+                        })
+                    }
+                }
                 notification.finish(PushNotificationIOS.FetchResult.NoData);
             },
             permissions: {
@@ -159,13 +132,48 @@ const Navigation = () => {
             popInitialNotification: true,
             requestPermissions: true
         })
-    }, [user])
+    }, [user, navigationState, appState])
+
+    useEffect(() => {
+        // Channel 생성 Android only
+        PushNotification.createChannel(
+            {
+                channelId: "chat",
+                channelName: "채팅",
+                channelDescription: "채팅에 사용되는 채널입니다",
+                playSound: true,
+                soundName: "default",
+                importance: Importance.HIGH,
+                vibrate: true,
+            },
+            (created) => { }
+        )
+        PushNotification.createChannel(
+            {
+                channelId: "chat_no_notificated",
+                channelName: "무음 채팅",
+                channelDescription: "무음 채팅에 사용되는 채널입니다",
+                playSound: false,
+                importance: Importance.LOW,
+                vibrate: false
+            },
+            (created) => { }
+        )
+        // 앱 꺼져 있을때 notification 눌르고 들어왔을때
+        PushNotification.popInitialNotification((notification) => {
+            if (!notification) return
+            if (notification.data.type === 'chat') {
+                navigationRef.current?.navigate('ChatDetail', { id: notification.data.chatRoomId })
+            }
+        })
+    }, [])
 
 
     return (
         <AuthContext.Provider value={authContextValue} >
             <NavigationContainer
                 ref={navigationRef}
+                onStateChange={(v) => setNavigationState(v)}
                 theme={theme}
             >
                 <Stack.Navigator

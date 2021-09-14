@@ -20,7 +20,7 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import { useChatRoom } from '../../graphql/chatRoom'
 import PushNotification from 'react-native-push-notification'
-import stringHash from 'string-hash'
+import useAppState from 'react-native-appstate-hook';
 import notificationIdGenerator from '../../utils/notificationIdGenerator'
 
 export interface ChatDetailProps {
@@ -35,6 +35,7 @@ const ChatDetail = () => {
     const { addListener, goBack, navigate } = useNavigation()
     const { params: { id, userId } } = useRoute<Route<'ChatDetail', ChatDetailProps>>()
     const { bottom } = useSafeAreaInsets()
+    const { appState } = useAppState()
     const { user } = useContext(AuthContext)
 
     const { data: chatRoomData } = useChatRoom({
@@ -84,13 +85,16 @@ const ChatDetail = () => {
     }, [])
 
     useEffect(() => {
-        // push notification 삭제
-        PushNotification.cancelLocalNotification(notificationIdGenerator(id || '').toString())
         if (!user) {
             goBack()
             navigate('Login')
         }
     }, [])
+
+    useEffect(() => {
+        // push notification 삭제
+        PushNotification.cancelLocalNotification(notificationIdGenerator(id || '').toString())
+    }, [appState])
 
 
     return (
