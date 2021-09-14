@@ -2,7 +2,6 @@ import { useApolloClient } from '@apollo/client'
 import auth from '@react-native-firebase/auth'
 import { useNavigation } from '@react-navigation/core'
 import { useCallback } from 'react'
-import messaging from '@react-native-firebase/messaging'
 
 const useAuth = () => {
 
@@ -10,7 +9,6 @@ const useAuth = () => {
     const client = useApolloClient()
 
     const logout = useCallback(async () => {
-        await messaging().deleteToken()
         await auth().signOut()
 
         await client.clearStore()

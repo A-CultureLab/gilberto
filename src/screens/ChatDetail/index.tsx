@@ -19,6 +19,9 @@ import ChatDetailDrawer from './ChatDetailDrawer'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { useChatRoom } from '../../graphql/chatRoom'
+import PushNotification from 'react-native-push-notification'
+import stringHash from 'string-hash'
+import notificationIdGenerator from '../../utils/notificationIdGenerator'
 
 export interface ChatDetailProps {
     id?: string
@@ -81,6 +84,8 @@ const ChatDetail = () => {
     }, [])
 
     useEffect(() => {
+        // push notification 삭제
+        PushNotification.cancelLocalNotification(notificationIdGenerator(id || '').toString())
         if (!user) {
             goBack()
             navigate('Login')

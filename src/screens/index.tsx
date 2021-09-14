@@ -8,6 +8,7 @@ import { DefaultTheme, NavigationContainer, NavigationContainerRef, Theme } from
 import React, { createContext, useEffect, useMemo, useRef, useState } from 'react';
 import Toast, { ToastProps } from '../components/toasts/Toast';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
+import stringHash from 'string-hash'
 
 import Chat from './Chat';
 import ChatDetail from './ChatDetail';
@@ -42,6 +43,10 @@ import { isUpdateRequire, isUpdateRequireVariables } from '../graphql/__generate
 import deviceInfoModule from 'react-native-device-info';
 import SpInAppUpdates, { AndroidUpdateType, IAUUpdateKind } from 'sp-react-native-in-app-updates';
 import { IS_ANDROID } from '../constants/values';
+import PushNotification, { Importance } from 'react-native-push-notification';
+import { useUpdateFcmToken } from '../graphql/user';
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
+import notificationIdGenerator from '../utils/notificationIdGenerator';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -75,8 +80,11 @@ export const AuthContext = createContext<{
 
 const Navigation = () => {
 
+    const navigationRef = useRef<NavigationContainerRef>(null)
 
     const [user, setUser] = useState<FirebaseAuthTypes.User | null>(auth().currentUser)
+
+    const [updateFcmToken] = useUpdateFcmToken()
     const { } = useChatRoomUpdated({ variables: { userId: user?.uid || '' }, skip: !user })
 
     const authContextValue = useMemo(() => ({
@@ -92,10 +100,72 @@ const Navigation = () => {
         }
     }, [])
 
+    useEffect(() => {
+        PushNotification.createChannel(
+            {
+                channelId: "chat",
+                channelName: "채팅",
+                channelDescription: "채팅에 사용되는 채널입니다",
+                playSound: true,
+                soundName: "default",
+                importance: Importance.HIGH,
+                vibrate: true,
+            },
+            (created) => console.log(`createChannel returned '${created}'`)
+        )
+
+        PushNotification.createChannel(
+            {
+                channelId: "chat_no_notificated",
+                channelName: "무음 채팅",
+                channelDescription: "무음 채팅에 사용되는 채널입니다",
+                playSound: false,
+                importance: Importance.LOW,
+                vibrate: false
+            },
+            (created) => console.log(`createChannel returned '${created}'`)
+        )
+
+        PushNotification.configure({
+            onRegister: ({ token }) => updateFcmToken({ variables: { token } }),
+            onAction: ({ data }) => {
+                console.log(data)
+                if (!data) return
+                if (data.type === 'chat') {
+                    console.log(data.chatRoomId)
+                    navigationRef.current?.navigate('ChatDetail', { id: data.chatRoomId })
+                }
+            },
+            onNotification: (notification) => {
+                if (notification.data.type === 'chat') {
+                    console.log(notification.data)
+                    PushNotification.localNotification({
+                        id: notificationIdGenerator(notification.data.chatRoomId),
+                        channelId: !!notification.data.notificated ? 'chat' : 'chat_no_notificated',
+                        title: notification.data.title,
+                        message: notification.data.message,
+                        largeIconUrl: notification.data.image,
+                        playSound: !!notification.data.notificated,
+                    })
+                }
+
+                notification.finish(PushNotificationIOS.FetchResult.NoData);
+            },
+            permissions: {
+                alert: true,
+                badge: true,
+                sound: true
+            },
+            popInitialNotification: true,
+            requestPermissions: true
+        })
+    }, [user])
+
 
     return (
         <AuthContext.Provider value={authContextValue} >
             <NavigationContainer
+                ref={navigationRef}
                 theme={theme}
             >
                 <Stack.Navigator

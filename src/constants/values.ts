@@ -9,7 +9,7 @@ export const IAMPORT_CODE = 'imp01398045'
 export const APPSTORE_ID = '1576824009'
 export const PLAYSTORE_PACKAGE_NAME = 'com.gilberto.silva'
 
-const PROD_TEST_MODE = true
+const PROD_TEST_MODE = false
 // const LOCAL_IP = '192.168.218.254'
 const LOCAL_IP = '192.168.35.105'
 // const LOCAL_IP = '192.168.10.22'
