@@ -7547,10 +7547,10 @@ react-native-appstate-hook@^1.0.5:
   resolved "https://registry.yarnpkg.com/react-native-appstate-hook/-/react-native-appstate-hook-1.0.5.tgz#2cb53bcee170ccd58e49d02d1649229fb263896d"
   integrity sha512-vwt4ZrBvrxMIJuyzo5D8u/TvazxkJNX7AI6xKAh08LWMfLtIFstnuEzxwKN0joXLITS9NJbC6ayKxUFH2gLNrQ==
 
-react-native-code-push@^7.0.2:
-  version "7.0.2"
-  resolved "https://registry.yarnpkg.com/react-native-code-push/-/react-native-code-push-7.0.2.tgz#da3d29bb4e286507ceb35973c94ed27db4bbcf6c"
-  integrity sha512-cZLirGuEEmPhCjZbuF+iGn+UpM71z9ll27LzlKpZBcaQ1RyZwZW6ka/UfPZsHYEayHJlX3LctA5yEse7ezS8Ow==
+react-native-code-push@7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-code-push/-/react-native-code-push-7.0.1.tgz#f82619ed2aa7da14633073876f3d4b8ee34d93c5"
+  integrity sha512-9NOVuTnaoQO6ZDJKCmPvqIZ36GkXePc+EZE1NkQ+Qtsh2KbHvfBFBrUaw5NmXSzrFNUwwoSFoPpeQzW/yt8CAA==
   dependencies:
     code-push "^4.0.4"
     glob "^7.1.6"
