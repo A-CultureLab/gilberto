@@ -70,7 +70,7 @@ const ChatDetailCard: React.FC<chats_chats> = (props) => {
 
     if (isIUser) return ( // iUserMessageCard
         <View style={styles.iUserMessageCardContainer} >
-            <Text style={styles.date} >{dayjs(createdAt).format('a hh:mm')}</Text>
+            <Text style={styles.date} >{dayjs(createdAt).format('a h:mm')}</Text>
             {image
                 ?
                 <Pressable onLongPress={onLongPress} android_ripple={{ color: GRAY2 }} onPress={() => navigate('ImageDetail', { urls: [image], index: 0 })} >
@@ -112,7 +112,7 @@ const ChatDetailCard: React.FC<chats_chats> = (props) => {
                     </Pressable>
                 </View>
             }
-            <Text style={styles.date} >{dayjs(createdAt).format('a hh:mm')}</Text>
+            <Text style={styles.date} >{dayjs(createdAt).format('a h:mm')}</Text>
         </View>
     )
 }

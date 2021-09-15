@@ -45,6 +45,7 @@ import { useUpdateFcmToken } from '../graphql/user';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import notificationIdGenerator from '../utils/notificationIdGenerator';
 import useAppState from 'react-native-appstate-hook';
+import messaging from '@react-native-firebase/messaging';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -72,6 +73,25 @@ const theme: Theme = {
     }
 }
 
+messaging().setBackgroundMessageHandler(async (message) => {
+    const data: any = message.data
+    console.log(data)
+    if (data.type === 'chat') {
+        PushNotification.localNotification({
+            id: notificationIdGenerator(data.chatRoomId),
+            channelId: !!data.notificated ? 'chat' : 'chat_no_notificated',
+            title: data.title,
+            message: data.message,
+            largeIconUrl: data.image,
+            playSound: !!data.notificated,
+            subText: data.subText,
+            //@ts-ignore
+            data: data
+        })
+        PushNotification.setApplicationIconBadgeNumber(Number(data.notReadChatCount))
+    }
+})
+
 export const AuthContext = createContext<{
     user: FirebaseAuthTypes.User | null
 }>({} as any)
@@ -84,9 +104,8 @@ const Navigation = () => {
     const { appState } = useAppState()
 
     const [user, setUser] = useState<FirebaseAuthTypes.User | null>(auth().currentUser)
-
     const [updateFcmToken] = useUpdateFcmToken()
-    const { } = useChatRoomUpdated({ variables: { userId: user?.uid || '' }, skip: !user })
+    const { data } = useChatRoomUpdated({ variables: { userId: user?.uid || '' }, skip: !user })
 
     const authContextValue = useMemo(() => ({ user, setUser }), [user])
 
@@ -115,11 +134,13 @@ const Navigation = () => {
                             channelId: !!notification.data.notificated ? 'chat' : 'chat_no_notificated',
                             title: notification.data.title,
                             message: notification.data.message,
+                            subText: notification.data.subText,
                             largeIconUrl: notification.data.image,
                             playSound: !!notification.data.notificated,
                             //@ts-ignore
                             data: notification.data
                         })
+                        PushNotification.setApplicationIconBadgeNumber(Number(notification.data.notReadChatCount))
                     }
                 }
                 notification.finish(PushNotificationIOS.FetchResult.NoData);
@@ -167,6 +188,12 @@ const Navigation = () => {
             }
         })
     }, [])
+
+    useEffect(() => {
+        // 않읽은 메시지 수 앱 뱃지와 동기화
+        if (!data?.chatRoomUpdated) return
+        PushNotification.setApplicationIconBadgeNumber(Number(data.chatRoomUpdated.iUserChatRoomInfo.user.notReadChatCount))
+    }, [data])
 
 
     return (

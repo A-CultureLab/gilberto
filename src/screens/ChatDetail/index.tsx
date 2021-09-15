@@ -53,11 +53,6 @@ const ChatDetail = () => {
         variables: { userId: user?.uid || '', chatRoomId: id || chatRoomData?.chatRoom.id || '' }
     })
 
-    const { } = useChatUpdated({
-        skip: !(id || chatRoomData?.chatRoom.id),
-        variables: { userId: user?.uid || '', chatRoomId: id || chatRoomData?.chatRoom.id || '' }
-    })
-
     const [isDrawerOpened, setIsDrawerOpened] = useState(false)
     const [isScreenFocused, setIsScreenFocused] = useState(true)
 
