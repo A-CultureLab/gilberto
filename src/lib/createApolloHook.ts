@@ -9,8 +9,6 @@ const errorLogger = (error: ApolloError, toast: any) => {
         if (graphqlError.extensions?.notification) {
             // toast
             toast({ content: graphqlError.message })
-        } else {
-            toast({ content: '알 수 없는 오류' })
         }
     }
 }

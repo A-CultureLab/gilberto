@@ -32,25 +32,25 @@ const ChatDetail = () => {
 
     const drawerRef = useRef<DrawerLayout>(null)
 
-    const { addListener, goBack, navigate } = useNavigation()
+    const { addListener, goBack, navigate, setParams } = useNavigation()
     const { params: { id, userId } } = useRoute<Route<'ChatDetail', ChatDetailProps>>()
     const { bottom } = useSafeAreaInsets()
     const { appState } = useAppState()
     const { user } = useContext(AuthContext)
 
     const { data: chatRoomData } = useChatRoom({
-        variables: { id, userId },
-        fetchPolicy: 'network-only'
+        variables: { id: userId ? undefined : id, userId },
+        fetchPolicy: 'network-only',
     })
     const { data, fetchMore } = useChats({
-        variables: { chatRoomId: id || chatRoomData?.chatRoom.id || '' },
+        variables: { chatRoomId: id || '' },
         fetchPolicy: 'network-only',
-        skip: !(id || chatRoomData?.chatRoom.id)
+        skip: !id
     })
 
     const { } = useChatCreated({
-        skip: !(id || chatRoomData?.chatRoom.id),
-        variables: { userId: user?.uid || '', chatRoomId: id || chatRoomData?.chatRoom.id || '' }
+        variables: { userId: user?.uid || '', chatRoomId: id || '' },
+        skip: !id,
     })
 
     const [isDrawerOpened, setIsDrawerOpened] = useState(false)
@@ -79,12 +79,21 @@ const ChatDetail = () => {
         }
     }, [])
 
+    // 미 로그인시 접근 막기
     useEffect(() => {
         if (!user) {
             goBack()
             navigate('Login')
         }
     }, [])
+
+    // ChatRoom이 없는 상테에서 호출했을때 chatRoomId가 존재하지 않음
+    // useChatRoom으로 최초 1회 호춮 하면 id가 생성됨 그 id를 넣어주면 됨
+    useEffect(() => {
+        if (id) return // 이미 id가 있다면 다룰 필요 없음
+        if (!chatRoomData) return
+        setParams({ id: chatRoomData.chatRoom.id, userId })
+    }, [chatRoomData])
 
     useEffect(() => {
         // push notification 삭제

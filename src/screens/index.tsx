@@ -39,13 +39,12 @@ import { IS_UPDATE_REQUIRE } from '../graphql/util';
 import { isUpdateRequire, isUpdateRequireVariables } from '../graphql/__generated__/isUpdateRequire';
 import deviceInfoModule from 'react-native-device-info';
 import SpInAppUpdates, { AndroidUpdateType, IAUUpdateKind } from 'sp-react-native-in-app-updates';
-import { IS_ANDROID } from '../constants/values';
+import { IS_ANDROID, IS_IOS } from '../constants/values';
 import PushNotification, { Importance } from 'react-native-push-notification';
-import { useUpdateFcmToken } from '../graphql/user';
+import { useIUser, useUpdateFcmToken } from '../graphql/user';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import notificationIdGenerator from '../utils/notificationIdGenerator';
-import useAppState from 'react-native-appstate-hook';
-import messaging from '@react-native-firebase/messaging';
+import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -73,24 +72,26 @@ const theme: Theme = {
     }
 }
 
-messaging().setBackgroundMessageHandler(async (message) => {
-    const data: any = message.data
-    console.log(data)
-    if (data.type === 'chat') {
-        PushNotification.localNotification({
-            id: notificationIdGenerator(data.chatRoomId),
-            channelId: !!data.notificated ? 'chat' : 'chat_no_notificated',
-            title: data.title,
-            message: data.message,
-            largeIconUrl: data.image,
-            playSound: !!data.notificated,
-            subText: data.subText,
-            //@ts-ignore
-            data: data
-        })
-        PushNotification.setApplicationIconBadgeNumber(Number(data.notReadChatCount))
-    }
-})
+// messaging().setBackgroundMessageHandler(async (message) => {
+//     if (IS_IOS) return
+//     const data: any = message.data
+//     console.log("Background")
+//     console.log(data)
+//     if (data.type === 'chat') {
+//         PushNotification.localNotification({
+//             id: notificationIdGenerator(data.chatRoomId),
+//             channelId: !!data.notificated ? 'chat' : 'chat_no_notificated',
+//             title: data.title,
+//             message: data.message,
+//             largeIconUrl: data.image,
+//             playSound: !!data.notificated,
+//             subText: data.subText,
+//             //@ts-ignore
+//             data: data
+//         })
+//         PushNotification.setApplicationIconBadgeNumber(Number(data.notReadChatCount))
+//     }
+// })
 
 export const AuthContext = createContext<{
     user: FirebaseAuthTypes.User | null
@@ -101,11 +102,10 @@ const Navigation = () => {
     const navigationRef = useRef<NavigationContainerRef>(null)
     const [navigationState, setNavigationState] = useState<NavigationState>()
 
-    const { appState } = useAppState()
-
     const [user, setUser] = useState<FirebaseAuthTypes.User | null>(auth().currentUser)
-    const [updateFcmToken] = useUpdateFcmToken()
+    const [updateFcmToken, { loading: updateFcmLoading }] = useUpdateFcmToken()
     const { data } = useChatRoomUpdated({ variables: { userId: user?.uid || '' }, skip: !user })
+    const { data: iUserData } = useIUser({ skip: !user })
 
     const authContextValue = useMemo(() => ({ user, setUser }), [user])
 
@@ -114,46 +114,33 @@ const Navigation = () => {
         return () => { userUnsubscribe() }
     }, [])
 
+    // 앱 액티브 상테에서 메시지 받았을때
     useEffect(() => {
-        const currentRoute = navigationState?.routes[navigationState.routes.length - 1].name
+        const currentRoute = navigationState?.routes[navigationState.routes.length - 1]
 
-        PushNotification.configure({
-            onRegister: ({ token }) => updateFcmToken({ variables: { token } }),
-            onNotification: (notification) => {
-                console.log('onNotification')
-                console.log(notification.data)
-                if (notification.userInteraction) {
-                    if (notification.data.type === 'chat') {
-                        navigationRef.current?.navigate('ChatDetail', { id: notification.data.chatRoomId })
-                    }
-                }
-                else {
-                    if (notification.data.type === 'chat' && (currentRoute !== 'ChatDetail' || appState !== 'active')) {
-                        PushNotification.localNotification({
-                            id: notificationIdGenerator(notification.data.chatRoomId),
-                            channelId: !!notification.data.notificated ? 'chat' : 'chat_no_notificated',
-                            title: notification.data.title,
-                            message: notification.data.message,
-                            subText: notification.data.subText,
-                            largeIconUrl: notification.data.image,
-                            playSound: !!notification.data.notificated,
-                            //@ts-ignore
-                            data: notification.data
-                        })
-                        PushNotification.setApplicationIconBadgeNumber(Number(notification.data.notReadChatCount))
-                    }
-                }
-                notification.finish(PushNotificationIOS.FetchResult.NoData);
-            },
-            permissions: {
-                alert: true,
-                badge: true,
-                sound: true
-            },
-            popInitialNotification: true,
-            requestPermissions: true
+        const unsubscribe = messaging().onMessage(async (message: FirebaseMessagingTypes.RemoteMessage) => {
+            console.log("ActivePush")
+            console.log(message)
+            if (!message.data) return
+            //@ts-ignore
+            if (currentRoute?.name === 'ChatDetail' && currentRoute?.params?.id === message.data.chatRoomId) return
+            PushNotification.localNotification({
+                // id: notificationIdGenerator(message.data.chatRoomId),
+                channelId: !!message.data.notificated ? 'chat' : 'chat_no_notificated',
+                title: message.data.title,
+                message: message.data.message,
+                subText: message.data.subText,
+                largeIconUrl: message.data.image,
+                playSound: !!message.data.notificated,
+                group: message.data.chatRoomId,
+                category: 'chat',
+                //@ts-ignore
+                data: message.data
+            })
         })
-    }, [user, navigationState, appState])
+
+        return unsubscribe
+    }, [updateFcmLoading, navigationState])
 
     useEffect(() => {
         // Channel 생성 Android only
@@ -180,20 +167,48 @@ const Navigation = () => {
             },
             (created) => { }
         )
-        // 앱 꺼져 있을때 notification 눌르고 들어왔을때
-        PushNotification.popInitialNotification((notification) => {
-            if (!notification) return
-            if (notification.data.type === 'chat') {
-                navigationRef.current?.navigate('ChatDetail', { id: notification.data.chatRoomId })
+
+        const backgroundNotificationHandler = async (remoteMessage: FirebaseMessagingTypes.RemoteMessage) => {
+            const data = remoteMessage.data
+            console.log("backgroundNotification")
+            console.log(data)
+            if (!data) return
+            if (data.type === 'chat') {
+                navigationRef.current?.navigate('ChatDetail', { id: data.chatRoomId })
             }
-        })
+        }
+        // 푸시를 눌러서 열었을때 IOS는 백그라운드, QUIT상태 둘다 onNotificationOpendApp이 작동함
+        // 안드로이드는 백그라운드 상태에서만 onNotificationOpendApp이 작동해서 푸시 눌러서 앱 초기 실행할때는 messaging().getInitialNotification() 로 처리해주세요
+        messaging().onNotificationOpenedApp(backgroundNotificationHandler)
+        // android quit push listner
+        // Android Only ios는 언제나 null
+        // 트리거 형식이라 한번만 작동함
+        messaging().getInitialNotification().then((remoteMessage) => remoteMessage ? backgroundNotificationHandler(remoteMessage) : null)
+
     }, [])
+
+    // fcm token listner
+    useEffect(() => {
+        if (!user) return
+        const fcmInit = async () => {
+            await messaging().requestPermission()
+            const token = await messaging().getToken()
+            await updateFcmToken({ variables: { token } })
+        }
+
+        const fcmRefresh = async (token: string) => {
+            await updateFcmToken({ variables: { token } })
+        }
+
+        fcmInit()
+        return messaging().onTokenRefresh(fcmRefresh)
+    }, [user])
 
     useEffect(() => {
         // 않읽은 메시지 수 앱 뱃지와 동기화
-        if (!data?.chatRoomUpdated) return
-        PushNotification.setApplicationIconBadgeNumber(Number(data.chatRoomUpdated.iUserChatRoomInfo.user.notReadChatCount))
-    }, [data])
+        if (!iUserData) return
+        PushNotification.setApplicationIconBadgeNumber(Number(iUserData.iUser.notReadChatCount))
+    }, [iUserData])
 
 
     return (

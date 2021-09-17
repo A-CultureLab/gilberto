@@ -14,7 +14,7 @@ import codePush from 'react-native-code-push';
 dayjs.locale('ko')
 dayjs.extend(relativeTime)
 
-LogBox.ignoreLogs(['getNode()'])
+LogBox.ignoreLogs(['getNode()', 'EventEmitter.removeListener'])
 
 __DEV__ && enableFlipperApolloDevtools(client as any)
 

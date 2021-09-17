@@ -72,10 +72,7 @@ const ChatDetailFooter: React.FC<ChatDetailFooterProps> = (props) => {
                 }
             }
         })
-        if (errors) {
-            toast({ content: '오류' })
-            return
-        }
+        if (errors) return
         setMessage('')
         clear()
     }, [message, id, loading, inputRef, imageUploadLoading])
