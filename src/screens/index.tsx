@@ -122,6 +122,7 @@ const Navigation = () => {
                     title: message.data.title,
                     message: message.data.message,
                     subText: message.data.subText,
+                    smallIcon: "ic_notification",
                     largeIconUrl: message.data.image,
                     tag: message.data.chatRoomId,
                     priority: "high",

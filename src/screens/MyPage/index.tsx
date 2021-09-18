@@ -5,7 +5,6 @@ import ScreenLayout from '../../components/layout/ScreenLayout'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { COLOR2, COLOR3, GRAY1, GRAY2, GRAY3, WIDTH } from '../../constants/styles'
 import { useNavigation } from '@react-navigation/core'
-import { KAKAO_LINK } from '../../constants/values'
 import { useIUser } from '../../graphql/user'
 import { useMyPets } from '../../graphql/pet'
 import FastImage from 'react-native-fast-image'
@@ -33,7 +32,7 @@ const MyPage = () => {
         {
             title: '문의/건의',
             icon: <Icon name='chat' color={GRAY2} size={16} />,
-            onPress: () => Linking.openURL(KAKAO_LINK)
+            onPress: () => Linking.openURL('https://38do.kr/support')
         },
         {
             title: '이용약관',

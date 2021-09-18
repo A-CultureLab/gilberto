@@ -27,10 +27,10 @@ const Settings = () => {
     const [shouldUpdate, setShouldUpdate] = useState(false)
 
     const MENUS = [
-        {
-            title: '오픈소스 라이선스',
-            onPress: () => navigate('OpenSourceLicense')
-        },
+        // {
+        //     title: '오픈소스 라이선스',
+        //     onPress: () => navigate('OpenSourceLicense')
+        // },
         {
             title: `버전 ${deviceInfoModule.getVersion()} (${shouldUpdate ? '업데이트 가능' : '최신'})`,
             onPress: () => {
@@ -60,7 +60,7 @@ const Settings = () => {
             onPress: () => navigate('Withdraw')
         }
     ]
-    if (!user) MENUS.length = 2 // 미 로그인시 로그아웃, 탈퇴하기 기능은 제공하지 않음
+    if (!user) MENUS.length = 1 // 미 로그인시 로그아웃, 탈퇴하기 기능은 제공하지 않음
 
     useEffect(() => {
         (async () => {
