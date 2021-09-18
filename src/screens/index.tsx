@@ -43,7 +43,6 @@ import { IS_ANDROID, IS_IOS } from '../constants/values';
 import PushNotification, { Importance } from 'react-native-push-notification';
 import { useIUser, useUpdateFcmToken } from '../graphql/user';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
-import notificationIdGenerator from '../utils/notificationIdGenerator';
 import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
 
 const Stack = createStackNavigator()
@@ -72,26 +71,7 @@ const theme: Theme = {
     }
 }
 
-// messaging().setBackgroundMessageHandler(async (message) => {
-//     if (IS_IOS) return
-//     const data: any = message.data
-//     console.log("Background")
-//     console.log(data)
-//     if (data.type === 'chat') {
-//         PushNotification.localNotification({
-//             id: notificationIdGenerator(data.chatRoomId),
-//             channelId: !!data.notificated ? 'chat' : 'chat_no_notificated',
-//             title: data.title,
-//             message: data.message,
-//             largeIconUrl: data.image,
-//             playSound: !!data.notificated,
-//             subText: data.subText,
-//             //@ts-ignore
-//             data: data
-//         })
-//         PushNotification.setApplicationIconBadgeNumber(Number(data.notReadChatCount))
-//     }
-// })
+
 
 export const AuthContext = createContext<{
     user: FirebaseAuthTypes.User | null
@@ -104,7 +84,7 @@ const Navigation = () => {
 
     const [user, setUser] = useState<FirebaseAuthTypes.User | null>(auth().currentUser)
     const [updateFcmToken, { loading: updateFcmLoading }] = useUpdateFcmToken()
-    const { data } = useChatRoomUpdated({ variables: { userId: user?.uid || '' }, skip: !user })
+    const { } = useChatRoomUpdated({ variables: { userId: user?.uid || '' }, skip: !user })
     const { data: iUserData } = useIUser({ skip: !user })
 
     const authContextValue = useMemo(() => ({ user, setUser }), [user])
@@ -124,19 +104,31 @@ const Navigation = () => {
             if (!message.data) return
             //@ts-ignore
             if (currentRoute?.name === 'ChatDetail' && currentRoute?.params?.id === message.data.chatRoomId) return
-            PushNotification.localNotification({
-                // id: notificationIdGenerator(message.data.chatRoomId),
-                channelId: !!message.data.notificated ? 'chat' : 'chat_no_notificated',
-                title: message.data.title,
-                message: message.data.message,
-                subText: message.data.subText,
-                largeIconUrl: message.data.image,
-                playSound: !!message.data.notificated,
-                group: message.data.chatRoomId,
-                category: 'chat',
-                //@ts-ignore
-                data: message.data
-            })
+            if (IS_IOS) {
+                PushNotificationIOS.addNotificationRequest({
+                    id: message.data.chatId,
+                    threadId: message.data.chatRoomId,
+                    title: message.data.title,
+                    body: message.data.message,
+                    sound: message.data.notificated ? 'true' : undefined,
+                    category: 'chat',
+                    userInfo: { ...message.data, image: undefined }
+                })
+            }
+            // PushNotification.localNotification({
+            //     // id: notificationIdGenerator(message.data.chatRoomId),
+            //     channelId: !!message.data.notificated ? 'chat' : 'chat_no_notificated',
+            //     title: message.data.title,
+            //     message: message.data.message,
+            //     subText: message.data.subText,
+            //     largeIconUrl: message.data.image,
+            //     playSound: !!message.data.notificated,
+            //     group: message.data.chatRoomId,
+            //     category: 'chat',
+            //     //@ts-ignore
+            //     data: message.data,
+            //     threadId: message.data.chatRoomId
+            // })
         })
 
         return unsubscribe
@@ -171,7 +163,7 @@ const Navigation = () => {
         const backgroundNotificationHandler = async (remoteMessage: FirebaseMessagingTypes.RemoteMessage) => {
             const data = remoteMessage.data
             console.log("backgroundNotification")
-            console.log(data)
+            console.log(remoteMessage)
             if (!data) return
             if (data.type === 'chat') {
                 navigationRef.current?.navigate('ChatDetail', { id: data.chatRoomId })
@@ -184,6 +176,21 @@ const Navigation = () => {
         // Android Only ios는 언제나 null
         // 트리거 형식이라 한번만 작동함
         messaging().getInitialNotification().then((remoteMessage) => remoteMessage ? backgroundNotificationHandler(remoteMessage) : null)
+
+        // IOS Active 상태에서 온 메시지 클릭시
+        PushNotificationIOS.addEventListener('localNotification', (notification) => {
+            const actionIdentifier = notification.getActionIdentifier();
+            const notificationData = notification.getData()
+
+            console.log("IOS:LOCAL NOTIFICATION")
+            console.log(notificationData)
+            // 클릭에 해당하는 이벤트 인지 확인
+            if (actionIdentifier !== 'com.apple.UNNotificationDefaultActionIdentifier') return
+
+            if (notificationData.type === 'chat') {
+                navigationRef.current?.navigate('ChatDetail', { id: notificationData.chatRoomId })
+            }
+        })
 
     }, [])
 

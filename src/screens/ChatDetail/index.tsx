@@ -1,4 +1,4 @@
-import { BackHandler, FlatList, KeyboardAvoidingView, Pressable, StatusBar, StyleSheet, Text, View } from 'react-native'
+import { AppState, AppStateStatus, BackHandler, FlatList, KeyboardAvoidingView, Pressable, StatusBar, StyleSheet, Text, View } from 'react-native'
 import { Route, useNavigation, useRoute } from '@react-navigation/native'
 import { useChatCreated, useChats, useChatUpdated } from '../../graphql/chat'
 
@@ -20,8 +20,8 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import { useChatRoom } from '../../graphql/chatRoom'
 import PushNotification from 'react-native-push-notification'
-import useAppState from 'react-native-appstate-hook';
 import notificationIdGenerator from '../../utils/notificationIdGenerator'
+import PushNotificationIOS from '@react-native-community/push-notification-ios'
 
 export interface ChatDetailProps {
     id?: string
@@ -35,7 +35,6 @@ const ChatDetail = () => {
     const { addListener, goBack, navigate, setParams } = useNavigation()
     const { params: { id, userId } } = useRoute<Route<'ChatDetail', ChatDetailProps>>()
     const { bottom } = useSafeAreaInsets()
-    const { appState } = useAppState()
     const { user } = useContext(AuthContext)
 
     const { data: chatRoomData } = useChatRoom({
@@ -55,6 +54,7 @@ const ChatDetail = () => {
 
     const [isDrawerOpened, setIsDrawerOpened] = useState(false)
     const [isScreenFocused, setIsScreenFocused] = useState(true)
+    const [appState, setAppState] = useState<AppStateStatus>('active')
 
     // android backbutton handler listner for drawer layout close
     useEffect(() => {
@@ -68,14 +68,17 @@ const ChatDetail = () => {
         return () => { listner.remove() }
     }, [isDrawerOpened, isScreenFocused])
 
-    // Screen focus listner
     useEffect(() => {
+        // Screen focus listner
         const focusListner = addListener('focus', () => setIsScreenFocused(true))
         const blurListner = addListener('blur', () => setIsScreenFocused(false))
+        // Appstate listner
+        const appstateListner: any = AppState.addEventListener('change', (state) => setAppState(state))
 
         return () => {
             focusListner()
             blurListner()
+            appstateListner.remove()
         }
     }, [])
 
@@ -97,8 +100,23 @@ const ChatDetail = () => {
 
     useEffect(() => {
         // push notification 삭제
-        PushNotification.cancelLocalNotification(notificationIdGenerator(id || '').toString())
-    }, [appState])
+
+        if (appState !== 'active') return
+
+        if (IS_IOS) {
+            PushNotification.getDeliveredNotifications((notifications) => {
+                const currentChatRoomNotificationIds = notifications
+                    .filter(v => v.userInfo.chatRoomId === id)
+                    .map(v => v.identifier)
+                PushNotificationIOS.removeDeliveredNotifications(currentChatRoomNotificationIds)
+                PushNotificationIOS.removePendingNotificationRequests(currentChatRoomNotificationIds)
+            })
+
+        } else {
+            PushNotification.cancelLocalNotification(notificationIdGenerator(id || '').toString())
+        }
+
+    }, [id, isScreenFocused, appState])
 
 
     return (
