@@ -44,6 +44,7 @@ import PushNotification, { Importance } from 'react-native-push-notification';
 import { useIUser, useUpdateFcmToken } from '../graphql/user';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
+import useAppState from '../hooks/useAppState';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -85,7 +86,7 @@ const Navigation = () => {
     const [user, setUser] = useState<FirebaseAuthTypes.User | null>(auth().currentUser)
     const [updateFcmToken, { loading: updateFcmLoading }] = useUpdateFcmToken()
     const { } = useChatRoomUpdated({ variables: { userId: user?.uid || '' }, skip: !user })
-    const { data: iUserData } = useIUser({ skip: !user })
+    const { appState } = useAppState()
 
     const authContextValue = useMemo(() => ({ user, setUser }), [user])
 
@@ -114,21 +115,21 @@ const Navigation = () => {
                     category: 'chat',
                     userInfo: { ...message.data, image: undefined }
                 })
+            } else {
+                PushNotification.localNotification({
+                    id: 0,
+                    channelId: !!message.data.notificated ? 'chat' : 'chat_no_notificated',
+                    title: message.data.title,
+                    message: message.data.message,
+                    subText: message.data.subText,
+                    largeIconUrl: message.data.image,
+                    tag: message.data.chatRoomId,
+                    priority: "high",
+                    groupSummary: true,
+                    //@ts-ignore
+                    data: message.data,
+                })
             }
-            // PushNotification.localNotification({
-            //     // id: notificationIdGenerator(message.data.chatRoomId),
-            //     channelId: !!message.data.notificated ? 'chat' : 'chat_no_notificated',
-            //     title: message.data.title,
-            //     message: message.data.message,
-            //     subText: message.data.subText,
-            //     largeIconUrl: message.data.image,
-            //     playSound: !!message.data.notificated,
-            //     group: message.data.chatRoomId,
-            //     category: 'chat',
-            //     //@ts-ignore
-            //     data: message.data,
-            //     threadId: message.data.chatRoomId
-            // })
         })
 
         return unsubscribe
@@ -177,22 +178,43 @@ const Navigation = () => {
         // 트리거 형식이라 한번만 작동함
         messaging().getInitialNotification().then((remoteMessage) => remoteMessage ? backgroundNotificationHandler(remoteMessage) : null)
 
-        // IOS Active 상태에서 온 메시지 클릭시
-        PushNotificationIOS.addEventListener('localNotification', (notification) => {
-            const actionIdentifier = notification.getActionIdentifier();
-            const notificationData = notification.getData()
 
-            console.log("IOS:LOCAL NOTIFICATION")
-            console.log(notificationData)
-            // 클릭에 해당하는 이벤트 인지 확인
-            if (actionIdentifier !== 'com.apple.UNNotificationDefaultActionIdentifier') return
+        // Android Active 상태에서 온 메시지 클릭시
+        if (IS_IOS) {
+            // IOS Active 상태에서 온 메시지 클릭시
+            PushNotificationIOS.addEventListener('localNotification', (notification) => {
+                const actionIdentifier = notification.getActionIdentifier()
+                const notificationData = notification.getData()
 
-            if (notificationData.type === 'chat') {
-                navigationRef.current?.navigate('ChatDetail', { id: notificationData.chatRoomId })
-            }
-        })
+                console.log("IOS:LOCAL NOTIFICATION")
+                console.log(notificationData)
+                // 클릭에 해당하는 이벤트 인지 확인
+                if (actionIdentifier !== 'com.apple.UNNotificationDefaultActionIdentifier') return
 
+                if (notificationData.type === 'chat') {
+                    navigationRef.current?.navigate('ChatDetail', { id: notificationData.chatRoomId })
+                }
+            })
+
+        } else {
+            PushNotification.configure({
+                onNotification: (notification) => {
+                    if (notification.userInteraction) { // 클릭일때
+                        console.log("Active Click")
+                        console.log(notification)
+                        if (notification.data.type === 'chat') {
+                            navigationRef.current?.navigate('ChatDetail', { id: notification.data.chatRoomId })
+                        }
+                    }
+                }
+            })
+        }
     }, [])
+
+    useEffect(() => {
+        // 뱃지 초기화
+        PushNotification.setApplicationIconBadgeNumber(0)
+    }, [appState])
 
     // fcm token listner
     useEffect(() => {
@@ -210,12 +232,6 @@ const Navigation = () => {
         fcmInit()
         return messaging().onTokenRefresh(fcmRefresh)
     }, [user])
-
-    useEffect(() => {
-        // 않읽은 메시지 수 앱 뱃지와 동기화
-        if (!iUserData) return
-        PushNotification.setApplicationIconBadgeNumber(Number(iUserData.iUser.notReadChatCount))
-    }, [iUserData])
 
 
     return (

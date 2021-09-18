@@ -22,6 +22,7 @@ import { useChatRoom } from '../../graphql/chatRoom'
 import PushNotification from 'react-native-push-notification'
 import notificationIdGenerator from '../../utils/notificationIdGenerator'
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
+import useAppState from '../../hooks/useAppState'
 
 export interface ChatDetailProps {
     id?: string
@@ -54,7 +55,7 @@ const ChatDetail = () => {
 
     const [isDrawerOpened, setIsDrawerOpened] = useState(false)
     const [isScreenFocused, setIsScreenFocused] = useState(true)
-    const [appState, setAppState] = useState<AppStateStatus>('active')
+    const { appState } = useAppState()
 
     // android backbutton handler listner for drawer layout close
     useEffect(() => {
@@ -72,13 +73,10 @@ const ChatDetail = () => {
         // Screen focus listner
         const focusListner = addListener('focus', () => setIsScreenFocused(true))
         const blurListner = addListener('blur', () => setIsScreenFocused(false))
-        // Appstate listner
-        const appstateListner: any = AppState.addEventListener('change', (state) => setAppState(state))
 
         return () => {
             focusListner()
             blurListner()
-            appstateListner.remove()
         }
     }, [])
 
@@ -101,6 +99,7 @@ const ChatDetail = () => {
     useEffect(() => {
         // push notification 삭제
 
+        if (!id) return
         if (appState !== 'active') return
 
         if (IS_IOS) {
@@ -113,9 +112,8 @@ const ChatDetail = () => {
             })
 
         } else {
-            PushNotification.cancelLocalNotification(notificationIdGenerator(id || '').toString())
+            PushNotification.clearLocalNotification(id, 0)
         }
-
     }, [id, isScreenFocused, appState])
 
 
