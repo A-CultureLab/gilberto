@@ -911,7 +911,7 @@
     base64-js "^1.2.3"
     xmlbuilder "^14.0.0"
 
-"@gorhom/bottom-sheet@^4.0.0-alpha.30":
+"@gorhom/bottom-sheet@^4.0.3":
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/@gorhom/bottom-sheet/-/bottom-sheet-4.0.3.tgz#465d28bd39ff19e8ba248b514427c0d790d5de30"
   integrity sha512-aIStbi8FxquhH4FRuzyQBau8QUPWQljkrq7kaSo+BFanuAoO0B/YpfakxlDSgum+m7p5jXDopj2GU6cLzw9+qw==

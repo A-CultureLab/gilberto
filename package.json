@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.3.20",
-    "@gorhom/bottom-sheet": "^4.0.0-alpha.30",
+    "@gorhom/bottom-sheet": "^4.0.3",
     "@invertase/react-native-apple-authentication": "^2.1.2",
     "@react-native-async-storage/async-storage": "^1.15.7",
     "@react-native-clipboard/clipboard": "^1.8.2",

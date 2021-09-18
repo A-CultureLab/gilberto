@@ -31,14 +31,25 @@ const HomeGroupByAddressBottomSheet = () => {
 
     const snapPoints = useMemo(() => [height / 2 - 50, height - STATUSBAR_HEIGHT + 24], [height])
 
+
     const onChange = useCallback((index: number) => {
         setBottomSheetSnapIndex(index)
         if (index === -1) setSelectedGroupByAddress(null)
     }, [setBottomSheetSnapIndex, setSelectedGroupByAddress])
 
+    // Android Bug Solution TODO plz remove me
+    useEffect(() => {
+        bottomSheetRef.current?.snapToIndex(0)
+        setTimeout(() => {
+            bottomSheetRef.current?.close()
+        }, 500)
+    }, [])
+
     useEffect(() => {
         if (!selectedGroupByAddress) bottomSheetRef.current?.close()
-        else bottomSheetRef.current?.snapToIndex(0)
+        else {
+            bottomSheetRef.current?.snapToIndex(0)
+        }
     }, [selectedGroupByAddress])
 
     useEffect(() => { // 안드로이드 백버튼 핸들러
