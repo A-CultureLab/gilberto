@@ -97,8 +97,6 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>프로필, 반려동물 이미지를 업로드 할때 사용됩니다</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>산책시 유저들과 위치정보를 공유하기 위해 사용됩니다.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>지도에 현재 위치 정보를 표시하기 위해 사용됩니다.</string>
 	<key>NSMicrophoneUsageDescription</key>
@@ -126,7 +124,6 @@
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>location</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
