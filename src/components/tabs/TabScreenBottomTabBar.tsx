@@ -9,13 +9,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { COLOR1, COLOR3, DEFAULT_SHADOW, GRAY1, GRAY2, GRAY3, WIDTH } from '../../constants/styles'
 import IconMA from 'react-native-vector-icons/MaterialIcons'
 import auth from '@react-native-firebase/auth';
-import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated'
-import { useEffect } from 'react'
-import { useApolloClient } from '@apollo/client'
 import { useIUser } from '../../graphql/user'
 import { AuthContext } from '../../screens'
 
-const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
 
 const TABS = [
     {
@@ -49,11 +45,6 @@ const TabScreenBottomTabBar: React.FC<TabScreenBottomTabBarProps> = ({ smallMode
     const { user } = useContext(AuthContext)
 
     const { data } = useIUser({ skip: !user })
-    const animation = useSharedValue(1)
-
-    useEffect(() => {
-        // animation.value = withTiming(smallMode ? 0 : 1, { duration: 250 })
-    }, [smallMode])
 
     const onPress = (name: string) => {
         if (name === routeName) return
@@ -64,71 +55,36 @@ const TabScreenBottomTabBar: React.FC<TabScreenBottomTabBarProps> = ({ smallMode
         navigate(name)
     }
 
-
-
-    const containerStyle = useAnimatedStyle(() => ({
-        width: ((WIDTH - 48) * animation.value + 48),
-        height: ((144 - bottom - 56) * (1 - animation.value) + bottom + 56),
-        paddingBottom: (bottom * animation.value),
-        left: (16 * (1 - animation.value)),
-        bottom: (100 * (1 - animation.value)),
-        borderRadius: (4 * (1 - animation.value)),
-    }), [bottom])
-
-
-
     return (
-        <Animated.View
+        <View
             style={[
                 styles.container,
-                containerStyle,
                 {
-                    position: isMap ? 'absolute' : 'relative'
+                    position: isMap ? 'absolute' : 'relative',
+                    height: bottom + 56,
+                    paddingBottom: bottom
                 }
             ]}
         >
             {TABS.map(({ icon, label, name }, i) => {
-
-                const textStyle = useAnimatedStyle(() => ({
-                    fontSize: (10 * (animation.value + 0.1)),
-                    marginTop: (6 * animation.value),
-                    opacity: (animation.value)
-                }))
-
-                const lineStyle = useAnimatedStyle(() => ({
-                    width: (64 * animation.value)
-                }))
-
-                const tabStyle = useAnimatedStyle(() => ({
-                    width: ((WIDTH / 3 - 48) * animation.value + 48),
-                    left: ((WIDTH / 3) * i) * animation.value,
-                    top: (48 * i) * (1 - animation.value),
-                    height: ((56 - 48) * animation.value + 48),
-
-                }), [i])
-
-                const iconConatinerStyle = useAnimatedStyle(() => ({
-                    transform: [{ scale: (1 - 0.8) * animation.value + 0.8 }]
-                }))
-
                 return (
-                    <AnimatedPressable
+                    <Pressable
                         onPress={() => onPress(name)}
                         key={name}
-                        style={[styles.tab, tabStyle]}
+                        style={[styles.tab]}
                     // android_ripple={{ color: GRAY2, radius: WIDTH / 3 / 2 }}
                     >
-                        <Animated.View style={iconConatinerStyle} >
+                        <View >
                             {icon({ color: routeName === name ? COLOR1 : GRAY2, focus: routeName === name })}
                             {(name === 'Chat' && data && data.iUser.notReadChatCount > 0) && <View style={styles.notReadChatCountBadge} ><Text style={styles.notReadChatCount} >{data.iUser.notReadChatCount > 100 ? 99 : data.iUser.notReadChatCount}</Text></View>}
-                        </Animated.View>
-                        {routeName === name && <Animated.View style={[styles.line, lineStyle]} />}
-                        <Animated.Text style={[{ color: routeName === name ? '#333' : GRAY1 }, textStyle]}>{label}</Animated.Text>
+                        </View>
+                        {/* {routeName === name && <View style={[styles.line]} />} */}
+                        <Text style={[styles.label, { color: routeName === name ? '#333' : GRAY1 }]}>{label}</Text>
 
-                    </AnimatedPressable>
+                    </Pressable>
                 )
             })}
-        </Animated.View>
+        </View>
     )
 }
 
@@ -141,7 +97,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         flexDirection: 'row',
         alignItems: 'center',
-        // ...DEFAULT_SHADOW,
         borderTopColor: GRAY3,
         borderTopWidth: 1
     },
@@ -149,13 +104,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         height: '100%',
-        position: 'absolute'
+        flex: 1
     },
     line: {
         height: 2,
         backgroundColor: COLOR1,
-        position: 'absolute',
-        top: 0
+        flex: 1
     },
     notReadChatCountBadge: {
         width: 16,
@@ -174,5 +128,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         margin: 0,
         padding: 0
+    },
+    label: {
+        fontSize: 11,
+        marginTop: 6
     }
 })
