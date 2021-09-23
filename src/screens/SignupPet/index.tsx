@@ -5,7 +5,7 @@ import Header from '../../components/headers/Header'
 import ScreenLayout from '../../components/layout/ScreenLayout'
 import DraggableFlatList, { DragEndParams } from "react-native-draggable-flatlist";
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import { GRAY2, GRAY3, SPRING_CONFIG } from '../../constants/styles'
+import { GRAY1, GRAY2, GRAY3, SPRING_CONFIG } from '../../constants/styles'
 import { useCallback } from 'react'
 import PetInfoCard from '../../components/cards/PetInfoCard'
 import { useNavigation } from '@react-navigation/native'
@@ -60,6 +60,11 @@ const SignupPet = () => {
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ drag, isActive, item }) => <PetInfoCard data={item} drag={drag} isActive={isActive} />}
                 onDragEnd={onDragEnd}
+                ListHeaderComponent={
+                    dataTemp.length === 0
+                        ? <Text style={styles.emptyText} >반려동물을 추가하면 다른 사용자들에게 먼저 채팅을 받을 수 있습니다. 미 등록시에는 채팅을 보낼 수 만 있습니다.</Text>
+                        : null
+                }
                 ListFooterComponent={
                     <Pressable
                         onPress={onAdd}
@@ -87,6 +92,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         borderBottomWidth: 1,
-        borderBottomColor: GRAY3
+        borderBottomColor: GRAY3,
+        borderTopWidth: 1,
+        borderTopColor: GRAY3
+    },
+    emptyText: {
+        width: '100%',
+        paddingHorizontal: 16,
+        paddingVertical: 24,
+        fontWeight: 'bold',
+        color: GRAY1,
+        lineHeight: 20
     }
 })
