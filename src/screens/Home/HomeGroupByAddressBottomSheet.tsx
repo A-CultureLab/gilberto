@@ -10,6 +10,7 @@ import { usePetsByAddress } from '../../graphql/pet'
 import HomeGroupByAddressBottomSheetCard from './HomeGroupByAddressBottomSheetCard'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
+import { useIsFocused } from '@react-navigation/core'
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
 
@@ -28,6 +29,7 @@ const HomeGroupByAddressBottomSheet = () => {
     const { height } = useSafeAreaFrame()
     const bottomSheetRef = useRef<BottomSheet>(null)
     const animation = useSharedValue(-1)
+    const isFocused = useIsFocused()
 
     const snapPoints = useMemo(() => [height / 2 - 50, height - STATUSBAR_HEIGHT + 24], [height])
 
@@ -54,12 +56,13 @@ const HomeGroupByAddressBottomSheet = () => {
 
     useEffect(() => { // 안드로이드 백버튼 핸들러
         if (bottomSheetSnapIndex === -1) return
+        if (!isFocused) return
         const listner = BackHandler.addEventListener('hardwareBackPress', () => {
             bottomSheetRef.current?.close()
             return true
         })
         return listner.remove
-    }, [bottomSheetSnapIndex])
+    }, [bottomSheetSnapIndex, isFocused])
 
 
     const onEndReached = useCallback(() => {
@@ -107,12 +110,13 @@ const HomeGroupByAddressBottomSheet = () => {
                     showsVerticalScrollIndicator={false}
                     onEndReached={onEndReached}
                     onEndReachedThreshold={0.5}
+                    ListFooterComponent={<View style={{ height: bottom + 80 }} />}
                     renderItem={({ item }) => <HomeGroupByAddressBottomSheetCard {...item} />}
                 />}
             </BottomSheet>
             <AnimatedPressable style={[styles.closeButton, { bottom: bottom + 40 }, closeButtonStyle]} onPress={onClose} >
                 <Icon name="location-on" size={16} color="#fff" />
-                <Text style={styles.closeButtonText} >지도보기</Text>
+                <Text style={styles.closeButtonText} >지도로 돌아가기</Text>
             </AnimatedPressable>
             <Animated.View style={[styles.statusBarWrapper, statusBarWrapperStyle]} />
         </>
@@ -149,7 +153,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     closeButton: {
-        height: 32,
+        height: 34,
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: COLOR1,
@@ -157,7 +161,8 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         position: 'absolute',
         borderRadius: 16,
-        ...DEFAULT_SHADOW
+        borderWidth: 2,
+        borderColor: '#fff'
     },
     closeButtonText: {
         color: '#fff',

@@ -20,9 +20,9 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import { useChatRoom } from '../../graphql/chatRoom'
 import PushNotification from 'react-native-push-notification'
-import notificationIdGenerator from '../../utils/notificationIdGenerator'
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
 import useAppState from '../../hooks/useAppState'
+import { useIsFocused } from '@react-navigation/core'
 
 export interface ChatDetailProps {
     id?: string
@@ -54,31 +54,21 @@ const ChatDetail = () => {
     })
 
     const [isDrawerOpened, setIsDrawerOpened] = useState(false)
-    const [isScreenFocused, setIsScreenFocused] = useState(true)
+    const isFocused = useIsFocused()
     const { appState } = useAppState()
 
     // android backbutton handler listner for drawer layout close
     useEffect(() => {
         if (IS_IOS) return
-        if (!isDrawerOpened || !isScreenFocused) return
+        if (!isDrawerOpened || !isFocused) return
         const listner = BackHandler.addEventListener('hardwareBackPress', () => {
             drawerRef.current?.closeDrawer()
             return true
         })
 
         return () => { listner.remove() }
-    }, [isDrawerOpened, isScreenFocused])
+    }, [isDrawerOpened, isFocused])
 
-    useEffect(() => {
-        // Screen focus listner
-        const focusListner = addListener('focus', () => setIsScreenFocused(true))
-        const blurListner = addListener('blur', () => setIsScreenFocused(false))
-
-        return () => {
-            focusListner()
-            blurListner()
-        }
-    }, [])
 
     // 미 로그인시 접근 막기
     useEffect(() => {
@@ -114,7 +104,7 @@ const ChatDetail = () => {
         } else {
             PushNotification.clearLocalNotification(id, 0)
         }
-    }, [id, isScreenFocused, appState])
+    }, [id, isFocused, appState])
 
 
     return (

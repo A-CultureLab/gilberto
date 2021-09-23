@@ -59,9 +59,9 @@ const ChatDetailFooter: React.FC<ChatDetailFooterProps> = (props) => {
         if (!message && !image) return
         if (loading || imageUploadLoading) return
 
-        inputRef.current?.blur()
-        Keyboard.dismiss()
-        setOptionVisible(false)
+        // inputRef.current?.blur()
+        // Keyboard.dismiss()
+        // setOptionVisible(false)
 
         const { errors } = await createChat({
             variables: {
@@ -120,7 +120,7 @@ const ChatDetailFooter: React.FC<ChatDetailFooterProps> = (props) => {
                             style={styles.input}
                             maxLength={1000}
                             multiline
-                            editable={!(loading || imageUploadLoading)}
+                        // editable={!(loading || imageUploadLoading)}
                         />
                     </>
                     :
