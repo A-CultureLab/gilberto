@@ -35,7 +35,6 @@ const ProfileModify = () => {
         defaultValues: {
             addressId: user?.address?.id,
             image: user?.image,
-            instagramId: user?.instagramId,
             introduce: user?.introduce,
         }
     })
@@ -149,18 +148,6 @@ const ProfileModify = () => {
                         )}
                     />
 
-
-                    <Controller
-                        control={control}
-                        name='instagramId'
-                        render={({ field }) => (
-                            <UnderLineInput
-                                value={field.value || ''}
-                                onChangeText={field.onChange}
-                                placeholder='(선택) 인스타그램 아이디'
-                            />
-                        )}
-                    />
                     <Controller
                         control={control}
                         name='introduce'

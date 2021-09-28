@@ -8,7 +8,7 @@ import Footer from '../../components/footers/Footer'
 import Header from '../../components/headers/Header'
 import UnderLineInput from '../../components/inputs/UnderLineInput'
 import ScreenLayout from '../../components/layout/ScreenLayout'
-import { IS_IOS } from '../../constants/values'
+import { INFLOWS, IS_IOS } from '../../constants/values'
 import { useSignup } from '../../graphql/user'
 import { Gender, SignupInput } from '../../../__generated__/globalTypes'
 import dayjs from 'dayjs'
@@ -28,14 +28,14 @@ const Signup = () => {
 
     const { navigate, reset } = useNavigation()
     const [signup, { loading }] = useSignup({ errorPolicy: 'all' })
-    const { toast } = useGlobalUi()
+    const { toast, selector } = useGlobalUi()
     const [address, setAddress] = useState('')
 
     const { control, handleSubmit, setValue, watch, formState, clearErrors } = useForm<SignupInput>({
         defaultValues: {
             marketingEmailDate: null,
             marketingPushDate: null,
-            instagramId: '',
+            inflow: '',
             introduce: '',
             email: auth().currentUser?.email || undefined,
             // image: auth().currentUser?.photoURL || undefined
@@ -195,20 +195,6 @@ const Signup = () => {
                             />
                         )}
                     />
-
-
-
-                    <Controller
-                        control={control}
-                        name='instagramId'
-                        render={({ field }) => (
-                            <UnderLineInput
-                                value={field.value || ''}
-                                onChangeText={field.onChange}
-                                placeholder='(선택) 인스타그램 아이디'
-                            />
-                        )}
-                    />
                     <Controller
                         control={control}
                         name='introduce'
@@ -223,6 +209,23 @@ const Signup = () => {
                             />
                         )}
                     />
+
+                    <Controller
+                        control={control}
+                        name='inflow'
+                        render={({ field }) => (
+                            <Pressable
+                                onPress={() => selector({
+                                    list: INFLOWS,
+                                    onSelect: (i) => field.onChange(INFLOWS[i])
+                                })}
+                            >
+                                <UnderLineText textStyle={{ color: !!field.value ? '#000' : GRAY1 }} >{field.value || '어떻게 앱을 깔게 되셨나요?'}</UnderLineText>
+                            </Pressable>
+                        )}
+                    />
+
+
                     <View style={{ marginVertical: 24 }} >
                         <View style={styles.agreementContainer} >
                             <Toggle value={isAgreeAll} onChange={(v) => v && onAgreeAll()} />

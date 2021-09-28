@@ -29,7 +29,6 @@ export interface updateUser_updateUser {
   gender: Gender;
   age: number;
   birth: any;
-  instagramId: string | null;
   introduce: string;
   address: updateUser_updateUser_address;
 }

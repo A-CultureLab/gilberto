@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleProp, StyleSheet, Text, View, ViewStyle, TextStyle } from 'react-native'
+import { StyleProp, StyleSheet, Text, View, ViewStyle, TextStyle, Pressable } from 'react-native'
 import { GRAY3 } from '../../constants/styles'
 
 interface UnderLineTextProps {

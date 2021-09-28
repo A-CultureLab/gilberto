@@ -63,7 +63,7 @@ export interface SignupInput {
   gender: Gender;
   birth: any;
   addressId: string;
-  instagramId?: string | null;
+  inflow: string;
   introduce: string;
   agreementDate: any;
   marketingPushDate?: any | null;
@@ -80,7 +80,6 @@ export interface UpdateUserChatRoomInfoInput {
 export interface UpdateUserInput {
   image: string;
   addressId: string;
-  instagramId?: string | null;
   introduce: string;
 }
 
