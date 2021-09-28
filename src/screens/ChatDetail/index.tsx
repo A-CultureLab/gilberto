@@ -23,6 +23,7 @@ import PushNotification from 'react-native-push-notification'
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
 import useAppState from '../../hooks/useAppState'
 import { useIsFocused } from '@react-navigation/core'
+import { useIUser } from '../../graphql/user'
 
 export interface ChatDetailProps {
     id?: string
@@ -33,9 +34,10 @@ const ChatDetail = () => {
 
     const drawerRef = useRef<DrawerLayout>(null)
 
-    const { addListener, goBack, navigate, setParams } = useNavigation()
+    const { goBack, navigate, setParams } = useNavigation()
     const { params: { id, userId } } = useRoute<Route<'ChatDetail', ChatDetailProps>>()
     const { bottom } = useSafeAreaInsets()
+    const { data: iUserData } = useIUser()
     const { user } = useContext(AuthContext)
 
     const { data: chatRoomData } = useChatRoom({
@@ -49,7 +51,7 @@ const ChatDetail = () => {
     })
 
     const { } = useChatCreated({
-        variables: { userId: user?.uid || '', chatRoomId: id || '' },
+        variables: { userId: iUserData?.iUser.id || '', chatRoomId: id || '' },
         skip: !id,
     })
 

@@ -13,6 +13,7 @@ import useGlobalUi from '../../hooks/useGlobalUi'
 import Clipboard from '@react-native-clipboard/clipboard'
 import { useDeleteChat } from '../../graphql/chat'
 import { ReportProps } from '../Report'
+import { useIUser } from '../../graphql/user'
 
 
 const IMAGE_LONG_PRESS_OPTIONS = ['신고하기']
@@ -28,11 +29,10 @@ const ChatDetailCard: React.FC<chats_chats> = (props) => {
     const { confirm } = useGlobalUi()
 
     const { message, image, user, createdAt, id, isDeleted } = props
-    const { user: iUser } = useContext(AuthContext)
+    const { data } = useIUser()
     const { selector } = useGlobalUi()
 
-    const userId = iUser?.uid
-    const isIUser = userId === user.id
+    const isIUser = data?.iUser.id === user.id
 
     const [deleteChat] = useDeleteChat({ variables: { id } })
 

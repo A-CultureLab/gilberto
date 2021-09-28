@@ -87,7 +87,7 @@ const PetDetail = () => {
                             </Pressable>
                             {pet.user.pets.length !== 1 && <View style={styles.familyLine} />}
                             {pet.user.pets.filter(v => v.id !== id).map(v => (
-                                <Pressable onPress={() => navigate('PetDetail', { id: v.id })} >
+                                <Pressable key={v.id} onPress={() => navigate('PetDetail', { id: v.id })} >
                                     <FastImage
                                         key={v.id}
                                         source={{ uri: v.image }}

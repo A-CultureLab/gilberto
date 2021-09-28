@@ -11,6 +11,7 @@ import { AuthContext } from '..'
 import { ChatRoomType } from '../../../__generated__/globalTypes'
 import { COLOR1, COLOR2, COLOR3, GRAY2, GRAY3, STATUSBAR_HEIGHT } from '../../constants/styles'
 import { useExitChatRoom } from '../../graphql/chatRoom'
+import { useIUser } from '../../graphql/user'
 import { useUpdateUserChatRoomInfo } from '../../graphql/userChatRoomInfo'
 import { chatRoom_chatRoom } from '../../graphql/__generated__/chatRoom'
 import useGlobalUi from '../../hooks/useGlobalUi'
@@ -25,7 +26,7 @@ const ChatDetailDrawer: React.FC<ChatDetailDrawerProps> = ({ data }) => {
     const { navigate, goBack } = useNavigation()
     const { bottom } = useSafeAreaInsets()
     const { confirm } = useGlobalUi()
-    const { user } = useContext(AuthContext)
+    const { data: iUserData } = useIUser()
 
     const [updateUserChatRoomInfo] = useUpdateUserChatRoomInfo()
     const [exitChatRoom, { loading: exitChatRoomLoading }] = useExitChatRoom({ variables: { id: data.id } })
@@ -69,10 +70,10 @@ const ChatDetailDrawer: React.FC<ChatDetailDrawerProps> = ({ data }) => {
         console.log(data.type)
         const params: ReportProps = {
             chatRoomId: data.type === ChatRoomType.group ? data.id : undefined,
-            userId: data.type === ChatRoomType.private ? data.userChatRoomInfos.find(v => v.user.id !== user?.uid)?.user.id || '' : undefined
+            userId: data.type === ChatRoomType.private ? data.userChatRoomInfos.find(v => v.user.id !== iUserData?.iUser.id)?.user.id || '' : undefined
         }
         navigate('Report', params)
-    }, [data, user])
+    }, [data, iUserData])
 
     const onBlock = useCallback(() => {
         confirm({

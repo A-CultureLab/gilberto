@@ -3,6 +3,7 @@ import React, { useContext } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { COLOR1, GRAY1, GRAY2, GRAY3 } from '../../constants/styles'
+import { useIUser } from '../../graphql/user'
 import { user, user_user } from '../../graphql/__generated__/user'
 import genderGenerator from '../../lib/genderGenerator'
 import { AuthContext } from '../../screens'
@@ -17,9 +18,9 @@ const UserFooter: React.FC<UserFooterProps> = ({ user }) => {
 
     const { bottom } = useSafeAreaInsets()
     const { navigate } = useNavigation()
-    const { user: iUser } = useContext(AuthContext)
+    const { data } = useIUser()
 
-    if (iUser?.uid === id) return null
+    if (data?.iUser.id === id) return null
 
     return (
         <View style={[styles.container, { height: 56 + bottom, paddingBottom: bottom }]} >

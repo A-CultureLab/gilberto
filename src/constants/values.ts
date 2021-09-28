@@ -138,8 +138,8 @@ export const REPORT_CHAT_ROOM_REASONS = [
 export const INFLOWS = [
     '지인추천',
     '오프라인행사',
-    '인스타그램',
+    '인스타그램, 페이스북',
     '카페',
-    '카톡광고',
+    '카카오톡 채팅방',
     '기타'
 ]
