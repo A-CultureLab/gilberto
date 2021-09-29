@@ -8,6 +8,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import { POST_TYPES } from '../../constants/values'
 import dayjs from 'dayjs'
 import meterUnit from '../../utils/meterUnit'
+import Images from '../../components/images/Images'
 
 const PostCard: React.FC<posts_posts> = (props) => {
 
@@ -42,7 +43,11 @@ const PostCard: React.FC<posts_posts> = (props) => {
                     </View>
                 </View>
                 {!!images.length &&
-                    <View />
+                    <Images
+                        onPress={(urls, index) => navigate('ImageDetail', { urls, index })}
+                        style={{ marginBottom: 16 }}
+                        urls={images.map(v => v.url)}
+                    />
                 }
                 <View style={styles.userInfoContainer} >
                     <Text style={[styles.userInfo, { flex: 1 }]} >{`${user.name} ∙ ${user.address.adressShort} ∙ ${meterUnit(user.address.distance || 0)}`}</Text>

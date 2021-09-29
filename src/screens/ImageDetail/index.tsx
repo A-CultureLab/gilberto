@@ -1,5 +1,5 @@
 import { Route, useNavigation, useRoute } from '@react-navigation/native'
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
 import { useState } from 'react'
 import { useCallback } from 'react'
 import { FlatList, NativeScrollEvent, NativeSyntheticEvent, Pressable, StyleSheet, Text, View } from 'react-native'
@@ -26,6 +26,7 @@ const ImageDetail: React.FC<ImageDetailProps> = () => {
         setCurrentIndex(Math.round(x / WIDTH))
     }, [])
 
+
     return (
         <ScreenLayout style={styles.container} translucent >
             <View style={styles.header} >
@@ -39,6 +40,7 @@ const ImageDetail: React.FC<ImageDetailProps> = () => {
                 <Text style={styles.title} >{title}</Text>
             </View>
             <FlatList
+                initialScrollIndex={index}
                 horizontal
                 pagingEnabled
                 data={urls}

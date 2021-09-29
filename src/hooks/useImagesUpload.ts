@@ -88,7 +88,7 @@ const useImagesUpload = (max = 10) => {
                 onSelect: async (i) => {
                     try {
                         if (i === -1) throw new Error('이미지 업로드 취소')
-                        await new Promise(res => setTimeout(res, 500)) // ios modal 띄워저 있는동안 호출하면 오류남
+                        await new Promise(res => setTimeout(res, 600)) // ios modal 띄워저 있는동안 호출하면 오류남
                         const uploadData = await upload({ ...option, camera: i === 0 ? true : false }, path)
                         resolve(uploadData)
                     } catch (error) {
