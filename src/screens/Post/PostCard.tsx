@@ -1,24 +1,34 @@
 import { useNavigation } from '@react-navigation/core'
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
-import { COLOR2, GRAY1, GRAY2, GRAY3 } from '../../constants/styles'
+import { COLOR1, COLOR2, GRAY1, GRAY2, GRAY3 } from '../../constants/styles'
 import { posts_posts } from '../../graphql/__generated__/posts'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { POST_TYPES } from '../../constants/values'
 import dayjs from 'dayjs'
 import meterUnit from '../../utils/meterUnit'
 import Images from '../../components/images/Images'
+import { useLikePost } from '../../graphql/post'
 
 const PostCard: React.FC<posts_posts> = (props) => {
 
-    const { id, user, content, images, createdAt, commentCount, type } = props
+    const { id, user, content, images, createdAt, commentCount, type, isILiked: _isILiked, likeCount: _likeCount } = props
+
+    const [isILiked, setIsILiked] = useState(_isILiked)
+
+    const likeCount = useMemo(() => {
+        let v = _likeCount
+        if (_isILiked) v -= 1
+        if (isILiked) v += 1
+        return v
+    }, [_isILiked, _likeCount, isILiked])
 
     const { navigate } = useNavigation()
 
-    const onLike = useCallback(() => {
+    const [likePost] = useLikePost({ variables: { id, like: !isILiked } })
 
-    }, [])
+    useEffect(() => { likePost() }, [isILiked])
 
     return (
         <View >
@@ -56,12 +66,12 @@ const PostCard: React.FC<posts_posts> = (props) => {
             </Pressable>
             <View style={styles.btnContainer} >
                 <Pressable
-                    onPress={onLike}
+                    onPress={() => setIsILiked(prev => !prev)}
                     android_ripple={{ color: COLOR2 }}
                     style={styles.btn}
                 >
-                    <Icon name='thumb-up' color={GRAY3} size={16} />
-                    <Text style={styles.btnText} >좋아요</Text>
+                    <Icon name='thumb-up' color={isILiked ? COLOR1 : GRAY3} size={16} />
+                    <Text style={[styles.btnText, { color: isILiked ? COLOR1 : GRAY1 }]} >좋아요{!!likeCount ? ` ${likeCount}` : ''}</Text>
                 </Pressable>
                 <Pressable
                     onPress={() => navigate('PostDetail', { id, commentFocus: true })}
@@ -69,7 +79,7 @@ const PostCard: React.FC<posts_posts> = (props) => {
                     android_ripple={{ color: COLOR2 }}
                 >
                     <Icon name='insert-comment' color={GRAY3} size={16} />
-                    <Text style={styles.btnText} >댓글쓰기</Text>
+                    <Text style={styles.btnText} >{!!commentCount ? `댓글 ${commentCount}` : '댓글쓰기'}</Text>
                 </Pressable>
             </View>
         </View>

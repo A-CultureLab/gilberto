@@ -15,7 +15,7 @@ export interface createPost_createPost {
 }
 
 export interface createPost {
-  createPost: createPost_createPost | null;
+  createPost: createPost_createPost;
 }
 
 export interface createPostVariables {

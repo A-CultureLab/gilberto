@@ -34,6 +34,8 @@ export interface posts_posts {
   __typename: "Post";
   id: string;
   createdAt: any;
+  isILiked: boolean;
+  likeCount: number;
   images: posts_posts_images[];
   content: string;
   type: PostType;

@@ -1,6 +1,7 @@
 import gql from "graphql-tag";
 import { createMutationHook, createQueryHook } from "../lib/createApolloHook";
 import { createPost, createPostVariables } from "./__generated__/createPost";
+import { likePost, likePostVariables } from "./__generated__/likePost";
 import { posts, postsVariables } from "./__generated__/posts";
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -18,6 +19,8 @@ query posts ($filter:PostsAdressFilterInput, $take:Int, $skip:Int) {
     posts(filter:$filter, take:$take, skip:$skip) {
         id
         createdAt
+        isILiked
+        likeCount
         images {
             id
             url
@@ -40,6 +43,17 @@ query posts ($filter:PostsAdressFilterInput, $take:Int, $skip:Int) {
 `
 
 export const usePosts = createQueryHook<posts, postsVariables>(POSTS)
+//--------------------------------------------------------------------------------------------------------------------------------------------------------//
+export const LIKE_POST = gql`
+mutation likePost ($id:String!, $like:Boolean!) {
+    likePost(id:$id, like:$like) {
+        id
+        likeCount
+        isILiked
+    }
+}
+`
+export const useLikePost = createMutationHook<likePost, likePostVariables>(LIKE_POST)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
