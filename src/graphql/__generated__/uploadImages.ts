@@ -4,14 +4,14 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: uploadImage
+// GraphQL mutation operation: uploadImages
 // ====================================================
 
-export interface uploadImage {
-  uploadImage: string;
+export interface uploadImages {
+  uploadImages: string[];
 }
 
-export interface uploadImageVariables {
-  image: any;
+export interface uploadImagesVariables {
+  images: any[];
   path?: string | null;
 }

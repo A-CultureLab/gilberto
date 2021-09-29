@@ -45,6 +45,8 @@ import { useIUser, useUpdateFcmToken } from '../graphql/user';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
 import useAppState from '../hooks/useAppState';
+import Post from './Post';
+import PostCreate from './PostCreate';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -54,9 +56,10 @@ const Tab = createBottomTabNavigator()
 const TabNavigation = () => {
     return (
         <Tab.Navigator
-            initialRouteName='Home'
+            initialRouteName='Post'
             tabBar={() => null}
         >
+            <Tab.Screen name='Post' component={Post} />
             <Tab.Screen name='Home' component={Home} />
             <Tab.Screen name='Chat' component={Chat} />
             <Tab.Screen name='MyPage' component={MyPage} />
@@ -271,6 +274,7 @@ const Navigation = () => {
                     <Stack.Screen name='UserCertification' component={UserCertification} />
                     <Stack.Screen name='ImageDetail' component={ImageDetail} />
                     <Stack.Screen name='Report' component={Report} />
+                    <Stack.Screen name='PostCreate' component={PostCreate} />
                 </Stack.Navigator>
             </NavigationContainer>
         </AuthContext.Provider>

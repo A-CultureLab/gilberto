@@ -227,7 +227,7 @@ const Home = () => {
                 {/* <HomeHeader /> */}
                 <HomeRefetchButton onPress={onPetGroupByAddressRefetch} enable={bottomSheetSnapIndex === -1 && petGroupByAddressRefetchEnable} />
                 <MyPosFab onPress={onMyPos} />
-                <TabScreenBottomTabBar isMap smallMode={!!selectedGroupByAddress} />
+                <TabScreenBottomTabBar isMap />
                 <HomeGroupByAddressBottomSheet />
             </ScreenLayout>
         </HomeScreenContext.Provider>

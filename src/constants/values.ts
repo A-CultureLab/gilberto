@@ -1,6 +1,7 @@
 import { Platform } from "react-native";
 import deviceInfoModule from "react-native-device-info";
 import { Region } from "react-native-nmap";
+import { PostType } from "../../__generated__/globalTypes";
 
 export const IS_ANDROID = Platform.OS === 'android'
 export const IS_IOS = Platform.OS === 'ios'
@@ -142,4 +143,9 @@ export const INFLOWS = [
     '카페',
     '카카오톡 채팅방',
     '기타'
+]
+
+export const POST_TYPES: { name: string, value: PostType }[] = [
+    { name: '자유주제', value: PostType.free },
+    { name: '산책하실분?', value: PostType.walk },
 ]

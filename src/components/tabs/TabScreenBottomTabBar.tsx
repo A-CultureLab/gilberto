@@ -15,8 +15,13 @@ import { AuthContext } from '../../screens'
 
 const TABS = [
     {
-        name: 'Home',
+        name: 'Post',
         label: '홈',
+        icon: ({ color, focus }: { color: string, focus: boolean }) => <IconMA size={24} name={focus ? 'home' : 'home'} color={color} />
+    },
+    {
+        name: 'Home',
+        label: '동네',
         icon: ({ color, focus }: { color: string, focus: boolean }) => <IconMA size={24} name={focus ? 'location-on' : 'location-on'} color={color} />
     },
     {
@@ -32,11 +37,10 @@ const TABS = [
 ]
 
 interface TabScreenBottomTabBarProps {
-    smallMode?: boolean
     isMap?: boolean
 }
 
-const TabScreenBottomTabBar: React.FC<TabScreenBottomTabBarProps> = ({ smallMode, isMap }) => {
+const TabScreenBottomTabBar: React.FC<TabScreenBottomTabBarProps> = ({ isMap }) => {
 
 
     const { bottom } = useSafeAreaInsets()

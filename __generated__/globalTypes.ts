@@ -29,6 +29,11 @@ export enum PetType {
   dog = "dog",
 }
 
+export enum PostType {
+  free = "free",
+  walk = "walk",
+}
+
 export interface CameraRegionInput {
   latitude: number;
   longitude: number;
@@ -40,6 +45,12 @@ export interface CreateChatInput {
   chatRoomId: string;
   message?: string | null;
   image?: string | null;
+}
+
+export interface CreatePostInput {
+  content: string;
+  type: PostType;
+  images: string[];
 }
 
 export interface RegistPetInput {
@@ -85,6 +96,7 @@ export interface UpdateUserInput {
 
 export interface UserWhereUniqueInput {
   id?: string | null;
+  snsLoginId?: string | null;
   email?: string | null;
   uniqueKey?: string | null;
 }
