@@ -4,6 +4,7 @@ import { PostsAdressFilterInput } from '../../../__generated__/globalTypes'
 import ScreenLayout from '../../components/layout/ScreenLayout'
 import TabScreenBottomTabBar from '../../components/tabs/TabScreenBottomTabBar'
 import { usePosts } from '../../graphql/post'
+import useRefreshing from '../../hooks/useRefreshing'
 import PostCard from './PostCard'
 import PostHeader from './PostHeader'
 
@@ -17,9 +18,10 @@ const Post = () => {
 
     const [filter, setFilter] = useState<PostsAdressFilterInput>({})
 
-    const { data } = usePosts({
+    const { data, refetch, fetchMore } = usePosts({
         variables: { filter }
     })
+    const refreshing = useRefreshing(refetch)
 
     const contextValue = useMemo<PostContextInterface>(() => ({
         filter, setFilter
@@ -30,6 +32,10 @@ const Post = () => {
             <ScreenLayout>
                 <PostHeader />
                 <FlatList
+                    {...refreshing}
+                    onEndReachedThreshold={0.5}
+                    onEndReached={() => fetchMore({ variables: { skip: data?.posts.length } })}
+                    overScrollMode='never'
                     data={data?.posts || []}
                     renderItem={({ item }) => <PostCard {...item} />}
                 />

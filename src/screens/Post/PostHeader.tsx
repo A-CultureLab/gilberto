@@ -35,7 +35,7 @@ const PostHeader = () => {
                 })
             }
         })
-    }, [])
+    }, [address])
 
     const onAdd = useCallback(() => {
         navigate('PostCreate')
