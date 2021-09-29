@@ -30,9 +30,14 @@ export const I_USER = gql`
       notReadChatCount
       address {
         id
+        area1Id
+        area2Id
+        area3Id
+        landId
         land {
           id
           fullName
+          buildingName
         }
       }
     }

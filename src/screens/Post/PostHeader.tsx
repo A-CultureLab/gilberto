@@ -1,19 +1,39 @@
 import { useNavigation } from '@react-navigation/core'
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
+import { PostContext } from '.'
 import { GRAY2, GRAY3 } from '../../constants/styles'
+import { useIUser } from '../../graphql/user'
 import useGlobalUi from '../../hooks/useGlobalUi'
 
 const PostHeader = () => {
 
     const { navigate } = useNavigation()
     const { selector } = useGlobalUi()
+    const { filter, setFilter } = useContext(PostContext)
+    const { data } = useIUser()
+
+    const address = data?.iUser.address
+    const currentAddress = filter.area1Id || filter.area2Id || filter.area3Id || (filter.landId ? address?.land.buildingName : '전국')
 
     const onLocation = useCallback(() => {
         selector({
-            list: [],
-            onSelect: () => { }
+            list: [
+                '전국',
+                address?.area1Id || '',
+                address?.area2Id || '',
+                address?.area3Id || '',
+                address?.land.buildingName || '',
+            ],
+            onSelect: (i) => {
+                setFilter({
+                    area1Id: i === 1 ? address?.area1Id : undefined,
+                    area2Id: i === 2 ? address?.area2Id : undefined,
+                    area3Id: i === 3 ? address?.area3Id : undefined,
+                    landId: i === 4 ? address?.landId : undefined,
+                })
+            }
         })
     }, [])
 
@@ -27,7 +47,7 @@ const PostHeader = () => {
                 onPress={onLocation}
                 style={styles.locationSelector}
             >
-                <Text style={styles.location} >전국</Text>
+                <Text style={styles.location} >{currentAddress}</Text>
                 <Icon name='keyboard-arrow-down' size={24} />
             </Pressable>
             <View style={{ flex: 1 }} />

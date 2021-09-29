@@ -13,11 +13,16 @@ export interface iUser_iUser_address_land {
   __typename: "Land";
   id: string;
   fullName: string;
+  buildingName: string;
 }
 
 export interface iUser_iUser_address {
   __typename: "Address";
   id: string;
+  area1Id: string;
+  area2Id: string;
+  area3Id: string;
+  landId: string;
   land: iUser_iUser_address_land;
 }
 
