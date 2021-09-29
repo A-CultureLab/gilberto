@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/core'
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
@@ -18,23 +18,31 @@ const PostCreate = () => {
 
     const { goBack } = useNavigation()
 
-    const { control, handleSubmit } = useForm<CreatePostInput>({
+    const { control, handleSubmit, formState, clearErrors } = useForm<CreatePostInput>({
         defaultValues: {
             images: []
         }
     })
-    const { selector } = useGlobalUi()
+    const { selector, toast } = useGlobalUi()
 
     const [createPost, { loading }] = useCreatePost()
 
     const onSubmit = handleSubmit(async (data) => {
-        console.log(data)
         if (loading) return
 
         const { errors } = await createPost({ variables: { data } })
         if (errors) return
+
         goBack()
     })
+
+    useEffect(() => {
+        const errors = formState.errors
+        if (Object.keys(errors).length === 0) return
+        // @ts-ignore
+        toast({ content: errors[Object.keys(errors)[0]].message })
+        clearErrors()
+    }, [formState])
 
     return (
         <ScreenLayout>
@@ -77,19 +85,23 @@ const PostCreate = () => {
                     name='content'
                     rules={{ required: '내용을 입력해주세요' }}
                     render={({ field }) => (
-                        <TextInput
-                            style={styles.contentInput}
-                            placeholderTextColor={GRAY1}
-                            placeholder='반려동물에 관한 질문이나 산책공고를 올려보세요!'
-                            value={field.value}
-                            onChangeText={field.onChange}
-                        />
+                        <View style={styles.contentInputContainer} >
+                            <TextInput
+                                multiline
+                                maxLength={5000}
+                                numberOfLines={20}
+                                style={styles.contentInput}
+                                placeholderTextColor={GRAY1}
+                                placeholder='반려동물에 관한 질문이나 산책공고를 올려보세요!'
+                                value={field.value}
+                                onChangeText={field.onChange}
+                            />
+                        </View>
                     )}
                 />
             </ScrollView>
             <Footer
                 text='완료'
-                // disable={ }
                 loading={loading}
                 onPress={onSubmit}
             />
@@ -109,8 +121,13 @@ const styles = StyleSheet.create({
         borderBottomColor: GRAY3,
         borderBottomWidth: 1
     },
-    contentInput: {
+    contentInputContainer: {
         paddingHorizontal: 16,
-        paddingVertical: 24,
+        paddingVertical: 16,
+    },
+    contentInput: {
+        padding: 0,
+        margin: 0,
+        lineHeight: 20,
     }
 })

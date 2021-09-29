@@ -6,6 +6,7 @@ export default new InMemoryCache({
         Query: {
             fields: {
                 petsByAddress: offsetLimitPagination(['addressGroupId']),
+                posts: offsetLimitPagination(['filter']),
                 chatRooms: cursorPagination([]),
                 chats: cursorPagination(['chatRoomId'])
             }

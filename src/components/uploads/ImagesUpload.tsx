@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
-import { ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { GRAY1, GRAY2, GRAY3 } from '../../constants/styles'
 import useImagesUpload from '../../hooks/useImagesUpload'
 import Icon from 'react-native-vector-icons/MaterialIcons'
+import FastImage from 'react-native-fast-image'
 
 interface ImagesUploadProps {
     max?: number
@@ -28,7 +29,7 @@ const ImagesUpload: React.FC<ImagesUploadProps> = ({ max, onChange }) => {
 
             {images.map((v, i) => (
                 <View key={v} style={styles.imageContainer} >
-                    <Image
+                    <FastImage
                         style={styles.image}
                         source={{ uri: v }}
                     />
@@ -43,7 +44,7 @@ const ImagesUpload: React.FC<ImagesUploadProps> = ({ max, onChange }) => {
 
             {imagesTemp.map(v => (
                 <View key={v} style={styles.imageContainer} >
-                    <Image
+                    <FastImage
                         style={styles.image}
                         source={{ uri: v }}
                     />

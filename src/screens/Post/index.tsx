@@ -1,17 +1,27 @@
 import React from 'react'
 import { FlatList, StyleSheet, Text, View } from 'react-native'
-import Header from '../../components/headers/Header'
 import ScreenLayout from '../../components/layout/ScreenLayout'
 import TabScreenBottomTabBar from '../../components/tabs/TabScreenBottomTabBar'
+import { usePosts } from '../../graphql/post'
+import PostCard from './PostCard'
 import PostHeader from './PostHeader'
 
 const Post = () => {
+
+    const { data } = usePosts({
+        variables: {
+            filter: {
+
+            }
+        }
+    })
+
     return (
         <ScreenLayout>
             <PostHeader />
             <FlatList
-                data={[]}
-                renderItem={() => null}
+                data={data?.posts || []}
+                renderItem={({ item }) => <PostCard {...item} />}
             />
             <TabScreenBottomTabBar />
         </ScreenLayout>
@@ -20,4 +30,4 @@ const Post = () => {
 
 export default Post
 
-const styles = StyleSheet.create({})
+

@@ -53,6 +53,13 @@ export interface CreatePostInput {
   images: string[];
 }
 
+export interface PostsAdressFilterInput {
+  area1Id?: string | null;
+  area2Id?: string | null;
+  area3Id?: string | null;
+  landId?: string | null;
+}
+
 export interface RegistPetInput {
   name: string;
   image: string;
