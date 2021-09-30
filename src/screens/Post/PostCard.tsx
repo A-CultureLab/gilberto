@@ -13,22 +13,13 @@ import { useLikePost } from '../../graphql/post'
 
 const PostCard: React.FC<posts_posts> = (props) => {
 
-    const { id, user, content, images, createdAt, commentCount, type, isILiked: _isILiked, likeCount: _likeCount } = props
+    const { id, user, content, images, createdAt, commentCount, type, isILiked, likeCount } = props
 
-    const [isILiked, setIsILiked] = useState(_isILiked)
-
-    const likeCount = useMemo(() => {
-        let v = _likeCount
-        if (_isILiked) v -= 1
-        if (isILiked) v += 1
-        return v
-    }, [_isILiked, _likeCount, isILiked])
 
     const { navigate } = useNavigation()
 
     const [likePost] = useLikePost({ variables: { id, like: !isILiked } })
 
-    useEffect(() => { likePost() }, [isILiked])
 
     return (
         <View >
@@ -66,7 +57,7 @@ const PostCard: React.FC<posts_posts> = (props) => {
             </Pressable>
             <View style={styles.btnContainer} >
                 <Pressable
-                    onPress={() => setIsILiked(prev => !prev)}
+                    onPress={() => likePost()}
                     android_ripple={{ color: COLOR2 }}
                     style={styles.btn}
                 >

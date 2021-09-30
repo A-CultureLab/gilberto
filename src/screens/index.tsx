@@ -47,6 +47,7 @@ import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messag
 import useAppState from '../hooks/useAppState';
 import Post from './Post';
 import PostCreate from './PostCreate';
+import PostDetail from './PostDetail';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -275,6 +276,7 @@ const Navigation = () => {
                     <Stack.Screen name='ImageDetail' component={ImageDetail} />
                     <Stack.Screen name='Report' component={Report} />
                     <Stack.Screen name='PostCreate' component={PostCreate} />
+                    <Stack.Screen name='PostDetail' component={PostDetail} />
                 </Stack.Navigator>
             </NavigationContainer>
         </AuthContext.Provider>
