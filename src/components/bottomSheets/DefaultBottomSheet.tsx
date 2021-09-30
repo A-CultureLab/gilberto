@@ -10,11 +10,12 @@ import { IS_IOS } from '../../constants/values';
 interface DefaultBottomSheetProps {
     visible: boolean
     onClose: () => void
+    onModalHide?: () => void
     enableBottomSafeArea?: boolean
     disableKeyboardAvoidingView?: boolean
 }
 
-const DefaultBottomSheet: React.FC<DefaultBottomSheetProps> = ({ visible, onClose, children, enableBottomSafeArea, disableKeyboardAvoidingView }) => {
+const DefaultBottomSheet: React.FC<DefaultBottomSheetProps> = ({ visible, onClose, children, enableBottomSafeArea, disableKeyboardAvoidingView, onModalHide }) => {
 
     const { bottom } = useSafeAreaInsets()
 
@@ -25,6 +26,7 @@ const DefaultBottomSheet: React.FC<DefaultBottomSheetProps> = ({ visible, onClos
                 onBackdropPress={onClose}
                 onBackButtonPress={onClose}
                 onDismiss={onClose}
+                onModalHide={onModalHide}
                 backdropColor='#000'
                 backdropOpacity={0.5}
                 useNativeDriverForBackdrop

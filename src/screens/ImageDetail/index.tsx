@@ -40,6 +40,12 @@ const ImageDetail: React.FC<ImageDetailProps> = () => {
                 <Text style={styles.title} >{title}</Text>
             </View>
             <FlatList
+
+                getItemLayout={(data, index) => ({
+                    index,
+                    length: urls.length,
+                    offset: WIDTH * index
+                })}
                 initialScrollIndex={index}
                 horizontal
                 pagingEnabled

@@ -14,28 +14,43 @@ export interface SelectBottomSheetProps {
     onSelect: (index: number) => void
     selectedDataIndex?: number
     closeToSelect?: boolean
+    callWhenHide?: boolean
 }
 
-const SelectBottomSheet: React.FC<SelectBottomSheetProps> = ({ onClose, visible, list, onSelect: _onSelect, selectedDataIndex, closeToSelect }) => {
+const SelectBottomSheet: React.FC<SelectBottomSheetProps> = ({ onClose, visible, list, onSelect: _onSelect, selectedDataIndex, closeToSelect, callWhenHide }) => {
 
     const { bottom } = useSafeAreaInsets()
     const [selected, setSelected] = useState(false)
+    const [selectedIndex, setSelectedIndex] = useState(-1)
 
     const onSelect = useCallback((i: number) => {
         if (selected) return // 두번 실행 방지
         onClose && onClose()
-        _onSelect(i)
+
+        if (!callWhenHide) _onSelect(i)
+        else setSelectedIndex(i)
+
         setSelected(true)
-    }, [onClose, _onSelect, selected])
+    }, [onClose, _onSelect, selected, callWhenHide])
+
+    // modal 중첩시 오류가 날때가 있음
+    const onModaHide = useCallback(() => {
+        if (!callWhenHide) return
+        if (selectedIndex !== -1) _onSelect(selectedIndex)
+    }, [selectedIndex, callWhenHide])
 
     useEffect(() => {
-        if (visible) setSelected(false)
+        if (visible) {
+            setSelected(false)
+            setSelectedIndex(-1)
+        }
     }, [visible])
 
 
     return (
         <DefaultBottomSheet
             visible={visible}
+            onModalHide={onModaHide}
             onClose={() => closeToSelect ? onSelect(-1) : onClose()}
         >
             <ScrollView
