@@ -14,40 +14,45 @@ import meterUnit from '../../utils/meterUnit'
 import dayjs from 'dayjs'
 import PostDetailFooter from './PostDetailFooter'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { usePostComments } from '../../graphql/postComment'
+import useRefreshing from '../../hooks/useRefreshing'
 
 interface PostDetailProps {
     id: string
-    commentFocus?: boolean
+    focus?: boolean
 }
 
 interface PostDetailContextInterface {
     inputRef: React.RefObject<TextInput>
     postId: string
+    refetch: () => void
 }
 
 export const PostDetailContext = createContext<PostDetailContextInterface>({} as any)
 
 const PostDetail = () => {
 
-    const { params: { id, commentFocus } } = useRoute<Route<"PostDetail", PostDetailProps>>()
+    const { params: { id, focus } } = useRoute<Route<"PostDetail", PostDetailProps>>()
     const { navigate } = useNavigation()
     const { bottom } = useSafeAreaInsets()
 
+    const { data: postCommetsData, fetchMore, refetch } = usePostComments({ variables: { postId: id } })
+    const refreshing = useRefreshing(refetch)
     const { data } = usePost({ variables: { id } })
-
-    const [notificated, setNotificated] = useState(false)
 
     const [likePost] = useLikePost({ variables: { id, like: !data?.post.isILiked } })
 
     const inputRef = useRef<TextInput>(null)
+    const [notificated, setNotificated] = useState(false)
 
     const contextValue = useMemo(() => ({
         inputRef,
-        postId: id
-    }), [inputRef, id])
+        postId: id,
+        refetch
+    }), [inputRef, id, refetch])
 
     useEffect(() => {
-
+        if (focus) inputRef.current?.focus()
     }, [])
 
     return (
@@ -77,9 +82,12 @@ const PostDetail = () => {
                         )}
                     />
                     <View style={{ flex: 1 }} >
-                        {data && <FlatList
-                            data={[]}
+                        {data && postCommetsData && <FlatList
+                            {...refreshing}
+                            data={postCommetsData.postComments}
                             overScrollMode='never'
+                            onEndReachedThreshold={0.5}
+                            onEndReached={() => fetchMore({ variables: { skip: postCommetsData.postComments.length } })}
                             showsVerticalScrollIndicator={false}
                             ListHeaderComponent={
                                 <>
@@ -88,10 +96,7 @@ const PostDetail = () => {
                                             <Text style={styles.type} >{POST_TYPES.find(v => v.value === data.post.type)?.name}</Text>
                                             <Text style={styles.createdAt} >{dayjs(data.post.createdAt).fromNow()}</Text>
                                         </View>
-                                        <Pressable
-                                            onPress={() => navigate('UserDetail', { id: data.post.user.id })}
-                                            style={styles.userContainer}
-                                        >
+                                        <View style={styles.userContainer}>
                                             <FastImage
                                                 style={styles.userImage}
                                                 source={{ uri: data.post.user.image }}
@@ -100,7 +105,7 @@ const PostDetail = () => {
                                                 <Text style={styles.userName} >{data.post.user.name}</Text>
                                                 <Text style={styles.userInfo} >{`${data.post.user.address.adressShort} ∙ ${meterUnit(data.post.user.address.distance || 0)}`}</Text>
                                             </View>
-                                        </Pressable>
+                                        </View>
                                         <Text style={styles.content} >{data.post.content}</Text>
                                         {!!data.post.images.length &&
                                             <Images
@@ -120,7 +125,7 @@ const PostDetail = () => {
                                             <Text style={[styles.btnText, { color: data.post.isILiked ? COLOR1 : GRAY1 }]} >좋아요{!!data.post.likeCount ? ` ${data.post.likeCount}` : ''}</Text>
                                         </Pressable>
                                         <Pressable
-                                            onPress={() => navigate('PostDetail', { id, commentFocus: true })}
+                                            onPress={() => navigate('PostDetail', { id, focus: true })}
                                             style={styles.btn}
                                             android_ripple={{ color: COLOR2 }}
                                         >
@@ -187,10 +192,10 @@ const styles = StyleSheet.create({
     userName: {
         fontSize: 12,
         fontWeight: 'bold',
-        marginBottom: 6
+        marginBottom: 8
     },
     userInfo: {
-        fontSize: 10,
+        fontSize: 12,
         color: GRAY1
     },
     content: {
@@ -198,12 +203,12 @@ const styles = StyleSheet.create({
         flex: 1,
         marginBottom: 16
     },
-
     btnContainer: {
         flexDirection: 'row',
         height: 40,
         borderBottomWidth: 1,
-        borderBottomColor: GRAY3
+        borderBottomColor: GRAY3,
+        marginBottom: 24
     },
     btn: {
         paddingHorizontal: 16,

@@ -9,9 +9,16 @@ import { PostCommentCreateInput } from "./../../../__generated__/globalTypes";
 // GraphQL mutation operation: createPostComment
 // ====================================================
 
+export interface createPostComment_createOnePostComment_post {
+  __typename: "Post";
+  id: string;
+  commentCount: number;
+}
+
 export interface createPostComment_createOnePostComment {
   __typename: "PostComment";
   id: string;
+  post: createPostComment_createOnePostComment_post;
 }
 
 export interface createPostComment {

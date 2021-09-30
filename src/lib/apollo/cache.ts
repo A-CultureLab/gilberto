@@ -8,7 +8,8 @@ export default new InMemoryCache({
                 petsByAddress: offsetLimitPagination(['addressGroupId']),
                 posts: offsetLimitPagination(['filter']),
                 chatRooms: cursorPagination([]),
-                chats: cursorPagination(['chatRoomId'])
+                chats: cursorPagination(['chatRoomId']),
+                postComments: offsetLimitPagination(['postId'])
             }
         }
     },

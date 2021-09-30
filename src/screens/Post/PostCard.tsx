@@ -65,7 +65,7 @@ const PostCard: React.FC<posts_posts> = (props) => {
                     <Text style={[styles.btnText, { color: isILiked ? COLOR1 : GRAY1 }]} >좋아요{!!likeCount ? ` ${likeCount}` : ''}</Text>
                 </Pressable>
                 <Pressable
-                    onPress={() => navigate('PostDetail', { id, commentFocus: true })}
+                    onPress={() => navigate('PostDetail', { id, focus: true })}
                     style={styles.btn}
                     android_ripple={{ color: COLOR2 }}
                 >

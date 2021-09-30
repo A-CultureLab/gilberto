@@ -11,7 +11,7 @@ import useImageUpload from '../../hooks/useImageUpload'
 
 const PostDetailFooter = () => {
 
-    const { inputRef, postId } = useContext(PostDetailContext)
+    const { inputRef, postId, refetch } = useContext(PostDetailContext)
     const { toast } = useGlobalUi()
 
     const [createPostComment, { loading: createPostLoading }] = useCreatePostComment()
@@ -42,7 +42,8 @@ const PostDetailFooter = () => {
         inputRef.current?.blur()
         clear()
         setContent('')
-    }, [image, content, imageUploadLoading, postId, iUser])
+        refetch()
+    }, [image, content, imageUploadLoading, postId, iUser, refetch])
 
     return (
         <View style={[styles.container]} >
