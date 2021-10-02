@@ -11,7 +11,7 @@ const PostHeader = () => {
 
     const { navigate } = useNavigation()
     const { selector } = useGlobalUi()
-    const { filter, setFilter } = useContext(PostContext)
+    const { filter, setFilter, refetch } = useContext(PostContext)
     const { data } = useIUser()
 
     const address = data?.iUser.address
@@ -38,7 +38,7 @@ const PostHeader = () => {
     }, [address])
 
     const onAdd = useCallback(() => {
-        navigate('PostCreate')
+        navigate('PostCreate', { refetch })
     }, [])
 
     return (

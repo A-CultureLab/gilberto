@@ -10,6 +10,7 @@ import dayjs from 'dayjs'
 import meterUnit from '../../utils/meterUnit'
 import Images from '../../components/images/Images'
 import { useLikePost } from '../../graphql/post'
+import HyperLink from 'react-native-hyperlink'
 
 const PostCard: React.FC<posts_posts> = (props) => {
 
@@ -40,7 +41,9 @@ const PostCard: React.FC<posts_posts> = (props) => {
                     </Pressable>
                     <View style={{ flex: 1 }} >
                         <Text style={styles.type} >{POST_TYPES.find(v => v.value === type)?.name}</Text>
-                        <Text numberOfLines={3} style={styles.content} >{content}</Text>
+                        <HyperLink linkDefault={true} linkStyle={{ color: COLOR2 }} >
+                            <Text numberOfLines={3} style={styles.content} >{content}</Text>
+                        </HyperLink>
                     </View>
                 </View>
                 {!!images.length &&

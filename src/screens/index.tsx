@@ -48,6 +48,7 @@ import useAppState from '../hooks/useAppState';
 import Post from './Post';
 import PostCreate from './PostCreate';
 import PostDetail from './PostDetail';
+import PostCommentDetail from './PostCommentDetail';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -277,6 +278,7 @@ const Navigation = () => {
                     <Stack.Screen name='Report' component={Report} />
                     <Stack.Screen name='PostCreate' component={PostCreate} />
                     <Stack.Screen name='PostDetail' component={PostDetail} />
+                    <Stack.Screen name='PostCommentDetail' component={PostCommentDetail} />
                 </Stack.Navigator>
             </NavigationContainer>
         </AuthContext.Provider>

@@ -661,6 +661,16 @@ export interface PostImageWhereUniqueInput {
   id?: string | null;
 }
 
+export interface PostReplyCommentCreateInput {
+  id?: string | null;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+  content: string;
+  image?: string | null;
+  user: UserCreateNestedOneWithoutPostReplyCommentInput;
+  postComment: PostCommentCreateNestedOneWithoutReplyCommentsInput;
+}
+
 export interface PostReplyCommentCreateManyPostCommentInput {
   id?: string | null;
   createdAt?: any | null;

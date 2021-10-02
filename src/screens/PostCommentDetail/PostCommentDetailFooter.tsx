@@ -2,23 +2,23 @@ import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { ActivityIndicator, Keyboard, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import { PostDetailContext } from '.'
+import { PostCommentDetailContext } from '.'
 import { COLOR1, GRAY2 } from '../../constants/styles'
-import { useCreatePostComment } from '../../graphql/postComment'
+import { useCreatePostReplyComment } from '../../graphql/postReplyComment'
 import { useIUser } from '../../graphql/user'
 import useGlobalUi from '../../hooks/useGlobalUi'
 import useImageUpload from '../../hooks/useImageUpload'
 
-const PostDetailFooter = () => {
+const PostCommentDetailFooter = () => {
 
-    const { inputRef, postId, refetch } = useContext(PostDetailContext)
+    const { inputRef, postCommentId, refetch } = useContext(PostCommentDetailContext)
     const { toast } = useGlobalUi()
 
-    const [createPostComment, { loading: createPostLoading }] = useCreatePostComment()
+    const [createPostComment, { loading: createPostLoading }] = useCreatePostReplyComment()
     const { data: iUser } = useIUser()
 
     const [content, setContent] = useState('')
-    const { selectAndUpload, image, clear, imageTemp, loading: imageUploadLoading } = useImageUpload('postComment')
+    const { selectAndUpload, image, clear, imageTemp, loading: imageUploadLoading } = useImageUpload('postReplyComment')
 
 
     const onSend = useCallback(async () => {
@@ -32,7 +32,7 @@ const PostDetailFooter = () => {
                 data: {
                     image,
                     content,
-                    post: { connect: { id: postId } },
+                    postComment: { connect: { id: postCommentId } },
                     user: { connect: { id: iUser.iUser.id } }
                 }
             }
@@ -44,7 +44,7 @@ const PostDetailFooter = () => {
         clear()
         setContent('')
         refetch()
-    }, [image, content, imageUploadLoading, postId, iUser, refetch])
+    }, [image, content, imageUploadLoading, postCommentId, iUser, refetch])
 
     return (
         <View style={[styles.container]} >
@@ -103,7 +103,7 @@ const PostDetailFooter = () => {
     )
 }
 
-export default PostDetailFooter
+export default PostCommentDetailFooter
 
 const styles = StyleSheet.create({
     container: {

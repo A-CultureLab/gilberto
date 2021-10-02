@@ -9,7 +9,8 @@ export default new InMemoryCache({
                 posts: offsetLimitPagination(['filter']),
                 chatRooms: cursorPagination([]),
                 chats: cursorPagination(['chatRoomId']),
-                postComments: offsetLimitPagination(['postId'])
+                postComments: offsetLimitPagination(['where']),
+                postReplyComments: offsetLimitPagination(['where'])
             }
         }
     },

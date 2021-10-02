@@ -10,6 +10,7 @@ import PostHeader from './PostHeader'
 
 interface PostContextInterface {
     filter: PostsAdressFilterInput, setFilter: (filter: PostsAdressFilterInput) => void
+    refetch: () => void
 }
 
 export const PostContext = createContext<PostContextInterface>({} as any)
@@ -24,8 +25,9 @@ const Post = () => {
     const refreshing = useRefreshing(refetch)
 
     const contextValue = useMemo<PostContextInterface>(() => ({
-        filter, setFilter
-    }), [filter, setFilter])
+        filter, setFilter,
+        refetch
+    }), [filter, setFilter, refetch])
 
     return (
         <PostContext.Provider value={contextValue} >

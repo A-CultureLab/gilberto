@@ -16,6 +16,7 @@ import PostDetailFooter from './PostDetailFooter'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { usePostComments } from '../../graphql/postComment'
 import useRefreshing from '../../hooks/useRefreshing'
+import HyperLink from 'react-native-hyperlink'
 
 interface PostDetailProps {
     id: string
@@ -75,6 +76,7 @@ const PostDetail = () => {
                                 <Pressable
                                     android_ripple={{ color: GRAY2, radius: 28 }}
                                     style={styles.rightBtn}
+                                // onPress={() => }
                                 >
                                     <Icon name='more-vert' size={24} color={GRAY1} />
                                 </Pressable>
@@ -106,7 +108,9 @@ const PostDetail = () => {
                                                 <Text style={styles.userInfo} >{`${data.post.user.address.adressShort} ∙ ${meterUnit(data.post.user.address.distance || 0)}`}</Text>
                                             </View>
                                         </View>
-                                        <Text style={styles.content} >{data.post.content}</Text>
+                                        <HyperLink linkDefault={true} linkStyle={{ color: COLOR2 }} >
+                                            <Text style={styles.content} >{data.post.content}</Text>
+                                        </HyperLink>
                                         {!!data.post.images.length &&
                                             <Images
                                                 onPress={(urls, index) => navigate('ImageDetail', { urls, index })}
