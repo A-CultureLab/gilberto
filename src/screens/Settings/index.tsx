@@ -19,7 +19,7 @@ const inAppUpdates = new SpInAppUpdates(__DEV__)
 
 const Settings = () => {
     const { bottom } = useSafeAreaInsets()
-    const { navigate } = useNavigation()
+    const { navigate, reset } = useNavigation()
     const { confirm, toast } = useGlobalUi()
     const { logout } = useAuth()
     const { user } = useContext(AuthContext)
@@ -50,7 +50,8 @@ const Settings = () => {
                     content: '정말 로그아웃 하시겠습니까?',
                     onPress: async (isYes) => {
                         if (!isYes) return
-                        logout()
+                        await logout()
+                        reset({ index: 0, routes: [{ name: 'Tab' }] })
                     }
                 })
             }

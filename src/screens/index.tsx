@@ -5,7 +5,7 @@ import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/
 import Confirm, { ConfirmProps } from '../components/bottomSheets/Confirm';
 import { DefaultTheme, NavigationContainer, NavigationContainerRef, Theme } from '@react-navigation/native';
 import { NavigationState } from '@react-navigation/routers'
-import React, { createContext, useEffect, useMemo, useRef, useState } from 'react';
+import React, { createContext, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Toast, { ToastProps } from '../components/toasts/Toast';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
 
@@ -39,9 +39,9 @@ import { IS_UPDATE_REQUIRE } from '../graphql/util';
 import { isUpdateRequire, isUpdateRequireVariables } from '../graphql/__generated__/isUpdateRequire';
 import deviceInfoModule from 'react-native-device-info';
 import SpInAppUpdates, { AndroidUpdateType, IAUUpdateKind } from 'sp-react-native-in-app-updates';
-import { IS_ANDROID, IS_IOS } from '../constants/values';
+import { APPSTORE_ID, IS_ANDROID, IS_IOS, IS_RATED, PLAYSTORE_PACKAGE_NAME, RATE_OPEN_TIMES_KEY, RATE_PERIOD } from '../constants/values';
 import PushNotification, { Importance } from 'react-native-push-notification';
-import { useIUser, useUpdateFcmToken } from '../graphql/user';
+import { IS_SIGNEDUP, useIUser, useUpdateFcmToken } from '../graphql/user';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
 import useAppState from '../hooks/useAppState';
@@ -50,6 +50,11 @@ import PostCreate from './PostCreate';
 import PostDetail from './PostDetail';
 import PostCommentDetail from './PostCommentDetail';
 import PostEdit from './PostEdit';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import useGlobalUi from '../hooks/useGlobalUi';
+import Rate from 'react-native-rate';
+import { isSignedup } from '../graphql/__generated__/isSignedup';
+import useAuth from '../hooks/useAuth';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -88,11 +93,15 @@ const Navigation = () => {
 
     const navigationRef = useRef<NavigationContainerRef>(null)
     const [navigationState, setNavigationState] = useState<NavigationState>()
+    const { confirm } = useGlobalUi()
 
     const [user, setUser] = useState<FirebaseAuthTypes.User | null>(auth().currentUser)
     const [updateFcmToken, { loading: updateFcmLoading }] = useUpdateFcmToken()
     const { } = useChatRoomUpdated({ variables: { userId: user?.uid || '' }, skip: !user })
     const { appState } = useAppState()
+
+    const { query } = useApolloClient()
+    const { logout } = useAuth()
 
     const authContextValue = useMemo(() => ({ user, setUser }), [user])
 
@@ -239,6 +248,50 @@ const Navigation = () => {
         fcmInit()
         return messaging().onTokenRefresh(fcmRefresh)
     }, [user])
+
+    useEffect(() => {
+        // 회원가입 안되있을시 파이어베이스 로그아웃
+        (async () => {
+            if (!auth().currentUser) return // 파이어베이스 로그인이 안되어있다면 이 프로세스와는 무관함
+            const { data } = await query<isSignedup, {}>({ query: IS_SIGNEDUP, fetchPolicy: 'network-only' })
+            if (!data.isSignedup) {
+                await logout()
+                navigationRef.current?.reset({ index: 0, routes: [{ name: 'Tab' }] })
+            }
+        })()
+
+    }, [])
+
+    // 평가요청
+    const onRate = useCallback(async () => {
+        const openTimes = Number(await AsyncStorage.getItem(RATE_OPEN_TIMES_KEY) || 0)
+        const isRated = !!(await AsyncStorage.getItem(IS_RATED))
+
+        await AsyncStorage.setItem(RATE_OPEN_TIMES_KEY, (openTimes + 1).toString())
+        if (isRated) return
+
+        if (openTimes !== 0 && openTimes % RATE_PERIOD === 0) {
+            confirm({
+                title: '평가남기기',
+                content: '평가는 개발자에게 힘이 됩니다!',
+                noText: '다음에',
+                yesText: '지금',
+                onPress: (isYes) => {
+                    if (!isYes) return
+                    Rate.rate({
+                        AppleAppID: APPSTORE_ID,
+                        GooglePackageName: PLAYSTORE_PACKAGE_NAME,
+                        preferInApp: true,
+                        openAppStoreIfInAppFails: true
+                    }, async (success) => {
+                        if (success) await AsyncStorage.setItem(IS_RATED, JSON.stringify(true))
+                    })
+                }
+            })
+        }
+    }, [])
+
+    useEffect(() => { onRate() }, [])
 
 
     return (

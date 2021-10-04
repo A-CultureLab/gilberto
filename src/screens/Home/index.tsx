@@ -44,10 +44,7 @@ const Home = () => {
     // const mapView = useRef<NaverMapView>(null);
 
     const { query } = useApolloClient()
-    const { navigate } = useNavigation()
 
-    const { user } = useContext(AuthContext)
-    const { confirm } = useGlobalUi()
     const { logout } = useAuth()
     const { bottom } = useSafeAreaInsets()
 
@@ -71,14 +68,6 @@ const Home = () => {
 
 
     useEffect(() => {
-        // 회원가입 안되있을시 파이어베이스 로그아웃
-        (async () => {
-            if (!auth().currentUser) return // 파이어베이스 로그인이 안되어있다면 이 프로세스와는 무관함
-            const { data } = await query<isSignedup, {}>({ query: IS_SIGNEDUP, fetchPolicy: 'network-only' })
-            if (!data.isSignedup) logout()
-        })()
-
-
         let watch: number
 
         (async () => {
@@ -160,36 +149,7 @@ const Home = () => {
     }, [setCameraRegion])
 
 
-    // 평가요청
-    const onRate = useCallback(async () => {
-        const openTimes = Number(await AsyncStorage.getItem(RATE_OPEN_TIMES_KEY) || 0)
-        const isRated = !!(await AsyncStorage.getItem(IS_RATED))
 
-        await AsyncStorage.setItem(RATE_OPEN_TIMES_KEY, (openTimes + 1).toString())
-        if (isRated) return
-
-        if (openTimes !== 0 && openTimes % RATE_PERIOD === 0) {
-            confirm({
-                title: '평가남기기',
-                content: '평가는 개발자에게 힘이 됩니다!',
-                noText: '다음에',
-                yesText: '지금',
-                onPress: (isYes) => {
-                    if (!isYes) return
-                    Rate.rate({
-                        AppleAppID: APPSTORE_ID,
-                        GooglePackageName: PLAYSTORE_PACKAGE_NAME,
-                        preferInApp: true,
-                        openAppStoreIfInAppFails: true
-                    }, async (success) => {
-                        if (success) await AsyncStorage.setItem(IS_RATED, JSON.stringify(true))
-                    })
-                }
-            })
-        }
-    }, [])
-
-    useEffect(() => { onRate() }, [])
     // ------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 
