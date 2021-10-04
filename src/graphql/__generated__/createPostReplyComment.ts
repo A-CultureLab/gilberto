@@ -9,6 +9,29 @@ import { PostReplyCommentCreateInput } from "./../../../__generated__/globalType
 // GraphQL mutation operation: createPostReplyComment
 // ====================================================
 
+export interface createPostReplyComment_createOnePostReplyComment_postComment_recentPostReplyComments_user_address {
+  __typename: "Address";
+  id: string;
+  adressShort: string;
+}
+
+export interface createPostReplyComment_createOnePostReplyComment_postComment_recentPostReplyComments_user {
+  __typename: "User";
+  id: string;
+  name: string;
+  image: string;
+  address: createPostReplyComment_createOnePostReplyComment_postComment_recentPostReplyComments_user_address;
+}
+
+export interface createPostReplyComment_createOnePostReplyComment_postComment_recentPostReplyComments {
+  __typename: "PostReplyComment";
+  id: string;
+  createdAt: any;
+  content: string;
+  image: string | null;
+  user: createPostReplyComment_createOnePostReplyComment_postComment_recentPostReplyComments_user;
+}
+
 export interface createPostReplyComment_createOnePostReplyComment_postComment_post {
   __typename: "Post";
   id: string;
@@ -19,6 +42,7 @@ export interface createPostReplyComment_createOnePostReplyComment_postComment {
   __typename: "PostComment";
   id: string;
   postReplyCommentCount: number;
+  recentPostReplyComments: createPostReplyComment_createOnePostReplyComment_postComment_recentPostReplyComments[];
   post: createPostReplyComment_createOnePostReplyComment_postComment_post;
 }
 

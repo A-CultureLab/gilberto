@@ -7,12 +7,12 @@ import { uploadImages, uploadImagesVariables } from "../graphql/__generated__/up
 import generateImageToRNFile from "../lib/generateRNFile"
 import useGlobalUi from "./useGlobalUi"
 
-const useImagesUpload = (max = 10) => {
+const useImagesUpload = (initialValue: string[] = [], max = 10) => {
 
     const { mutate } = useApolloClient()
     const { selector } = useGlobalUi()
 
-    const [images, setImages] = useState<string[]>([])
+    const [images, setImages] = useState<string[]>(initialValue)
     const [imagesTemp, setImagesTemp] = useState<string[]>([])
     const [loading, setLoading] = useState(false)
 

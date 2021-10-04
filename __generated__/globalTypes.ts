@@ -936,6 +936,13 @@ export interface SignupInput {
   marketingEmailDate?: any | null;
 }
 
+export interface UpdatePostInput {
+  id: string;
+  content: string;
+  type: PostType;
+  images: string[];
+}
+
 export interface UpdateUserChatRoomInfoInput {
   id: string;
   notificated?: boolean | null;

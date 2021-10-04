@@ -49,6 +49,7 @@ import Post from './Post';
 import PostCreate from './PostCreate';
 import PostDetail from './PostDetail';
 import PostCommentDetail from './PostCommentDetail';
+import PostEdit from './PostEdit';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -279,6 +280,7 @@ const Navigation = () => {
                     <Stack.Screen name='PostCreate' component={PostCreate} />
                     <Stack.Screen name='PostDetail' component={PostDetail} />
                     <Stack.Screen name='PostCommentDetail' component={PostCommentDetail} />
+                    <Stack.Screen name='PostEdit' component={PostEdit} />
                 </Stack.Navigator>
             </NavigationContainer>
         </AuthContext.Provider>

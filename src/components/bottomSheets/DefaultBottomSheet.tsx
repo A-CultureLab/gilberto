@@ -29,6 +29,7 @@ const DefaultBottomSheet: React.FC<DefaultBottomSheetProps> = ({ visible, onClos
                 onModalHide={onModalHide}
                 backdropColor='#000'
                 backdropOpacity={0.5}
+                useNativeDriver
                 useNativeDriverForBackdrop
                 backdropTransitionOutTiming={0}
                 statusBarTranslucent

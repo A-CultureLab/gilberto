@@ -1,9 +1,11 @@
 import gql from "graphql-tag";
 import { createMutationHook, createQueryHook } from "../lib/createApolloHook";
 import { createPost, createPostVariables } from "./__generated__/createPost";
+import { deletePost, deletePostVariables } from "./__generated__/deletePost";
 import { likePost, likePostVariables } from "./__generated__/likePost";
 import { post, postVariables } from "./__generated__/post";
 import { posts, postsVariables } from "./__generated__/posts";
+import { updatePost, updatePostVariables } from "./__generated__/updatePost";
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const CREATE_POST = gql`
@@ -14,6 +16,21 @@ mutation createPost ($data:CreatePostInput!) {
 }
 `
 export const useCreatePost = createMutationHook<createPost, createPostVariables>(CREATE_POST)
+//--------------------------------------------------------------------------------------------------------------------------------------------------------//
+export const UPDATE_POST = gql`
+mutation updatePost ($data:UpdatePostInput!) {
+    updatePost(data: $data) {
+        id
+        type
+        content
+        images {
+            id
+            url
+        }
+    }
+}
+`
+export const useUpdatePost = createMutationHook<updatePost, updatePostVariables>(UPDATE_POST)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const POSTS = gql`
 query posts ($filter:PostsAdressFilterInput, $take:Int, $skip:Int) {
@@ -86,6 +103,15 @@ query post ($id:String!) {
 export const usePost = createQueryHook<post, postVariables>(POST)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
+export const DELETE_POST = gql`
+mutation deletePost ($id:String!) {
+    deletePost(id: $id) {
+        id
+    }
+}
+`
+
+export const useDeletePost = createMutationHook<deletePost, deletePostVariables>(DELETE_POST)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//

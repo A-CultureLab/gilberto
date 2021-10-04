@@ -7,12 +7,13 @@ import FastImage from 'react-native-fast-image'
 
 interface ImagesUploadProps {
     max?: number
+    value?: string[]
     onChange?: (images: string[]) => void
 }
 
-const ImagesUpload: React.FC<ImagesUploadProps> = ({ max, onChange }) => {
+const ImagesUpload: React.FC<ImagesUploadProps> = ({ max, onChange, value }) => {
 
-    const { images, imagesTemp, loading, selectAndUpload, uploadAble, remove } = useImagesUpload(max)
+    const { images, imagesTemp, loading, selectAndUpload, uploadAble, remove } = useImagesUpload(value, max)
 
     useEffect(() => {
         onChange && onChange(images)

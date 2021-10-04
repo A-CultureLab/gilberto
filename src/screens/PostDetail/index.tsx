@@ -1,12 +1,12 @@
 import { useRoute, Route, useNavigation } from '@react-navigation/core'
-import React, { createContext, useEffect, useMemo, useRef, useState } from 'react'
+import React, { createContext, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { FlatList, KeyboardAvoidingView, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 import Header from '../../components/headers/Header'
 import ScreenLayout from '../../components/layout/ScreenLayout'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { COLOR1, COLOR2, GRAY1, GRAY2, GRAY3 } from '../../constants/styles'
 import PostDetailCommentCard from './PostDetailCommentCard'
-import { useLikePost, usePost } from '../../graphql/post'
+import { useDeletePost, useLikePost, usePost } from '../../graphql/post'
 import FastImage from 'react-native-fast-image'
 import { IS_IOS, POST_TYPES } from '../../constants/values'
 import Images from '../../components/images/Images'
@@ -17,6 +17,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { usePostComments } from '../../graphql/postComment'
 import useRefreshing from '../../hooks/useRefreshing'
 import HyperLink from 'react-native-hyperlink'
+import useGlobalUi from '../../hooks/useGlobalUi'
+import { useIUser } from '../../graphql/user'
 
 interface PostDetailProps {
     id: string
@@ -34,17 +36,22 @@ export const PostDetailContext = createContext<PostDetailContextInterface>({} as
 const PostDetail = () => {
 
     const { params: { id, focus } } = useRoute<Route<"PostDetail", PostDetailProps>>()
-    const { navigate } = useNavigation()
+    const { navigate, goBack } = useNavigation()
     const { bottom } = useSafeAreaInsets()
+    const { selector, confirm } = useGlobalUi()
 
     const { data: postCommetsData, fetchMore, refetch } = usePostComments({ variables: { postId: id } })
     const refreshing = useRefreshing(refetch)
     const { data } = usePost({ variables: { id } })
+    const { data: iUserData } = useIUser()
 
+    const [deletePost] = useDeletePost({ variables: { id } })
     const [likePost] = useLikePost({ variables: { id, like: !data?.post.isILiked } })
 
     const inputRef = useRef<TextInput>(null)
     const [notificated, setNotificated] = useState(false)
+
+    const isPoster = iUserData?.iUser.id === data?.post.user.id
 
     const contextValue = useMemo(() => ({
         inputRef,
@@ -56,6 +63,31 @@ const PostDetail = () => {
         if (focus) inputRef.current?.focus()
     }, [])
 
+    const onMoreOptions = useCallback(() => {
+        selector({
+            list: isPoster ? ['수정하기', '삭제하기'] : ['신고하기'],
+            callWhenHide: true,
+            onSelect: (i) => {
+                if (isPoster) {
+                    if (i === 0) navigate('PostEdit', { id: data?.post.id })
+                    else if (i === 1) setTimeout(() => {
+                        confirm({
+                            title: '삭제하기',
+                            content: '정말 삭제하시겠습니까?',
+                            onPress: async (isYes) => {
+                                if (!isYes) return
+                                await deletePost()
+                                goBack()
+                            }
+                        })
+                    }, 250)
+                } else {
+                    if (i === 0) navigate("Report", {})
+                }
+            }
+        })
+    }, [isPoster, data])
+
     return (
         <PostDetailContext.Provider value={contextValue} >
             <ScreenLayout>
@@ -66,17 +98,17 @@ const PostDetail = () => {
                     <Header
                         right={() => (
                             <View style={styles.rightContainer} >
-                                <Pressable
+                                {/* <Pressable
                                     android_ripple={{ color: GRAY2, radius: 28 }}
                                     style={styles.rightBtn}
                                     onPress={() => setNotificated(prev => !prev)}
                                 >
                                     <Icon name={notificated ? 'notifications' : 'notifications-none'} size={24} color={notificated ? COLOR1 : GRAY1} />
-                                </Pressable>
+                                </Pressable> */}
                                 <Pressable
                                     android_ripple={{ color: GRAY2, radius: 28 }}
                                     style={styles.rightBtn}
-                                // onPress={() => }
+                                    onPress={onMoreOptions}
                                 >
                                     <Icon name='more-vert' size={24} color={GRAY1} />
                                 </Pressable>
