@@ -28,6 +28,7 @@ const PostDetailCommentCard: React.FC<postComments_postComments> = (props) => {
             ))}
             {postReplyCommentCount > 3 &&
                 <Pressable
+                    style={{ marginTop: -16, paddingTop: 16 }}
                     onPress={() => navigate("PostCommentDetail", { id })}
                 >
                     <Text style={styles.moreReplyComment}  >답글 더보기 {postReplyCommentCount}</Text>

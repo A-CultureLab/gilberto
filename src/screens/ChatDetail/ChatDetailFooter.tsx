@@ -120,7 +120,6 @@ const ChatDetailFooter: React.FC<ChatDetailFooterProps> = (props) => {
                             style={styles.input}
                             maxLength={1000}
                             multiline
-                            numberOfLines={20}
                         // editable={!(loading || imageUploadLoading)}
                         />
                     </>

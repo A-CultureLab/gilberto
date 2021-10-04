@@ -13,7 +13,7 @@ interface ImagesUploadProps {
 
 const ImagesUpload: React.FC<ImagesUploadProps> = ({ max, onChange, value }) => {
 
-    const { images, imagesTemp, loading, selectAndUpload, uploadAble, remove } = useImagesUpload(value, max)
+    const { images, imagesTemp, loading, selectAndUpload, uploadAble, remove, upload } = useImagesUpload(value, max)
 
     useEffect(() => {
         onChange && onChange(images)
@@ -56,7 +56,7 @@ const ImagesUpload: React.FC<ImagesUploadProps> = ({ max, onChange, value }) => 
             ))}
 
             {uploadAble && <Pressable
-                onPress={() => selectAndUpload({}, 'postImage/')}
+                onPress={() => upload({ camera: false }, 'postImage/')}
                 style={styles.addContainer}
             >
                 <Icon name='add' size={24} color={GRAY2} />

@@ -3,7 +3,7 @@ import { ActivityIndicator, Keyboard, Pressable, StyleSheet, Text, TextInput, Vi
 import FastImage from 'react-native-fast-image'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { PostCommentDetailContext } from '.'
-import { COLOR1, GRAY2 } from '../../constants/styles'
+import { COLOR1, GRAY1, GRAY2 } from '../../constants/styles'
 import { useCreatePostReplyComment } from '../../graphql/postReplyComment'
 import { useIUser } from '../../graphql/user'
 import useGlobalUi from '../../hooks/useGlobalUi'
@@ -86,9 +86,9 @@ const PostCommentDetailFooter = () => {
                     onChangeText={(t) => setContent(t)}
                     style={styles.input}
                     editable={!createPostLoading}
+                    placeholderTextColor={GRAY1}
                     maxLength={2000}
                     multiline
-                    numberOfLines={20}
                     placeholder='댓글을 입력해주세요'
                 />
             </View>
@@ -127,11 +127,15 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         paddingHorizontal: 16,
         maxHeight: 200,
+        color: '#000',
         justifyContent: 'center',
         paddingVertical: 8
     },
     input: {
+        margin: 0,
+        padding: 0,
         textAlignVertical: 'center',
+        color: '#000',
         width: '100%'
     },
     imageContainer: {

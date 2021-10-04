@@ -3,6 +3,7 @@ import React, { useCallback, useContext } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { PostContext } from '.'
+import { AuthContext } from '..'
 import { GRAY2, GRAY3 } from '../../constants/styles'
 import { useIUser } from '../../graphql/user'
 import useGlobalUi from '../../hooks/useGlobalUi'
@@ -12,7 +13,8 @@ const PostHeader = () => {
     const { navigate } = useNavigation()
     const { selector } = useGlobalUi()
     const { filter, setFilter, refetch } = useContext(PostContext)
-    const { data } = useIUser()
+    const { user } = useContext(AuthContext)
+    const { data } = useIUser({ skip: !user })
 
     const address = data?.iUser.address
     const currentAddress = filter.area1Id || filter.area2Id || filter.area3Id || (filter.landId ? address?.land.buildingName : '전국')
@@ -48,16 +50,16 @@ const PostHeader = () => {
                 style={styles.locationSelector}
             >
                 <Text style={styles.location} >{currentAddress}</Text>
-                <Icon name='keyboard-arrow-down' size={24} />
+                {user && <Icon name='keyboard-arrow-down' size={24} />}
             </Pressable>
             <View style={{ flex: 1 }} />
-            <Pressable
+            {user && <Pressable
                 onPress={onAdd}
                 android_ripple={{ color: GRAY2, radius: 28 }}
                 style={styles.addBtn}
             >
                 <Icon name='add' size={24} />
-            </Pressable>
+            </Pressable>}
         </View>
     )
 }

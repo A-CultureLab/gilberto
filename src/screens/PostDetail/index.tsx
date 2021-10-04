@@ -1,5 +1,5 @@
 import { useRoute, Route, useNavigation } from '@react-navigation/core'
-import React, { createContext, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { FlatList, KeyboardAvoidingView, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 import Header from '../../components/headers/Header'
 import ScreenLayout from '../../components/layout/ScreenLayout'
@@ -19,6 +19,7 @@ import useRefreshing from '../../hooks/useRefreshing'
 import HyperLink from 'react-native-hyperlink'
 import useGlobalUi from '../../hooks/useGlobalUi'
 import { useIUser } from '../../graphql/user'
+import { AuthContext } from '..'
 
 interface PostDetailProps {
     id: string
@@ -39,6 +40,7 @@ const PostDetail = () => {
     const { navigate, goBack } = useNavigation()
     const { bottom } = useSafeAreaInsets()
     const { selector, confirm } = useGlobalUi()
+    const { user } = useContext(AuthContext)
 
     const { data: postCommetsData, fetchMore, refetch } = usePostComments({ variables: { postId: id } })
     const refreshing = useRefreshing(refetch)
@@ -60,6 +62,13 @@ const PostDetail = () => {
     }), [inputRef, id, refetch])
 
     useEffect(() => {
+        // 비로그인 처리
+        if (!user) {
+            goBack()
+            navigate("Login")
+            return
+        }
+        // 키보드 포커스
         if (focus) inputRef.current?.focus()
     }, [])
 
@@ -154,7 +163,7 @@ const PostDetail = () => {
                                     <View style={styles.btnContainer} >
                                         <Pressable
                                             onPress={() => likePost()}
-                                            android_ripple={{ color: COLOR2 }}
+                                            android_ripple={{ color: GRAY2 }}
                                             style={styles.btn}
                                         >
                                             <Icon name='thumb-up' color={data.post.isILiked ? COLOR1 : GRAY3} size={16} />
@@ -163,7 +172,7 @@ const PostDetail = () => {
                                         <Pressable
                                             onPress={() => navigate('PostDetail', { id, focus: true })}
                                             style={styles.btn}
-                                            android_ripple={{ color: COLOR2 }}
+                                            android_ripple={{ color: GRAY2 }}
                                         >
                                             <Icon name='insert-comment' color={GRAY3} size={16} />
                                             <Text style={styles.btnText} >{!!data.post.commentCount ? `댓글 ${data.post.commentCount}` : '댓글쓰기'}</Text>

@@ -68,6 +68,7 @@ const PostCommentCard: React.FC<PostCommentCardProps> = (props) => {
                 ]}
             >
                 <Pressable
+                    style={{ height: 36 }}
                     onPress={() => navigate('UserDetail', { id: user.id })}
                 >
                     <FastImage
@@ -96,7 +97,6 @@ const PostCommentCard: React.FC<PostCommentCardProps> = (props) => {
                     </Pressable>}
                 </View>
                 <Pressable
-                    android_ripple={{ radius: 8, color: GRAY2 }}
                     onPress={onMenu}
                     style={styles.menuBtn}
                 >

@@ -61,7 +61,7 @@ const PostCard: React.FC<posts_posts> = (props) => {
             <View style={styles.btnContainer} >
                 <Pressable
                     onPress={() => likePost()}
-                    android_ripple={{ color: COLOR2 }}
+                    android_ripple={{ color: GRAY2 }}
                     style={styles.btn}
                 >
                     <Icon name='thumb-up' color={isILiked ? COLOR1 : GRAY3} size={16} />
@@ -70,7 +70,7 @@ const PostCard: React.FC<posts_posts> = (props) => {
                 <Pressable
                     onPress={() => navigate('PostDetail', { id, focus: true })}
                     style={styles.btn}
-                    android_ripple={{ color: COLOR2 }}
+                    android_ripple={{ color: GRAY2 }}
                 >
                     <Icon name='insert-comment' color={GRAY3} size={16} />
                     <Text style={styles.btnText} >{!!commentCount ? `댓글 ${commentCount}` : '댓글쓰기'}</Text>

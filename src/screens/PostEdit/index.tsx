@@ -106,7 +106,6 @@ const PostEdit = () => {
                             <TextInput
                                 multiline
                                 maxLength={5000}
-                                numberOfLines={20}
                                 style={styles.contentInput}
                                 placeholderTextColor={GRAY1}
                                 placeholder='반려동물에 관한 질문이나 산책공고를 올려보세요!'
@@ -146,5 +145,6 @@ const styles = StyleSheet.create({
         padding: 0,
         margin: 0,
         lineHeight: 20,
+        color: '#000'
     }
 })
