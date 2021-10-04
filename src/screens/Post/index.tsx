@@ -6,6 +6,7 @@ import TabScreenBottomTabBar from '../../components/tabs/TabScreenBottomTabBar'
 import { usePosts } from '../../graphql/post'
 import useRefreshing from '../../hooks/useRefreshing'
 import PostCard from './PostCard'
+import PostEmpty from './PostEmpty'
 import PostHeader from './PostHeader'
 
 interface PostContextInterface {
@@ -33,14 +34,16 @@ const Post = () => {
         <PostContext.Provider value={contextValue} >
             <ScreenLayout>
                 <PostHeader />
-                <FlatList
-                    {...refreshing}
-                    onEndReachedThreshold={0.5}
-                    onEndReached={() => fetchMore({ variables: { skip: data?.posts.length } })}
-                    overScrollMode='never'
-                    data={data?.posts || []}
-                    renderItem={({ item }) => <PostCard {...item} />}
-                />
+                {data?.posts.length === 0
+                    ? <PostEmpty />
+                    : <FlatList
+                        {...refreshing}
+                        onEndReachedThreshold={0.5}
+                        onEndReached={() => fetchMore({ variables: { skip: data?.posts.length } })}
+                        overScrollMode='never'
+                        data={data?.posts || []}
+                        renderItem={({ item }) => <PostCard {...item} />}
+                    />}
                 <TabScreenBottomTabBar />
             </ScreenLayout>
         </PostContext.Provider>
