@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Pressable, ScrollView, StyleSheet, Text, View, Linking, TouchableOpacity } from 'react-native'
+import { Pressable, ScrollView, StyleSheet, Text, View, Linking, TouchableOpacity, Share } from 'react-native'
 import Header from '../../components/headers/Header'
 import ScreenLayout from '../../components/layout/ScreenLayout'
 import Icon from 'react-native-vector-icons/MaterialIcons'
@@ -28,6 +28,11 @@ const MyPage = () => {
             title: '설정',
             icon: <Icon name='settings' color={GRAY2} size={16} />,
             onPress: () => navigate('Settings')
+        },
+        {
+            title: '친구에게 추천하기',
+            icon: <Icon name='share' color={GRAY2} size={16} />,
+            onPress: () => Share.share({ message: 'https://38do.kr/download' })
         },
         {
             title: '문의/건의',
