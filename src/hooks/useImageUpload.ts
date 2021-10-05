@@ -73,7 +73,6 @@ const useImageUpload = (fileName = 'image') => {
             selector({
                 list: ['카메라', '앨범'],
                 closeToSelect: true,
-                callWhenHide: true,
                 onSelect: async (i) => {
                     try {
                         if (i === -1) throw new Error('이미지 업로드 취소')

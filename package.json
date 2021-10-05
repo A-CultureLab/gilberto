@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.3.20",
-    "@gorhom/bottom-sheet": "^4.0.3",
+    "@gorhom/bottom-sheet": "^4.1.1",
     "@invertase/react-native-apple-authentication": "^2.1.2",
     "@react-native-async-storage/async-storage": "^1.15.7",
     "@react-native-clipboard/clipboard": "^1.8.2",
@@ -67,7 +67,7 @@
     "react-native-nmap": "^0.0.66",
     "react-native-push-notification": "^8.1.0",
     "react-native-rate": "^1.2.6",
-    "react-native-reanimated": "^2.2.1",
+    "react-native-reanimated": "^2.2.2",
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "^3.4.0",
     "react-native-splash-screen": "^3.2.0",

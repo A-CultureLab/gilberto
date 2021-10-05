@@ -911,22 +911,21 @@
     base64-js "^1.2.3"
     xmlbuilder "^14.0.0"
 
-"@gorhom/bottom-sheet@^4.0.3":
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/@gorhom/bottom-sheet/-/bottom-sheet-4.0.3.tgz#465d28bd39ff19e8ba248b514427c0d790d5de30"
-  integrity sha512-aIStbi8FxquhH4FRuzyQBau8QUPWQljkrq7kaSo+BFanuAoO0B/YpfakxlDSgum+m7p5jXDopj2GU6cLzw9+qw==
+"@gorhom/bottom-sheet@^4.1.1":
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@gorhom/bottom-sheet/-/bottom-sheet-4.1.1.tgz#b13cf9d3d72d85fe40443f49fc26cd5996bb737c"
+  integrity sha512-dfgbxjSaheDhr3o/TRWHrmLP1sLEqNYLKEWQxmxpAA31n8OdEw9mxV6Wq7TZ9qeJlQF+zP5CQH1G0Vatj2ZygQ==
   dependencies:
-    "@gorhom/portal" "^1.0.7"
+    "@gorhom/portal" "^1.0.9"
     invariant "^2.2.4"
     nanoid "^3.1.20"
     react-native-redash "^16.1.1"
 
-"@gorhom/portal@^1.0.7":
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/@gorhom/portal/-/portal-1.0.8.tgz#1582f7f2ce288e4622382c19ca4a5dff9f56c11a"
-  integrity sha512-APBRdSEPzxK5lOHU5zFoc9y938ACWBzkNBSDajubvtw5XGIWsxggCSyateDnIVs94LTuw1hWyYvM4OsYeepBQw==
+"@gorhom/portal@^1.0.9":
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@gorhom/portal/-/portal-1.0.9.tgz#bd66e0e27e49fa3163b89c4c23661f31471a6343"
+  integrity sha512-tQUBKf1kDLK1l+0duYBxRqNMtdIrOAIp2H36Bc7/qUZXRxP1rUvj7EMmv6tdlKN/MzEiKPGx9wY0EmOYTjXIFQ==
   dependencies:
-    immer "^9.0.3"
     nanoid "^3.1.23"
 
 "@graphql-typed-document-node/core@^3.0.0":
@@ -4921,11 +4920,6 @@ image-size@^0.6.0:
   resolved "https://registry.yarnpkg.com/image-size/-/image-size-0.6.3.tgz#e7e5c65bb534bd7cdcedd6cb5166272a85f75fb2"
   integrity sha512-47xSUiQioGaB96nqtp5/q55m0aBQSQdyIloMOc/x+QVTDZLNmXE892IIDrJ0hM1A5vcNUDD5tDffkSP5lCaIIA==
 
-immer@^9.0.3:
-  version "9.0.6"
-  resolved "https://registry.yarnpkg.com/immer/-/immer-9.0.6.tgz#7a96bf2674d06c8143e327cbf73539388ddf1a73"
-  integrity sha512-G95ivKpy+EvVAnAab4fVa4YGYn24J1SpEktnJX7JJ45Bd7xqME/SCplFzYFmTbrkwZbQ4xJK1xMTUYBkN6pWsQ==
-
 import-fresh@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/import-fresh/-/import-fresh-2.0.0.tgz#d81355c15612d386c61f9ddd3922d4304822a546"
@@ -7653,10 +7647,10 @@ react-native-rate@^1.2.6:
   resolved "https://registry.yarnpkg.com/react-native-rate/-/react-native-rate-1.2.6.tgz#85c817caf0feac459bf9d4eb8fd9a245932b0f4d"
   integrity sha512-sCAwNo9DxM7TA6Dwc81WXboPu+UppXkkUiAxKuh31KF+VXbknhwKNw5sUzCaJUJ3M5PKV+WKgfYrAPoByQRVww==
 
-react-native-reanimated@^2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-2.2.1.tgz#e9109aa2482c893266c5c0c546aebf1b764bf233"
-  integrity sha512-uyAlqFZCcriL3hPXq5zJ4KqAjxBoeinYoJogTIpwlEhmYfsP6oRNktq3PyYCu6/Dj5dXp7MXUcZInXyVSi/c9Q==
+react-native-reanimated@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-2.2.2.tgz#8bc81c7ee93d599991507bb826050a5eeee1e7f2"
+  integrity sha512-Lfv4ogbNLU9x3DqhXUFza9pnzyTvPrw5xGC1wWA6aGXqZgyaikNLgC5dNWzxVbfEwRdOuLPFsai3LAcIM92TCg==
   dependencies:
     "@babel/plugin-transform-object-assign" "^7.10.4"
     fbjs "^3.0.0"

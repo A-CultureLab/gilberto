@@ -4,8 +4,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { COLOR1, GRAY1, GRAY2, WIDTH } from '../../constants/styles'
 import DefaultBottomSheet from '../bottomSheets/DefaultBottomSheet'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import { useState } from 'react'
-import { useEffect } from 'react'
 
 export interface SelectBottomSheetProps {
     visible: boolean
@@ -14,43 +12,21 @@ export interface SelectBottomSheetProps {
     onSelect: (index: number) => void
     selectedDataIndex?: number
     closeToSelect?: boolean
-    callWhenHide?: boolean
 }
 
-const SelectBottomSheet: React.FC<SelectBottomSheetProps> = ({ onClose, visible, list, onSelect: _onSelect, selectedDataIndex, closeToSelect, callWhenHide }) => {
+const SelectBottomSheet: React.FC<SelectBottomSheetProps> = ({ onClose, visible, list, onSelect: _onSelect, selectedDataIndex, closeToSelect }) => {
 
     const { bottom } = useSafeAreaInsets()
-    const [selected, setSelected] = useState(false)
-    const [selectedIndex, setSelectedIndex] = useState(-1)
 
     const onSelect = useCallback((i: number) => {
-        if (selected) return // 두번 실행 방지
         onClose && onClose()
-
-        if (!callWhenHide) _onSelect(i)
-        else setSelectedIndex(i)
-
-        setSelected(true)
-    }, [onClose, _onSelect, selected, callWhenHide])
-
-    // modal 중첩시 오류가 날때가 있음
-    const onModaHide = useCallback(() => {
-        if (!callWhenHide) return
-        if (selectedIndex !== -1) _onSelect(selectedIndex)
-    }, [selectedIndex, callWhenHide])
-
-    useEffect(() => {
-        if (visible) {
-            setSelected(false)
-            setSelectedIndex(-1)
-        }
-    }, [visible])
+        _onSelect(i)
+    }, [onClose, _onSelect])
 
 
     return (
         <DefaultBottomSheet
             visible={visible}
-            onModalHide={onModaHide}
             onClose={() => closeToSelect ? onSelect(-1) : onClose()}
         >
             <ScrollView
