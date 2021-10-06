@@ -5,9 +5,10 @@ import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/
 import Confirm, { ConfirmProps } from '../components/bottomSheets/Confirm';
 import { DefaultTheme, NavigationContainer, NavigationContainerRef, Theme } from '@react-navigation/native';
 import { NavigationState } from '@react-navigation/routers'
-import React, { createContext, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { createContext, MutableRefObject, Ref, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Toast, { ToastProps } from '../components/toasts/Toast';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
+import analytics from '@react-native-firebase/analytics';
 
 import Chat from './Chat';
 import ChatDetail from './ChatDetail';
@@ -92,6 +93,8 @@ export const AuthContext = createContext<{
 const Navigation = () => {
 
     const navigationRef = useRef<NavigationContainerRef>(null)
+    const routeNameRef = useRef<string>('')
+
     const [navigationState, setNavigationState] = useState<NavigationState>()
     const { confirm } = useGlobalUi()
 
@@ -298,7 +301,24 @@ const Navigation = () => {
         <AuthContext.Provider value={authContextValue} >
             <NavigationContainer
                 ref={navigationRef}
-                onStateChange={(v) => setNavigationState(v)}
+                onReady={() => { // navigation GA log
+                    routeNameRef.current = navigationRef.current?.getCurrentRoute()?.name || ''
+                }}
+                onStateChange={async (v) => {
+                    setNavigationState(v)
+
+                    // navigation GA log
+                    const previousRouteName = routeNameRef.current
+                    const currentRouteName = navigationRef.current?.getCurrentRoute()?.name || ''
+
+                    if (previousRouteName !== currentRouteName) {
+                        await analytics().logScreenView({
+                            screen_name: currentRouteName,
+                            screen_class: currentRouteName,
+                        })
+                    }
+                    routeNameRef.current = currentRouteName;
+                }}
                 theme={theme}
             >
                 <Stack.Navigator
