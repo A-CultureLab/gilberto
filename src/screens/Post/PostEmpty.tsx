@@ -13,9 +13,13 @@ const PostEmpty = () => {
     const { user } = useContext(AuthContext)
     const { data } = useIUser({ skip: !user })
 
-    const buildingName = data?.iUser.address.land.buildingName
 
-    const adress = filter.area1Id || filter.area2Id || filter.area3Id || buildingName
+    const address = data?.iUser.address
+    const currentAddress =
+        filter.area1Id ? address?.area1.name
+            : filter.area2Id ? address?.area2.name
+                : filter.area3Id ? address?.area3.name
+                    : (filter.landId ? address?.land.buildingName : '전국')
 
     return (
         <View style={styles.container} >
@@ -23,7 +27,7 @@ const PostEmpty = () => {
                 onPress={() => navigate('PostCreate', { refetch })}
                 style={{ alignItems: 'center' }}
             >
-                <Text style={styles.title} >{adress}에 첫번째 게시물을 작성해주세요!</Text>
+                <Text style={styles.title} >{currentAddress}에 첫번째 게시물을 작성해주세요!</Text>
                 <Icon name='add' size={24} />
             </Pressable>
         </View>

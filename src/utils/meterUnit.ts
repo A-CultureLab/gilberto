@@ -6,7 +6,7 @@
 
 const meterUnit = (meter: number): string => {
     if (meter === 0) return '0km'
-    if (meter < 1000) return meter + 'm'
+    if (meter < 1000) return meter.toFixed(0) + 'm'
     if (meter < 10000) {
         return ((meter / 1000).toFixed(1) + 'km').replace('.0', '')
     }

@@ -80,7 +80,7 @@ const PostCard: React.FC<posts_posts> = (props) => {
     )
 }
 
-export default PostCard
+export default React.memo(PostCard)
 
 const styles = StyleSheet.create({
     container: {

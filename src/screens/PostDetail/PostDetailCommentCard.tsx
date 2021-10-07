@@ -38,7 +38,7 @@ const PostDetailCommentCard: React.FC<postComments_postComments> = (props) => {
     )
 }
 
-export default PostDetailCommentCard
+export default React.memo(PostDetailCommentCard)
 
 const styles = StyleSheet.create({
     moreReplyComment: {

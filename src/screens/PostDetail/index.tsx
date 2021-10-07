@@ -39,7 +39,7 @@ const PostDetail = () => {
     const { params: { id, focus } } = useRoute<Route<"PostDetail", PostDetailProps>>()
     const { navigate, goBack } = useNavigation()
     const { bottom } = useSafeAreaInsets()
-    const { selector, confirm } = useGlobalUi()
+    const { select, confirm } = useGlobalUi()
     const { user } = useContext(AuthContext)
 
     const { data: postCommetsData, fetchMore, refetch } = usePostComments({ variables: { postId: id } })
@@ -73,9 +73,8 @@ const PostDetail = () => {
     }, [])
 
     const onMoreOptions = useCallback(() => {
-        selector({
+        select({
             list: isPoster ? ['수정하기', '삭제하기'] : ['신고하기'],
-            callWhenHide: true,
             onSelect: (i) => {
                 if (isPoster) {
                     if (i === 0) navigate('PostEdit', { id: data?.post.id })

@@ -8,7 +8,7 @@ mutation createAddress ($latitude:Float!, $longitude:Float!) {
     id
     land {
       id
-      fullName
+      name
     }
   }
 }

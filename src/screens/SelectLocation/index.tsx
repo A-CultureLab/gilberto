@@ -126,7 +126,7 @@ const SelectLocation = () => {
                     ? <Text>검색중...</Text>
                     : !data.createAddress
                         ? <Text>검색 결과 없음</Text>
-                        : <Text>{data.createAddress.land.fullName}</Text>
+                        : <Text>{data.createAddress.land.name}</Text>
                 }
             </View>
 

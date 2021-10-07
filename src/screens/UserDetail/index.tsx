@@ -37,7 +37,7 @@ const UserDetail = () => {
                     />
                     <Text style={styles.name} >{user.name}</Text>
                     <Text style={styles.genderAge} >{genderGenerator.user(user.gender)}, {user.age}세</Text>
-                    <Text style={styles.address} >{user.address.land.fullName}</Text>
+                    <Text style={styles.address} >{user.address.land.name}</Text>
                 </View>
                 {!!user.introduce && <View style={styles.introCotnainer} >
                     <Text style={styles.intro} >{user.introduce}</Text>

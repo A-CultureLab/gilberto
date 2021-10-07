@@ -25,7 +25,7 @@ const PostEdit = () => {
     const { data } = usePost({ variables: { id }, fetchPolicy: 'network-only' })
 
     const { control, handleSubmit, formState, clearErrors, setValue } = useForm<UpdatePostInput>()
-    const { selector, toast } = useGlobalUi()
+    const { select, toast } = useGlobalUi()
 
     const [updatePost, { loading }] = useUpdatePost()
 
@@ -67,7 +67,7 @@ const PostEdit = () => {
                     rules={{ required: '주제를 선택해주세요' }}
                     render={({ field }) => (
                         <Pressable
-                            onPress={() => selector({
+                            onPress={() => select({
                                 list: POST_TYPES.map(v => v.name),
                                 onSelect: (i) => {
                                     field.onChange(POST_TYPES[i].value)

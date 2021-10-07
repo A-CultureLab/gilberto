@@ -12,7 +12,6 @@ import UnderLineInput from '../../components/inputs/UnderLineInput'
 import ScreenLayout from '../../components/layout/ScreenLayout'
 import CharacterSelectSheet from '../../components/selectors/CharacterSelectSheet'
 import DateSelectSheet from '../../components/selectors/DateSelectSheet'
-import SelectBottomSheet from '../../components/selectors/SelectBottomSheet'
 import SpeciesSelectPicker from '../../components/selectors/SpeciesSelectSheet'
 import WeightSelectSheet from '../../components/selectors/WeightSelectSheet'
 import UnderLineToggle from '../../components/toggles/UnderLineToggle'
@@ -38,7 +37,7 @@ const PetModify = () => {
 
     const loading = updateLoading || deleteLoading
 
-    const { toast, confirm } = useGlobalUi()
+    const { toast, confirm, select } = useGlobalUi()
     const [petTypeTrigger, setPetTypeTrigger] = useState(true)
     const { control, handleSubmit, setValue, watch, formState, clearErrors } = useForm<RegistPetInput>({
         defaultValues: ((): RegistPetInput => {
@@ -183,7 +182,6 @@ const PetModify = () => {
                         name='type'
                         rules={{ required: '동물을 선택해주세요' }}
                         render={({ field }) => {
-                            const [visible, setVisible] = useState(false)
                             return (
                                 <>
                                     <UnderLineInput
@@ -191,13 +189,10 @@ const PetModify = () => {
                                         value={field.value === PetType.dog ? '강아지' : field.value === PetType.cat ? '고양이' : ''}
                                         editable={false}
                                         pointerEvents='none'
-                                        onPress={() => setVisible(true)}
-                                    />
-                                    <SelectBottomSheet
-                                        list={['강아지', '고양이']}
-                                        onClose={() => setVisible(false)}
-                                        visible={visible}
-                                        onSelect={(i) => field.onChange(i === 0 ? PetType.dog : PetType.cat)}
+                                        onPress={() => select({
+                                            list: ['강아지', '고양이'],
+                                            onSelect: (i) => field.onChange(i === 0 ? PetType.dog : PetType.cat)
+                                        })}
                                     />
                                 </>
                             )
@@ -262,7 +257,6 @@ const PetModify = () => {
                         name='gender'
                         rules={{ required: '성별을 선택해주세요' }}
                         render={({ field }) => {
-                            const [visible, setVisible] = useState(false)
                             return (
                                 <>
                                     <UnderLineInput
@@ -270,13 +264,10 @@ const PetModify = () => {
                                         value={field.value === Gender.male ? '남아' : field.value === Gender.female ? '여아' : ''}
                                         editable={false}
                                         pointerEvents='none'
-                                        onPress={() => setVisible(true)}
-                                    />
-                                    <SelectBottomSheet
-                                        list={['남아', '여아']}
-                                        onClose={() => setVisible(false)}
-                                        visible={visible}
-                                        onSelect={(i) => field.onChange(i === 0 ? Gender.male : Gender.female)}
+                                        onPress={() => select({
+                                            list: ['남아', '여아'],
+                                            onSelect: (i) => field.onChange(i === 0 ? Gender.male : Gender.female)
+                                        })}
                                     />
                                 </>
                             )

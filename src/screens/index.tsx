@@ -30,7 +30,7 @@ import WebView from './WebView';
 import Withdraw from './Withdraw';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useChatRoomUpdated } from '../graphql/chatRoom';
-import SelectBottomSheet, { SelectBottomSheetProps } from '../components/selectors/SelectBottomSheet';
+import Select, { SelectProps } from '../components/bottomSheets/Select';
 import UserCertification from './UserCertification';
 import ImageDetail from './ImageDetail';
 import PetDetail from './PetDetail';
@@ -363,7 +363,7 @@ const Navigation = () => {
 export type GlobalAlertProps = Omit<AlertProps, 'onClose'>
 export type GlobalConfirmProps = Omit<ConfirmProps, 'onClose'>
 export type GlobalToastProps = ToastProps
-export type GlobalSelectBottomSheetProps = Omit<SelectBottomSheetProps, 'onClose'>
+export type GlobalSelectProps = Omit<SelectProps, 'onClose'>
 
 export type GlobalUiContextType = {
     alert: GlobalAlertProps,
@@ -372,8 +372,8 @@ export type GlobalUiContextType = {
     setConfirm: (p: GlobalConfirmProps) => void
     toast: GlobalToastProps
     setToast: (p: GlobalToastProps) => void
-    selector: GlobalSelectBottomSheetProps
-    setSelector: (p: GlobalSelectBottomSheetProps) => void
+    select: GlobalSelectProps
+    setSelect: (p: GlobalSelectProps) => void
 }
 
 export const GlobalUIContext = createContext<GlobalUiContextType>({} as any)
@@ -399,7 +399,7 @@ const GlobalUiWrapper = () => {
         content: ''
     })
 
-    const [selector, setSelector] = useState<GlobalSelectBottomSheetProps>({
+    const [select, setSelect] = useState<GlobalSelectProps>({
         visible: false,
         list: [],
         onSelect: () => { },
@@ -415,9 +415,9 @@ const GlobalUiWrapper = () => {
         setConfirm,
         toast,
         setToast,
-        selector,
-        setSelector
-    }), [alert, setAlert, confirm, setConfirm, toast, setToast, selector, setSelector])
+        select,
+        setSelect
+    }), [alert, setAlert, confirm, setConfirm, toast, setToast, select, setSelect])
 
 
     useEffect(() => {
@@ -459,9 +459,9 @@ const GlobalUiWrapper = () => {
                     <Toast
                         {...toast}
                     />
-                    <SelectBottomSheet
-                        {...selector}
-                        onClose={() => setSelector(v => ({ ...v, visible: false }))}
+                    <Select
+                        {...select}
+                        onClose={() => setSelect(v => ({ ...v, visible: false }))}
                     />
                 </BottomSheetModalProvider>
             </GlobalUIContext.Provider>

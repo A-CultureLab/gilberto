@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { WIDTH } from '../../constants/styles'
-import DefaultBottomSheet from '../bottomSheets/DefaultBottomSheet'
+import DefaultModalBottomSheet from '../bottomSheets/DefaultModalBottomSheet'
 import Footer from '../footers/Footer'
 import ScrollSelector from './ScrollSelector'
 
@@ -26,7 +26,7 @@ const WeightSelectSheet: React.FC<WeightSelectSheetProps> = ({ onClose, onSelect
 
 
     return (
-        <DefaultBottomSheet
+        <DefaultModalBottomSheet
             visible={visible}
             onClose={onClose}
         >
@@ -52,7 +52,7 @@ const WeightSelectSheet: React.FC<WeightSelectSheetProps> = ({ onClose, onSelect
                 onPress={onSubmit}
                 text='입력'
             />
-        </DefaultBottomSheet>
+        </DefaultModalBottomSheet>
     )
 }
 

@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { GRAY2, GRAY3, WIDTH } from '../../constants/styles'
 import { AnimalType } from '../../constants/types'
 import { ANIMAL_SPECIES } from '../../constants/values'
-import DefaultBottomSheet from '../bottomSheets/DefaultBottomSheet'
+import DefaultModalBottomSheet from '../bottomSheets/DefaultModalBottomSheet'
 import UnderLineInput from '../inputs/UnderLineInput'
 
 const DOG_FILTER_KEYS = ['ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ']
@@ -37,7 +37,7 @@ const SpeciesSelectPicker: React.FC<SpeciesSelectPickerProps> = ({ onClose, onSe
     const list = ANIMAL_SPECIES[type][filterKey]
 
     return (
-        <DefaultBottomSheet
+        <DefaultModalBottomSheet
             visible={visible}
             onClose={onClose}
             disableKeyboardAvoidingView
@@ -91,7 +91,7 @@ const SpeciesSelectPicker: React.FC<SpeciesSelectPickerProps> = ({ onClose, onSe
                     </TouchableOpacity>
                 </ScrollView>
             </View>
-        </DefaultBottomSheet>
+        </DefaultModalBottomSheet>
     )
 }
 

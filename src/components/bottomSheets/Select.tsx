@@ -2,10 +2,10 @@ import React, { useCallback } from 'react'
 import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Pressable } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { COLOR1, GRAY1, GRAY2, WIDTH } from '../../constants/styles'
-import DefaultBottomSheet from '../bottomSheets/DefaultBottomSheet'
+import DefaultBottomSheet from './DefaultBottomSheet'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
-export interface SelectBottomSheetProps {
+export interface SelectProps {
     visible: boolean
     onClose: () => void
     list: string[]
@@ -14,7 +14,7 @@ export interface SelectBottomSheetProps {
     closeToSelect?: boolean
 }
 
-const SelectBottomSheet: React.FC<SelectBottomSheetProps> = ({ onClose, visible, list, onSelect: _onSelect, selectedDataIndex, closeToSelect }) => {
+const Select: React.FC<SelectProps> = ({ onClose, visible, list, onSelect: _onSelect, selectedDataIndex, closeToSelect }) => {
 
     const { bottom } = useSafeAreaInsets()
 
@@ -55,7 +55,7 @@ const SelectBottomSheet: React.FC<SelectBottomSheetProps> = ({ onClose, visible,
     )
 }
 
-export default SelectBottomSheet
+export default Select
 
 const styles = StyleSheet.create({
     scrollView: {

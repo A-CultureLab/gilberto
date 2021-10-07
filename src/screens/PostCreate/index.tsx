@@ -27,7 +27,7 @@ const PostCreate = () => {
             images: []
         }
     })
-    const { selector, toast } = useGlobalUi()
+    const { select, toast } = useGlobalUi()
 
     const [createPost, { loading }] = useCreatePost()
 
@@ -62,7 +62,7 @@ const PostCreate = () => {
                     rules={{ required: '주제를 선택해주세요' }}
                     render={({ field }) => (
                         <Pressable
-                            onPress={() => selector({
+                            onPress={() => select({
                                 list: POST_TYPES.map(v => v.name),
                                 onSelect: (i) => {
                                     field.onChange(POST_TYPES[i].value)

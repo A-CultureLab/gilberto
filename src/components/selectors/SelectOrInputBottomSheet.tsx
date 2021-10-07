@@ -2,7 +2,7 @@ import React, { useCallback, useRef } from 'react'
 import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Pressable, TextInput } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { COLOR1, GRAY1, GRAY2, WIDTH } from '../../constants/styles'
-import DefaultBottomSheet from '../bottomSheets/DefaultBottomSheet'
+import DefaultModalBottomSheet from '../bottomSheets/DefaultModalBottomSheet'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { IS_IOS } from '../../constants/values'
 
@@ -26,7 +26,7 @@ const SelectOrInputBottomSheet: React.FC<SelectOrInputBottomSheetProps> = ({ onC
     }, [onClose])
 
     return (
-        <DefaultBottomSheet
+        <DefaultModalBottomSheet
             visible={visible}
             onClose={onClose}
         >
@@ -66,7 +66,7 @@ const SelectOrInputBottomSheet: React.FC<SelectOrInputBottomSheetProps> = ({ onC
                     <View style={{ height: bottom }} />
                 </TouchableOpacity>
             </ScrollView>
-        </DefaultBottomSheet>
+        </DefaultModalBottomSheet>
     )
 }
 

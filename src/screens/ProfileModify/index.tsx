@@ -29,7 +29,7 @@ const ProfileModify = () => {
     const { toast } = useGlobalUi()
     const { cache } = useApolloClient()
     const user = cache.readQuery<iUser>({ query: I_USER })?.iUser
-    const [address, setAddress] = useState(user?.address?.land.fullName)
+    const [address, setAddress] = useState(user?.address?.land.name)
 
     const { control, handleSubmit, setValue, formState, clearErrors, watch } = useForm<UpdateUserInput>({
         defaultValues: {
@@ -56,7 +56,7 @@ const ProfileModify = () => {
         const props: SelectLocationProps = {
             onSelect: (data) => {
                 setValue('addressId', data.id)
-                setAddress(data.land.fullName)
+                setAddress(data.land.name)
             }
         }
         navigate('SelectLocation', props)

@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 import React, { useCallback, useState } from 'react'
 import { useEffect } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import DefaultBottomSheet from '../bottomSheets/DefaultBottomSheet'
+import DefaultModalBottomSheet from '../bottomSheets/DefaultModalBottomSheet'
 import Footer from '../footers/Footer'
 import ScrollSelector from './ScrollSelector'
 
@@ -30,7 +30,7 @@ const DateSelectSheet: React.FC<DateSelectSheetProps> = ({ onClose, onSelect, vi
 
 
     return (
-        <DefaultBottomSheet
+        <DefaultModalBottomSheet
             visible={visible}
             onClose={onClose}
         >
@@ -57,7 +57,7 @@ const DateSelectSheet: React.FC<DateSelectSheetProps> = ({ onClose, onSelect, vi
                 onPress={onSubmit}
                 text='입력'
             />
-        </DefaultBottomSheet>
+        </DefaultModalBottomSheet>
     )
 }
 

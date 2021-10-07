@@ -10,7 +10,7 @@
 export interface createAddress_createAddress_land {
   __typename: "Land";
   id: string;
-  fullName: string;
+  name: string;
 }
 
 export interface createAddress_createAddress {

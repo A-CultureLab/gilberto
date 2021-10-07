@@ -10,7 +10,7 @@ import useGlobalUi from "./useGlobalUi"
 const useImagesUpload = (initialValue: string[] = [], max = 10) => {
 
     const { mutate } = useApolloClient()
-    const { selector } = useGlobalUi()
+    const { select } = useGlobalUi()
 
     const [images, setImages] = useState<string[]>(initialValue)
     const [imagesTemp, setImagesTemp] = useState<string[]>([])
@@ -82,7 +82,7 @@ const useImagesUpload = (initialValue: string[] = [], max = 10) => {
 
     const selectAndUpload = async (option?: Options, path = 'image/') => {
         const value = await new Promise<string[] | null | undefined>((resolve, reject) => {
-            selector({
+            select({
                 list: ['카메라', '앨범'],
                 closeToSelect: true,
                 onSelect: async (i) => {

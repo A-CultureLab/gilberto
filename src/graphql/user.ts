@@ -30,13 +30,21 @@ export const I_USER = gql`
       notReadChatCount
       address {
         id
-        area1Id
-        area2Id
-        area3Id
-        landId
+        area1 {
+          id
+          name
+        }
+        area2 {
+          id
+          name
+        }
+        area3 {
+          id
+          name
+        }
         land {
           id
-          fullName
+          name
           buildingName
         }
       }
@@ -79,9 +87,22 @@ export const UPDATE_USER = gql`
       introduce
       address {
         id
+        area1 {
+          id
+          name
+        }
+        area2 {
+          id
+          name
+        }
+        area3 {
+          id
+          name
+        }
         land {
           id
-          fullName
+          name
+          buildingName
         }
       }
     }
@@ -113,8 +134,23 @@ query user($where:UserWhereUniqueInput!) {
       image
     }
     address {
+      id
+      area1 {
+        id
+        name
+      }
+      area2 {
+        id
+        name
+      }
+      area3 {
+        id
+        name
+      }
       land {
-        fullName
+        id
+        name
+        buildingName
       }
     }
   }

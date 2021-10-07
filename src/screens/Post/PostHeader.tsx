@@ -11,29 +11,33 @@ import useGlobalUi from '../../hooks/useGlobalUi'
 const PostHeader = () => {
 
     const { navigate } = useNavigation()
-    const { selector } = useGlobalUi()
+    const { select } = useGlobalUi()
     const { filter, setFilter, refetch } = useContext(PostContext)
     const { user } = useContext(AuthContext)
     const { data } = useIUser({ skip: !user })
 
     const address = data?.iUser.address
-    const currentAddress = filter.area1Id || filter.area2Id || filter.area3Id || (filter.landId ? address?.land.buildingName : '전국')
+    const currentAddress =
+        filter.area1Id ? address?.area1.name
+            : filter.area2Id ? address?.area2.name
+                : filter.area3Id ? address?.area3.name
+                    : (filter.landId ? address?.land.buildingName : '전국')
 
     const onLocation = useCallback(() => {
-        selector({
+        select({
             list: [
                 '전국',
-                address?.area1Id || '',
-                address?.area2Id || '',
-                address?.area3Id || '',
-                address?.land.buildingName || '',
+                address?.area1.name || '',
+                address?.area2.name || '',
+                address?.area3.name || '',
+                address?.land.name || '',
             ],
             onSelect: (i) => {
                 setFilter({
-                    area1Id: i === 1 ? address?.area1Id : undefined,
-                    area2Id: i === 2 ? address?.area2Id : undefined,
-                    area3Id: i === 3 ? address?.area3Id : undefined,
-                    landId: i === 4 ? address?.landId : undefined,
+                    area1Id: i === 1 ? address?.area1.id : undefined,
+                    area2Id: i === 2 ? address?.area2.id : undefined,
+                    area3Id: i === 3 ? address?.area3.id : undefined,
+                    landId: i === 4 ? address?.land.id : undefined,
                 })
             }
         })
@@ -47,9 +51,9 @@ const PostHeader = () => {
         <View style={styles.container} >
             <Pressable
                 onPress={onLocation}
-                style={styles.locationSelector}
+                style={styles.locationselect}
             >
-                <Text style={styles.location} >{currentAddress}</Text>
+                <Text numberOfLines={1} style={styles.location} >{currentAddress}</Text>
                 {user && <Icon name='keyboard-arrow-down' size={24} />}
             </Pressable>
             <View style={{ flex: 1 }} />
@@ -75,7 +79,7 @@ const styles = StyleSheet.create({
         borderBottomColor: GRAY3,
         borderBottomWidth: 1
     },
-    locationSelector: {
+    locationselect: {
         height: '100%',
         flexDirection: 'row',
         alignItems: 'center',

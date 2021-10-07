@@ -30,7 +30,7 @@ const ChatDetailCard: React.FC<chats_chats> = (props) => {
 
     const { message, image, user, createdAt, id, isDeleted } = props
     const { data } = useIUser()
-    const { selector } = useGlobalUi()
+    const { select } = useGlobalUi()
 
     const isIUser = data?.iUser.id === user.id
 
@@ -40,7 +40,7 @@ const ChatDetailCard: React.FC<chats_chats> = (props) => {
     const onLongPress = useCallback(() => {
         if (isIUser && isDeleted) return
         const currentOption = image ? isIUser ? IMAGE_LONG_PRESS_OPTIONS_I_USER : IMAGE_LONG_PRESS_OPTIONS : isIUser ? MESSAGE_LONG_PERSS_OPTIONS_I_USER : MESSAGE_LONG_PERSS_OPTIONS
-        selector({
+        select({
             list: currentOption,
             onSelect: (i) => {
                 const option = currentOption[i]
@@ -65,7 +65,7 @@ const ChatDetailCard: React.FC<chats_chats> = (props) => {
                 }
             }
         })
-    }, [selector, isIUser, message, image, isDeleted, id])
+    }, [select, isIUser, message, image, isDeleted, id])
 
 
     if (isIUser) return ( // iUserMessageCard

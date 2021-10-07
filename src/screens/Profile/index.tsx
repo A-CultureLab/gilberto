@@ -71,7 +71,7 @@ const Profile = () => {
                                 <Text style={styles.profileName} >{userData.iUser.name}</Text>
                                 <Text style={styles.profileInfo} > · {genderGenerator.user(userData.iUser.gender)}, {userData.iUser.age}세</Text>
                             </Text>
-                            <Text numberOfLines={1} style={styles.profileAddress} >{userData.iUser.address?.land.fullName}</Text>
+                            <Text numberOfLines={1} style={styles.profileAddress} >{userData.iUser.address?.land.name}</Text>
                         </View>
                         <Icon name='edit' color={GRAY2} size={16} style={{ marginRight: 4 }} />
                     </Pressable>

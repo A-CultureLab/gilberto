@@ -28,7 +28,7 @@ const Signup = () => {
 
     const { navigate, reset } = useNavigation()
     const [signup, { loading }] = useSignup({ errorPolicy: 'all' })
-    const { toast, selector } = useGlobalUi()
+    const { toast, select } = useGlobalUi()
     const [address, setAddress] = useState('')
 
     const { control, handleSubmit, setValue, watch, formState, clearErrors } = useForm<SignupInput>({
@@ -73,7 +73,7 @@ const Signup = () => {
         const props: SelectLocationProps = {
             onSelect: (data) => {
                 setValue('addressId', data.id)
-                setAddress(data.land.fullName)
+                setAddress(data.land.name)
             }
         }
         navigate('SelectLocation', props)
@@ -215,7 +215,7 @@ const Signup = () => {
                         name='inflow'
                         render={({ field }) => (
                             <Pressable
-                                onPress={() => selector({
+                                onPress={() => select({
                                     list: INFLOWS,
                                     onSelect: (i) => field.onChange(INFLOWS[i])
                                 })}

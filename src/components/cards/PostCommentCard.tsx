@@ -24,7 +24,7 @@ interface PostCommentCardProps {
 const PostCommentCard: React.FC<PostCommentCardProps> = (props) => {
 
     const { navigate } = useNavigation()
-    const { selector, confirm } = useGlobalUi()
+    const { select, confirm } = useGlobalUi()
 
     const { data } = useIUser({ fetchPolicy: 'cache-only' })
     const [deletePostComment] = props.isReply ? useDeletePostReplyComment() : useDeletePostComment()
@@ -35,9 +35,8 @@ const PostCommentCard: React.FC<PostCommentCardProps> = (props) => {
     const isPoster = data?.iUser.id === user.id
 
     const onMenu = useCallback(() => {
-        selector({
+        select({
             list: [isPoster ? '삭제하기' : '신고하기'],
-            callWhenHide: true,
             onSelect: (i) => {
                 if (isPoster) {
                     setTimeout(() => {

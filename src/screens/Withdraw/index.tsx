@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/core'
 import React from 'react'
 import { useState } from 'react'
 import { useCallback } from 'react'
@@ -5,7 +6,6 @@ import { Pressable, StyleSheet, Text, View } from 'react-native'
 import Footer from '../../components/footers/Footer'
 import Header from '../../components/headers/Header'
 import ScreenLayout from '../../components/layout/ScreenLayout'
-import SelectBottomSheet from '../../components/selectors/SelectBottomSheet'
 import SelectOrInputBottomSheet from '../../components/selectors/SelectOrInputBottomSheet'
 import { GRAY1, GRAY3 } from '../../constants/styles'
 import { WITHDRAW_REASONS } from '../../constants/values'
@@ -15,6 +15,7 @@ import useGlobalUi from '../../hooks/useGlobalUi'
 
 const Withdraw = () => {
 
+    const { reset } = useNavigation()
     const { logout } = useAuth()
     const { confirm, toast } = useGlobalUi()
     const [withdraw, { loading }] = useWithdraw()
@@ -35,6 +36,7 @@ const Withdraw = () => {
                     return
                 }
                 logout()
+                reset({ routes: [{ name: 'Tab' }] })
             }
         })
     }, [reason, toast, confirm])

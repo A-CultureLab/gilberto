@@ -72,6 +72,7 @@ export interface Area1CreateOrConnectWithoutAddressesInput {
 
 export interface Area1CreateWithoutAddressesInput {
   id: string;
+  name: string;
   latitude: number;
   longitude: number;
 }
@@ -93,6 +94,7 @@ export interface Area2CreateOrConnectWithoutAddressesInput {
 
 export interface Area2CreateWithoutAddressesInput {
   id: string;
+  name: string;
   latitude: number;
   longitude: number;
 }
@@ -114,6 +116,7 @@ export interface Area3CreateOrConnectWithoutAddressesInput {
 
 export interface Area3CreateWithoutAddressesInput {
   id: string;
+  name: string;
   latitude: number;
   longitude: number;
 }
