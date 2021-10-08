@@ -72,13 +72,13 @@ const PetRegist = () => {
                     <Controller
                         control={control}
                         name='name'
-                        rules={{ required: '이름을 입력해주세요' }}
+                        rules={{ required: '반려동물 이름을 입력해주세요' }}
                         render={({ field }) => (
                             <UnderLineInput
                                 inputStyle={{ marginTop: 24 }}
                                 value={field.value}
                                 onChangeText={field.onChange}
-                                placeholder='이름'
+                                placeholder='반려동물 이름'
                             />
                         )}
                     />
