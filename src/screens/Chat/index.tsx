@@ -6,15 +6,19 @@ import React from 'react'
 import ScreenLayout from '../../components/layout/ScreenLayout'
 import TabScreenBottomTabBar from '../../components/tabs/TabScreenBottomTabBar'
 import { useChatRooms } from '../../graphql/chatRoom'
+import useRefreshing from '../../hooks/useRefreshing'
 
 const Chat = () => {
 
-    const { data, fetchMore } = useChatRooms({ variables: { take: 10 } })
+    const { data, fetchMore, refetch } = useChatRooms({ variables: { take: 10 } })
+
+    const refreshing = useRefreshing(refetch)
 
     return (
         <ScreenLayout>
             <Header title='채팅' backBtn='none' />
             <FlatList
+                {...refreshing}
                 showsVerticalScrollIndicator={false}
                 overScrollMode='never'
                 data={data?.chatRooms}

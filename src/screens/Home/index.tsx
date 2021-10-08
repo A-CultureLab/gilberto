@@ -1,31 +1,26 @@
-import { APPSTORE_ID, DEFAULT_REGION, DEFAULT_REGION_DELTA, IS_IOS, IS_RATED, PLAYSTORE_PACKAGE_NAME, RATE_OPEN_TIMES_KEY, RATE_PERIOD } from '../../constants/values';
-import { IS_SIGNEDUP, useUpdateFcmToken } from '../../graphql/user';
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { IS_IOS } from '../../constants/values';
+import React, { createContext, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useApolloClient, useLazyQuery } from '@apollo/client';
-import { useNavigation, useRoute } from '@react-navigation/native';
 import NaverMapView, { Coord, Marker, Region } from "react-native-nmap";
 
 
-import { AuthContext } from '..';
 import Geolocation from '@react-native-community/geolocation';
-import HomeHeader from './HomeHeader'
 import MyPosFab from '../../components/fabs/MyPosFab';
 import HomePetMarker from './HomePetMarker';
 import ScreenLayout from '../../components/layout/ScreenLayout';
 import TabScreenBottomTabBar from '../../components/tabs/TabScreenBottomTabBar';
-import auth from '@react-native-firebase/auth'
-import { isSignedup } from '../../graphql/__generated__/isSignedup';
 import useAuth from '../../hooks/useAuth';
 import { usePetGroupByAddress } from '../../graphql/pet';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import HomeGroupByAddressBottomSheet from './HomeGroupByAddressBottomSheet';
 import HomeRefetchButton from './HomeRefetchButton';
 import { petGroupByAddress_petGroupByAddress_petGroup } from '../../graphql/__generated__/petGroupByAddress';
-import Animated, { useSharedValue } from 'react-native-reanimated';
 import { PermissionsAndroid } from 'react-native';
-import Rate from 'react-native-rate';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import useGlobalUi from '../../hooks/useGlobalUi';
+
+export const DEFAULT_REGION_DELTA: Omit<Region, 'latitude' | 'longitude'> = {
+    latitudeDelta: 0.47,
+    longitudeDelta: 0.235
+}
 
 interface HomeScreenContextInterface {
     selectedGroupByAddress: petGroupByAddress_petGroupByAddress_petGroup | null

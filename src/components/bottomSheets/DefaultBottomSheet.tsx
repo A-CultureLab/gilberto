@@ -53,6 +53,16 @@ const DefaultBottomSheet: React.FC<DefaultBottomSheetProps> = ({ visible, onClos
         transform: [{ translateY: y.value }]
     }), [])
 
+
+    useEffect(() => { // 안드로이드 백버튼 핸들러
+        if (!visible) return
+        const listner = BackHandler.addEventListener('hardwareBackPress', () => {
+            onClose()
+            return true
+        })
+        return listner.remove
+    }, [visible])
+
     return (
         <>
             <AnimatedPressable
