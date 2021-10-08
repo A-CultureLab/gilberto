@@ -5,22 +5,25 @@ import { postComments_postComments } from '../../graphql/__generated__/postComme
 import { PostDetailContext } from '.'
 import PostCommentCard from '../../components/cards/PostCommentCard'
 
-const PostDetailCommentCard: React.FC<postComments_postComments> = (props) => {
+const PostDetailCommentCard: React.FC<postComments_postComments & { iUserId: string }> = (props) => {
 
     const { navigate } = useNavigation()
     const { refetch } = useContext(PostDetailContext)
 
-    const { id, postReplyCommentCount, recentPostReplyComments } = props
+    const { iUserId, ...data } = props
+    const { id, postReplyCommentCount, recentPostReplyComments } = data
 
     return (
         <>
             <PostCommentCard
                 onDeleted={() => refetch()}
-                data={props}
+                iUserId={iUserId}
+                data={data}
             />
             {recentPostReplyComments.map(v => (
                 <PostCommentCard
                     key={v.id}
+                    iUserId={iUserId}
                     isReply
                     onDeleted={() => refetch()}
                     data={v}

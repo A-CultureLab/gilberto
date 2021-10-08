@@ -9,6 +9,7 @@ import { COLOR1 } from '../../constants/styles'
 import { IS_IOS } from '../../constants/values'
 import { usePostComment } from '../../graphql/postComment'
 import { usePostReplyComments } from '../../graphql/postReplyComment'
+import { useIUser } from '../../graphql/user'
 import useRefreshing from '../../hooks/useRefreshing'
 import PostCommentDetailFooter from './PostCommentDetailFooter'
 
@@ -33,6 +34,7 @@ const PostCommentDetail = () => {
 
     const { data: commentData } = usePostComment({ variables: { id } })
     const { data: replyCommentsData, refetch, fetchMore } = usePostReplyComments({ variables: { postId: id } })
+    const { data: iUserData } = useIUser()
     const refreshing = useRefreshing(refetch)
 
     const inputRef = useRef<TextInput>(null)
@@ -59,7 +61,7 @@ const PostCommentDetail = () => {
                 >
                     <Header title='답글쓰기' />
                     <View style={{ flex: 1 }} >
-                        {commentData && replyCommentsData && <FlatList
+                        {commentData && replyCommentsData && iUserData && <FlatList
                             {...refreshing}
                             data={replyCommentsData.postReplyComments}
                             overScrollMode='never'
@@ -70,13 +72,14 @@ const PostCommentDetail = () => {
                                 <>
                                     <View style={{ height: 24 }} />
                                     <PostCommentCard
+                                        iUserId={iUserData.iUser.id}
                                         hideReplyBtn
                                         onDeleted={goBack}
                                         data={commentData.postComment}
                                     />
                                 </>
                             }
-                            renderItem={({ item }) => <PostCommentCard onDeleted={() => refreshing.onRefresh()} isReply data={item} />}
+                            renderItem={({ item }) => <PostCommentCard iUserId={iUserData.iUser.id} onDeleted={() => refreshing.onRefresh()} isReply data={item} />}
                         />}
                     </View>
                     <PostCommentDetailFooter />

@@ -10,6 +10,7 @@ query postReplyComments($postId:String!, $skip:Int) {
         createdAt
         content
         image
+        isPoster
         user {
             id
             name
@@ -36,6 +37,7 @@ mutation createPostReplyComment($data:PostReplyCommentCreateInput!) {
                 createdAt
                 content
                 image
+                isPoster
                 user {
                     id
                     name

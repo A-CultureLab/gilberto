@@ -41,6 +41,7 @@ export interface postComments_postComments_recentPostReplyComments {
   createdAt: any;
   content: string;
   image: string | null;
+  isPoster: boolean;
   user: postComments_postComments_recentPostReplyComments_user;
 }
 
@@ -51,6 +52,7 @@ export interface postComments_postComments {
   content: string;
   image: string | null;
   postReplyCommentCount: number;
+  isPoster: boolean;
   user: postComments_postComments_user;
   recentPostReplyComments: postComments_postComments_recentPostReplyComments[];
 }

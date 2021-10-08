@@ -124,7 +124,7 @@ const PostDetail = () => {
                         )}
                     />
                     <View style={{ flex: 1 }} >
-                        {data && postCommetsData && <FlatList
+                        {data && postCommetsData && iUserData && <FlatList
                             {...refreshing}
                             data={postCommetsData.postComments}
                             overScrollMode='never'
@@ -179,7 +179,7 @@ const PostDetail = () => {
                                     </View>
                                 </>
                             }
-                            renderItem={({ item }) => <PostDetailCommentCard {...item} />}
+                            renderItem={({ item }) => <PostDetailCommentCard iUserId={iUserData.iUser.id} {...item} />}
                         />}
                     </View>
                     <PostDetailFooter />

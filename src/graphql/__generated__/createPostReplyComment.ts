@@ -29,6 +29,7 @@ export interface createPostReplyComment_createOnePostReplyComment_postComment_re
   createdAt: any;
   content: string;
   image: string | null;
+  isPoster: boolean;
   user: createPostReplyComment_createOnePostReplyComment_postComment_recentPostReplyComments_user;
 }
 

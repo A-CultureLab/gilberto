@@ -31,6 +31,7 @@ query postComments ($postId:String!,  $skip: Int) {
         content
         image
         postReplyCommentCount
+        isPoster
         user {
             id
             name
@@ -45,6 +46,7 @@ query postComments ($postId:String!,  $skip: Int) {
             createdAt
             content
             image
+            isPoster
             user {
                 id
                 name
@@ -77,6 +79,7 @@ query postComment($id:String!) {
         createdAt
         content
         image
+        isPoster
         user {
             id
             name

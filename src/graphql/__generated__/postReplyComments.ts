@@ -27,6 +27,7 @@ export interface postReplyComments_postReplyComments {
   createdAt: any;
   content: string;
   image: string | null;
+  isPoster: boolean;
   user: postReplyComments_postReplyComments_user;
 }
 

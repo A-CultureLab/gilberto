@@ -27,6 +27,7 @@ export interface postComment_postComment {
   createdAt: any;
   content: string;
   image: string | null;
+  isPoster: boolean;
   user: postComment_postComment_user;
 }
 

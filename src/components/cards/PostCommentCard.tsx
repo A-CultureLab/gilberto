@@ -19,6 +19,7 @@ interface PostCommentCardProps {
     data: postComment_postComment | postReplyComments_postReplyComments
     onDeleted: () => void
     hideReplyBtn?: boolean
+    iUserId: string
 }
 
 const PostCommentCard: React.FC<PostCommentCardProps> = (props) => {
@@ -26,19 +27,18 @@ const PostCommentCard: React.FC<PostCommentCardProps> = (props) => {
     const { navigate } = useNavigation()
     const { select, confirm } = useGlobalUi()
 
-    const { data } = useIUser({ fetchPolicy: 'cache-only' })
     const [deletePostComment] = props.isReply ? useDeletePostReplyComment() : useDeletePostComment()
 
-    const { onDeleted, isReply, hideReplyBtn } = props
-    const { user, image, id, content, createdAt } = props.data
+    const { onDeleted, isReply, hideReplyBtn, iUserId } = props
+    const { user, image, id, content, createdAt, isPoster } = props.data
 
-    const isPoster = data?.iUser.id === user.id
+    const isMyComment = iUserId === user.id
 
     const onMenu = useCallback(() => {
         select({
-            list: [isPoster ? '삭제하기' : '신고하기'],
+            list: [isMyComment ? '삭제하기' : '신고하기'],
             onSelect: (i) => {
-                if (isPoster) {
+                if (isMyComment) {
                     setTimeout(() => {
                         confirm({
                             title: '삭제하기',
@@ -55,7 +55,7 @@ const PostCommentCard: React.FC<PostCommentCardProps> = (props) => {
                 }
             }
         })
-    }, [id, isPoster])
+    }, [id, isMyComment])
 
     return (
         <>
@@ -106,7 +106,7 @@ const PostCommentCard: React.FC<PostCommentCardProps> = (props) => {
     )
 }
 
-export default PostCommentCard
+export default React.memo(PostCommentCard)
 
 const styles = StyleSheet.create({
     container: {
