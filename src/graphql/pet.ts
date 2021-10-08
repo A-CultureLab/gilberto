@@ -149,6 +149,7 @@ export const PETS_BY_ADDRESS = gql`
         age
         user {
             id
+            name
             age
             gender
         }

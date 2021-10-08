@@ -12,6 +12,7 @@ import { Gender } from "./../../../__generated__/globalTypes";
 export interface petsByAddress_petsByAddress_user {
   __typename: "User";
   id: string;
+  name: string;
   age: number;
   gender: Gender;
 }
