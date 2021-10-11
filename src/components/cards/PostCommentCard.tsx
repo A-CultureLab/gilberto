@@ -25,7 +25,7 @@ interface PostCommentCardProps {
 const PostCommentCard: React.FC<PostCommentCardProps> = (props) => {
 
     const { navigate } = useNavigation()
-    const { select, confirm } = useGlobalUi()
+    const { select, confirm, toast } = useGlobalUi()
 
     const [deletePostComment] = props.isReply ? useDeletePostReplyComment() : useDeletePostComment()
 
@@ -50,8 +50,9 @@ const PostCommentCard: React.FC<PostCommentCardProps> = (props) => {
                         })
                     }, 250)
                 } else {
-                    const params: ReportProps = {}
-                    navigate('Report', params)
+                    // const params: ReportProps = {}
+                    // navigate('Report', params)
+                    toast({ content: '신고가 접수되었습니다.' })
                 }
             }
         })

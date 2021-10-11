@@ -39,7 +39,7 @@ const PostDetail = () => {
     const { params: { id, focus } } = useRoute<Route<"PostDetail", PostDetailProps>>()
     const { navigate, goBack } = useNavigation()
     const { bottom } = useSafeAreaInsets()
-    const { select, confirm } = useGlobalUi()
+    const { select, confirm, toast } = useGlobalUi()
     const { user } = useContext(AuthContext)
 
     const { data: postCommetsData, fetchMore, refetch } = usePostComments({ variables: { postId: id } })
@@ -90,7 +90,8 @@ const PostDetail = () => {
                         })
                     }, 250)
                 } else {
-                    if (i === 0) navigate("Report", {})
+                    if (i === 0) toast({ content: '신고가 접수되었습니다.' })
+                    //navigate("Report", {})
                 }
             }
         })

@@ -18,7 +18,8 @@ const UserFooter: React.FC<UserFooterProps> = ({ user }) => {
 
     const { bottom } = useSafeAreaInsets()
     const { navigate } = useNavigation()
-    const { data } = useIUser()
+    const { user: iUser } = useContext(AuthContext)
+    const { data } = useIUser({ skip: !iUser })
 
     if (data?.iUser.id === id) return null
 

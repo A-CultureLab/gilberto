@@ -1,14 +1,17 @@
 import { Route, useNavigation, useRoute } from '@react-navigation/native'
-import React from 'react'
+import React, { useCallback, useContext } from 'react'
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import Footer from '../../components/footers/Footer'
 import UserFooter from '../../components/footers/UserFooter'
 import Header from '../../components/headers/Header'
 import ScreenLayout from '../../components/layout/ScreenLayout'
-import { COLOR1, DEFAULT_SHADOW, GRAY1, GRAY3, WIDTH } from '../../constants/styles'
-import { useUser } from '../../graphql/user'
+import { COLOR1, DEFAULT_SHADOW, GRAY1, GRAY2, GRAY3, WIDTH } from '../../constants/styles'
+import { useIUser, useUser } from '../../graphql/user'
 import genderGenerator from '../../lib/genderGenerator'
+import Icon from 'react-native-vector-icons/MaterialIcons'
+import useGlobalUi from '../../hooks/useGlobalUi'
+import { AuthContext } from '..'
 
 export interface UserDetailProps {
     id: string
@@ -18,13 +21,40 @@ const UserDetail = () => {
 
     const { params: { id } } = useRoute<Route<'UserDetail', UserDetailProps>>()
     const { data } = useUser({ variables: { where: { id } } })
+    const { user: iUser } = useContext(AuthContext)
+    const { data: iUserData } = useIUser({ skip: !iUser, fetchPolicy: 'cache-only' })
+    const { select, confirm, toast } = useGlobalUi()
     const { navigate } = useNavigation()
 
     const user = data?.user
+    const isIUser = iUserData?.iUser.id === user?.id
+
+    const onMore = useCallback(() => {
+        if (isIUser) return
+        select({
+            list: ['신고하기'],
+            onSelect: (i) => {
+                if (i === 0) toast({ content: '신고가 접수되었습니다' })
+            }
+        })
+    }, [isIUser])
 
     return (
         <ScreenLayout>
-            <Header underline={false} />
+            <Header
+                underline={false}
+                right={() =>
+                    !isIUser
+                        ? <Pressable
+                            onPress={onMore}
+                            android_ripple={{ color: GRAY2, radius: 28 }}
+                            style={styles.headerBtn}
+                        >
+                            <Icon size={24} color={GRAY1} name='more-vert' />
+                        </Pressable>
+                        : null
+                }
+            />
             {user && <ScrollView
                 style={{ flex: 1 }}
                 showsVerticalScrollIndicator={false}
@@ -76,6 +106,12 @@ const UserDetail = () => {
 export default UserDetail
 
 const styles = StyleSheet.create({
+    headerBtn: {
+        width: 56,
+        height: 56,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
     userProfileContainer: {
         width: '100%',
         alignItems: 'center',

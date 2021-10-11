@@ -65,7 +65,7 @@ const Tab = createBottomTabNavigator()
 const TabNavigation = () => {
     return (
         <Tab.Navigator
-            initialRouteName='Home'
+            initialRouteName='Post'
             tabBar={() => null}
         >
             <Tab.Screen name='Post' component={Post} />
