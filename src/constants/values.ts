@@ -2,6 +2,7 @@ import { Platform } from "react-native";
 import deviceInfoModule from "react-native-device-info";
 import { Region } from "react-native-nmap";
 import { PostType } from "../../__generated__/globalTypes";
+import { HEIGHT, STATUSBAR_HEIGHT, WIDTH } from "./styles";
 
 export const IS_ANDROID = Platform.OS === 'android'
 export const IS_IOS = Platform.OS === 'ios'
@@ -11,8 +12,8 @@ export const APPSTORE_ID = '1576824009'
 export const PLAYSTORE_PACKAGE_NAME = 'com.gilberto.silva'
 
 const PROD_TEST_MODE = false
-// const LOCAL_IP = '192.168.35.105'
-const LOCAL_IP = '192.168.191.254'
+const LOCAL_IP = '192.168.35.105'
+// const LOCAL_IP = '192.168.191.254'
 // const LOCAL_IP = '192.168.10.29'
 
 export const GRAPHQL_SERVER_URL = (() => {
@@ -95,10 +96,27 @@ export const ANIMAL_SPECIES: { [type: string]: { [key: string]: string[] } } = {
     }
 }
 
-export const DEFAULT_REGION_DELTA: Omit<Region, 'latitude' | 'longitude'> = {
-    latitudeDelta: 0.018,
-    longitudeDelta: 0.009
-}
+export const DEVICE_RATIO = WIDTH / HEIGHT * 1.26
+
+export const DELTA_LEVEL: Omit<Region, 'latitude' | 'longitude'>[] = [
+    {
+        latitudeDelta: 2,
+        longitudeDelta: 2 * DEVICE_RATIO
+    },
+    {
+        latitudeDelta: 0.4,
+        longitudeDelta: 0.4 * DEVICE_RATIO
+    },
+    {
+        latitudeDelta: 0.1,
+        longitudeDelta: 0.1 * DEVICE_RATIO
+    },
+    {
+        latitudeDelta: 0.018,
+        longitudeDelta: 0.018 * DEVICE_RATIO
+    }
+]
+
 
 export const DEFAULT_REGION_LAT_LOG: Omit<Region, 'latitudeDelta' | 'longitudeDelta'> = {
     latitude: 37.377712,
@@ -107,7 +125,7 @@ export const DEFAULT_REGION_LAT_LOG: Omit<Region, 'latitudeDelta' | 'longitudeDe
 
 export const DEFAULT_REGION: Region = {
     ...DEFAULT_REGION_LAT_LOG,
-    ...DEFAULT_REGION_DELTA
+    ...DELTA_LEVEL[0]
 }
 
 export const RATE_OPEN_TIMES_KEY = '@OPEN_TIMES'

@@ -1,10 +1,8 @@
 import React from 'react'
 import { useCallback } from 'react'
 import { useContext } from 'react'
-import { StyleSheet } from 'react-native'
 import { Align, Marker } from 'react-native-nmap'
 import { HomeScreenContext } from '.'
-import { COLOR1 } from '../../constants/styles'
 import { IS_IOS } from '../../constants/values'
 import { petGroupByAddress_petGroupByAddress, petGroupByAddress_petGroupByAddress_petGroup } from '../../graphql/__generated__/petGroupByAddress'
 

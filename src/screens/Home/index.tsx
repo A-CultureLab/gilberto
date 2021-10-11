@@ -1,6 +1,5 @@
-import { IS_IOS } from '../../constants/values';
+import { DEFAULT_REGION_LAT_LOG, DELTA_LEVEL, DEVICE_RATIO, IS_IOS } from '../../constants/values';
 import React, { createContext, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { useApolloClient, useLazyQuery } from '@apollo/client';
 import NaverMapView, { Coord, Marker, Region } from "react-native-nmap";
 
 
@@ -9,18 +8,13 @@ import MyPosFab from '../../components/fabs/MyPosFab';
 import HomePetMarker from './HomePetMarker';
 import ScreenLayout from '../../components/layout/ScreenLayout';
 import TabScreenBottomTabBar from '../../components/tabs/TabScreenBottomTabBar';
-import useAuth from '../../hooks/useAuth';
 import { usePetGroupByAddress } from '../../graphql/pet';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import HomeGroupByAddressBottomSheet from './HomeGroupByAddressBottomSheet';
-import HomeRefetchButton from './HomeRefetchButton';
 import { petGroupByAddress_petGroupByAddress_petGroup } from '../../graphql/__generated__/petGroupByAddress';
-import { PermissionsAndroid } from 'react-native';
+import { ActivityIndicator, PermissionsAndroid, StyleSheet, View } from 'react-native';
+import { COLOR1 } from '../../constants/styles';
+import HomeZoom from './HomeZoom';
 
-export const DEFAULT_REGION_DELTA: Omit<Region, 'latitude' | 'longitude'> = {
-    latitudeDelta: 0.47,
-    longitudeDelta: 0.235
-}
 
 interface HomeScreenContextInterface {
     selectedGroupByAddress: petGroupByAddress_petGroupByAddress_petGroup | null
@@ -28,6 +22,8 @@ interface HomeScreenContextInterface {
     bottomSheetSnapIndex: number
     setBottomSheetSnapIndex: (v: number) => void
     mapRef: React.RefObject<NaverMapView>
+    cameraRegion: Region | null
+    zoomLevel: number, setZoomLevel: (n: number) => void
 }
 
 
@@ -36,19 +32,13 @@ export const HomeScreenContext = createContext<HomeScreenContextInterface>({} as
 const Home = () => {
 
     const mapRef = useRef<NaverMapView>(null)
-    // const mapView = useRef<NaverMapView>(null);
-
-    const { query } = useApolloClient()
-
-    const { logout } = useAuth()
-    const { bottom } = useSafeAreaInsets()
 
 
     const [myPos, setMyPos] = useState<Coord | null>(null)
     const [cameraRegion, setCameraRegion] = useState<Region | null>(null)
+    const [zoomLevel, setZoomLevel] = useState(0)
 
     const [petGroupByAddress, { data: petGroupByAddressData, loading: petGroupByAddressLoading }] = usePetGroupByAddress()
-    const [petGroupByAddressRefetchEnable, setPetGroupByAddressRefetchEnable] = useState(false)
     // Context Values
     const [selectedGroupByAddress, setSelectedGroupByAddress] = useState<petGroupByAddress_petGroupByAddress_petGroup | null>(null)
     const [bottomSheetSnapIndex, setBottomSheetSnapIndex] = useState(-1)
@@ -57,8 +47,10 @@ const Home = () => {
         setSelectedGroupByAddress,
         bottomSheetSnapIndex,
         setBottomSheetSnapIndex,
-        mapRef
-    }), [selectedGroupByAddress, setSelectedGroupByAddress, mapRef, setBottomSheetSnapIndex, bottomSheetSnapIndex])
+        mapRef,
+        cameraRegion,
+        zoomLevel, setZoomLevel
+    }), [selectedGroupByAddress, setSelectedGroupByAddress, mapRef, setBottomSheetSnapIndex, bottomSheetSnapIndex, cameraRegion, zoomLevel, setZoomLevel])
 
 
 
@@ -81,7 +73,7 @@ const Home = () => {
                     const defaultCameraRegion = {
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude,
-                        ...DEFAULT_REGION_DELTA
+                        ...DELTA_LEVEL[zoomLevel]
                     }
                     mapRef.current?.animateToRegion(defaultCameraRegion)
                     petGroupByAddress({ variables: { cameraRegion: defaultCameraRegion } })
@@ -101,16 +93,15 @@ const Home = () => {
         }
     }, [])
 
+
     useEffect(() => {
-        setPetGroupByAddressRefetchEnable(false)
-    }, [petGroupByAddressLoading])
-
-    const onPetGroupByAddressRefetch = useCallback(() => {
         if (!cameraRegion) return
-        if (!petGroupByAddressRefetchEnable) return
+        mapRef.current?.animateToRegion({
+            ...cameraRegion,
+            ...DELTA_LEVEL[zoomLevel]
+        })
+    }, [zoomLevel, mapRef])
 
-        petGroupByAddress({ variables: { cameraRegion } })
-    }, [petGroupByAddressRefetchEnable, cameraRegion])
 
     const onMyPos = useCallback(() => {
         setSelectedGroupByAddress(null)
@@ -118,19 +109,19 @@ const Home = () => {
         mapRef.current?.animateToRegion({
             latitude: myPos.latitude,
             longitude: myPos.longitude,
-            ...DEFAULT_REGION_DELTA
+            ...DELTA_LEVEL[zoomLevel]
         })
-    }, [myPos, setSelectedGroupByAddress])
+    }, [myPos, setSelectedGroupByAddress, zoomLevel])
 
     const onRegionChange = useCallback(async (event: {
-        latitude: number;
-        longitude: number;
-        zoom: number;
-        contentsRegion: [Coord, Coord, Coord, Coord, Coord];
-        coveringRegion: [Coord, Coord, Coord, Coord, Coord];
+        latitude: number
+        longitude: number
+        zoom: number
+        contentsRegion: [Coord, Coord, Coord, Coord, Coord]
+        coveringRegion: [Coord, Coord, Coord, Coord, Coord]
     }) => {
 
-        if (!petGroupByAddressLoading) setPetGroupByAddressRefetchEnable(true)
+        if (selectedGroupByAddress) return
 
         const latitudeDelta = event.coveringRegion[1].latitude - event.coveringRegion[0].latitude
         const longitudeDelta = event.coveringRegion[2].longitude - event.coveringRegion[1].longitude
@@ -141,17 +132,24 @@ const Home = () => {
             latitudeDelta,
             longitudeDelta
         })
-    }, [setCameraRegion])
 
+        petGroupByAddress({
+            variables: {
+                cameraRegion: {
+                    latitude: event.latitude,
+                    longitude: event.longitude,
+                    ...DELTA_LEVEL[zoomLevel]
+                }
+            }
+        })
 
-
-    // ------------------------------------------------------------------------------------------------------------------------------------------------------//
+    }, [setCameraRegion, selectedGroupByAddress, zoomLevel])
 
 
 
     return (
         <HomeScreenContext.Provider value={contextValue} >
-            <ScreenLayout translucent >
+            <ScreenLayout translucent style={{ justifyContent: 'center' }}  >
                 <NaverMapView
                     ref={mapRef}
                     style={{ flex: 1 }}
@@ -160,10 +158,11 @@ const Home = () => {
                     showsMyLocationButton={false}
                     scaleBar={false}
                     zoomControl={false}
+                    zoomGesturesEnabled={false}
                     rotateGesturesEnabled={false}
                     tiltGesturesEnabled={false}
                     mapPadding={{ bottom: IS_IOS ? 56 : 0, top: IS_IOS ? 56 : 0 }}
-                    logoMargin={{ bottom: 56 + 16 + bottom, left: 16 }}
+                    logoMargin={{ left: 16, bottom: 56 }}
                     //@ts-ignore
                     useTextureView
                 >
@@ -178,11 +177,10 @@ const Home = () => {
                         image={require('../../assets/my-pos.png')}
                     />}
                 </NaverMapView>
-
-                {/* <HomeHeader /> */}
-                <HomeRefetchButton onPress={onPetGroupByAddressRefetch} enable={bottomSheetSnapIndex === -1 && petGroupByAddressRefetchEnable} />
+                <HomeZoom />
                 <MyPosFab onPress={onMyPos} />
                 <TabScreenBottomTabBar isMap />
+                {petGroupByAddressLoading && <View pointerEvents='none' style={styles.loading}><ActivityIndicator color={COLOR1} size='large' /></View>}
                 <HomeGroupByAddressBottomSheet />
             </ScreenLayout>
         </HomeScreenContext.Provider>
@@ -190,3 +188,13 @@ const Home = () => {
 }
 
 export default Home
+
+const styles = StyleSheet.create({
+    loading: {
+        position: 'absolute',
+        top: 0, right: 0, left: 0, bottom: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+        // backgroundColor: 'rgba(0, 0, 0, 0.2)'
+    }
+})
