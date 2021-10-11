@@ -152,6 +152,9 @@ export const PETS_BY_ADDRESS = gql`
             name
             age
             gender
+            address {
+                distance
+            }
         }
     }
   }

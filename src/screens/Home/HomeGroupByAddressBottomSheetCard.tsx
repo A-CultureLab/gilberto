@@ -5,6 +5,7 @@ import FastImage from 'react-native-fast-image'
 import { COLOR1, GRAY1, GRAY2, GRAY3 } from '../../constants/styles'
 import { petsByAddress_petsByAddress } from '../../graphql/__generated__/petsByAddress'
 import genderGenerator from '../../lib/genderGenerator'
+import meterUnit from '../../utils/meterUnit'
 
 const HomeGroupByAddressBottomSheetCard: React.FC<petsByAddress_petsByAddress> = (props) => {
 
@@ -24,7 +25,7 @@ const HomeGroupByAddressBottomSheetCard: React.FC<petsByAddress_petsByAddress> =
                     <View style={styles.petDetailContainer}><Text style={styles.petDetailText} numberOfLines={1} >{age}</Text></View>
                     <View style={styles.petDetailContainer}><Text style={styles.petDetailText} numberOfLines={1} >{weight}kg</Text></View>
                 </View>
-                <Text style={styles.userDetail} >{user.name} {user.age}세 {genderGenerator.user(user.gender)}</Text>
+                <Text style={styles.userDetail} >{user.name} {user.age}세 {genderGenerator.user(user.gender)}{user.address.distance !== null ? ` • ${meterUnit(user.address.distance)}` : ''}</Text>
             </View>
         </Pressable>
     )

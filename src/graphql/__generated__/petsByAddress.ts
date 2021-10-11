@@ -9,12 +9,18 @@ import { Gender } from "./../../../__generated__/globalTypes";
 // GraphQL query operation: petsByAddress
 // ====================================================
 
+export interface petsByAddress_petsByAddress_user_address {
+  __typename: "Address";
+  distance: number | null;
+}
+
 export interface petsByAddress_petsByAddress_user {
   __typename: "User";
   id: string;
   name: string;
   age: number;
   gender: Gender;
+  address: petsByAddress_petsByAddress_user_address;
 }
 
 export interface petsByAddress_petsByAddress {
