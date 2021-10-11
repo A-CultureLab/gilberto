@@ -139,7 +139,10 @@ const PostDetail = () => {
                                             <Text style={styles.type} >{POST_TYPES.find(v => v.value === data.post.type)?.name}</Text>
                                             <Text style={styles.createdAt} >{dayjs(data.post.createdAt).fromNow()}</Text>
                                         </View>
-                                        <View style={styles.userContainer}>
+                                        <Pressable
+                                            onPress={() => navigate("UserDetail", { id: data.post.user.id })}
+                                            style={styles.userContainer}
+                                        >
                                             <FastImage
                                                 style={styles.userImage}
                                                 source={{ uri: data.post.user.image }}
@@ -148,7 +151,7 @@ const PostDetail = () => {
                                                 <Text style={styles.userName} >{data.post.user.name}</Text>
                                                 <Text style={styles.userInfo} >{`${data.post.user.address.adressShort} ∙ ${meterUnit(data.post.user.address.distance || 0)}`}</Text>
                                             </View>
-                                        </View>
+                                        </Pressable>
                                         <HyperLink linkDefault={true} linkStyle={{ color: COLOR2 }} >
                                             <Text style={styles.content} >{data.post.content}</Text>
                                         </HyperLink>
