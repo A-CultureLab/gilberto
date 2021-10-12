@@ -7,10 +7,10 @@ import { useSafeAreaFrame, useSafeAreaInsets } from 'react-native-safe-area-cont
 import { HomeScreenContext } from '.'
 import { COLOR1, DEFAULT_SHADOW, GRAY2, GRAY3, HEIGHT, STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles'
 import { usePetsByAddress } from '../../graphql/pet'
-import HomeGroupByAddressBottomSheetCard from './HomeGroupByAddressBottomSheetCard'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 import { useIsFocused } from '@react-navigation/core'
+import PetCard from '../../components/cards/PetCard'
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
 
@@ -111,7 +111,7 @@ const HomeGroupByAddressBottomSheet = () => {
                     onEndReached={onEndReached}
                     onEndReachedThreshold={0.5}
                     ListFooterComponent={<View style={{ height: bottom + 80 }} />}
-                    renderItem={({ item }) => <HomeGroupByAddressBottomSheetCard {...item} />}
+                    renderItem={({ item }) => <PetCard {...item} />}
                 />}
             </BottomSheet>
             <AnimatedPressable style={[styles.closeButton, { bottom: bottom + 40 }, closeButtonStyle]} onPress={onClose} >

@@ -9,6 +9,7 @@ import { myPets, } from "./__generated__/myPets";
 import { petGroupByAddress, petGroupByAddressVariables } from "./__generated__/petGroupByAddress";
 import { petsByAddress, petsByAddressVariables } from "./__generated__/petsByAddress";
 import { pet, petVariables } from "./__generated__/pet";
+import { pets, petsVariables } from "./__generated__/pets";
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const REGIST_PET = gql`
@@ -190,4 +191,31 @@ export const PET = gql`
 `
 export const usePet = createQueryHook<pet, petVariables>(PET)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
-
+export const PETS = gql`
+  query pets ($filter: PetsAdressFilterInput!, $skip: Int) {
+    pets(filter:$filter, skip:$skip) {
+        id
+        image
+        name
+        species
+        character
+        gender
+        age
+        weight
+        age
+        user {
+            id
+            name
+            age
+            gender
+            address {
+                distance
+            }
+        }
+    }
+  }
+`
+export const usePets = createQueryHook<pets, petsVariables>(PETS)
+//--------------------------------------------------------------------------------------------------------------------------------------------------------//
+//--------------------------------------------------------------------------------------------------------------------------------------------------------//
+//--------------------------------------------------------------------------------------------------------------------------------------------------------//

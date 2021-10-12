@@ -1,4 +1,4 @@
-import { DEFAULT_REGION, DEFAULT_REGION_DELTA, DEFAULT_REGION_LAT_LOG, IS_IOS } from '../../constants/values'
+import { DEFAULT_REGION, DEFAULT_REGION_LAT_LOG, DELTA_LEVEL, IS_IOS } from '../../constants/values'
 import { DEFAULT_SHADOW, GRAY2, STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles'
 import MapView, { Coord, Region } from 'react-native-nmap'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
@@ -42,7 +42,7 @@ const SelectLocation = () => {
                 setTimeout(() => {
                     mapRef.current?.animateToRegion({
                         ...position.coords,
-                        ...DEFAULT_REGION_DELTA
+                        ...DELTA_LEVEL[3]
                     })
                 }, 500);
             },
@@ -55,7 +55,7 @@ const SelectLocation = () => {
         mapRef.current?.animateToRegion({
             latitude: myPos.latitude,
             longitude: myPos.longitude,
-            ...DEFAULT_REGION_DELTA
+            ...DELTA_LEVEL[3]
         })
     }, [myPos])
 

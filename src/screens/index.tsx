@@ -56,20 +56,33 @@ import useGlobalUi from '../hooks/useGlobalUi';
 import Rate from 'react-native-rate';
 import { isSignedup } from '../graphql/__generated__/isSignedup';
 import useAuth from '../hooks/useAuth';
+import PetList from './PetList';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
+const HomeTab = createBottomTabNavigator()
 
+const HomeTabNavigation = () => {
+    return (
+        <HomeTab.Navigator
+            initialRouteName='Home'
+            tabBar={() => null}
+        >
+            <HomeTab.Screen name='Home' component={Home} />
+            <HomeTab.Screen name='PetList' component={PetList} />
+        </HomeTab.Navigator>
+    )
+}
 
 
 const TabNavigation = () => {
     return (
         <Tab.Navigator
-            initialRouteName='Post'
+            initialRouteName='Home'
             tabBar={() => null}
         >
             <Tab.Screen name='Post' component={Post} />
-            <Tab.Screen name='Home' component={Home} />
+            <Tab.Screen name='Home' component={HomeTabNavigation} />
             <Tab.Screen name='Chat' component={Chat} />
             <Tab.Screen name='MyPage' component={MyPage} />
         </Tab.Navigator>
@@ -354,6 +367,7 @@ const Navigation = () => {
                     <Stack.Screen name='PostDetail' component={PostDetail} />
                     <Stack.Screen name='PostCommentDetail' component={PostCommentDetail} />
                     <Stack.Screen name='PostEdit' component={PostEdit} />
+                    <Stack.Screen name='PetList' component={PetList} />
                 </Stack.Navigator>
             </NavigationContainer>
         </AuthContext.Provider>

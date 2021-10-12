@@ -7,7 +7,7 @@ import { petsByAddress_petsByAddress } from '../../graphql/__generated__/petsByA
 import genderGenerator from '../../lib/genderGenerator'
 import meterUnit from '../../utils/meterUnit'
 
-const HomeGroupByAddressBottomSheetCard: React.FC<petsByAddress_petsByAddress> = (props) => {
+const PetCard: React.FC<petsByAddress_petsByAddress> = (props) => {
 
     const { navigate } = useNavigation()
 
@@ -31,7 +31,7 @@ const HomeGroupByAddressBottomSheetCard: React.FC<petsByAddress_petsByAddress> =
     )
 }
 
-export default HomeGroupByAddressBottomSheetCard
+export default PetCard
 
 const styles = StyleSheet.create({
     container: {

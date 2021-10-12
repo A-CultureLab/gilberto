@@ -417,6 +417,13 @@ export interface PetWhereUniqueInput {
   id?: string | null;
 }
 
+export interface PetsAdressFilterInput {
+  area1Id?: string | null;
+  area2Id?: string | null;
+  area3Id?: string | null;
+  landId?: string | null;
+}
+
 export interface PostCommentCreateInput {
   id?: string | null;
   createdAt?: any | null;

@@ -14,7 +14,7 @@ const MyPosFab: React.FC<MyPosFabProps> = ({ onPress, marginBottom }) => {
     const { bottom } = useSafeAreaInsets()
 
     return (
-        <View style={[styles.container, { bottom: bottom + 16 + 56 + (marginBottom || 0) }]} >
+        <View style={[styles.container, { bottom: bottom + 32 + 56 + (marginBottom || 0) }]} >
             <Pressable
                 onPress={onPress}
                 style={styles.btn} >

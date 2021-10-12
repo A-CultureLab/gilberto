@@ -21,6 +21,7 @@ const TABS = [
     },
     {
         name: 'Home',
+        routes: ['Home', 'PetList'],
         label: '동네',
         icon: ({ color, focus }: { color: string, focus: boolean }) => <IconMA size={24} name={focus ? 'location-on' : 'location-on'} color={color} />
     },
@@ -70,7 +71,10 @@ const TabScreenBottomTabBar: React.FC<TabScreenBottomTabBarProps> = ({ isMap }) 
                 }
             ]}
         >
-            {TABS.map(({ icon, label, name }, i) => {
+            {TABS.map(({ icon, label, name, routes }, i) => {
+
+                const isFocused = routeName === name || !!routes?.includes(routeName)
+
                 return (
                     <Pressable
                         onPress={() => onPress(name)}
@@ -79,11 +83,11 @@ const TabScreenBottomTabBar: React.FC<TabScreenBottomTabBarProps> = ({ isMap }) 
                     // android_ripple={{ color: GRAY2, radius: WIDTH / 3 / 2 }}
                     >
                         <View >
-                            {icon({ color: routeName === name ? COLOR1 : GRAY2, focus: routeName === name })}
+                            {icon({ color: isFocused ? COLOR1 : GRAY2, focus: isFocused })}
                             {(name === 'Chat' && data && data.iUser.notReadChatCount > 0) && <View style={styles.notReadChatCountBadge} ><Text style={styles.notReadChatCount} >{data.iUser.notReadChatCount > 100 ? 99 : data.iUser.notReadChatCount}</Text></View>}
                         </View>
-                        {/* {routeName === name && <View style={[styles.line]} />} */}
-                        <Text style={[styles.label, { color: routeName === name ? '#333' : GRAY1 }]}>{label}</Text>
+                        {/* {isFocused && <View style={[styles.line]} />} */}
+                        <Text style={[styles.label, { color: isFocused ? '#333' : GRAY1 }]}>{label}</Text>
 
                     </Pressable>
                 )

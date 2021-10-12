@@ -11,9 +11,12 @@ import TabScreenBottomTabBar from '../../components/tabs/TabScreenBottomTabBar';
 import { usePetGroupByAddress } from '../../graphql/pet';
 import HomeGroupByAddressBottomSheet from './HomeGroupByAddressBottomSheet';
 import { petGroupByAddress_petGroupByAddress_petGroup } from '../../graphql/__generated__/petGroupByAddress';
-import { ActivityIndicator, PermissionsAndroid, StyleSheet, View } from 'react-native';
-import { COLOR1 } from '../../constants/styles';
+import { ActivityIndicator, PermissionsAndroid, Pressable, StyleSheet, Text, View } from 'react-native';
+import { COLOR1, DEFAULT_SHADOW } from '../../constants/styles';
 import HomeZoom from './HomeZoom';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/core';
+import Icon from 'react-native-vector-icons/MaterialIcons'
 
 
 interface HomeScreenContextInterface {
@@ -31,8 +34,10 @@ export const HomeScreenContext = createContext<HomeScreenContextInterface>({} as
 
 const Home = () => {
 
-    const mapRef = useRef<NaverMapView>(null)
+    const { navigate } = useNavigation()
+    const { bottom } = useSafeAreaInsets()
 
+    const mapRef = useRef<NaverMapView>(null)
 
     const [myPos, setMyPos] = useState<Coord | null>(null)
     const [cameraRegion, setCameraRegion] = useState<Region | null>(null)
@@ -178,6 +183,10 @@ const Home = () => {
                     />}
                 </NaverMapView>
                 <HomeZoom />
+                {!selectedGroupByAddress && <Pressable style={[styles.petListBtn, { bottom: bottom + 56 + 32 }]} onPress={() => navigate('PetList')} >
+                    <Icon name="menu" size={16} color="#fff" />
+                    <Text style={styles.petListBtnText} >모아보기</Text>
+                </Pressable>}
                 <MyPosFab onPress={onMyPos} />
                 <TabScreenBottomTabBar isMap />
                 {petGroupByAddressLoading && <View pointerEvents='none' style={styles.loading}><ActivityIndicator color={COLOR1} size='large' /></View>}
@@ -196,5 +205,22 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         // backgroundColor: 'rgba(0, 0, 0, 0.2)'
+    },
+    petListBtn: {
+        height: 34,
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: COLOR1,
+        paddingHorizontal: 16,
+        alignSelf: 'center',
+        position: 'absolute',
+        borderRadius: 16,
+        borderWidth: 2,
+        borderColor: '#fff',
+        ...DEFAULT_SHADOW
+    },
+    petListBtnText: {
+        color: '#fff',
+        marginLeft: 8
     }
 })
