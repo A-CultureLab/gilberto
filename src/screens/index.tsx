@@ -78,11 +78,11 @@ const HomeTabNavigation = () => {
 const TabNavigation = () => {
     return (
         <Tab.Navigator
-            initialRouteName='Home'
+            initialRouteName='Post'
             tabBar={() => null}
         >
             <Tab.Screen name='Post' component={Post} />
-            <Tab.Screen name='Home' component={HomeTabNavigation} />
+            <Tab.Screen name='HomeTab' component={HomeTabNavigation} />
             <Tab.Screen name='Chat' component={Chat} />
             <Tab.Screen name='MyPage' component={MyPage} />
         </Tab.Navigator>

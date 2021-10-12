@@ -20,8 +20,8 @@ const TABS = [
         icon: ({ color, focus }: { color: string, focus: boolean }) => <IconMA size={24} name={focus ? 'home' : 'home'} color={color} />
     },
     {
-        name: 'Home',
-        routes: ['Home', 'PetList'],
+        name: 'HomeTab',
+        routes: ['HomeTab', 'Home', 'PetList'],
         label: '동네',
         icon: ({ color, focus }: { color: string, focus: boolean }) => <IconMA size={24} name={focus ? 'location-on' : 'location-on'} color={color} />
     },
