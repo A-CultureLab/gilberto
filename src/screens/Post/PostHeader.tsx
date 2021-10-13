@@ -24,6 +24,7 @@ const PostHeader = () => {
                     : (filter.landId ? address?.land.buildingName : '전국')
 
     const onLocation = useCallback(() => {
+        if (!user) return
         select({
             list: [
                 '전국',
@@ -41,7 +42,7 @@ const PostHeader = () => {
                 })
             }
         })
-    }, [address])
+    }, [address, user])
 
     const onAdd = useCallback(() => {
         navigate('PostCreate', { refetch })
