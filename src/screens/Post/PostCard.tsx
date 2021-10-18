@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden'
     },
     type: {
-        fontSize: 12,
+        fontSize: 14,
         fontWeight: 'bold',
         marginBottom: 8
     },

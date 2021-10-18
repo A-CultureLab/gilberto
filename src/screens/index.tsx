@@ -450,7 +450,7 @@ const GlobalUiWrapper = () => {
             if (data.isUpdateRequire) {
                 const inAppUpdates = new SpInAppUpdates(__DEV__)
                 await inAppUpdates.startUpdate({
-                    updateType: IS_ANDROID ? IAUUpdateKind.IMMEDIATE : undefined,
+                    updateType: IS_ANDROID ? IAUUpdateKind.IMMEDIATE : undefined
                 })
             }
         })()
