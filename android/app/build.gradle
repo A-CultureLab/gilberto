@@ -133,8 +133,8 @@ android {
         applicationId "com.gilberto.silva"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 26
-        versionName "1.0.1"
+        versionCode 27
+        versionName "1.1.0"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
 
