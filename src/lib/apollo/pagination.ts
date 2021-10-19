@@ -23,6 +23,19 @@ export const offsetLimitPagination = <T = Reference>(keyArgs: KeyArgs = false): 
 }
 
 
+export const offsetLimitPaginationMergeLastest = <T = Reference>(keyArgs: KeyArgs = false): FieldPolicy<T[]> => {
+    return {
+        keyArgs,
+        merge(existing, incoming, { args }) {
+            const merged = existing ? existing.slice(0) : [];
+            merged.push.apply(merged, incoming as T[]);
+            return merged;
+        },
+    }
+}
+
+
+
 
 export const cursorPagination = <T = Reference>(keyArgs: KeyArgs = false): FieldPolicy<T[]> => {
     return {

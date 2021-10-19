@@ -3,7 +3,6 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { COLOR1, COLOR2, GRAY1, GRAY2, GRAY3 } from '../../constants/styles'
-import { posts_posts } from '../../graphql/__generated__/posts'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { POST_TYPES } from '../../constants/values'
 import dayjs from 'dayjs'
@@ -11,8 +10,9 @@ import meterUnit from '../../utils/meterUnit'
 import Images from '../../components/images/Images'
 import { useLikePost } from '../../graphql/post'
 import HyperLink from 'react-native-hyperlink'
+import { feeds_feeds_post } from '../../graphql/__generated__/feeds'
 
-const PostCard: React.FC<posts_posts> = (props) => {
+const PostCard: React.FC<feeds_feeds_post> = (props) => {
 
     const { id, user, content, images, createdAt, commentCount, type, isILiked, likeCount } = props
 

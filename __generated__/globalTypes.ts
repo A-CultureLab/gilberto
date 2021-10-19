@@ -1451,6 +1451,7 @@ export interface UserWhereUniqueInput {
   snsLoginId?: string | null;
   email?: string | null;
   uniqueKey?: string | null;
+  addressId?: string | null;
 }
 
 //==============================================================
