@@ -57,6 +57,7 @@ import Rate from 'react-native-rate';
 import { isSignedup } from '../graphql/__generated__/isSignedup';
 import useAuth from '../hooks/useAuth';
 import PetList from './PetList';
+import Browser from './Browser';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -368,6 +369,7 @@ const Navigation = () => {
                     <Stack.Screen name='PostCommentDetail' component={PostCommentDetail} />
                     <Stack.Screen name='PostEdit' component={PostEdit} />
                     <Stack.Screen name='PetList' component={PetList} />
+                    <Stack.Screen name='Browser' component={Browser} />
                 </Stack.Navigator>
             </NavigationContainer>
         </AuthContext.Provider>
