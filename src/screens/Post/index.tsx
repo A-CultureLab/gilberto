@@ -1,4 +1,4 @@
-import React, { createContext, useMemo, useState } from 'react'
+import React, { createContext, useMemo, useRef, useState } from 'react'
 import { FlatList, StyleSheet, Text, View } from 'react-native'
 import { PostsAdressFilterInput } from '../../../__generated__/globalTypes'
 import ScreenLayout from '../../components/layout/ScreenLayout'
@@ -19,6 +19,8 @@ export const PostContext = createContext<PostContextInterface>({} as any)
 
 const Post = () => {
 
+    const flatlistRef = useRef<FlatList>(null)
+
     const [filter, setFilter] = useState<PostsAdressFilterInput>({})
 
     const { data, refetch, fetchMore } = useFeeds({
@@ -38,6 +40,7 @@ const Post = () => {
                 {data?.feeds.length === 0
                     ? <PostEmpty />
                     : <FlatList
+                        ref={flatlistRef}
                         {...refreshing}
                         onEndReachedThreshold={0.5}
                         onEndReached={() => fetchMore({ variables: { skipPost: data?.feeds.filter(v => !!v.post).length, skipNews: data?.feeds.filter(v => !!v.news).length } })}
@@ -45,7 +48,7 @@ const Post = () => {
                         data={data?.feeds || []}
                         renderItem={({ item }) => !!item.post ? <PostCard {...item.post} /> : item.news ? <NewsCard {...item.news} /> : null}
                     />}
-                <TabScreenBottomTabBar />
+                <TabScreenBottomTabBar onFocusPress={() => flatlistRef.current?.scrollToOffset({ offset: 0, animated: true })} />
             </ScreenLayout>
         </PostContext.Provider>
     )

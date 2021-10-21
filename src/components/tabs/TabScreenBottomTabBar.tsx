@@ -39,9 +39,10 @@ const TABS = [
 
 interface TabScreenBottomTabBarProps {
     isMap?: boolean
+    onFocusPress?: () => void
 }
 
-const TabScreenBottomTabBar: React.FC<TabScreenBottomTabBarProps> = ({ isMap }) => {
+const TabScreenBottomTabBar: React.FC<TabScreenBottomTabBarProps> = ({ isMap, onFocusPress }) => {
 
 
     const { bottom } = useSafeAreaInsets()
@@ -52,7 +53,10 @@ const TabScreenBottomTabBar: React.FC<TabScreenBottomTabBarProps> = ({ isMap }) 
     const { data } = useIUser({ skip: !user })
 
     const onPress = (name: string) => {
-        if (name === routeName) return
+        if (name === routeName) {
+            onFocusPress && onFocusPress()
+            return
+        }
         if (name === 'Chat' && !auth().currentUser) {
             navigate('Login')
             return
