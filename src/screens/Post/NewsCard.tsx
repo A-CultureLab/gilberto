@@ -24,8 +24,8 @@ const NewsCard: React.FC<feeds_feeds_news> = (props) => {
                 style={styles.image}
                 source={{ uri: image }}
             />
-            <Text style={styles.title} >{title}</Text>
-            <Text style={styles.content} >{content}</Text>
+            <Text numberOfLines={1} style={styles.title} >{title}</Text>
+            <Text numberOfLines={2} style={styles.content} >{content}</Text>
         </Pressable>
     )
 }
