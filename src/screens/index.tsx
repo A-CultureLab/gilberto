@@ -9,6 +9,8 @@ import React, { createContext, MutableRefObject, Ref, useCallback, useEffect, us
 import Toast, { ToastProps } from '../components/toasts/Toast';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import analytics from '@react-native-firebase/analytics';
+import { ChannelIO } from 'react-native-channel-plugin';
+
 
 import Chat from './Chat';
 import ChatDetail from './ChatDetail';
@@ -437,6 +439,11 @@ const GlobalUiWrapper = () => {
 
 
     useEffect(() => {
+        // 채널톡 생성
+        ChannelIO.boot({}).then((result) => {
+            console.log(result)
+            ChannelIO.showChannelButton()
+        })
         // splash 숨기기
         setTimeout(() => {
             SplashScreen.hide()

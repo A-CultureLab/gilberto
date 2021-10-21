@@ -12,6 +12,8 @@ target 'app' do
     :hermes_enabled => true
   )
 
+  pod 'ChannelIOSDK', podspec: 'https://mobile-static.channel.io/ios/latest/framework.podspec'
+
   target 'appTests' do
     inherit! :complete
     # Pods for testing
