@@ -1,7 +1,7 @@
 // GLOBAL UI
 import Alert, { AlertProps } from '../components/bottomSheets/Alert';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { CardStyleInterpolators, createStackNavigator } from "@react-navigation/stack";
 import Confirm, { ConfirmProps } from '../components/bottomSheets/Confirm';
 import { DefaultTheme, NavigationContainer, NavigationContainerRef, Theme } from '@react-navigation/native';
 import { NavigationState } from '@react-navigation/routers'
@@ -104,7 +104,7 @@ export type HomeTabParamList = {
 // Root Navigator
 export type NavigationParamList = StackParamList & TabParamList & HomeTabParamList
 
-const Stack = createNativeStackNavigator<StackParamList>()
+const Stack = createStackNavigator<StackParamList>()
 const Tab = createBottomTabNavigator<TabParamList>()
 const HomeTab = createBottomTabNavigator<HomeTabParamList>()
 
@@ -411,13 +411,13 @@ const Navigation = () => {
             >
                 <Stack.Navigator
                     initialRouteName='Tab'
-                    screenOptions={{ headerShown: false }}
-                // screenOptions={({ navigation }) => {
-                //     return {
-                //         detachPreviousScreen: !navigation.isFocused(),
-                //         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-                //     }
-                // }}
+                    screenOptions={({ navigation }) => {
+                        return {
+                            headerShown: false,
+                            detachPreviousScreen: !navigation.isFocused(),
+                            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+                        }
+                    }}
                 >
                     <Stack.Screen name='Tab' component={TabNavigation} />
                     <Stack.Screen name='Login' component={Login} />
