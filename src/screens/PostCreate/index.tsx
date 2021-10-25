@@ -13,7 +13,7 @@ import { POST_TYPES } from '../../constants/values'
 import { useCreatePost } from '../../graphql/post'
 import useGlobalUi from '../../hooks/useGlobalUi'
 
-interface PostCreateProps {
+export interface PostCreateProps {
     refetch: () => void
 }
 

@@ -8,7 +8,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import ScreenLayout from '../../components/layout/ScreenLayout'
 import { GRAY2, HEIGHT, STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles'
 
-interface ImageDetailProps {
+export interface ImageDetailProps {
     urls: string[]
     index: number
 }

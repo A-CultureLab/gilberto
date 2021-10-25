@@ -13,7 +13,7 @@ import { POST_TYPES } from '../../constants/values'
 import { usePost, useUpdatePost } from '../../graphql/post'
 import useGlobalUi from '../../hooks/useGlobalUi'
 
-interface PostEditProps {
+export interface PostEditProps {
     id: string
 }
 

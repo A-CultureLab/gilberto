@@ -1,11 +1,11 @@
 // GLOBAL UI
 import Alert, { AlertProps } from '../components/bottomSheets/Alert';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
-import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Confirm, { ConfirmProps } from '../components/bottomSheets/Confirm';
 import { DefaultTheme, NavigationContainer, NavigationContainerRef, Theme } from '@react-navigation/native';
 import { NavigationState } from '@react-navigation/routers'
-import React, { createContext, MutableRefObject, Ref, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { createContext, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Toast, { ToastProps } from '../components/toasts/Toast';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import analytics from '@react-native-firebase/analytics';
@@ -14,30 +14,30 @@ import { ChannelIO } from 'react-native-channel-plugin';
 
 
 import Chat from './Chat';
-import ChatDetail from './ChatDetail';
+import ChatDetail, { ChatDetailProps } from './ChatDetail';
 import Home from './Home'
 import Login from './Login';
 import MyPage from './MyPage';
 import OpenSourceLicense from './OpenSourceLicense';
-import PetModify from './PetModify';
+import PetModify, { PetModifyProps } from './PetModify';
 import PetRegist from './PetRegist';
 import Profile from './Profile';
 import ProfileModify from './ProfileModify';
-import SelectLocation from './SelectLocation';
+import SelectLocation, { SelectLocationProps } from './SelectLocation';
 import Settings from './Settings';
 import Signup from './Signup';
 import SignupPet from './SignupPet';
 import SplashScreen from 'react-native-splash-screen';
-import UserDetail from './UserDetail';
-import WebView from './WebView';
+import UserDetail, { UserDetailProps } from './UserDetail';
+import WebView, { WebViewProps } from './WebView';
 import Withdraw from './Withdraw';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useChatRoomUpdated } from '../graphql/chatRoom';
 import Select, { SelectProps } from '../components/bottomSheets/Select';
-import UserCertification from './UserCertification';
-import ImageDetail from './ImageDetail';
-import PetDetail from './PetDetail';
-import Report from './Report';
+import UserCertification, { UserCertificationProps } from './UserCertification';
+import ImageDetail, { ImageDetailProps } from './ImageDetail';
+import PetDetail, { PetDetailProps } from './PetDetail';
+import Report, { ReportProps } from './Report';
 import { useApolloClient } from '@apollo/client';
 import { IS_UPDATE_REQUIRE } from '../graphql/util';
 import { isUpdateRequire, isUpdateRequireVariables } from '../graphql/__generated__/isUpdateRequire';
@@ -50,22 +50,64 @@ import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
 import useAppState from '../hooks/useAppState';
 import Post from './Post';
-import PostCreate from './PostCreate';
-import PostDetail from './PostDetail';
-import PostCommentDetail from './PostCommentDetail';
-import PostEdit from './PostEdit';
+import PostCreate, { PostCreateProps } from './PostCreate';
+import PostDetail, { PostDetailProps } from './PostDetail';
+import PostCommentDetail, { PostCommentDetailProps } from './PostCommentDetail';
+import PostEdit, { PostEditProps } from './PostEdit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useGlobalUi from '../hooks/useGlobalUi';
 import Rate from 'react-native-rate';
 import { isSignedup } from '../graphql/__generated__/isSignedup';
 import useAuth from '../hooks/useAuth';
 import PetList from './PetList';
-import Browser from './Browser';
+import Browser, { BrowserProps } from './Browser';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const Stack = createStackNavigator()
-const Tab = createBottomTabNavigator()
-const HomeTab = createBottomTabNavigator()
+export type StackParamList = {
+    Tab: undefined
+    Login: undefined
+    Signup: undefined
+    SelectLocation: SelectLocationProps
+    WebView: WebViewProps
+    SignupPet: undefined
+    PetRegist: undefined
+    PetModify: PetModifyProps
+    Profile: undefined
+    ProfileModify: undefined
+    Settings: undefined
+    OpenSourceLicense: undefined
+    Withdraw: undefined
+    PetDetail: PetDetailProps
+    UserDetail: UserDetailProps
+    ChatDetail: ChatDetailProps
+    UserCertification: UserCertificationProps
+    ImageDetail: ImageDetailProps
+    Report: ReportProps
+    PostCreate: PostCreateProps
+    PostDetail: PostDetailProps
+    PostCommentDetail: PostCommentDetailProps
+    PostEdit: PostEditProps
+    PetList: undefined
+    Browser: BrowserProps
+}
+
+export type TabParamList = {
+    Post: undefined
+    HomeTab: undefined
+    Chat: undefined
+    MyPage: undefined
+}
+export type HomeTabParamList = {
+    Home: undefined
+    PetList: undefined
+}
+// Root Navigator
+export type NavigationParamList = StackParamList & TabParamList & HomeTabParamList
+
+const Stack = createNativeStackNavigator<StackParamList>()
+const Tab = createBottomTabNavigator<TabParamList>()
+const HomeTab = createBottomTabNavigator<HomeTabParamList>()
+
 
 const HomeTabNavigation = () => {
     return (
@@ -110,7 +152,7 @@ export const AuthContext = createContext<{
 
 const Navigation = () => {
 
-    const navigationRef = useRef<NavigationContainerRef>(null)
+    const navigationRef = useRef<NavigationContainerRef<NavigationParamList>>(null)
     const routeNameRef = useRef<string>('')
 
     const { bottom } = useSafeAreaInsets()
@@ -368,13 +410,13 @@ const Navigation = () => {
             >
                 <Stack.Navigator
                     initialRouteName='Tab'
-                    headerMode='none'
-                    screenOptions={({ navigation }) => {
-                        return {
-                            detachPreviousScreen: !navigation.isFocused(),
-                            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-                        }
-                    }}
+                    screenOptions={{ headerShown: false }}
+                // screenOptions={({ navigation }) => {
+                //     return {
+                //         detachPreviousScreen: !navigation.isFocused(),
+                //         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+                //     }
+                // }}
                 >
                     <Stack.Screen name='Tab' component={TabNavigation} />
                     <Stack.Screen name='Login' component={Login} />

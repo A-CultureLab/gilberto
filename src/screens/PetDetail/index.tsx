@@ -10,7 +10,7 @@ import { COLOR1, GRAY1, GRAY3, STATUSBAR_HEIGHT, WIDTH } from '../../constants/s
 import { usePet } from '../../graphql/pet'
 import genderGenerator from '../../lib/genderGenerator'
 
-interface PetDetailProps {
+export interface PetDetailProps {
     id: string
 }
 

@@ -13,7 +13,7 @@ import { useIUser } from '../../graphql/user'
 import useRefreshing from '../../hooks/useRefreshing'
 import PostCommentDetailFooter from './PostCommentDetailFooter'
 
-interface PostCommentDetailProps {
+export interface PostCommentDetailProps {
     id: string
     focus?: boolean
 }

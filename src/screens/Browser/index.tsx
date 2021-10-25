@@ -5,6 +5,10 @@ import WebView from 'react-native-webview'
 import ScreenLayout from '../../components/layout/ScreenLayout'
 import BrowserHeader from './BrowserHeader'
 
+export interface BrowserProps {
+    url: string
+}
+
 const Browser = () => {
 
     const { params } = useRoute<Route<'Browser', { url: string }>>()

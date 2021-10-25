@@ -1,9 +1,7 @@
-import { TransitionIOSSpec } from '@react-navigation/stack/lib/typescript/src/TransitionConfigs/TransitionSpecs'
 import React from 'react'
 import { StyleSheet, Text, View, ActivityIndicator, Pressable } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { COLOR1, COLOR2, GRAY1, GRAY3, WIDTH } from '../../constants/styles'
-import { BaseButton } from 'react-native-gesture-handler'
 
 interface FooterProps {
     text: string

@@ -21,7 +21,7 @@ import useGlobalUi from '../../hooks/useGlobalUi'
 import { useIUser } from '../../graphql/user'
 import { AuthContext } from '..'
 
-interface PostDetailProps {
+export interface PostDetailProps {
     id: string
     focus?: boolean
 }
