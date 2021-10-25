@@ -1,8 +1,7 @@
-import { Route, useNavigation, useRoute } from '@react-navigation/native'
+import useNavigation from '../../hooks/useNavigation'
 import React, { useCallback, useContext } from 'react'
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
-import Footer from '../../components/footers/Footer'
 import UserFooter from '../../components/footers/UserFooter'
 import Header from '../../components/headers/Header'
 import ScreenLayout from '../../components/layout/ScreenLayout'
@@ -12,6 +11,7 @@ import genderGenerator from '../../lib/genderGenerator'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import useGlobalUi from '../../hooks/useGlobalUi'
 import { AuthContext } from '..'
+import useRoute from '../../hooks/useRoute'
 
 export interface UserDetailProps {
     id: string
@@ -19,7 +19,7 @@ export interface UserDetailProps {
 
 const UserDetail = () => {
 
-    const { params: { id } } = useRoute<Route<'UserDetail', UserDetailProps>>()
+    const { params: { id } } = useRoute<'UserDetail'>()
     const { data } = useUser({ variables: { where: { id } } })
     const { user: iUser } = useContext(AuthContext)
     const { data: iUserData } = useIUser({ skip: !iUser, fetchPolicy: 'cache-only' })

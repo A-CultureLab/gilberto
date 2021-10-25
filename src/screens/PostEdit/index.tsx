@@ -1,4 +1,4 @@
-import { useNavigation, useRoute, Route } from '@react-navigation/core'
+import useNavigation from '../../hooks/useNavigation'
 import React, { useCallback, useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
@@ -8,6 +8,7 @@ import Footer from '../../components/footers/Footer'
 import Header from '../../components/headers/Header'
 import ScreenLayout from '../../components/layout/ScreenLayout'
 import ImagesUpload from '../../components/uploads/ImagesUpload'
+import useRoute from '../../hooks/useRoute'
 import { GRAY1, GRAY3 } from '../../constants/styles'
 import { POST_TYPES } from '../../constants/values'
 import { usePost, useUpdatePost } from '../../graphql/post'
@@ -20,7 +21,7 @@ export interface PostEditProps {
 const PostEdit = () => {
 
     const { goBack } = useNavigation()
-    const { params: { id } } = useRoute<Route<"PostEdit", PostEditProps>>()
+    const { params: { id } } = useRoute<"PostEdit">()
 
     const { data } = usePost({ variables: { id }, fetchPolicy: 'network-only' })
 

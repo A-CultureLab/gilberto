@@ -1,4 +1,4 @@
-import { useRoute, Route, useNavigation } from '@react-navigation/core'
+import useNavigation from '../../hooks/useNavigation'
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { FlatList, KeyboardAvoidingView, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 import Header from '../../components/headers/Header'
@@ -18,6 +18,7 @@ import { usePostComments } from '../../graphql/postComment'
 import useRefreshing from '../../hooks/useRefreshing'
 import HyperLink from 'react-native-hyperlink'
 import useGlobalUi from '../../hooks/useGlobalUi'
+import useRoute from '../../hooks/useRoute'
 import { useIUser } from '../../graphql/user'
 import { AuthContext } from '..'
 
@@ -36,7 +37,7 @@ export const PostDetailContext = createContext<PostDetailContextInterface>({} as
 
 const PostDetail = () => {
 
-    const { params: { id, focus } } = useRoute<Route<"PostDetail", PostDetailProps>>()
+    const { params: { id, focus } } = useRoute<"PostDetail">()
     const { navigate, goBack } = useNavigation()
     const { bottom } = useSafeAreaInsets()
     const { select, confirm, toast } = useGlobalUi()
@@ -77,7 +78,7 @@ const PostDetail = () => {
             list: isPoster ? ['수정하기', '삭제하기'] : ['신고하기'],
             onSelect: (i) => {
                 if (isPoster) {
-                    if (i === 0) navigate('PostEdit', { id: data?.post.id })
+                    if (i === 0) navigate('PostEdit', { id: data?.post.id || '' })
                     else if (i === 1) setTimeout(() => {
                         confirm({
                             title: '삭제하기',

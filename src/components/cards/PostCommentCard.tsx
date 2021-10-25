@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/core'
+import useNavigation from '../../hooks/useNavigation'
 import dayjs from 'dayjs'
 import React, { useCallback, useContext } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'

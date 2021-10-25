@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native'
+import useNavigation from '../../hooks/useNavigation'
 import React, { ReactNode } from 'react'
 import { Pressable, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import { COLOR1, GRAY2, GRAY3, WIDTH } from '../../constants/styles'

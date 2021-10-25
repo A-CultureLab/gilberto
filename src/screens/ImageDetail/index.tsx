@@ -1,4 +1,4 @@
-import { Route, useNavigation, useRoute } from '@react-navigation/native'
+import useNavigation from '../../hooks/useNavigation'
 import React, { useEffect, useMemo, useRef } from 'react'
 import { useState } from 'react'
 import { useCallback } from 'react'
@@ -7,6 +7,7 @@ import FastImage from 'react-native-fast-image'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import ScreenLayout from '../../components/layout/ScreenLayout'
 import { GRAY2, HEIGHT, STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles'
+import useRoute from '../../hooks/useRoute'
 
 export interface ImageDetailProps {
     urls: string[]
@@ -14,7 +15,7 @@ export interface ImageDetailProps {
 }
 const ImageDetail: React.FC<ImageDetailProps> = () => {
 
-    const { params: { index, urls } } = useRoute<Route<'ImageDetail', ImageDetailProps>>()
+    const { params: { index, urls } } = useRoute<'ImageDetail'>()
     const { goBack } = useNavigation()
 
     const [currentIndex, setCurrentIndex] = useState(index)

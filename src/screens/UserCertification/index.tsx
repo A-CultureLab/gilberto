@@ -1,5 +1,5 @@
 import { useApolloClient } from '@apollo/client'
-import { Route, useNavigation, useRoute } from '@react-navigation/native'
+import useNavigation from '../../hooks/useNavigation'
 import IMP from 'iamport-react-native'
 import React from 'react'
 import { useEffect } from 'react'
@@ -12,6 +12,7 @@ import { IAMPORT_CODE } from '../../constants/values'
 import { USER_CERTIFICATION_INFO } from '../../graphql/util'
 import { userCertificationInfo, userCertificationInfoVariables } from '../../graphql/__generated__/userCertificationInfo'
 import useGlobalUi from '../../hooks/useGlobalUi'
+import useRoute from '../../hooks/useRoute'
 
 export interface UserCertificationProps {
     onCertificated: (res: { uniqueKey: string, name: string, birth: Date, gender: Gender }) => void
@@ -20,7 +21,7 @@ export interface UserCertificationProps {
 const UserCertification = () => {
 
     const { goBack } = useNavigation()
-    const { params } = useRoute<Route<'UserCertification', UserCertificationProps>>()
+    const { params } = useRoute<'UserCertification'>()
     const { toast } = useGlobalUi()
 
     const { query } = useApolloClient()

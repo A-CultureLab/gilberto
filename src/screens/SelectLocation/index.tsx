@@ -3,7 +3,7 @@ import { DEFAULT_SHADOW, GRAY2, STATUSBAR_HEIGHT, WIDTH } from '../../constants/
 import MapView, { Coord, Region } from 'react-native-nmap'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Route, useNavigation, useRoute } from '@react-navigation/native'
+import useNavigation from '../../hooks/useNavigation'
 
 import Footer from '../../components/footers/Footer'
 import Geolocation from '@react-native-community/geolocation'
@@ -14,6 +14,7 @@ import ScreenLayout from '../../components/layout/ScreenLayout'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { createAddress_createAddress } from '../../graphql/__generated__/createAddress'
 import { useCreateAddress } from '../../graphql/address'
+import useRoute from '../../hooks/useRoute'
 
 export interface SelectLocationProps {
     onSelect: (data: createAddress_createAddress) => void
@@ -22,7 +23,7 @@ export interface SelectLocationProps {
 const SelectLocation = () => {
 
     const { goBack } = useNavigation()
-    const { params } = useRoute<Route<'SelectLocation', SelectLocationProps>>()
+    const { params } = useRoute<'SelectLocation'>()
     const [createAddress, { loading, data }] = useCreateAddress()
 
     const mapRef = useRef<MapView>(null)

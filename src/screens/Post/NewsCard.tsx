@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/core'
+import useNavigation from '../../hooks/useNavigation'
 import React from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'

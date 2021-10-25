@@ -10,7 +10,7 @@ import useRefreshing from '../../hooks/useRefreshing'
 import PetListEmpty from './PetListEmpty'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import PetListHeader from './PetListHeader'
-import { useNavigation } from '@react-navigation/core'
+import useNavigation from '../../hooks/useNavigation'
 import { COLOR1, DEFAULT_SHADOW } from '../../constants/styles'
 
 interface PetListContextInterface {

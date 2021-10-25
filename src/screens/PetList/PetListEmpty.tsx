@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { PetListContext } from '.'
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import { useNavigation } from '@react-navigation/core'
+import useNavigation from '../../hooks/useNavigation'
 import { useIUser } from '../../graphql/user'
 import { AuthContext } from '..'
 

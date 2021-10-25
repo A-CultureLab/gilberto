@@ -1,4 +1,4 @@
-import { useRoute, Route } from '@react-navigation/core'
+import useRoute from '../../hooks/useRoute'
 import React, { useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import WebView from 'react-native-webview'
@@ -11,7 +11,7 @@ export interface BrowserProps {
 
 const Browser = () => {
 
-    const { params } = useRoute<Route<'Browser', { url: string }>>()
+    const { params } = useRoute<'Browser'>()
 
     const [url, setUrl] = useState(params.url)
 

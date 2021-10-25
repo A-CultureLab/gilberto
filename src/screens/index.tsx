@@ -113,6 +113,7 @@ const HomeTabNavigation = () => {
     return (
         <HomeTab.Navigator
             initialRouteName='Home'
+            screenOptions={{ headerShown: false }}
             tabBar={() => null}
         >
             <HomeTab.Screen name='Home' component={Home} />
@@ -126,6 +127,7 @@ const TabNavigation = () => {
     return (
         <Tab.Navigator
             initialRouteName='Post'
+            screenOptions={{ headerShown: false }}
             tabBar={() => null}
         >
             <Tab.Screen name='Post' component={Post} />
@@ -155,7 +157,6 @@ const Navigation = () => {
     const navigationRef = useRef<NavigationContainerRef<NavigationParamList>>(null)
     const routeNameRef = useRef<string>('')
 
-    const { bottom } = useSafeAreaInsets()
     const [navigationState, setNavigationState] = useState<NavigationState>()
     const { confirm } = useGlobalUi()
 
@@ -341,7 +342,7 @@ const Navigation = () => {
             profile: iUserData ? {
                 name: iUserData.iUser.name,
             } : undefined
-        }).then((res: any) => { console.log(res); ChannelIO.showChannelButton() })
+        }).then((res: any) => { /* console.log(res); */ ChannelIO.showChannelButton() })
     }, [iUserData])
 
     // 평가요청

@@ -2,7 +2,8 @@
 Home, Friend 스크린의 하단 네비게이션 바
 */
 
-import { useNavigation, useRoute } from '@react-navigation/native'
+import useNavigation from '../../hooks/useNavigation'
+import useRoute from '../../hooks/useRoute'
 import React, { useCallback, useContext } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -61,6 +62,7 @@ const TabScreenBottomTabBar: React.FC<TabScreenBottomTabBarProps> = ({ isMap, on
             navigate('Login')
             return
         }
+        //@ts-ignore
         navigate(name)
     }
 

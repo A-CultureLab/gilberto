@@ -1,4 +1,4 @@
-import { useNavigation, useNavigationState } from '@react-navigation/native'
+import useNavigation from '../../hooks/useNavigation'
 import React, { useContext } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'

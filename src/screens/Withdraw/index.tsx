@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/core'
+import useNavigation from '../../hooks/useNavigation'
 import React from 'react'
 import { useState } from 'react'
 import { useCallback } from 'react'

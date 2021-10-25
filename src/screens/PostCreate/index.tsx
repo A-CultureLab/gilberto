@@ -1,4 +1,4 @@
-import { useNavigation, useRoute, Route } from '@react-navigation/core'
+import useNavigation from '../../hooks/useNavigation'
 import React, { useCallback, useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
@@ -12,6 +12,7 @@ import { COLOR3, GRAY1, GRAY3 } from '../../constants/styles'
 import { POST_TYPES } from '../../constants/values'
 import { useCreatePost } from '../../graphql/post'
 import useGlobalUi from '../../hooks/useGlobalUi'
+import useRoute from '../../hooks/useRoute'
 
 export interface PostCreateProps {
     refetch: () => void
@@ -20,7 +21,7 @@ export interface PostCreateProps {
 const PostCreate = () => {
 
     const { goBack } = useNavigation()
-    const { params: { refetch } } = useRoute<Route<"PostCreate", PostCreateProps>>()
+    const { params: { refetch } } = useRoute<"PostCreate">()
 
     const { control, handleSubmit, formState, clearErrors } = useForm<CreatePostInput>({
         defaultValues: {

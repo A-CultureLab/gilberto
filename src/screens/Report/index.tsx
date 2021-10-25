@@ -1,4 +1,4 @@
-import { useRoute, Route, useNavigation } from '@react-navigation/core'
+import useNavigation from '../../hooks/useNavigation'
 import React, { useCallback, useState } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import Footer from '../../components/footers/Footer'
@@ -12,6 +12,7 @@ import useGlobalUi from '../../hooks/useGlobalUi'
 import ReportChatInfo from './ReportChatInfo'
 import ReportChatRoomInfo from './ReportChatRoomInfo'
 import ReportUserInfo from './ReportUserInfo'
+import useRoute from '../../hooks/useRoute'
 
 export interface ReportProps {
     userId?: string
@@ -21,7 +22,7 @@ export interface ReportProps {
 
 const Report = () => {
 
-    const { params: { chatId, chatRoomId, userId } } = useRoute<Route<'Report', ReportProps>>()
+    const { params: { chatId, chatRoomId, userId } } = useRoute<'Report'>()
     const { goBack } = useNavigation()
     const { toast } = useGlobalUi()
 

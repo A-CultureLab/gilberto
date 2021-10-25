@@ -4,7 +4,7 @@ import { COLOR1, GRAY1, GRAY2, GRAY3 } from '../../constants/styles'
 import { myPets_myPets } from '../../graphql/__generated__/myPets'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { Gender } from '../../../__generated__/globalTypes'
-import { useNavigation } from '@react-navigation/native'
+import useNavigation from '../../hooks/useNavigation'
 
 interface PetInfoCardProps {
     data: myPets_myPets

@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { Linking, Pressable, StyleSheet, Text, View } from 'react-native'
 import { GRAY1, GRAY2, GRAY3 } from '../../constants/styles'
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import { useNavigation } from '@react-navigation/core'
+import useNavigation from '../../hooks/useNavigation'
 import useGlobalUi from '../../hooks/useGlobalUi'
 import Clipboard from '@react-native-clipboard/clipboard'
 

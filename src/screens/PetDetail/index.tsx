@@ -1,4 +1,4 @@
-import { Route, useNavigation, useRoute } from '@react-navigation/native'
+import useNavigation from '../../hooks/useNavigation'
 import React from 'react'
 import { Pressable, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
@@ -9,6 +9,7 @@ import ScreenLayout from '../../components/layout/ScreenLayout'
 import { COLOR1, GRAY1, GRAY3, STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles'
 import { usePet } from '../../graphql/pet'
 import genderGenerator from '../../lib/genderGenerator'
+import useRoute from '../../hooks/useRoute'
 
 export interface PetDetailProps {
     id: string
@@ -16,7 +17,7 @@ export interface PetDetailProps {
 
 const PetDetail = () => {
 
-    const { params: { id } } = useRoute<Route<'PetDetail', PetDetailProps>>()
+    const { params: { id } } = useRoute<'PetDetail'>()
     const { navigate } = useNavigation()
 
     const { data, loading } = usePet({ variables: { id } })

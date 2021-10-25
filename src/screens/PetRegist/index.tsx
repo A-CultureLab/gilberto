@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native'
+import useNavigation from '../../hooks/useNavigation'
 import dayjs from 'dayjs'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'

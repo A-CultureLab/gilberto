@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native'
+import useNavigation from '../../hooks/useNavigation'
 import React, { useEffect, useState } from 'react'
 import { useCallback } from 'react'
 import { Controller, useForm } from 'react-hook-form'

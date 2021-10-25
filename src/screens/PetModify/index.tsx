@@ -1,5 +1,5 @@
 import { useApolloClient } from '@apollo/client'
-import { Route, useNavigation, useRoute } from '@react-navigation/native'
+import useNavigation from '../../hooks/useNavigation'
 import dayjs from 'dayjs'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
@@ -21,6 +21,7 @@ import { MY_PETS, useCreatePet, useDeletePet, useUpdatePet } from '../../graphql
 import { myPets } from '../../graphql/__generated__/myPets'
 import useGlobalUi from '../../hooks/useGlobalUi'
 import useImageUpload from '../../hooks/useImageUpload'
+import useRoute from '../../hooks/useRoute'
 
 export interface PetModifyProps {
     id: string
@@ -28,7 +29,7 @@ export interface PetModifyProps {
 
 const PetModify = () => {
 
-    const { params } = useRoute<Route<'PetModify', PetModifyProps>>()
+    const { params } = useRoute<'PetModify'>()
     const { goBack } = useNavigation()
     const { cache } = useApolloClient()
 

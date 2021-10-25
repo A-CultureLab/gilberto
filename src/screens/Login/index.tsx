@@ -9,7 +9,7 @@ import auth from '@react-native-firebase/auth';
 import { useState } from 'react'
 import { login as kakaoLogin } from '@react-native-seoul/kakao-login';
 import { useApolloClient } from '@apollo/client'
-import { useNavigation } from '@react-navigation/core'
+import useNavigation from '../../hooks/useNavigation'
 import { IS_SIGNEDUP, I_USER, KAKAO_TOKEN_TO_FIREBASE_TOKEN } from '../../graphql/user'
 import Loading from '../../components/loadings/Loading'
 import { KakaoTokenToFirebaseToken, KakaoTokenToFirebaseTokenVariables } from '../../graphql/__generated__/KakaoTokenToFirebaseToken'

@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native'
+import useNavigation from '../../hooks/useNavigation'
 import React, { useContext } from 'react'
 import { useCallback } from 'react'
 import { useState } from 'react'

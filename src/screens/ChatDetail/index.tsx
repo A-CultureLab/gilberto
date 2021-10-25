@@ -1,5 +1,5 @@
 import { AppState, AppStateStatus, BackHandler, FlatList, KeyboardAvoidingView, Pressable, StatusBar, StyleSheet, Text, View } from 'react-native'
-import { Route, useNavigation, useRoute } from '@react-navigation/native'
+import useNavigation from '../../hooks/useNavigation'
 import { useChatCreated, useChats, useChatUpdated } from '../../graphql/chat'
 
 import { AuthContext } from '..'
@@ -24,6 +24,7 @@ import PushNotificationIOS from '@react-native-community/push-notification-ios'
 import useAppState from '../../hooks/useAppState'
 import { useIsFocused } from '@react-navigation/core'
 import { useIUser } from '../../graphql/user'
+import useRoute from '../../hooks/useRoute'
 
 export interface ChatDetailProps {
     id?: string
@@ -35,7 +36,7 @@ const ChatDetail = () => {
     const drawerRef = useRef<DrawerLayout>(null)
 
     const { goBack, navigate, setParams } = useNavigation()
-    const { params: { id, userId } } = useRoute<Route<'ChatDetail', ChatDetailProps>>()
+    const { params: { id, userId } } = useRoute<'ChatDetail'>()
     const { bottom } = useSafeAreaInsets()
     const { data: iUserData } = useIUser()
     const { user } = useContext(AuthContext)

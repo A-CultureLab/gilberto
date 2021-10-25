@@ -15,7 +15,7 @@ import { ActivityIndicator, PermissionsAndroid, Pressable, StyleSheet, Text, Vie
 import { COLOR1, DEFAULT_SHADOW } from '../../constants/styles';
 import HomeZoom from './HomeZoom';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/core';
+import useNavigation from '../../hooks/useNavigation'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
 

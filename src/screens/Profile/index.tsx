@@ -1,5 +1,5 @@
 import { useApolloClient } from '@apollo/client'
-import { useNavigation } from '@react-navigation/native'
+import useNavigation from '../../hooks/useNavigation'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import DraggableFlatList, { DragEndParams } from 'react-native-draggable-flatlist'

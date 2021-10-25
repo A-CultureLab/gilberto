@@ -1,4 +1,4 @@
-import { Route, useRoute } from '@react-navigation/native'
+import useRoute from '../../hooks/useRoute'
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import Header from '../../components/headers/Header'
@@ -12,7 +12,7 @@ export interface WebViewProps {
 
 const WebView = () => {
 
-    const { params } = useRoute<Route<'WebView', WebViewProps>>()
+    const { params } = useRoute<'WebView'>()
 
     return (
         <ScreenLayout>

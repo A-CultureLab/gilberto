@@ -1,4 +1,4 @@
-import { useRoute, Route, useNavigation } from '@react-navigation/core'
+import useNavigation from '../../hooks/useNavigation'
 import React, { createContext, useEffect, useMemo, useRef, useState } from 'react'
 import { FlatList, KeyboardAvoidingView, StyleSheet, Text, TextInput, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -12,6 +12,7 @@ import { usePostReplyComments } from '../../graphql/postReplyComment'
 import { useIUser } from '../../graphql/user'
 import useRefreshing from '../../hooks/useRefreshing'
 import PostCommentDetailFooter from './PostCommentDetailFooter'
+import useRoute from '../../hooks/useRoute'
 
 export interface PostCommentDetailProps {
     id: string
@@ -29,7 +30,7 @@ export const PostCommentDetailContext = createContext<PostCommentDetailContextIn
 const PostCommentDetail = () => {
 
     const { goBack } = useNavigation()
-    const { params: { id, focus } } = useRoute<Route<"PostCommentDetail", PostCommentDetailProps>>()
+    const { params: { id, focus } } = useRoute<"PostCommentDetail">()
     const { bottom } = useSafeAreaInsets()
 
     const { data: commentData } = usePostComment({ variables: { id } })
