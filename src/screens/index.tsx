@@ -9,6 +9,7 @@ import React, { createContext, MutableRefObject, Ref, useCallback, useEffect, us
 import Toast, { ToastProps } from '../components/toasts/Toast';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import analytics from '@react-native-firebase/analytics';
+// @ts-ignore
 import { ChannelIO } from 'react-native-channel-plugin';
 
 
@@ -42,7 +43,7 @@ import { IS_UPDATE_REQUIRE } from '../graphql/util';
 import { isUpdateRequire, isUpdateRequireVariables } from '../graphql/__generated__/isUpdateRequire';
 import deviceInfoModule from 'react-native-device-info';
 import SpInAppUpdates, { AndroidUpdateType, IAUUpdateKind } from 'sp-react-native-in-app-updates';
-import { APPSTORE_ID, IS_ANDROID, IS_IOS, IS_RATED, PLAYSTORE_PACKAGE_NAME, RATE_OPEN_TIMES_KEY, RATE_PERIOD } from '../constants/values';
+import { APPSTORE_ID, CHANNEL_IO_PLUGIN_KEY, IS_ANDROID, IS_IOS, IS_RATED, PLAYSTORE_PACKAGE_NAME, RATE_OPEN_TIMES_KEY, RATE_PERIOD } from '../constants/values';
 import PushNotification, { Importance } from 'react-native-push-notification';
 import { IS_SIGNEDUP, useIUser, useUpdateFcmToken } from '../graphql/user';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
@@ -60,6 +61,7 @@ import { isSignedup } from '../graphql/__generated__/isSignedup';
 import useAuth from '../hooks/useAuth';
 import PetList from './PetList';
 import Browser from './Browser';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -111,6 +113,7 @@ const Navigation = () => {
     const navigationRef = useRef<NavigationContainerRef>(null)
     const routeNameRef = useRef<string>('')
 
+    const { bottom } = useSafeAreaInsets()
     const [navigationState, setNavigationState] = useState<NavigationState>()
     const { confirm } = useGlobalUi()
 
@@ -118,6 +121,7 @@ const Navigation = () => {
     const [updateFcmToken, { loading: updateFcmLoading }] = useUpdateFcmToken()
     const { } = useChatRoomUpdated({ variables: { userId: user?.uid || '' }, skip: !user })
     const { appState } = useAppState()
+    const { data: iUserData } = useIUser()
 
     const { query } = useApolloClient()
     const { logout } = useAuth()
@@ -281,6 +285,22 @@ const Navigation = () => {
 
     }, [])
 
+    useEffect(() => {
+        // 채널톡 생성
+        ChannelIO.boot({
+            pluginKey: CHANNEL_IO_PLUGIN_KEY,
+            "channelButtonOption": {
+                "xMargin": 16,
+                "yMargin": 24 + 56,
+            },
+            memberId: iUserData?.iUser.id,
+            avatarUrl: iUserData?.iUser.image,
+            profile: iUserData ? {
+                name: iUserData.iUser.name,
+            } : undefined
+        }).then(() => ChannelIO.showChannelButton())
+    }, [iUserData])
+
     // 평가요청
     const onRate = useCallback(async () => {
         const openTimes = Number(await AsyncStorage.getItem(RATE_OPEN_TIMES_KEY) || 0)
@@ -328,12 +348,20 @@ const Navigation = () => {
                     const currentRouteName = navigationRef.current?.getCurrentRoute()?.name || ''
 
                     if (previousRouteName !== currentRouteName) {
-                        await analytics().logScreenView({
-                            screen_name: currentRouteName,
-                            screen_class: currentRouteName,
-                        })
+                        if (!__DEV__) {
+                            await analytics().logScreenView({
+                                screen_name: currentRouteName,
+                                screen_class: currentRouteName,
+                            })
+                        }
                     }
                     routeNameRef.current = currentRouteName;
+
+                    const CHANNEL_IO_SCREEN_NAMES = ['Post', 'Chat', 'MyPage']
+                    // 채널톡 활성화 시킬 스크린들
+                    if (CHANNEL_IO_SCREEN_NAMES.includes(currentRouteName)) ChannelIO.showChannelButton()
+                    else ChannelIO.hideChannelButton()
+
                 }}
                 theme={theme}
             >
@@ -439,11 +467,6 @@ const GlobalUiWrapper = () => {
 
 
     useEffect(() => {
-        // 채널톡 생성
-        ChannelIO.boot({}).then((result) => {
-            console.log(result)
-            ChannelIO.showChannelButton()
-        })
         // splash 숨기기
         setTimeout(() => {
             SplashScreen.hide()

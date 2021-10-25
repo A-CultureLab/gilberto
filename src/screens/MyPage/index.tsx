@@ -29,11 +29,11 @@ const MyPage = () => {
             icon: <Icon name='settings' color={GRAY2} size={16} />,
             onPress: () => navigate('Settings')
         },
-        {
-            title: '문의/건의',
-            icon: <Icon name='chat' color={GRAY2} size={16} />,
-            onPress: () => Linking.openURL('https://38do.kr/support')
-        },
+        // {
+        //     title: '문의/건의',
+        //     icon: <Icon name='chat' color={GRAY2} size={16} />,
+        //     onPress: () => Linking.openURL('https://38do.kr/support')
+        // },
         {
             title: '친구에게 추천하기',
             icon: <Icon name='share' color={GRAY2} size={16} />,

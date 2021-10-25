@@ -8,6 +8,7 @@ export const IS_ANDROID = Platform.OS === 'android'
 export const IS_IOS = Platform.OS === 'ios'
 
 export const IAMPORT_CODE = 'imp01398045'
+export const CHANNEL_IO_PLUGIN_KEY = 'e9a51cb7-702c-4cc7-9596-4035c01002a1'
 export const APPSTORE_ID = '1576824009'
 export const PLAYSTORE_PACKAGE_NAME = 'com.gilberto.silva'
 
