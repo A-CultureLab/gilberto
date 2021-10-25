@@ -13,6 +13,7 @@ import java.util.List;
 import com.facebook.react.bridge.JSIModulePackage;
 import com.swmansion.reanimated.ReanimatedJSIModulePackage;
 import com.microsoft.codepush.react.CodePush;
+import com.zoyi.channel.plugin.android.ChannelIO;
 
 
 public class MainApplication extends Application implements ReactApplication {
@@ -57,6 +58,7 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+    ChannelIO.initialize(this); // Initialize ChannelIO
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
   }

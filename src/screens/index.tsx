@@ -121,7 +121,7 @@ const Navigation = () => {
     const [updateFcmToken, { loading: updateFcmLoading }] = useUpdateFcmToken()
     const { } = useChatRoomUpdated({ variables: { userId: user?.uid || '' }, skip: !user })
     const { appState } = useAppState()
-    const { data: iUserData } = useIUser()
+    const { data: iUserData } = useIUser({ skip: !user })
 
     const { query } = useApolloClient()
     const { logout } = useAuth()
@@ -292,13 +292,14 @@ const Navigation = () => {
             "channelButtonOption": {
                 "xMargin": 16,
                 "yMargin": 24 + 56,
+                "position": 'right'
             },
             memberId: iUserData?.iUser.id,
             avatarUrl: iUserData?.iUser.image,
             profile: iUserData ? {
                 name: iUserData.iUser.name,
             } : undefined
-        }).then(() => ChannelIO.showChannelButton())
+        }).then((res: any) => { console.log(res); ChannelIO.showChannelButton() })
     }, [iUserData])
 
     // 평가요청
