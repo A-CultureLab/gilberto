@@ -940,6 +940,7 @@ export interface SignupInput {
   birth: any;
   addressId: string;
   inflow: string;
+  instagramId?: string | null;
   introduce: string;
   agreementDate: any;
   marketingPushDate?: any | null;
@@ -964,6 +965,7 @@ export interface UpdateUserInput {
   image: string;
   addressId: string;
   introduce: string;
+  instagramId?: string | null;
 }
 
 export interface UserChatRoomInfoCreateManyChatRoomInput {
@@ -1180,6 +1182,7 @@ export interface UserCreateWithoutChatsInput {
   birth: any;
   inflow: string;
   introduce: string;
+  instagramId?: string | null;
   agreementDate: any;
   marketingPushDate?: any | null;
   marketingEmailDate?: any | null;
@@ -1211,6 +1214,7 @@ export interface UserCreateWithoutLikedPostsInput {
   birth: any;
   inflow: string;
   introduce: string;
+  instagramId?: string | null;
   agreementDate: any;
   marketingPushDate?: any | null;
   marketingEmailDate?: any | null;
@@ -1242,6 +1246,7 @@ export interface UserCreateWithoutMyReportsInput {
   birth: any;
   inflow: string;
   introduce: string;
+  instagramId?: string | null;
   agreementDate: any;
   marketingPushDate?: any | null;
   marketingEmailDate?: any | null;
@@ -1273,6 +1278,7 @@ export interface UserCreateWithoutNotificatedPostsInput {
   birth: any;
   inflow: string;
   introduce: string;
+  instagramId?: string | null;
   agreementDate: any;
   marketingPushDate?: any | null;
   marketingEmailDate?: any | null;
@@ -1304,6 +1310,7 @@ export interface UserCreateWithoutPostCommentsInput {
   birth: any;
   inflow: string;
   introduce: string;
+  instagramId?: string | null;
   agreementDate: any;
   marketingPushDate?: any | null;
   marketingEmailDate?: any | null;
@@ -1335,6 +1342,7 @@ export interface UserCreateWithoutPostReplyCommentInput {
   birth: any;
   inflow: string;
   introduce: string;
+  instagramId?: string | null;
   agreementDate: any;
   marketingPushDate?: any | null;
   marketingEmailDate?: any | null;
@@ -1366,6 +1374,7 @@ export interface UserCreateWithoutPostsInput {
   birth: any;
   inflow: string;
   introduce: string;
+  instagramId?: string | null;
   agreementDate: any;
   marketingPushDate?: any | null;
   marketingEmailDate?: any | null;
@@ -1397,6 +1406,7 @@ export interface UserCreateWithoutReportsInput {
   birth: any;
   inflow: string;
   introduce: string;
+  instagramId?: string | null;
   agreementDate: any;
   marketingPushDate?: any | null;
   marketingEmailDate?: any | null;
@@ -1428,6 +1438,7 @@ export interface UserCreateWithoutUserChatRoomInfosInput {
   birth: any;
   inflow: string;
   introduce: string;
+  instagramId?: string | null;
   agreementDate: any;
   marketingPushDate?: any | null;
   marketingEmailDate?: any | null;

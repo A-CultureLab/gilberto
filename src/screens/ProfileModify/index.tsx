@@ -2,7 +2,7 @@ import useNavigation from '../../hooks/useNavigation'
 import React, { useEffect, useState } from 'react'
 import { useCallback } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { Image, KeyboardAvoidingView, Pressable, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, Image, KeyboardAvoidingView, Pressable, StyleSheet, Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import Footer from '../../components/footers/Footer'
 import Header from '../../components/headers/Header'
@@ -13,13 +13,15 @@ import { I_USER, useIUser, useSignup, useUpdateUser } from '../../graphql/user'
 import { Gender, SignupInput, UpdateUserInput } from '../../../__generated__/globalTypes'
 import dayjs from 'dayjs'
 import FastImage from 'react-native-fast-image'
-import { COLOR1, GRAY2, GRAY3 } from '../../constants/styles'
+import { COLOR1, COLOR3, GRAY1, GRAY2, GRAY3 } from '../../constants/styles'
 import { SelectLocationProps } from '../SelectLocation'
 import useGlobalUi from '../../hooks/useGlobalUi'
 import useImageUpload from '../../hooks/useImageUpload'
 import { useApolloClient } from '@apollo/client'
 import { iUser } from '../../graphql/__generated__/iUser'
 import UnderLineText from '../../components/texts/UnderLineText'
+import { useInstagramIdToProfile } from '../../graphql/util'
+import Icon from 'react-native-vector-icons/MaterialIcons'
 
 
 const ProfileModify = () => {
@@ -36,6 +38,7 @@ const ProfileModify = () => {
             addressId: user?.address?.id,
             image: user?.image,
             introduce: user?.introduce,
+            instagramId: user?.instagramId
         }
     })
 
@@ -147,7 +150,43 @@ const ProfileModify = () => {
                             />
                         )}
                     />
+                    <Controller
+                        control={control}
+                        name='instagramId'
+                        render={({ field }) => {
 
+                            const { data, error, loading } = useInstagramIdToProfile({ variables: { instagramId: field.value || '' }, skip: !field.value })
+
+                            return <View style={{ flexDirection: 'row', alignItems: 'center' }} >
+                                <UnderLineInput
+                                    value={field.value || undefined}
+                                    onChangeText={field.onChange}
+                                    placeholder='(선택) 인스타그램 아이디'
+                                    maxLength={25}
+                                />
+
+                                <View style={{ position: 'absolute', right: 24 }} >
+                                    {data &&
+                                        <View style={{ flexDirection: 'row', alignItems: 'center' }} >
+                                            <FastImage
+                                                style={{ width: 24, height: 24, borderRadius: 12, borderWidth: 1, borderColor: GRAY3, marginRight: 8 }}
+                                                source={{ uri: data.instagramIdToProfile.image }}
+                                            />
+                                            <Text style={{ fontSize: 12, color: GRAY1 }} >{data.instagramIdToProfile.name}</Text>
+                                        </View>
+                                    }
+                                    {error &&
+                                        <View style={{ flexDirection: 'row', alignItems: 'center' }} >
+                                            <Icon name='error-outline' color={COLOR3} style={{ marginRight: 8 }} size={16} />
+                                            <Text style={{ fontSize: 12, color: GRAY1 }} >유효하지 않은 아이디</Text>
+                                        </View>
+                                    }
+                                    {loading && <ActivityIndicator size='small' color={GRAY1} />}
+                                </View>
+
+                            </View>
+                        }}
+                    />
                     <Controller
                         control={control}
                         name='introduce'

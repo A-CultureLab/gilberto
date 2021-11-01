@@ -52,6 +52,7 @@ export interface iUser_iUser {
   birth: any;
   age: number;
   introduce: string;
+  instagramId: string | null;
   notReadChatCount: number;
   address: iUser_iUser_address;
 }

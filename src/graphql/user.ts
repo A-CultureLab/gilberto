@@ -27,6 +27,7 @@ export const I_USER = gql`
       birth
       age
       introduce
+      instagramId
       notReadChatCount
       address {
         id
@@ -85,6 +86,7 @@ export const UPDATE_USER = gql`
       age
       birth
       introduce
+      instagramId
       address {
         id
         area1 {

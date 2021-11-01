@@ -1,4 +1,6 @@
 import { gql } from "@apollo/client";
+import { createQueryHook } from "../lib/createApolloHook";
+import { instagramIdToProfile, instagramIdToProfileVariables } from "./__generated__/instagramIdToProfile";
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const UPLOAD_IMAGE = gql`
@@ -31,5 +33,13 @@ export const IS_UPDATE_REQUIRE = gql`
     }
 `
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
-
+export const INSTAGRAM_ID_TO_PROFILE = gql`
+    query instagramIdToProfile ($instagramId:String!) {
+        instagramIdToProfile(instagramId: $instagramId) {
+            name
+            image        
+        }
+    }
+`
+export const useInstagramIdToProfile = createQueryHook<instagramIdToProfile, instagramIdToProfileVariables>(INSTAGRAM_ID_TO_PROFILE)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
