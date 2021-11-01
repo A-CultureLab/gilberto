@@ -27,6 +27,13 @@ export const REGIST_PET = gql`
             weight
             vaccinated
             neutered
+            user {
+                id
+                pets {
+                    id
+                    image
+                }
+            }
         }
     }
 `
