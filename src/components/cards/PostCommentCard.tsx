@@ -78,7 +78,7 @@ const PostCommentCard: React.FC<PostCommentCardProps> = (props) => {
                 </Pressable>
                 <View style={{ flex: 1 }} >
                     <Text style={styles.name} >{user.name}<Text style={styles.poster} >{isPoster ? '  작성자' : ''}</Text></Text>
-                    <Text style={styles.userInfo} >{user.address.adressShort} ∙ {dayjs(createdAt).fromNow()}</Text>
+                    <Text style={styles.userInfo} >{user.address.addressShort} ∙ {dayjs(createdAt).fromNow()}</Text>
                     <HyperLink linkDefault={true} linkStyle={{ color: COLOR2 }} >
                         <Text style={styles.content} selectable >{content}</Text>
                     </HyperLink>

@@ -18,7 +18,7 @@ export interface posts_posts_images {
 export interface posts_posts_user_address {
   __typename: "Address";
   id: string;
-  adressShort: string;
+  addressShort: string;
   distance: number | null;
 }
 

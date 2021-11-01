@@ -54,7 +54,7 @@ const PostCard: React.FC<feeds_feeds_post> = (props) => {
                     />
                 }
                 <View style={styles.userInfoContainer} >
-                    <Text style={[styles.userInfo, { flex: 1 }]} >{`${user.name} ∙ ${user.address.adressShort} ∙ ${meterUnit(user.address.distance || 0)}`}</Text>
+                    <Text style={[styles.userInfo, { flex: 1 }]} >{`${user.name} ∙ ${user.address.addressShort} ∙ ${meterUnit(user.address.distance || 0)}`}</Text>
                     <Text style={styles.userInfo} >{dayjs(createdAt).fromNow()}</Text>
                 </View>
             </Pressable>

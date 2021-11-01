@@ -150,7 +150,7 @@ const PostDetail = () => {
                                             />
                                             <View >
                                                 <Text style={styles.userName} >{data.post.user.name}</Text>
-                                                <Text style={styles.userInfo} >{`${data.post.user.address.adressShort} ∙ ${meterUnit(data.post.user.address.distance || 0)}`}</Text>
+                                                <Text style={styles.userInfo} >{`${data.post.user.address.addressShort} ∙ ${meterUnit(data.post.user.address.distance || 0)}`}</Text>
                                             </View>
                                         </Pressable>
                                         <HyperLink linkDefault={true} linkStyle={{ color: COLOR2 }} >

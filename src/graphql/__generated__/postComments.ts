@@ -10,7 +10,7 @@
 export interface postComments_postComments_user_address {
   __typename: "Address";
   id: string;
-  adressShort: string;
+  addressShort: string;
 }
 
 export interface postComments_postComments_user {
@@ -24,7 +24,7 @@ export interface postComments_postComments_user {
 export interface postComments_postComments_recentPostReplyComments_user_address {
   __typename: "Address";
   id: string;
-  adressShort: string;
+  addressShort: string;
 }
 
 export interface postComments_postComments_recentPostReplyComments_user {

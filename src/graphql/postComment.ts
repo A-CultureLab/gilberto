@@ -38,7 +38,7 @@ query postComments ($postId:String!,  $skip: Int) {
             image
             address {
                 id
-                adressShort
+                addressShort
             }
         }
         recentPostReplyComments {
@@ -53,7 +53,7 @@ query postComments ($postId:String!,  $skip: Int) {
                 image
                 address {
                     id
-                    adressShort
+                    addressShort
                 } 
             }
         }
@@ -86,7 +86,7 @@ query postComment($id:String!) {
             image
             address {
                 id
-                adressShort
+                addressShort
             }
         }
     }

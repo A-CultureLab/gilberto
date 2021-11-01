@@ -17,7 +17,7 @@ query postReplyComments($postId:String!, $skip:Int) {
             image
             address {
                 id
-                adressShort
+                addressShort
             }
         }
     }
@@ -44,7 +44,7 @@ mutation createPostReplyComment($data:PostReplyCommentCreateInput!) {
                     image
                     address {
                         id
-                        adressShort
+                        addressShort
                     }
                 }
             }

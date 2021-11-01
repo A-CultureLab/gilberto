@@ -10,7 +10,7 @@
 export interface postReplyComments_postReplyComments_user_address {
   __typename: "Address";
   id: string;
-  adressShort: string;
+  addressShort: string;
 }
 
 export interface postReplyComments_postReplyComments_user {

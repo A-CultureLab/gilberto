@@ -12,7 +12,7 @@ import { PostReplyCommentCreateInput } from "./../../../__generated__/globalType
 export interface createPostReplyComment_createOnePostReplyComment_postComment_recentPostReplyComments_user_address {
   __typename: "Address";
   id: string;
-  adressShort: string;
+  addressShort: string;
 }
 
 export interface createPostReplyComment_createOnePostReplyComment_postComment_recentPostReplyComments_user {

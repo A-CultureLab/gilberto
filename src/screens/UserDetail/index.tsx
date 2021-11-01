@@ -1,8 +1,6 @@
 import useNavigation from '../../hooks/useNavigation'
 import React, { useCallback, useContext } from 'react'
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
-import FastImage from 'react-native-fast-image'
-import UserFooter from '../../components/footers/UserFooter'
+import { FlatList, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import Header from '../../components/headers/Header'
 import ScreenLayout from '../../components/layout/ScreenLayout'
 import { COLOR1, DEFAULT_SHADOW, GRAY1, GRAY2, GRAY3, WIDTH } from '../../constants/styles'
@@ -12,6 +10,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import useGlobalUi from '../../hooks/useGlobalUi'
 import { AuthContext } from '..'
 import useRoute from '../../hooks/useRoute'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import IconMC from 'react-native-vector-icons/MaterialCommunityIcons'
 
 export interface UserDetailProps {
     id: string
@@ -23,8 +23,9 @@ const UserDetail = () => {
     const { data } = useUser({ variables: { where: { id } } })
     const { user: iUser } = useContext(AuthContext)
     const { data: iUserData } = useIUser({ skip: !iUser, fetchPolicy: 'cache-only' })
-    const { select, confirm, toast } = useGlobalUi()
+    const { select, toast } = useGlobalUi()
     const { navigate } = useNavigation()
+    const { bottom } = useSafeAreaInsets()
 
     const user = data?.user
     const isIUser = iUserData?.iUser.id === user?.id
@@ -45,60 +46,52 @@ const UserDetail = () => {
                 underline={false}
                 right={() =>
                     !isIUser
-                        ? <Pressable
-                            onPress={onMore}
-                            android_ripple={{ color: GRAY2, radius: 28 }}
-                            style={styles.headerBtn}
-                        >
-                            <Icon size={24} color={GRAY1} name='more-vert' />
-                        </Pressable>
+                        ? <View style={{ flexDirection: 'row', alignItems: 'center' }} >
+                            <Pressable onPress={() => navigate('ChatDetail', { userId: id })} >
+                                <Text style={styles.chat} >채팅하기</Text>
+                            </Pressable>
+                            <Pressable
+                                onPress={onMore}
+                                android_ripple={{ color: GRAY2, radius: 28 }}
+                                style={styles.headerBtn}
+                            >
+                                <Icon size={24} color={GRAY1} name='more-vert' />
+                            </Pressable>
+                        </View>
                         : null
                 }
             />
-            {user && <ScrollView
-                style={{ flex: 1 }}
+            {user && <FlatList
                 showsVerticalScrollIndicator={false}
                 overScrollMode='never'
-            >
-                <View style={styles.userProfileContainer} >
-                    <FastImage
-                        style={styles.image}
-                        source={{ uri: user.image }}
-                    />
-                    <Text style={styles.name} >{user.name}</Text>
-                    <Text style={styles.genderAge} >{genderGenerator.user(user.gender)}, {user.age}세</Text>
-                    <Text style={styles.address} >{user.address.land.name}</Text>
-                </View>
-                {!!user.introduce && <View style={styles.introCotnainer} >
-                    <Text style={styles.intro} >{user.introduce}</Text>
-                </View>}
-                <View>
-                    <Text style={styles.familyTitle} >가족</Text>
-                    <ScrollView
-                        style={styles.familyScrollView}
-                        horizontal
-                        contentContainerStyle={{ alignItems: 'center' }}
-                    >
-                        <View style={{ width: 8 }} />
-                        {user.pets.map(v => (
-                            <Pressable
-                                key={v.id}
-                                onPress={() => navigate('PetDetail', { id: v.id })}
-                            >
-                                <FastImage
-                                    style={styles.familyImage}
-                                    source={{ uri: v.image }}
-                                />
-                            </Pressable>
-                        ))}
-                        <View style={{ width: 8 }} />
-                    </ScrollView>
-                </View>
-            </ScrollView>
+                ListHeaderComponent={
+                    <>
+                        <View style={styles.profileInfoContainer} >
+                            <View style={{ flexDirection: 'row', alignItems: 'flex-end' }} >
+                                <Text style={styles.age} >{user.name}</Text>
+                                <Text style={styles.genderAge} >{genderGenerator.user(user.gender)}, {user.age}세</Text>
+                            </View>
+                            <Text style={styles.address} >{!isIUser ? `${user.address.distance}km • ` : ''}{user.address.addressFull}</Text>
+                        </View>
+                        {!!user.introduce && <View style={styles.introduceContainer} >
+                            <Text>{user.introduce}</Text>
+                        </View>}
+                        {!!user.instagramId && <View style={styles.instagramIdContainer} >
+                            <IconMC name='instagram' size={24} color={GRAY1} />
+                            <Text style={styles.instagramId} >@{user.instagramId}</Text>
+                        </View>}
+                    </>
+                }
+                ListFooterComponent={<View style={{ height: bottom }} />}
+                renderItem={({ index }) =>
+                    <View style={{ width: WIDTH / 3, height: WIDTH / 3, backgroundColor: GRAY2, alignItems: 'center', justifyContent: 'center' }} >
+                        <Text style={{ textAlign: 'center' }} >{`Templete\nMedia\n${index.toString()}`}</Text>
+                    </View>
+                }
+                numColumns={3}
+                data={Array(20).fill(0)}
+            />
             }
-            {user && <UserFooter
-                user={user}
-            />}
         </ScreenLayout>
     )
 }
@@ -112,55 +105,48 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
-    userProfileContainer: {
-        width: '100%',
-        alignItems: 'center',
-        paddingVertical: 24,
-        borderBottomWidth: 1,
-        borderBottomColor: GRAY3
-    },
-    image: {
-        width: WIDTH / 2,
-        height: WIDTH / 2,
-        borderRadius: WIDTH / 4,
-    },
-    name: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginTop: 24
-    },
-    genderAge: {
-        fontSize: 18,
-        color: GRAY1,
-        marginTop: 8
-    },
-    address: {
-        marginTop: 24,
+    chat: {
         color: COLOR1,
         fontWeight: 'bold'
     },
-    introCotnainer: {
-        paddingVertical: 24,
+    profileInfoContainer: {
+        width: '100%',
         paddingHorizontal: 16,
+        paddingVertical: 24,
         borderBottomWidth: 1,
         borderBottomColor: GRAY3
     },
-    intro: {
-
-    },
-    familyTitle: {
+    age: {
         fontSize: 18,
         fontWeight: 'bold',
-        marginTop: 24,
-        marginLeft: 16
     },
-    familyScrollView: {
-        height: 72 + 24 + 24,
+    genderAge: {
+        fontWeight: 'bold',
+        fontSize: 12,
+        marginLeft: 8,
+        color: GRAY1
     },
-    familyImage: {
-        width: 72,
-        height: 72,
-        borderRadius: 36,
-        marginHorizontal: 8
+    address: {
+        marginTop: 16,
+        color: GRAY1
+    },
+    introduceContainer: {
+        width: '100%',
+        borderBottomWidth: 1,
+        borderBottomColor: GRAY3,
+        paddingVertical: 24,
+        paddingHorizontal: 16
+    },
+    instagramIdContainer: {
+        height: 48,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row'
+    },
+    instagramId: {
+        color: GRAY1,
+        marginLeft: 8,
+        borderBottomWidth: 1,
+        borderBottomColor: GRAY3
     }
 })

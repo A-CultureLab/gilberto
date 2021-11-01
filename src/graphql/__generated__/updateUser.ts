@@ -52,6 +52,7 @@ export interface updateUser_updateUser {
   age: number;
   birth: any;
   introduce: string;
+  instagramId: string | null;
   address: updateUser_updateUser_address;
 }
 

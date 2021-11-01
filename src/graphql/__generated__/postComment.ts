@@ -10,7 +10,7 @@
 export interface postComment_postComment_user_address {
   __typename: "Address";
   id: string;
-  adressShort: string;
+  addressShort: string;
 }
 
 export interface postComment_postComment_user {

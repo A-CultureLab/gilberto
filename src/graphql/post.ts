@@ -52,7 +52,7 @@ query posts ($filter:PostsAdressFilterInput, $take:Int, $skip:Int) {
             image
             address {
                 id
-                adressShort
+                addressShort
                 distance
             }
         }
@@ -93,7 +93,7 @@ query post ($id:String!) {
             image
             address {
                 id
-                adressShort
+                addressShort
                 distance
             }
         }

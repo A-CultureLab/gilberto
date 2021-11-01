@@ -25,7 +25,7 @@ query feeds ($filter:PostsAdressFilterInput, $take:Int, $skipPost:Int, $skipNews
                 image
                 address {
                     id
-                    adressShort
+                    addressShort
                     distance
                 }
             }    

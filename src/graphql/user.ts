@@ -131,29 +131,15 @@ query user($where:UserWhereUniqueInput!) {
     age
     gender
     introduce
+    instagramId
     pets {
       id
       image
     }
     address {
       id
-      area1 {
-        id
-        name
-      }
-      area2 {
-        id
-        name
-      }
-      area3 {
-        id
-        name
-      }
-      land {
-        id
-        name
-        buildingName
-      }
+      distance
+      addressFull
     }
   }
 }

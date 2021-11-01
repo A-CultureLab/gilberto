@@ -18,7 +18,7 @@ export interface feeds_feeds_post_images {
 export interface feeds_feeds_post_user_address {
   __typename: "Address";
   id: string;
-  adressShort: string;
+  addressShort: string;
   distance: number | null;
 }
 
