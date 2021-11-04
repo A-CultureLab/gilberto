@@ -9,6 +9,18 @@ import { RegistPetInput, PetType, Gender } from "./../../../__generated__/global
 // GraphQL mutation operation: registPet
 // ====================================================
 
+export interface registPet_registPet_user_pets {
+  __typename: "Pet";
+  id: string;
+  image: string;
+}
+
+export interface registPet_registPet_user {
+  __typename: "User";
+  id: string;
+  pets: registPet_registPet_user_pets[];
+}
+
 export interface registPet_registPet {
   __typename: "Pet";
   id: string;
@@ -23,6 +35,7 @@ export interface registPet_registPet {
   weight: number;
   vaccinated: boolean;
   neutered: boolean;
+  user: registPet_registPet_user;
 }
 
 export interface registPet {

@@ -15,6 +15,7 @@ import IconMC from 'react-native-vector-icons/MaterialCommunityIcons'
 import FastImage from 'react-native-fast-image'
 import meterUnit from '../../utils/meterUnit'
 import useRefreshing from '../../hooks/useRefreshing'
+import { useMediasByUserId } from '../../graphql/media'
 
 export interface UserDetailProps {
     id: string
@@ -25,11 +26,20 @@ const UserDetail = () => {
     const { params: { id } } = useRoute<'UserDetail'>()
     const { data } = useUser({ variables: { where: { id } } })
     const { user: iUser } = useContext(AuthContext)
-    const { data: iUserData, refetch } = useIUser({ skip: !iUser, fetchPolicy: 'cache-only' })
+    const { data: iUserData, refetch: iUserRefetch } = useIUser({ skip: !iUser, fetchPolicy: 'cache-only' })
+    const { data: media, refetch: mediaRefetch, fetchMore } = useMediasByUserId({ variables: { userId: id } })
     const { select, toast } = useGlobalUi()
     const { navigate } = useNavigation()
     const { bottom } = useSafeAreaInsets()
-    const refreshing = useRefreshing(refetch)
+
+    const refreshing = useRefreshing(async () => {
+        try {
+            await iUserRefetch()
+            await mediaRefetch()
+        } catch (error) {
+
+        }
+    })
 
     const user = data?.user
     const isIUser = iUserData?.iUser.id === user?.id
@@ -114,14 +124,18 @@ const UserDetail = () => {
                 }
                 {...refreshing}
                 ListFooterComponent={<View style={{ height: bottom }} />}
-                renderItem={({ index }) =>
-                    <View style={{ width: WIDTH / 3, height: WIDTH / 3, backgroundColor: GRAY2, alignItems: 'center', justifyContent: 'center' }} >
-                        <Text style={{ textAlign: 'center' }} >{`Templete\nMedia\n${index.toString()}`}</Text>
-                    </View>
+                renderItem={({ item }) =>
+                    <Pressable>
+                        <FastImage
+                            style={{ width: WIDTH / 3, height: WIDTH / 3, }}
+                            source={{ uri: item.instagramMedia?.image }}
+                        />
+                    </Pressable>
                 }
                 numColumns={3}
-                // data={Array(20).fill(0)}
-                data={[]}
+                onEndReached={() => fetchMore({ variables: { instagramEndCursor: media?.mediasByUserId.filter(v => !!v.instagramMedia).pop()?.instagramEndCursor } })}
+                onEndReachedThreshold={0.5}
+                data={media?.mediasByUserId || []}
             />
             }
         </ScreenLayout>

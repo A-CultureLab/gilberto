@@ -12,7 +12,7 @@ export default new InMemoryCache({
                 chats: cursorPagination(['chatRoomId']),
                 postComments: offsetLimitPagination(['where']),
                 postReplyComments: offsetLimitPagination(['where']),
-
+                mediasByUserId: offsetLimitPaginationMergeLastest(['userId'])
             }
         }
     },

@@ -61,4 +61,3 @@ export const cursorPagination = <T = Reference>(keyArgs: KeyArgs = false): Field
         }
     }
 }
-
