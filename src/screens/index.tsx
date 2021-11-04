@@ -414,7 +414,6 @@ const Navigation = () => {
                     screenOptions={({ navigation }) => {
                         return {
                             headerShown: false,
-                            detachPreviousScreen: !navigation.isFocused(),
                             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
                         }
                     }}
