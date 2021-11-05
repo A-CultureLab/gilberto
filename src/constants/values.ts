@@ -102,20 +102,20 @@ export const DEVICE_RATIO = WIDTH / HEIGHT * 1.26
 
 export const DELTA_LEVEL: Omit<Region, 'latitude' | 'longitude'>[] = [
     {
-        latitudeDelta: 2,
-        longitudeDelta: 2 * DEVICE_RATIO
+        latitudeDelta: 5,
+        longitudeDelta: 5 * DEVICE_RATIO
     },
     {
-        latitudeDelta: 0.4,
-        longitudeDelta: 0.4 * DEVICE_RATIO
+        latitudeDelta: 1,
+        longitudeDelta: 1 * DEVICE_RATIO
     },
     {
-        latitudeDelta: 0.1,
-        longitudeDelta: 0.1 * DEVICE_RATIO
+        latitudeDelta: 0.15,
+        longitudeDelta: 0.15 * DEVICE_RATIO
     },
     {
-        latitudeDelta: 0.018,
-        longitudeDelta: 0.018 * DEVICE_RATIO
+        latitudeDelta: 0.045,
+        longitudeDelta: 0.045 * DEVICE_RATIO
     }
 ]
 
