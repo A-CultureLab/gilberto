@@ -3,7 +3,7 @@ import React, { useCallback, useContext } from 'react'
 import { ActivityIndicator, FlatList, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import Header from '../../components/headers/Header'
 import ScreenLayout from '../../components/layout/ScreenLayout'
-import { COLOR1, DEFAULT_SHADOW, GRAY1, GRAY2, GRAY3, WIDTH } from '../../constants/styles'
+import { COLOR1, COLOR3, DEFAULT_SHADOW, GRAY1, GRAY2, GRAY3, WIDTH } from '../../constants/styles'
 import { useIUser, useUser } from '../../graphql/user'
 import genderGenerator from '../../lib/genderGenerator'
 import Icon from 'react-native-vector-icons/MaterialIcons'
@@ -172,12 +172,13 @@ const UserDetail = () => {
                     <Pressable>
                         <FastImage
                             style={{ width: WIDTH / 3, height: WIDTH / 3, }}
-                            source={{ uri: item.instagramMedia?.image }}
+                            source={{ uri: item.thumnail }}
                         />
+                        {item.media.isInstagram && <IconMC style={styles.itemInstagramIcon} name='instagram' size={20} color={GRAY3} />}
                     </Pressable>
                 }
                 numColumns={3}
-                onEndReached={() => fetchMore({ variables: { instagramEndCursor: media?.mediasByUserId.filter(v => !!v.instagramMedia).pop()?.instagramEndCursor } })}
+                onEndReached={() => fetchMore({ variables: { instagramEndCursor: media?.mediasByUserId.filter(v => !!v.media.isInstagram).pop()?.instagramEndCursor } })}
                 onEndReachedThreshold={0.5}
                 data={media?.mediasByUserId || []}
             />
@@ -301,5 +302,10 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginTop: 40,
         color: GRAY1
+    },
+    itemInstagramIcon: {
+        position: 'absolute',
+        bottom: 8,
+        right: 8
     }
 })

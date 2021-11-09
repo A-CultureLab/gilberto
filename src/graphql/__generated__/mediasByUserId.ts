@@ -7,17 +7,18 @@
 // GraphQL query operation: mediasByUserId
 // ====================================================
 
-export interface mediasByUserId_mediasByUserId_instagramMedia {
-  __typename: "InstagramMedia";
-  image: string;
+export interface mediasByUserId_mediasByUserId_media {
+  __typename: "Media";
   id: string;
+  isInstagram: boolean;
 }
 
 export interface mediasByUserId_mediasByUserId {
   __typename: "MediaAndInstagramMedia";
   id: string;
   instagramEndCursor: string | null;
-  instagramMedia: mediasByUserId_mediasByUserId_instagramMedia | null;
+  thumnail: string;
+  media: mediasByUserId_mediasByUserId_media;
 }
 
 export interface mediasByUserId {
