@@ -132,6 +132,10 @@ query user($where:UserWhereUniqueInput!) {
     gender
     introduce
     instagramId
+    followerCount
+    followingCount
+    mediaCount
+    isIFollowed
     pets {
       id
       image

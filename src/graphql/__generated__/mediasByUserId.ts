@@ -27,5 +27,4 @@ export interface mediasByUserId {
 export interface mediasByUserIdVariables {
   userId: string;
   instagramEndCursor?: string | null;
-  init?: boolean | null;
 }

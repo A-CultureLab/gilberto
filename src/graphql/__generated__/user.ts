@@ -31,6 +31,10 @@ export interface user_user {
   gender: Gender;
   introduce: string;
   instagramId: string | null;
+  followerCount: number;
+  followingCount: number;
+  mediaCount: number;
+  isIFollowed: boolean;
   pets: user_user_pets[];
   address: user_user_address;
 }

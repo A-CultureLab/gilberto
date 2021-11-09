@@ -1,6 +1,6 @@
 import useNavigation from '../../hooks/useNavigation'
 import React, { useCallback, useContext } from 'react'
-import { FlatList, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, FlatList, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import Header from '../../components/headers/Header'
 import ScreenLayout from '../../components/layout/ScreenLayout'
 import { COLOR1, DEFAULT_SHADOW, GRAY1, GRAY2, GRAY3, WIDTH } from '../../constants/styles'
@@ -16,6 +16,7 @@ import FastImage from 'react-native-fast-image'
 import meterUnit from '../../utils/meterUnit'
 import useRefreshing from '../../hooks/useRefreshing'
 import { useMediasByUserId } from '../../graphql/media'
+import followCountUnit from '../../utils/followCountUnit'
 
 export interface UserDetailProps {
     id: string
@@ -27,7 +28,7 @@ const UserDetail = () => {
     const { data } = useUser({ variables: { where: { id } } })
     const { user: iUser } = useContext(AuthContext)
     const { data: iUserData, refetch: iUserRefetch } = useIUser({ skip: !iUser, fetchPolicy: 'cache-only' })
-    const { data: media, refetch: mediaRefetch, fetchMore } = useMediasByUserId({ variables: { userId: id } })
+    const { data: media, refetch: mediaRefetch, fetchMore, loading } = useMediasByUserId({ variables: { userId: id } })
     const { select, toast } = useGlobalUi()
     const { navigate } = useNavigation()
     const { bottom } = useSafeAreaInsets()
@@ -61,9 +62,6 @@ const UserDetail = () => {
                 right={() =>
                     !isIUser
                         ? <View style={{ flexDirection: 'row', alignItems: 'center' }} >
-                            <Pressable onPress={() => navigate('ChatDetail', { userId: id })} >
-                                <Text style={styles.chat} >채팅하기</Text>
-                            </Pressable>
                             <Pressable
                                 onPress={onMore}
                                 android_ripple={{ color: GRAY2, radius: 28 }}
@@ -78,7 +76,6 @@ const UserDetail = () => {
             {user && <FlatList
                 showsVerticalScrollIndicator={false}
                 overScrollMode='never'
-
                 ListHeaderComponent={
                     <>
                         <View style={styles.profileInfoContainer} >
@@ -112,18 +109,65 @@ const UserDetail = () => {
                                 <Text style={styles.genderAge} >{genderGenerator.user(user.gender)}, {user.age}세</Text>
                             </View>
                             <Text style={styles.address} >{!isIUser ? `${meterUnit(user.address.distance || 0)} • ` : ''}{user.address.addressFull}</Text>
+                            {!!user.introduce && <Text style={{ marginTop: 16 }} >{user.introduce}</Text>}
                         </View>
-                        {!!user.introduce && <View style={styles.introduceContainer} >
-                            <Text>{user.introduce}</Text>
-                        </View>}
+                        <View style={styles.followInfoContainer} >
+                            <Pressable
+                                onPress={() => { }}
+                                android_ripple={{ color: GRAY2 }}
+                                style={styles.followInfoBtn}
+                            >
+                                <Text style={styles.followInfoCount} >{followCountUnit(user.mediaCount)}</Text>
+                                <Text>게시물</Text>
+                            </Pressable>
+                            <Pressable
+                                onPress={() => { }}
+                                android_ripple={{ color: GRAY2 }}
+                                style={styles.followInfoBtn}
+                            >
+                                <Text style={styles.followInfoCount} >{followCountUnit(user.followerCount)}</Text>
+                                <Text>팔로워</Text>
+                            </Pressable>
+                            <Pressable
+                                onPress={() => { }}
+                                android_ripple={{ color: GRAY2 }}
+                                style={styles.followInfoBtn}
+                            >
+                                <Text style={styles.followInfoCount} >{followCountUnit(user.followingCount)}</Text>
+                                <Text>팔로잉</Text>
+                            </Pressable>
+                            <View style={{ flex: 1 }} />
+                            {!isIUser && <>
+                                <Pressable
+                                    onPress={() => { }}
+                                    android_ripple={{ color: GRAY2 }}
+                                    style={user.isIFollowed ? styles.chatBtn : styles.followBtn}
+                                >
+                                    <Text style={{ color: user.isIFollowed ? GRAY1 : '#fff' }} >팔로우</Text>
+                                </Pressable>
+                                <Pressable
+                                    onPress={() => navigate('ChatDetail', { userId: id })}
+                                    android_ripple={{ color: GRAY2 }}
+                                    style={user.isIFollowed ? styles.followBtn : styles.chatBtn}
+                                >
+                                    <Text style={{ color: user.isIFollowed ? '#fff' : GRAY1 }} >채팅</Text>
+                                </Pressable>
+                            </>}
+                        </View>
                         {!!user.instagramId && <View style={styles.instagramIdContainer} >
-                            <IconMC name='instagram' size={24} color={GRAY1} />
+                            <IconMC name='instagram' size={20} color={'#aaa'} />
                             <Text style={styles.instagramId} >@{user.instagramId}</Text>
                         </View>}
                     </>
                 }
                 {...refreshing}
                 ListFooterComponent={<View style={{ height: bottom }} />}
+                ListEmptyComponent={
+                    loading
+                        ?
+                        <ActivityIndicator style={{ marginTop: 32 }} size='small' color={GRAY1} />
+                        : <Text style={styles.emptyString} >게시물이 없습니다</Text>
+                }
                 renderItem={({ item }) =>
                     <Pressable>
                         <FastImage
@@ -169,7 +213,8 @@ const styles = StyleSheet.create({
     profileInfoContainer: {
         width: '100%',
         paddingHorizontal: 16,
-        paddingVertical: 24,
+        paddingTop: 24,
+        paddingBottom: 16,
         borderBottomWidth: 1,
         borderBottomColor: GRAY3
     },
@@ -200,6 +245,44 @@ const styles = StyleSheet.create({
         paddingVertical: 24,
         paddingHorizontal: 16
     },
+    followInfoContainer: {
+        width: '100%',
+        flexDirection: 'row',
+        paddingVertical: 24,
+        paddingLeft: 4,
+        paddingRight: 16,
+        alignItems: 'center',
+        borderBottomWidth: 1,
+        borderBottomColor: GRAY3,
+    },
+    followInfoBtn: {
+        alignItems: 'center',
+        paddingHorizontal: 12,
+    },
+    followInfoCount: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginBottom: 4
+    },
+    followBtn: {
+        height: 32,
+        paddingHorizontal: 16,
+        borderRadius: 4,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: COLOR1,
+        marginLeft: 16
+    },
+    chatBtn: {
+        height: 32,
+        paddingHorizontal: 16,
+        borderRadius: 4,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth: 1,
+        borderColor: GRAY2,
+        marginLeft: 16
+    },
     instagramIdContainer: {
         height: 48,
         alignItems: 'center',
@@ -213,5 +296,10 @@ const styles = StyleSheet.create({
         marginLeft: 8,
         borderBottomWidth: 1,
         borderBottomColor: GRAY3
+    },
+    emptyString: {
+        alignSelf: 'center',
+        marginTop: 40,
+        color: GRAY1
     }
 })
