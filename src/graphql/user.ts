@@ -1,5 +1,4 @@
-import { createLazyQueryHook, createMutationHook, createQueryHook } from "../lib/createApolloHook";
-import { signup, signupVariables } from "./__generated__/signup";
+import { createMutationHook, createQueryHook } from "../lib/createApolloHook";
 import { updateFcmToken, updateFcmTokenVariables } from "./__generated__/updateFcmToken";
 import { updateUser, updateUserVariables } from "./__generated__/updateUser";
 import { user, userVariables } from "./__generated__/user";
@@ -7,14 +6,7 @@ import { withdraw, withdrawVariables } from "./__generated__/withdraw";
 
 import { gql } from "@apollo/client";
 import { iUser } from "./__generated__/iUser";
-import { isSignedup } from "./__generated__/isSignedup";
-
-//--------------------------------------------------------------------------------------------------------------------------------------------------------//
-export const KAKAO_TOKEN_TO_FIREBASE_TOKEN = gql`
-    query KakaoTokenToFirebaseToken ($kakaoAccessToken: String!){
-      kakaoTokenToFirebaseToken(kakaoAccessToken: $kakaoAccessToken) 
-    }
-`
+import { login, loginVariables } from "./__generated__/login";
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const I_USER = gql`
@@ -53,28 +45,6 @@ export const I_USER = gql`
   }
 `
 export const useIUser = createQueryHook<iUser, {}>(I_USER)
-//--------------------------------------------------------------------------------------------------------------------------------------------------------//
-export const SIGN_UP = gql`
-  mutation signup ($data: SignupInput!) {
-    signup(data: $data) {
-      id
-      image
-      pets {
-        id
-        image
-      }
-    }
-  }
-`
-export const useSignup = createMutationHook<signup, signupVariables>(SIGN_UP)
-//--------------------------------------------------------------------------------------------------------------------------------------------------------//
-
-export const IS_SIGNEDUP = gql`
-  query isSignedup {
-    isSignedup
-  }
-`
-export const useIsSignedup = createLazyQueryHook<isSignedup, {}>(IS_SIGNEDUP, { fetchPolicy: 'network-only' })
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const UPDATE_USER = gql`
   mutation updateUser($data: UpdateUserInput!) {
@@ -163,12 +133,16 @@ export const UPDATE_FCM_TOKEN = gql`
   mutation updateFcmToken ($token: String!) {
     updateFcmToken(token:$token) {
       id
-      fcmToken
     }
   }
 `
 export const useUpdateFcmToken = createMutationHook<updateFcmToken, updateFcmTokenVariables>(UPDATE_FCM_TOKEN)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
-
+export const LOGIN = gql`
+mutation login($phone:String!, $password:String!) {
+  login(phone: $phone, password: $password) 
+}
+`
+export const useLogin = createMutationHook<login, loginVariables>(LOGIN)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//

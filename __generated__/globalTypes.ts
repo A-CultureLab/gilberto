@@ -1291,22 +1291,6 @@ export interface ReportWhereUniqueInput {
   id?: string | null;
 }
 
-export interface SignupInput {
-  email: string;
-  image: string;
-  uniqueKey: string;
-  name: string;
-  gender: Gender;
-  birth: any;
-  addressId: string;
-  inflow: string;
-  instagramId?: string | null;
-  introduce: string;
-  agreementDate: any;
-  marketingPushDate?: any | null;
-  marketingEmailDate?: any | null;
-}
-
 export interface UpdatePostInput {
   id: string;
   content: string;
@@ -1618,22 +1602,23 @@ export interface UserCreateOrConnectWithoutUserChatRoomInfosInput {
 }
 
 export interface UserCreateWithoutChatsInput {
+  id?: string | null;
   createdAt?: any | null;
   updatedAt?: any | null;
-  id?: string | null;
-  snsLoginId: string;
-  email: string;
+  phone: string;
+  password: string;
+  profileId: string;
   image: string;
-  uniqueKey: string;
   name: string;
   gender: Gender;
   birth: any;
-  inflow: string;
   introduce: string;
   instagramId?: string | null;
+  inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
   marketingEmailDate?: any | null;
+  refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;
   withdrawReason?: string | null;
@@ -1657,22 +1642,23 @@ export interface UserCreateWithoutChatsInput {
 }
 
 export interface UserCreateWithoutFollowersInput {
+  id?: string | null;
   createdAt?: any | null;
   updatedAt?: any | null;
-  id?: string | null;
-  snsLoginId: string;
-  email: string;
+  phone: string;
+  password: string;
+  profileId: string;
   image: string;
-  uniqueKey: string;
   name: string;
   gender: Gender;
   birth: any;
-  inflow: string;
   introduce: string;
   instagramId?: string | null;
+  inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
   marketingEmailDate?: any | null;
+  refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;
   withdrawReason?: string | null;
@@ -1696,22 +1682,23 @@ export interface UserCreateWithoutFollowersInput {
 }
 
 export interface UserCreateWithoutFollowingsInput {
+  id?: string | null;
   createdAt?: any | null;
   updatedAt?: any | null;
-  id?: string | null;
-  snsLoginId: string;
-  email: string;
+  phone: string;
+  password: string;
+  profileId: string;
   image: string;
-  uniqueKey: string;
   name: string;
   gender: Gender;
   birth: any;
-  inflow: string;
   introduce: string;
   instagramId?: string | null;
+  inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
   marketingEmailDate?: any | null;
+  refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;
   withdrawReason?: string | null;
@@ -1735,22 +1722,23 @@ export interface UserCreateWithoutFollowingsInput {
 }
 
 export interface UserCreateWithoutLikedMediasInput {
+  id?: string | null;
   createdAt?: any | null;
   updatedAt?: any | null;
-  id?: string | null;
-  snsLoginId: string;
-  email: string;
+  phone: string;
+  password: string;
+  profileId: string;
   image: string;
-  uniqueKey: string;
   name: string;
   gender: Gender;
   birth: any;
-  inflow: string;
   introduce: string;
   instagramId?: string | null;
+  inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
   marketingEmailDate?: any | null;
+  refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;
   withdrawReason?: string | null;
@@ -1774,22 +1762,23 @@ export interface UserCreateWithoutLikedMediasInput {
 }
 
 export interface UserCreateWithoutLikedPostsInput {
+  id?: string | null;
   createdAt?: any | null;
   updatedAt?: any | null;
-  id?: string | null;
-  snsLoginId: string;
-  email: string;
+  phone: string;
+  password: string;
+  profileId: string;
   image: string;
-  uniqueKey: string;
   name: string;
   gender: Gender;
   birth: any;
-  inflow: string;
   introduce: string;
   instagramId?: string | null;
+  inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
   marketingEmailDate?: any | null;
+  refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;
   withdrawReason?: string | null;
@@ -1813,22 +1802,23 @@ export interface UserCreateWithoutLikedPostsInput {
 }
 
 export interface UserCreateWithoutMediaCommentsInput {
+  id?: string | null;
   createdAt?: any | null;
   updatedAt?: any | null;
-  id?: string | null;
-  snsLoginId: string;
-  email: string;
+  phone: string;
+  password: string;
+  profileId: string;
   image: string;
-  uniqueKey: string;
   name: string;
   gender: Gender;
   birth: any;
-  inflow: string;
   introduce: string;
   instagramId?: string | null;
+  inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
   marketingEmailDate?: any | null;
+  refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;
   withdrawReason?: string | null;
@@ -1852,22 +1842,23 @@ export interface UserCreateWithoutMediaCommentsInput {
 }
 
 export interface UserCreateWithoutMediaReplyCommentsInput {
+  id?: string | null;
   createdAt?: any | null;
   updatedAt?: any | null;
-  id?: string | null;
-  snsLoginId: string;
-  email: string;
+  phone: string;
+  password: string;
+  profileId: string;
   image: string;
-  uniqueKey: string;
   name: string;
   gender: Gender;
   birth: any;
-  inflow: string;
   introduce: string;
   instagramId?: string | null;
+  inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
   marketingEmailDate?: any | null;
+  refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;
   withdrawReason?: string | null;
@@ -1891,22 +1882,23 @@ export interface UserCreateWithoutMediaReplyCommentsInput {
 }
 
 export interface UserCreateWithoutMediaReplyTargetedCommentsInput {
+  id?: string | null;
   createdAt?: any | null;
   updatedAt?: any | null;
-  id?: string | null;
-  snsLoginId: string;
-  email: string;
+  phone: string;
+  password: string;
+  profileId: string;
   image: string;
-  uniqueKey: string;
   name: string;
   gender: Gender;
   birth: any;
-  inflow: string;
   introduce: string;
   instagramId?: string | null;
+  inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
   marketingEmailDate?: any | null;
+  refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;
   withdrawReason?: string | null;
@@ -1930,22 +1922,23 @@ export interface UserCreateWithoutMediaReplyTargetedCommentsInput {
 }
 
 export interface UserCreateWithoutMediasInput {
+  id?: string | null;
   createdAt?: any | null;
   updatedAt?: any | null;
-  id?: string | null;
-  snsLoginId: string;
-  email: string;
+  phone: string;
+  password: string;
+  profileId: string;
   image: string;
-  uniqueKey: string;
   name: string;
   gender: Gender;
   birth: any;
-  inflow: string;
   introduce: string;
   instagramId?: string | null;
+  inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
   marketingEmailDate?: any | null;
+  refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;
   withdrawReason?: string | null;
@@ -1969,22 +1962,23 @@ export interface UserCreateWithoutMediasInput {
 }
 
 export interface UserCreateWithoutMyReportsInput {
+  id?: string | null;
   createdAt?: any | null;
   updatedAt?: any | null;
-  id?: string | null;
-  snsLoginId: string;
-  email: string;
+  phone: string;
+  password: string;
+  profileId: string;
   image: string;
-  uniqueKey: string;
   name: string;
   gender: Gender;
   birth: any;
-  inflow: string;
   introduce: string;
   instagramId?: string | null;
+  inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
   marketingEmailDate?: any | null;
+  refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;
   withdrawReason?: string | null;
@@ -2008,22 +2002,23 @@ export interface UserCreateWithoutMyReportsInput {
 }
 
 export interface UserCreateWithoutNotificatedPostsInput {
+  id?: string | null;
   createdAt?: any | null;
   updatedAt?: any | null;
-  id?: string | null;
-  snsLoginId: string;
-  email: string;
+  phone: string;
+  password: string;
+  profileId: string;
   image: string;
-  uniqueKey: string;
   name: string;
   gender: Gender;
   birth: any;
-  inflow: string;
   introduce: string;
   instagramId?: string | null;
+  inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
   marketingEmailDate?: any | null;
+  refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;
   withdrawReason?: string | null;
@@ -2047,22 +2042,23 @@ export interface UserCreateWithoutNotificatedPostsInput {
 }
 
 export interface UserCreateWithoutPetsInput {
+  id?: string | null;
   createdAt?: any | null;
   updatedAt?: any | null;
-  id?: string | null;
-  snsLoginId: string;
-  email: string;
+  phone: string;
+  password: string;
+  profileId: string;
   image: string;
-  uniqueKey: string;
   name: string;
   gender: Gender;
   birth: any;
-  inflow: string;
   introduce: string;
   instagramId?: string | null;
+  inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
   marketingEmailDate?: any | null;
+  refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;
   withdrawReason?: string | null;
@@ -2086,22 +2082,23 @@ export interface UserCreateWithoutPetsInput {
 }
 
 export interface UserCreateWithoutPostCommentsInput {
+  id?: string | null;
   createdAt?: any | null;
   updatedAt?: any | null;
-  id?: string | null;
-  snsLoginId: string;
-  email: string;
+  phone: string;
+  password: string;
+  profileId: string;
   image: string;
-  uniqueKey: string;
   name: string;
   gender: Gender;
   birth: any;
-  inflow: string;
   introduce: string;
   instagramId?: string | null;
+  inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
   marketingEmailDate?: any | null;
+  refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;
   withdrawReason?: string | null;
@@ -2125,22 +2122,23 @@ export interface UserCreateWithoutPostCommentsInput {
 }
 
 export interface UserCreateWithoutPostReplyCommentInput {
+  id?: string | null;
   createdAt?: any | null;
   updatedAt?: any | null;
-  id?: string | null;
-  snsLoginId: string;
-  email: string;
+  phone: string;
+  password: string;
+  profileId: string;
   image: string;
-  uniqueKey: string;
   name: string;
   gender: Gender;
   birth: any;
-  inflow: string;
   introduce: string;
   instagramId?: string | null;
+  inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
   marketingEmailDate?: any | null;
+  refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;
   withdrawReason?: string | null;
@@ -2164,22 +2162,23 @@ export interface UserCreateWithoutPostReplyCommentInput {
 }
 
 export interface UserCreateWithoutPostsInput {
+  id?: string | null;
   createdAt?: any | null;
   updatedAt?: any | null;
-  id?: string | null;
-  snsLoginId: string;
-  email: string;
+  phone: string;
+  password: string;
+  profileId: string;
   image: string;
-  uniqueKey: string;
   name: string;
   gender: Gender;
   birth: any;
-  inflow: string;
   introduce: string;
   instagramId?: string | null;
+  inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
   marketingEmailDate?: any | null;
+  refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;
   withdrawReason?: string | null;
@@ -2203,22 +2202,23 @@ export interface UserCreateWithoutPostsInput {
 }
 
 export interface UserCreateWithoutReportsInput {
+  id?: string | null;
   createdAt?: any | null;
   updatedAt?: any | null;
-  id?: string | null;
-  snsLoginId: string;
-  email: string;
+  phone: string;
+  password: string;
+  profileId: string;
   image: string;
-  uniqueKey: string;
   name: string;
   gender: Gender;
   birth: any;
-  inflow: string;
   introduce: string;
   instagramId?: string | null;
+  inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
   marketingEmailDate?: any | null;
+  refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;
   withdrawReason?: string | null;
@@ -2242,22 +2242,23 @@ export interface UserCreateWithoutReportsInput {
 }
 
 export interface UserCreateWithoutUserChatRoomInfosInput {
+  id?: string | null;
   createdAt?: any | null;
   updatedAt?: any | null;
-  id?: string | null;
-  snsLoginId: string;
-  email: string;
+  phone: string;
+  password: string;
+  profileId: string;
   image: string;
-  uniqueKey: string;
   name: string;
   gender: Gender;
   birth: any;
-  inflow: string;
   introduce: string;
   instagramId?: string | null;
+  inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
   marketingEmailDate?: any | null;
+  refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;
   withdrawReason?: string | null;
@@ -2282,9 +2283,8 @@ export interface UserCreateWithoutUserChatRoomInfosInput {
 
 export interface UserWhereUniqueInput {
   id?: string | null;
-  snsLoginId?: string | null;
-  email?: string | null;
-  uniqueKey?: string | null;
+  phone?: string | null;
+  profileId?: string | null;
   addressId?: string | null;
 }
 

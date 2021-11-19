@@ -1,125 +1,89 @@
-import React from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
-import Header from '../../components/headers/Header'
-import ScreenLayout from '../../components/layout/ScreenLayout'
-import { APPLE_COLOR, DEFAULT_SHADOW, KAKAO_COLOR } from '../../constants/styles'
-import TouchableScale from '../../components/buttons/TouchableScale'
-import { useCallback } from 'react'
-// import auth from '@react-native-firebase/auth';
-import { useState } from 'react'
-import { login as kakaoLogin } from '@react-native-seoul/kakao-login';
-import { useApolloClient } from '@apollo/client'
-import useNavigation from '../../hooks/useNavigation'
-import { IS_SIGNEDUP, I_USER, KAKAO_TOKEN_TO_FIREBASE_TOKEN } from '../../graphql/user'
-import Loading from '../../components/loadings/Loading'
-import { KakaoTokenToFirebaseToken, KakaoTokenToFirebaseTokenVariables } from '../../graphql/__generated__/KakaoTokenToFirebaseToken'
-import { iUser } from '../../graphql/__generated__/iUser'
-import { isSignedup } from '../../graphql/__generated__/isSignedup'
+import React, { useCallback, useEffect, useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import FastImage from 'react-native-fast-image'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import Button from '../../components/buttons/Button'
+import Input from '../../components/inputs/Input'
+import { COLOR1, STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles'
+import { useLogin } from '../../graphql/user'
 import useGlobalUi from '../../hooks/useGlobalUi'
-import appleAuth from '@invertase/react-native-apple-authentication'
-import { IS_IOS } from '../../constants/values'
+import useNavigation from '../../hooks/useNavigation'
 
 const Login = () => {
 
-    const client = useApolloClient()
-    const { reset } = useNavigation()
+    const { navigate } = useNavigation()
+    const { bottom } = useSafeAreaInsets()
     const { toast } = useGlobalUi()
 
-    const [loading, setLoading] = useState(false)
+    const [login, { loading }] = useLogin()
 
+    const { control, handleSubmit, formState, clearErrors } = useForm<{ phone: string, password: string }>()
 
-    const onKakao = useCallback(async () => {
-        try {
-            if (loading) return
-            setLoading(true)
+    const onLogin = handleSubmit(async (data) => {
+        await login({ variables: data })
+    })
 
-            const { accessToken } = await kakaoLogin()
-
-            const { data } = await client.query<KakaoTokenToFirebaseToken, KakaoTokenToFirebaseTokenVariables>({
-                query: KAKAO_TOKEN_TO_FIREBASE_TOKEN,
-                variables: { kakaoAccessToken: accessToken },
-                fetchPolicy: 'network-only'
-            })
-
-            const firebaseToken = data.kakaoTokenToFirebaseToken
-
-            await auth().signInWithCustomToken(firebaseToken)
-            await loginSuccess()
-        } catch (error) {
-            toast({ content: '오류' })
-            setLoading(false)
-        }
-    }, [loading])
-
-    const onApple = useCallback(async () => {
-        try {
-            if (loading) return
-            setLoading(true)
-
-            const { identityToken, nonce } = await appleAuth.performRequest({
-                requestedOperation: appleAuth.Operation.LOGIN,
-                requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME]
-            })
-            if (!identityToken) throw new Error('Apple Login Fail')
-            console.log('token : ' + identityToken)
-
-            const appleCredential = auth.AppleAuthProvider.credential(identityToken, nonce)
-            console.log('credential : ' + appleCredential)
-
-            await auth().signInWithCredential(appleCredential)
-            await loginSuccess()
-        } catch (error) {
-            toast({ content: '오류' })
-            setLoading(false)
-        }
-    }, [loading])
-
-    const loginSuccess = useCallback(async () => {
-        try {
-            await client.clearStore()
-
-            const { data } = await client.query<isSignedup>({ query: IS_SIGNEDUP, fetchPolicy: 'network-only', })
-            if (!data.isSignedup) reset({ index: 0, routes: [{ name: 'Signup' }] })  // 유저 정보가 없으면 회원가입 화면으로 전환
-            else reset({ index: 0, routes: [{ name: 'Tab' }] })
-
-            setLoading(false)
-        } catch (error) {
-            console.log(error)
-            setLoading(false)
-        }
-    }, [])
+    useEffect(() => {
+        const errors: any = formState.errors
+        if (Object.keys(errors).length === 0) return
+        toast({ content: errors[Object.keys(errors)[0]].message })
+        clearErrors()
+    }, [formState])
 
     return (
-        <ScreenLayout>
-            <Header underline={false} />
-            <View style={styles.container} >
-                <Text style={styles.text} >로그인을 해주세요</Text>
-                <View style={styles.btnContainer} >
-                    <TouchableScale
-                        style={[styles.btn, { backgroundColor: KAKAO_COLOR }]}
-                        onPress={onKakao}
-                    >
-                        <Image
-                            source={require('../../assets/kakaotalk.png')}
-                            style={{ width: 24, height: 24 }}
-                        />
-                    </TouchableScale>
-                    {IS_IOS && <TouchableScale
-                        style={[styles.btn, { backgroundColor: APPLE_COLOR }]}
-                        onPress={onApple}
-                    >
-                        <Image
-                            source={require('../../assets/apple.png')}
-                            style={{ width: 24, height: 24 }}
+        <View style={styles.container} >
+            <FastImage
+                source={require('../../assets/Logo.png')}
+                style={{ width: WIDTH / 2.5, height: WIDTH / 2.5, marginTop: 72, marginBottom: 20 }}
+            />
+            <Controller
+                control={control}
+                name='phone'
+                rules={{ required: '전화번호를 입력해주세요' }}
+                render={({ field }) => (
+                    <Input
+                        label='전화번호'
+                        placeholder='전화번호를 입력해주세요.'
+                        style={{ marginBottom: 12 }}
+                        keyboardType='number-pad'
+                        maxLength={11}
+                        value={field.value}
+                        onChangeText={field.onChange}
+                        returnKeyType='done'
+                    />
+                )}
+            />
 
-                        />
-                    </TouchableScale>}
-                </View>
+            <Controller
+                control={control}
+                name='password'
+                rules={{ required: '비밀번호를 입력해주세요' }}
+                render={({ field }) => (
+                    <Input
+                        label='비밀번호'
+                        placeholder='비밀번호를 입력해주세요.'
+                        secureTextEntry
+                        value={field.value}
+                        onChangeText={field.onChange}
+                        onSubmitEditing={onLogin}
+                    />
+                )}
+            />
+            <TouchableOpacity
+                style={styles.findPassword}
+                onPress={() => navigate('FindPasswordPhoneVerify')}
+            >
+                <Text style={styles.findPasswordText} >비밀번호를 잊으셨나요?</Text>
+            </TouchableOpacity>
+
+
+
+            <View style={[styles.footer, { bottom: bottom + 28 }]} >
+                <Button loading={loading} onPress={onLogin} style={{ marginBottom: 16 }}  >로그인</Button>
+                <Button onPress={() => navigate('SignupPhoneVerify')} style={{ backgroundColor: '#fff' }} textStyle={{ color: COLOR1 }} >회원가입</Button>
             </View>
-            {loading && <View style={styles.loading} >
-                <Loading />
-            </View>}
-        </ScreenLayout>
+        </View>
     )
 }
 
@@ -127,29 +91,22 @@ export default Login
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        paddingTop: STATUSBAR_HEIGHT,
         alignItems: 'center',
-        justifyContent: 'center'
+        paddingHorizontal: 20,
+        flex: 1
     },
-    text: {
-        fontSize: 18
+    findPassword: {
+        alignSelf: 'flex-end'
     },
-    btnContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginTop: 32
+    findPasswordText: {
+        fontSize: 12,
+        fontWeight: 'bold',
+        color: COLOR1,
+        marginTop: 20
     },
-    btn: {
-        width: 56,
-        height: 56,
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginHorizontal: 12,
-        borderRadius: 28
-    },
-    loading: {
-        position: 'absolute',
-        bottom: 120,
-        alignSelf: 'center',
+    footer: {
+        width: '100%',
+        position: 'absolute'
     }
 })

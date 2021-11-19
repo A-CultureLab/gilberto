@@ -10,7 +10,6 @@
 export interface updateFcmToken_updateFcmToken {
   __typename: "User";
   id: string;
-  fcmToken: string | null;
 }
 
 export interface updateFcmToken {
