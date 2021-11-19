@@ -2,7 +2,7 @@ import { AppState, AppStateStatus, BackHandler, FlatList, KeyboardAvoidingView, 
 import useNavigation from '../../hooks/useNavigation'
 import { useChatCreated, useChats, useChatUpdated } from '../../graphql/chat'
 
-import { AuthContext } from '..'
+import { AuthContext } from '../../navigations'
 import { COLOR1, GRAY1, WIDTH } from '../../constants/styles'
 import ChatDetailCard from './ChatDetailCard'
 import ChatDetailFooter from './ChatDetailFooter'

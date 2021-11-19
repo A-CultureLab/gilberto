@@ -2,7 +2,7 @@ import { Platform } from "react-native";
 import deviceInfoModule from "react-native-device-info";
 import { Region } from "react-native-nmap";
 import { PostType } from "../../__generated__/globalTypes";
-import { HEIGHT, STATUSBAR_HEIGHT, WIDTH } from "./styles";
+import { HEIGHT, WIDTH } from "./styles";
 
 export const IS_ANDROID = Platform.OS === 'android'
 export const IS_IOS = Platform.OS === 'ios'

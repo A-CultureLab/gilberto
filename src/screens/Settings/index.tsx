@@ -1,7 +1,7 @@
 import { GRAY2, GRAY3 } from '../../constants/styles'
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 
-import { AuthContext } from '..'
+import { AuthContext } from '../../navigations'
 import Header from '../../components/headers/Header'
 import React, { useEffect, useState } from 'react'
 import ScreenLayout from '../../components/layout/ScreenLayout'

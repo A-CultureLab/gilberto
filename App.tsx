@@ -1,7 +1,6 @@
 import React from 'react'
 import { StatusBar, StyleSheet, View, LogBox } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-import Navigation from './src/screens';
 import 'react-native-gesture-handler';
 import { ApolloProvider } from '@apollo/client';
 import { client } from './src/lib/apollo';
@@ -10,6 +9,7 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import 'dayjs/locale/ko'
 import dayjs from 'dayjs';
 import codePush from 'react-native-code-push';
+import Wrapper from './src/wrappers';
 
 dayjs.locale('ko')
 dayjs.extend(relativeTime)
@@ -25,7 +25,7 @@ const App = () => {
         <SafeAreaProvider>
           <StatusBar backgroundColor='transparent' barStyle='dark-content' translucent />
           <View style={{ flex: 1 }} >
-            <Navigation />
+            <Wrapper />
           </View>
         </SafeAreaProvider>
       </ApolloProvider>

@@ -5,7 +5,7 @@ import ScreenLayout from '../../components/layout/ScreenLayout'
 import { APPLE_COLOR, DEFAULT_SHADOW, KAKAO_COLOR } from '../../constants/styles'
 import TouchableScale from '../../components/buttons/TouchableScale'
 import { useCallback } from 'react'
-import auth from '@react-native-firebase/auth';
+// import auth from '@react-native-firebase/auth';
 import { useState } from 'react'
 import { login as kakaoLogin } from '@react-native-seoul/kakao-login';
 import { useApolloClient } from '@apollo/client'

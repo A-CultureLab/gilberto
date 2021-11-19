@@ -1,5 +1,5 @@
 import { useCallback, useContext } from "react"
-import { GlobalAlertProps, GlobalConfirmProps, GlobalSelectProps, GlobalToastProps, GlobalUIContext } from "../screens"
+import { GlobalAlertProps, GlobalConfirmProps, GlobalSelectProps, GlobalToastProps, GlobalUIContext } from "../wrappers/GlobalUiWrapper"
 
 const useGlobalUi = () => {
 

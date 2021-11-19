@@ -9,9 +9,9 @@ import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { COLOR1, COLOR3, DEFAULT_SHADOW, GRAY1, GRAY2, GRAY3, WIDTH } from '../../constants/styles'
 import IconMA from 'react-native-vector-icons/MaterialIcons'
-import auth from '@react-native-firebase/auth';
+// import auth from '@react-native-firebase/auth';
 import { useIUser } from '../../graphql/user'
-import { AuthContext } from '../../screens'
+import { AuthContext } from '../../navigations'
 
 
 const TABS = [

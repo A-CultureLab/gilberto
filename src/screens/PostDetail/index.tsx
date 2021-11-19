@@ -20,7 +20,7 @@ import HyperLink from 'react-native-hyperlink'
 import useGlobalUi from '../../hooks/useGlobalUi'
 import useRoute from '../../hooks/useRoute'
 import { useIUser } from '../../graphql/user'
-import { AuthContext } from '..'
+import { AuthContext } from '../../navigations'
 
 export interface PostDetailProps {
     id: string

@@ -6,7 +6,7 @@ import { COLOR1, GRAY1, GRAY2, GRAY3 } from '../../constants/styles'
 import { useIUser } from '../../graphql/user'
 import { user, user_user } from '../../graphql/__generated__/user'
 import genderGenerator from '../../lib/genderGenerator'
-import { AuthContext } from '../../screens'
+import { AuthContext } from '../../navigations'
 
 interface UserFooterProps {
     user: Pick<user_user, 'id' | 'name' | 'gender' | 'age'>

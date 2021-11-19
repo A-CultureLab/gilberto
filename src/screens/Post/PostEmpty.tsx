@@ -4,7 +4,7 @@ import { PostContext } from '.'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import useNavigation from '../../hooks/useNavigation'
 import { useIUser } from '../../graphql/user'
-import { AuthContext } from '..'
+import { AuthContext } from '../../navigations'
 
 const PostEmpty = () => {
 
