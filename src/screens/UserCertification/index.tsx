@@ -1,6 +1,6 @@
 import { useApolloClient } from '@apollo/client'
 import useNavigation from '../../hooks/useNavigation'
-import IMP from 'iamport-react-native'
+// import IMP from 'iamport-react-native'
 import React from 'react'
 import { useEffect } from 'react'
 import { useCallback } from 'react'
@@ -54,12 +54,12 @@ const UserCertification = () => {
     return (
         <ScreenLayout>
             <Header title='본인인증' />
-            <IMP.Certification
+            {/* <IMP.Certification
                 userCode={IAMPORT_CODE}
                 callback={callback}
                 data={{} as any}
                 loading={<View />}
-            />
+            /> */}
         </ScreenLayout>
     )
 }

@@ -1,5 +1,4 @@
 <resources>
     <string name="app_name">38°</string>
-    <string name="kakao_app_key">c32bf1fb86394aa69b0a83d660e4687b</string>
     <string moduleConfig="true" name="CodePushDeploymentKey">HEtqxIMto-8i-hoPgyrsgQpWnm0DnlSxF3Ehf</string>
 </resources>

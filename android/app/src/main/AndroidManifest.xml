@@ -27,16 +27,6 @@
       </intent-filter>
     </activity>
 
-    <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity">
-      <intent-filter>
-        <action android:name="android.intent.action.VIEW" />
-        <category android:name="android.intent.category.DEFAULT" />
-        <category android:name="android.intent.category.BROWSABLE" />
-
-        <data android:host="oauth" android:scheme="kakaoc32bf1fb86394aa69b0a83d660e4687b" />
-      </intent-filter>
-    </activity>
-
     <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationActions" />
     <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationPublisher" />
     <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationBootEventReceiver">
