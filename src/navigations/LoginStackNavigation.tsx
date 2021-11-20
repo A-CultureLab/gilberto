@@ -5,6 +5,8 @@ import Login from "../screens/Login"
 import { SelectLocationProps } from "../screens/SelectLocation"
 import { WebViewProps } from "../screens/WebView"
 import ScreenAnalyticsWrapper from '../wrappers/ScreenAnalyticsWrapper'
+import SignupPhoneVerify from '../screens/SignupPhoneVerify'
+import SignupPassword from '../screens/SignupPassword'
 
 export type LoginStackParamList = {
     Login: undefined
@@ -25,17 +27,15 @@ const LoginStack = createStackNavigator<LoginStackParamList>()
 const LoginStackNavigation = () => {
     return (
         <LoginStack.Navigator
-            initialRouteName='Login'
-            screenOptions={({ navigation }) => {
-                return {
-                    header: () => <ScreenAnalyticsWrapper />,
-                    cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-                }
+            initialRouteName='SignupPassword'
+            screenOptions={{
+                header: () => <ScreenAnalyticsWrapper />,
+                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
             }}
         >
             <LoginStack.Screen component={Login} name='Login' />
-            <LoginStack.Screen component={Login} name='SignupPhoneVerify' />
-            <LoginStack.Screen component={Login} name='SignupPassword' />
+            <LoginStack.Screen component={SignupPhoneVerify} name='SignupPhoneVerify' />
+            <LoginStack.Screen component={SignupPassword} name='SignupPassword' />
             <LoginStack.Screen component={Login} name='SignupRequireInfo' />
             <LoginStack.Screen component={Login} name='SignupOptionalInfo' />
             <LoginStack.Screen component={Login} name='SignupInflow' />

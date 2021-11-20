@@ -9,14 +9,15 @@ interface ButtonProps {
     textStyle?: StyleProp<TextStyle>
     disable?: boolean
     loading?: boolean
+    loadingColor?: string
     onPress?: () => void
 }
 
-const Button: React.FC<ButtonProps> = ({ style, disable, children, textStyle, onPress, loading }) => {
+const Button: React.FC<ButtonProps> = ({ style, disable, children, textStyle, onPress, loading, loadingColor }) => {
     return (
-        <Pressable onPress={onPress} style={[styles.container, { backgroundColor: !disable ? COLOR1 : 'rgba(248, 145, 50, 0.3)' }, style]} >
+        <Pressable onPress={onPress} style={[styles.container, { backgroundColor: !disable ? COLOR1 : 'rgba(248, 145, 50, 0.3)', borderWidth: disable ? 0 : 1 }, style]} >
             {loading
-                ? <LoadingDots color='#fff' />
+                ? <LoadingDots color={loadingColor} />
                 : <Text style={[styles.text, textStyle]} >{children}</Text>
             }
 
@@ -26,7 +27,8 @@ const Button: React.FC<ButtonProps> = ({ style, disable, children, textStyle, on
 
 Button.defaultProps = {
     disable: false,
-    loading: false
+    loading: false,
+    loadingColor: '#fff'
 }
 export default Button
 

@@ -5,6 +5,7 @@ import FastImage from 'react-native-fast-image'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Button from '../../components/buttons/Button'
 import Input from '../../components/inputs/Input'
+import ScreenLayout from '../../components/layout/ScreenLayout'
 import { COLOR1, STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles'
 import { useLogin } from '../../graphql/user'
 import useGlobalUi from '../../hooks/useGlobalUi'
@@ -32,7 +33,7 @@ const Login = () => {
     }, [formState])
 
     return (
-        <View style={styles.container} >
+        <ScreenLayout style={styles.container} >
             <FastImage
                 source={require('../../assets/Logo.png')}
                 style={{ width: WIDTH / 2.5, height: WIDTH / 2.5, marginTop: 72, marginBottom: 20 }}
@@ -83,7 +84,7 @@ const Login = () => {
                 <Button loading={loading} onPress={onLogin} style={{ marginBottom: 16 }}  >로그인</Button>
                 <Button onPress={() => navigate('SignupPhoneVerify')} style={{ backgroundColor: '#fff' }} textStyle={{ color: COLOR1 }} >회원가입</Button>
             </View>
-        </View>
+        </ScreenLayout>
     )
 }
 
@@ -91,7 +92,6 @@ export default Login
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop: STATUSBAR_HEIGHT,
         alignItems: 'center',
         paddingHorizontal: 20,
         flex: 1

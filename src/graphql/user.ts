@@ -7,6 +7,8 @@ import { withdraw, withdrawVariables } from "./__generated__/withdraw";
 import { gql } from "@apollo/client";
 import { iUser } from "./__generated__/iUser";
 import { login, loginVariables } from "./__generated__/login";
+import { requestPhoneVerify, requestPhoneVerifyVariables } from "./__generated__/requestPhoneVerify";
+import { confirmPhoneVerify, confirmPhoneVerifyVariables } from "./__generated__/confirmPhoneVerify";
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const I_USER = gql`
@@ -145,4 +147,19 @@ mutation login($phone:String!, $password:String!) {
 }
 `
 export const useLogin = createMutationHook<login, loginVariables>(LOGIN)
+//--------------------------------------------------------------------------------------------------------------------------------------------------------//
+export const REQUEST_PHONE_VERIFY = gql`
+mutation requestPhoneVerify($phone:String!) {
+  requestPhoneVerify(phone: $phone)
+}
+`
+export const useRequestPhoneVerify = createMutationHook<requestPhoneVerify, requestPhoneVerifyVariables>(REQUEST_PHONE_VERIFY)
+//--------------------------------------------------------------------------------------------------------------------------------------------------------//
+export const CONFIRM_PHONE_VERIFY = gql`
+mutation confirmPhoneVerify($phoneVerifyCodeToken:String!, $code:String!) {
+  confirmPhoneVerify(phoneVerifyCodeToken:$phoneVerifyCodeToken, code:$code)
+}
+`
+export const useConfirmPhoneVerify = createMutationHook<confirmPhoneVerify, confirmPhoneVerifyVariables>(CONFIRM_PHONE_VERIFY)
+//--------------------------------------------------------------------------------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
