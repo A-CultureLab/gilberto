@@ -9,6 +9,7 @@ import { iUser } from "./__generated__/iUser";
 import { login, loginVariables } from "./__generated__/login";
 import { requestPhoneVerify, requestPhoneVerifyVariables } from "./__generated__/requestPhoneVerify";
 import { confirmPhoneVerify, confirmPhoneVerifyVariables } from "./__generated__/confirmPhoneVerify";
+import { signup, signupVariables } from "./__generated__/signup";
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const I_USER = gql`
@@ -162,4 +163,10 @@ mutation confirmPhoneVerify($phoneVerifyCodeToken:String!, $code:String!) {
 `
 export const useConfirmPhoneVerify = createMutationHook<confirmPhoneVerify, confirmPhoneVerifyVariables>(CONFIRM_PHONE_VERIFY)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
+export const SIGNUP = gql`
+mutation signup($phoneVerifySuccessToken: String!, $data:SignupInput!) {
+  signup(phoneVerifySuccessToken: $phoneVerifySuccessToken, data: $data)
+}
+`
+export const useSignup = createMutationHook<signup, signupVariables>(SIGNUP)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//

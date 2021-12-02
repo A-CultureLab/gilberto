@@ -9,23 +9,11 @@ import { SignupInput } from "./../../../__generated__/globalTypes";
 // GraphQL mutation operation: signup
 // ====================================================
 
-export interface signup_signup_pets {
-  __typename: "Pet";
-  id: string;
-  image: string;
-}
-
-export interface signup_signup {
-  __typename: "User";
-  id: string;
-  image: string;
-  pets: signup_signup_pets[];
-}
-
 export interface signup {
-  signup: signup_signup;
+  signup: string;
 }
 
 export interface signupVariables {
+  phoneVerifySuccessToken: string;
   data: SignupInput;
 }

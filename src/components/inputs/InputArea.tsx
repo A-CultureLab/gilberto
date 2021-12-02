@@ -1,40 +1,47 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 import { StyleSheet, Text, TextInput, TextInputProps, View } from 'react-native'
 
-interface InputProps {
+interface InputAreaProps {
     label?: string
-    right?: ReactNode
 }
 
-const Input: React.FC<TextInputProps & InputProps> = ({ label, right, style, ...props }) => {
+const InputArea: React.FC<TextInputProps & InputAreaProps> = ({ label, style, ...props }) => {
     return (
         <>
             {label && <Text style={styles.label} >{label}</Text>}
-            <View style={[{ flexDirection: 'row', alignItems: 'center' }, style]} >
+            <View style={[styles.container, style]} >
                 <TextInput
                     {...props}
                     placeholderTextColor='#ccc'
+                    multiline
+                    maxLength={200}
+                    numberOfLines={10}
                     style={[styles.input]}
                 />
-                {right}
             </View>
         </>
     )
 }
 
-export default Input
+export default InputArea
 
 const styles = StyleSheet.create({
     label: {
         marginBottom: 8,
         alignSelf: 'flex-start'
     },
-    input: {
+    container: {
         width: '100%',
-        height: 44,
         borderRadius: 9,
         borderWidth: 1,
+        minHeight: 88,
         borderColor: '#e9e9e9',
-        paddingHorizontal: 16
+        paddingHorizontal: 16,
+        paddingVertical: 10,
+        lineHeight: 20,
+        maxHeight: 400
+    },
+    input: {
+
     }
 })

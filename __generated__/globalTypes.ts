@@ -1291,6 +1291,21 @@ export interface ReportWhereUniqueInput {
   id?: string | null;
 }
 
+export interface SignupInput {
+  password: string;
+  image?: string | null;
+  profileId: string;
+  name: string;
+  gender: Gender;
+  birth: any;
+  addressId: string;
+  instagramId?: string | null;
+  introduce: string;
+  inflow: string;
+  agreementDate: any;
+  marketingPushDate?: any | null;
+}
+
 export interface UpdatePostInput {
   id: string;
   content: string;
@@ -1608,7 +1623,7 @@ export interface UserCreateWithoutChatsInput {
   phone: string;
   password: string;
   profileId: string;
-  image: string;
+  image?: string | null;
   name: string;
   gender: Gender;
   birth: any;
@@ -1617,7 +1632,6 @@ export interface UserCreateWithoutChatsInput {
   inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
-  marketingEmailDate?: any | null;
   refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;
@@ -1648,7 +1662,7 @@ export interface UserCreateWithoutFollowersInput {
   phone: string;
   password: string;
   profileId: string;
-  image: string;
+  image?: string | null;
   name: string;
   gender: Gender;
   birth: any;
@@ -1657,7 +1671,6 @@ export interface UserCreateWithoutFollowersInput {
   inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
-  marketingEmailDate?: any | null;
   refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;
@@ -1688,7 +1701,7 @@ export interface UserCreateWithoutFollowingsInput {
   phone: string;
   password: string;
   profileId: string;
-  image: string;
+  image?: string | null;
   name: string;
   gender: Gender;
   birth: any;
@@ -1697,7 +1710,6 @@ export interface UserCreateWithoutFollowingsInput {
   inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
-  marketingEmailDate?: any | null;
   refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;
@@ -1728,7 +1740,7 @@ export interface UserCreateWithoutLikedMediasInput {
   phone: string;
   password: string;
   profileId: string;
-  image: string;
+  image?: string | null;
   name: string;
   gender: Gender;
   birth: any;
@@ -1737,7 +1749,6 @@ export interface UserCreateWithoutLikedMediasInput {
   inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
-  marketingEmailDate?: any | null;
   refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;
@@ -1768,7 +1779,7 @@ export interface UserCreateWithoutLikedPostsInput {
   phone: string;
   password: string;
   profileId: string;
-  image: string;
+  image?: string | null;
   name: string;
   gender: Gender;
   birth: any;
@@ -1777,7 +1788,6 @@ export interface UserCreateWithoutLikedPostsInput {
   inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
-  marketingEmailDate?: any | null;
   refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;
@@ -1808,7 +1818,7 @@ export interface UserCreateWithoutMediaCommentsInput {
   phone: string;
   password: string;
   profileId: string;
-  image: string;
+  image?: string | null;
   name: string;
   gender: Gender;
   birth: any;
@@ -1817,7 +1827,6 @@ export interface UserCreateWithoutMediaCommentsInput {
   inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
-  marketingEmailDate?: any | null;
   refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;
@@ -1848,7 +1857,7 @@ export interface UserCreateWithoutMediaReplyCommentsInput {
   phone: string;
   password: string;
   profileId: string;
-  image: string;
+  image?: string | null;
   name: string;
   gender: Gender;
   birth: any;
@@ -1857,7 +1866,6 @@ export interface UserCreateWithoutMediaReplyCommentsInput {
   inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
-  marketingEmailDate?: any | null;
   refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;
@@ -1888,7 +1896,7 @@ export interface UserCreateWithoutMediaReplyTargetedCommentsInput {
   phone: string;
   password: string;
   profileId: string;
-  image: string;
+  image?: string | null;
   name: string;
   gender: Gender;
   birth: any;
@@ -1897,7 +1905,6 @@ export interface UserCreateWithoutMediaReplyTargetedCommentsInput {
   inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
-  marketingEmailDate?: any | null;
   refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;
@@ -1928,7 +1935,7 @@ export interface UserCreateWithoutMediasInput {
   phone: string;
   password: string;
   profileId: string;
-  image: string;
+  image?: string | null;
   name: string;
   gender: Gender;
   birth: any;
@@ -1937,7 +1944,6 @@ export interface UserCreateWithoutMediasInput {
   inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
-  marketingEmailDate?: any | null;
   refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;
@@ -1968,7 +1974,7 @@ export interface UserCreateWithoutMyReportsInput {
   phone: string;
   password: string;
   profileId: string;
-  image: string;
+  image?: string | null;
   name: string;
   gender: Gender;
   birth: any;
@@ -1977,7 +1983,6 @@ export interface UserCreateWithoutMyReportsInput {
   inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
-  marketingEmailDate?: any | null;
   refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;
@@ -2008,7 +2013,7 @@ export interface UserCreateWithoutNotificatedPostsInput {
   phone: string;
   password: string;
   profileId: string;
-  image: string;
+  image?: string | null;
   name: string;
   gender: Gender;
   birth: any;
@@ -2017,7 +2022,6 @@ export interface UserCreateWithoutNotificatedPostsInput {
   inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
-  marketingEmailDate?: any | null;
   refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;
@@ -2048,7 +2052,7 @@ export interface UserCreateWithoutPetsInput {
   phone: string;
   password: string;
   profileId: string;
-  image: string;
+  image?: string | null;
   name: string;
   gender: Gender;
   birth: any;
@@ -2057,7 +2061,6 @@ export interface UserCreateWithoutPetsInput {
   inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
-  marketingEmailDate?: any | null;
   refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;
@@ -2088,7 +2091,7 @@ export interface UserCreateWithoutPostCommentsInput {
   phone: string;
   password: string;
   profileId: string;
-  image: string;
+  image?: string | null;
   name: string;
   gender: Gender;
   birth: any;
@@ -2097,7 +2100,6 @@ export interface UserCreateWithoutPostCommentsInput {
   inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
-  marketingEmailDate?: any | null;
   refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;
@@ -2128,7 +2130,7 @@ export interface UserCreateWithoutPostReplyCommentInput {
   phone: string;
   password: string;
   profileId: string;
-  image: string;
+  image?: string | null;
   name: string;
   gender: Gender;
   birth: any;
@@ -2137,7 +2139,6 @@ export interface UserCreateWithoutPostReplyCommentInput {
   inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
-  marketingEmailDate?: any | null;
   refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;
@@ -2168,7 +2169,7 @@ export interface UserCreateWithoutPostsInput {
   phone: string;
   password: string;
   profileId: string;
-  image: string;
+  image?: string | null;
   name: string;
   gender: Gender;
   birth: any;
@@ -2177,7 +2178,6 @@ export interface UserCreateWithoutPostsInput {
   inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
-  marketingEmailDate?: any | null;
   refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;
@@ -2208,7 +2208,7 @@ export interface UserCreateWithoutReportsInput {
   phone: string;
   password: string;
   profileId: string;
-  image: string;
+  image?: string | null;
   name: string;
   gender: Gender;
   birth: any;
@@ -2217,7 +2217,6 @@ export interface UserCreateWithoutReportsInput {
   inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
-  marketingEmailDate?: any | null;
   refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;
@@ -2248,7 +2247,7 @@ export interface UserCreateWithoutUserChatRoomInfosInput {
   phone: string;
   password: string;
   profileId: string;
-  image: string;
+  image?: string | null;
   name: string;
   gender: Gender;
   birth: any;
@@ -2257,7 +2256,6 @@ export interface UserCreateWithoutUserChatRoomInfosInput {
   inflow: string;
   agreementDate: any;
   marketingPushDate?: any | null;
-  marketingEmailDate?: any | null;
   refreshToken?: string | null;
   fcmToken?: string | null;
   withdrawDate?: any | null;

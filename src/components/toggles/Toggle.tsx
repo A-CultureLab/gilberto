@@ -18,7 +18,7 @@ const Toggle: React.FC<ToggleProps> = ({ value, onChange }) => {
             android_ripple={{ borderless: true, color: GRAY2, radius: 24 }}
             style={styles.container}
         >
-            <Icon name={value ? 'checkbox-marked' : 'checkbox-blank-outline'} size={24} color={value ? COLOR1 : GRAY1} />
+            <Icon name={value ? 'checkbox-marked' : 'checkbox-blank-outline'} size={24} color={value ? COLOR1 : COLOR1} />
         </Pressable>
     )
 }
