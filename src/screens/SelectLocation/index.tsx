@@ -1,20 +1,21 @@
-import { DEFAULT_REGION, DEFAULT_REGION_LAT_LOG, DELTA_LEVEL, IS_IOS } from '../../constants/values'
-import { DEFAULT_SHADOW, GRAY2, STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles'
+import { DEFAULT_REGION, DEFAULT_REGION_LAT_LOG, DELTA_LEVEL, DEVICE_RATIO, IS_IOS } from '../../constants/values'
+import { COLOR1, DEFAULT_SHADOW, GRAY2, STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles'
 import MapView, { Coord, Region } from 'react-native-nmap'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import useNavigation from '../../hooks/useNavigation'
 
-import Footer from '../../components/footers/Footer'
 import Geolocation from '@react-native-community/geolocation'
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import LocationHereIcon from '../../components/svgs/LocationHereIcon'
-import MyPosFab from '../../components/fabs/MyPosFab'
 import ScreenLayout from '../../components/layout/ScreenLayout'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { createAddress_createAddress } from '../../graphql/__generated__/createAddress'
 import { useCreateAddress } from '../../graphql/address'
 import useRoute from '../../hooks/useRoute'
+import Button from '../../components/buttons/Button'
+import PinHere from '../../assets/svgs/pin-here.svg'
+import Pin from '../../assets/svgs/pin.svg'
+import MyPosIcon from '../../assets/svgs/current-location.svg'
 
 export interface SelectLocationProps {
     onSelect: (data: createAddress_createAddress) => void
@@ -43,7 +44,8 @@ const SelectLocation = () => {
                 setTimeout(() => {
                     mapRef.current?.animateToRegion({
                         ...position.coords,
-                        ...DELTA_LEVEL[3]
+                        latitudeDelta: 0.005,
+                        longitudeDelta: 0.005 * DEVICE_RATIO
                     })
                 }, 500);
             },
@@ -56,7 +58,8 @@ const SelectLocation = () => {
         mapRef.current?.animateToRegion({
             latitude: myPos.latitude,
             longitude: myPos.longitude,
-            ...DELTA_LEVEL[3]
+            latitudeDelta: 0.005,
+            longitudeDelta: 0.005 * DEVICE_RATIO
         })
     }, [myPos])
 
@@ -117,12 +120,18 @@ const SelectLocation = () => {
             </Pressable>
 
             <View pointerEvents='none' style={styles.iconContainer} >
-                <LocationHereIcon />
+                <PinHere height={52} />
             </View>
 
-            <MyPosFab onPress={onMyPos} marginBottom={56 + 16} />
+            <Pressable
+                onPress={onMyPos}
+                style={styles.myPos}
+            >
+                <MyPosIcon width={24} height={24} fill={COLOR1} />
+            </Pressable>
 
-            <View style={[styles.addressContainer, { bottom: 56 + bottom + 16 }]} >
+            <View style={[styles.addressContainer, { bottom: 44 + bottom + 50 }]} >
+                <Pin height={28} width={28} style={{ position: 'absolute', left: 12 }} />
                 {!data
                     ? <Text>검색중...</Text>
                     : !data.createAddress
@@ -131,11 +140,8 @@ const SelectLocation = () => {
                 }
             </View>
 
-            <View style={{ position: 'absolute', bottom: 0 }} >
-                <Footer
-                    text='이 위치로 주소 설정'
-                    onPress={onSubmit}
-                />
+            <View style={{ position: 'absolute', bottom: 28 + bottom, left: 20, right: 20 }} >
+                <Button onPress={onSubmit}>이 위치로 주소 설정</Button>
             </View>
         </ScreenLayout>
     )
@@ -156,18 +162,30 @@ const styles = StyleSheet.create({
     iconContainer: {
         position: 'absolute',
         alignSelf: 'center',
-        transform: [{ translateY: -30.5 }] // 아이콘 height가 61임
+        transform: [{ translateY: -26 }] // 아이콘 height가 52임
     },
     addressContainer: {
-        width: WIDTH - 32,
-        height: 56,
+        width: WIDTH - 40,
+        height: 52,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#fff',
         ...DEFAULT_SHADOW,
         position: 'absolute',
         alignSelf: 'center',
-        borderRadius: 4,
-        paddingHorizontal: 16
+        borderRadius: 8,
+        paddingHorizontal: 20
+    },
+    myPos: {
+        width: 44,
+        height: 44,
+        borderRadius: 8,
+        position: 'absolute',
+        top: STATUSBAR_HEIGHT + 56 + 12,
+        right: 20,
+        backgroundColor: '#fff',
+        ...DEFAULT_SHADOW,
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 })
