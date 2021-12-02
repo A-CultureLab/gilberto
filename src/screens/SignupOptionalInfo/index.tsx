@@ -22,7 +22,7 @@ const SignupOptionalInfo = () => {
 
     // 선택 정보
     const [instagramId, setInstagramId] = useState<string | null>(null)
-    const [introduce, setIntroduce] = useState<string | null>(null)
+    const [introduce, setIntroduce] = useState<string>('')
 
     // 인스타 그램 크롤링
     const { data, error, loading } = useInstagramIdToProfile({ variables: { instagramId: instagramId || '' }, skip: !instagramId })
@@ -32,7 +32,7 @@ const SignupOptionalInfo = () => {
         navigate('SignupInflow', {
             ...params,
             instagramId: instagramId || null,
-            introduce: introduce || null
+            introduce
         })
     }
 
@@ -70,8 +70,8 @@ const SignupOptionalInfo = () => {
                     }
                 />
                 <InputArea
-                    value={introduce || ''}
-                    onChangeText={t => setIntroduce(t || null)}
+                    value={introduce}
+                    onChangeText={t => setIntroduce(t)}
                     label='자기소개'
                     placeholder='나에 대한 소개글을 작성해 보세요'
                 />

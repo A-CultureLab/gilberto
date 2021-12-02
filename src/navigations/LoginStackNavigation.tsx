@@ -10,6 +10,7 @@ import SignupPassword from '../screens/SignupPassword'
 import SignupRequireInfo from '../screens/SignupRequireInfo'
 import WebView from '../screens/WebView'
 import SignupOptionalInfo from '../screens/SignupOptionalInfo'
+import SignupInflow from '../screens/SignupInflow'
 
 export type LoginStackParamList = {
     Login: undefined
@@ -17,7 +18,7 @@ export type LoginStackParamList = {
     SignupPassword: { phoneVerifySuccessToken: string }
     SignupRequireInfo: { phoneVerifySuccessToken: string, password: string }
     SignupOptionalInfo: { phoneVerifySuccessToken: string, password: string, image: string | null, profileId: string, name: string, gender: Gender, birth: Date, addressId: string, agreementDate: Date, marketingPushDate: Date | null }
-    SignupInflow: { phoneVerifySuccessToken: string, password: string, image: string | null, profileId: string, name: string, gender: Gender, birth: Date, addressId: string, agreementDate: Date, marketingPushDate: Date | null, instagramId: string | null, introduce: string | null }
+    SignupInflow: { phoneVerifySuccessToken: string, password: string, image: string | null, profileId: string, name: string, gender: Gender, birth: Date, addressId: string, agreementDate: Date, marketingPushDate: Date | null, instagramId: string | null, introduce: string }
     FindPasswordPhoneVerify: undefined
     FindPassword: { phoneVerifySuccessToken: string }
     WebView: WebViewProps
@@ -30,7 +31,7 @@ const LoginStack = createStackNavigator<LoginStackParamList>()
 const LoginStackNavigation = () => {
     return (
         <LoginStack.Navigator
-            initialRouteName='SignupRequireInfo'
+            initialRouteName='Login'
             screenOptions={{
                 header: () => <ScreenAnalyticsWrapper />,
                 cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
@@ -41,7 +42,7 @@ const LoginStackNavigation = () => {
             <LoginStack.Screen component={SignupPassword} name='SignupPassword' />
             <LoginStack.Screen component={SignupRequireInfo} name='SignupRequireInfo' />
             <LoginStack.Screen component={SignupOptionalInfo} name='SignupOptionalInfo' />
-            <LoginStack.Screen component={Login} name='SignupInflow' />
+            <LoginStack.Screen component={SignupInflow} name='SignupInflow' />
             <LoginStack.Screen component={Login} name='FindPasswordPhoneVerify' />
             <LoginStack.Screen component={Login} name='FindPassword' />
             <LoginStack.Screen component={WebView} name='WebView' />

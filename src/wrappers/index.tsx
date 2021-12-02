@@ -1,8 +1,8 @@
 import React from 'react'
 import Navigation from '../navigations'
+import AuthWrapper from './AuthWrapper'
 import GlobalUiWrapper from './GlobalUiWrapper'
 import RateWrapper from './RateWrapper'
-import ScreenAnalyticsWrapper from './ScreenAnalyticsWrapper'
 import VersionCheckWrapper from './VersionCheckWrapper'
 
 const Wrapper = () => {
@@ -11,7 +11,9 @@ const Wrapper = () => {
         <GlobalUiWrapper>
             <VersionCheckWrapper>
                 <RateWrapper>
-                    <Navigation />
+                    <AuthWrapper>
+                        <Navigation />
+                    </AuthWrapper>
                 </RateWrapper>
             </VersionCheckWrapper>
         </GlobalUiWrapper>

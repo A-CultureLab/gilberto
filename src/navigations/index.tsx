@@ -1,9 +1,10 @@
 import { DefaultTheme, NavigationContainer, NavigationContainerRef, Theme } from '@react-navigation/native';
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { HomeTabParamList, TabParamList } from './RootTabNavigation';
 import RootStackNavigation, { RootStackParamList } from './RootStackNavigation';
 import LoginStackNavigation, { LoginStackParamList } from './LoginStackNavigation';
+import { AuthContext } from '../wrappers/AuthWrapper';
 
 
 export type NavigationParamList = RootStackParamList & TabParamList & HomeTabParamList & LoginStackParamList
@@ -19,9 +20,13 @@ const theme: Theme = {
 
 const Navigation = () => {
 
+    const { accessToken, refreshTokenLoading } = useContext(AuthContext)
+
+    if (refreshTokenLoading) return null
+
     return (
         <NavigationContainer theme={theme}>
-            {true ? <LoginStackNavigation /> : <RootStackNavigation />}
+            {!accessToken ? <LoginStackNavigation /> : <RootStackNavigation />}
         </NavigationContainer>
     )
 }

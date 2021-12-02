@@ -11,12 +11,11 @@ import { COLOR1, COLOR3, DEFAULT_SHADOW, GRAY1, GRAY2, GRAY3, WIDTH } from '../.
 import IconMA from 'react-native-vector-icons/MaterialIcons'
 // import auth from '@react-native-firebase/auth';
 import { useIUser } from '../../graphql/user'
-import { AuthContext } from '../../navigations'
 
 
 const TABS = [
     {
-        name: 'Post',
+        name: 'Media',
         label: '홈',
         icon: ({ color, focus }: { color: string, focus: boolean }) => <IconMA size={24} name={focus ? 'home' : 'home'} color={color} />
     },
@@ -49,17 +48,12 @@ const TabScreenBottomTabBar: React.FC<TabScreenBottomTabBarProps> = ({ isMap, on
     const { bottom } = useSafeAreaInsets()
     const { name: routeName } = useRoute()
     const { navigate } = useNavigation()
-    const { user } = useContext(AuthContext)
 
-    const { data } = useIUser({ skip: !user })
+    const { data } = useIUser()
 
     const onPress = (name: string) => {
         if (name === routeName) {
             onFocusPress && onFocusPress()
-            return
-        }
-        if (name === 'Chat' && !auth().currentUser) {
-            navigate('Login')
             return
         }
         //@ts-ignore

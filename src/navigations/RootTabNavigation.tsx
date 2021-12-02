@@ -4,11 +4,11 @@ import Chat from "../screens/Chat"
 import Home from "../screens/Home"
 import MyPage from "../screens/MyPage"
 import PetList from "../screens/PetList"
-import Post from "../screens/Post"
+import Media from '../screens/Media'
 
 
 export type TabParamList = {
-    Post: undefined
+    Media: undefined
     HomeTab: undefined
     Chat: undefined
     MyPage: undefined
@@ -41,11 +41,11 @@ const HomeTabNavigation = () => {
 const TabNavigation = () => {
     return (
         <Tab.Navigator
-            initialRouteName='Post'
+            initialRouteName='Media'
             screenOptions={{ headerShown: false }}
             tabBar={() => null}
         >
-            <Tab.Screen name='Post' component={Post} />
+            <Tab.Screen name='Media' component={Media} />
             <Tab.Screen name='HomeTab' component={HomeTabNavigation} />
             <Tab.Screen name='Chat' component={Chat} />
             <Tab.Screen name='MyPage' component={MyPage} />

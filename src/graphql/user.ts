@@ -10,6 +10,7 @@ import { login, loginVariables } from "./__generated__/login";
 import { requestPhoneVerify, requestPhoneVerifyVariables } from "./__generated__/requestPhoneVerify";
 import { confirmPhoneVerify, confirmPhoneVerifyVariables } from "./__generated__/confirmPhoneVerify";
 import { signup, signupVariables } from "./__generated__/signup";
+import { getAccessToken, getAccessTokenVariables } from "./__generated__/getAccessToken";
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const I_USER = gql`
@@ -169,4 +170,12 @@ mutation signup($phoneVerifySuccessToken: String!, $data:SignupInput!) {
 }
 `
 export const useSignup = createMutationHook<signup, signupVariables>(SIGNUP)
+//--------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+export const GET_ACCESS_TOKEN = gql`
+mutation getAccessToken($refreshToken:String!) {
+    getAccessToken(refreshToken:$refreshToken) 
+}
+`
+export const useGetAccessToken = createMutationHook<getAccessToken, getAccessTokenVariables>(GET_ACCESS_TOKEN)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
