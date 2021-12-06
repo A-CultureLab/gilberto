@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
@@ -10,22 +10,26 @@ import { COLOR1, STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles'
 import { useLogin } from '../../graphql/user'
 import useGlobalUi from '../../hooks/useGlobalUi'
 import useNavigation from '../../hooks/useNavigation'
+import { AuthContext } from '../../wrappers/AuthWrapper'
 
 const Login = () => {
 
     const { navigate } = useNavigation()
     const { bottom } = useSafeAreaInsets()
     const { toast } = useGlobalUi()
+    const { login: localLogin } = useContext(AuthContext)
 
     const [login, { loading }] = useLogin()
 
     const { control, handleSubmit, formState, clearErrors } = useForm<{ phone: string, password: string }>()
 
     const onLogin = handleSubmit(async (data) => {
-        await login({ variables: data })
+        const { data: result } = await login({ variables: data })
+        if (!result) return
+        localLogin(result.login)
     })
 
-    useEffect(() => {
+    useEffect(() => { // error logger
         const errors: any = formState.errors
         if (Object.keys(errors).length === 0) return
         toast({ content: errors[Object.keys(errors)[0]].message })

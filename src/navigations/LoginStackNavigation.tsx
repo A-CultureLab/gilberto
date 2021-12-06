@@ -11,6 +11,8 @@ import SignupRequireInfo from '../screens/SignupRequireInfo'
 import WebView from '../screens/WebView'
 import SignupOptionalInfo from '../screens/SignupOptionalInfo'
 import SignupInflow from '../screens/SignupInflow'
+import FindPasswordPhoneVerify from '../screens/FindPasswordPhoneVerify'
+import FindPassword from '../screens/FindPassword'
 
 export type LoginStackParamList = {
     Login: undefined
@@ -43,8 +45,8 @@ const LoginStackNavigation = () => {
             <LoginStack.Screen component={SignupRequireInfo} name='SignupRequireInfo' />
             <LoginStack.Screen component={SignupOptionalInfo} name='SignupOptionalInfo' />
             <LoginStack.Screen component={SignupInflow} name='SignupInflow' />
-            <LoginStack.Screen component={Login} name='FindPasswordPhoneVerify' />
-            <LoginStack.Screen component={Login} name='FindPassword' />
+            <LoginStack.Screen component={FindPasswordPhoneVerify} name='FindPasswordPhoneVerify' />
+            <LoginStack.Screen component={FindPassword} name='FindPassword' />
             <LoginStack.Screen component={WebView} name='WebView' />
             <LoginStack.Screen component={SelectLocation} name='SelectLocation' />
         </LoginStack.Navigator>

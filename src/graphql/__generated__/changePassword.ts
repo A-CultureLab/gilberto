@@ -4,14 +4,14 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: requestPhoneVerify
+// GraphQL mutation operation: changePassword
 // ====================================================
 
-export interface requestPhoneVerify {
-  requestPhoneVerify: string;
+export interface changePassword {
+  changePassword: boolean;
 }
 
-export interface requestPhoneVerifyVariables {
-  phone: string;
-  phoneUnique?: boolean | null;
+export interface changePasswordVariables {
+  password: string;
+  phoneVerifySuccessToken: string;
 }

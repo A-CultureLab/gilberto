@@ -11,7 +11,7 @@ import { useConfirmPhoneVerify, useRequestPhoneVerify } from '../../graphql/user
 import useGlobalUi from '../../hooks/useGlobalUi'
 import useNavigation from '../../hooks/useNavigation'
 
-const SignupPhoneVerify = () => {
+const FindPasswordPhoneVerify = () => {
 
     const { bottom } = useSafeAreaInsets()
     const { toast } = useGlobalUi()
@@ -32,10 +32,9 @@ const SignupPhoneVerify = () => {
         if (dayjs(sendDate).unix() < dayjs().add(-1, 'minuate').unix()) return toast({ content: '1분마다 보낼 수 있습니다.' })
 
 
-        const { data } = await requestPhoneVerify({ variables: { phone } })
+        const { data } = await requestPhoneVerify({ variables: { phone, phoneUnique: false } })
         if (!data) return
         toast({ content: '인증번호를 보냈습니다' })
-
         setSendDate(new Date())
     }, [sendDate, phone])
 
@@ -43,12 +42,12 @@ const SignupPhoneVerify = () => {
         if (!phoneVerifyCodeToken) return
         const { data } = await confirmPhoneVerify({ variables: { code, phoneVerifyCodeToken: phoneVerifyCodeToken.requestPhoneVerify } })
         if (!data) return
-        replace('SignupPassword', { phoneVerifySuccessToken: data.confirmPhoneVerify })
+        replace('FindPassword', { phoneVerifySuccessToken: data.confirmPhoneVerify })
     }, [phoneVerifyCodeToken, code])
 
     return (
         <ScreenLayout>
-            <LoginStackHeader title='회원가입' />
+            <LoginStackHeader title='비밀번호 찾기' />
 
             <View style={[styles.body, { paddingBottom: bottom + 28 }]} >
                 <Input
@@ -86,7 +85,7 @@ const SignupPhoneVerify = () => {
     )
 }
 
-export default SignupPhoneVerify
+export default FindPasswordPhoneVerify
 
 const styles = StyleSheet.create({
     body: {

@@ -1,11 +1,9 @@
 import { GRAY2, GRAY3 } from '../../constants/styles'
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 
-import { AuthContext } from '../../navigations'
 import Header from '../../components/headers/Header'
 import React, { useEffect, useState } from 'react'
 import ScreenLayout from '../../components/layout/ScreenLayout'
-import useAuth from '../../hooks/useAuth'
 import { useContext } from 'react'
 import useGlobalUi from '../../hooks/useGlobalUi'
 import useNavigation from '../../hooks/useNavigation'
@@ -21,7 +19,6 @@ const Settings = () => {
     const { bottom } = useSafeAreaInsets()
     const { navigate, reset } = useNavigation()
     const { confirm, toast } = useGlobalUi()
-    const { logout } = useAuth()
     const { user } = useContext(AuthContext)
 
     const [shouldUpdate, setShouldUpdate] = useState(false)

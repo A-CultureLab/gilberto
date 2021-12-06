@@ -11,6 +11,7 @@ import { requestPhoneVerify, requestPhoneVerifyVariables } from "./__generated__
 import { confirmPhoneVerify, confirmPhoneVerifyVariables } from "./__generated__/confirmPhoneVerify";
 import { signup, signupVariables } from "./__generated__/signup";
 import { getAccessToken, getAccessTokenVariables } from "./__generated__/getAccessToken";
+import { changePassword, changePasswordVariables } from "./__generated__/changePassword";
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const I_USER = gql`
@@ -151,8 +152,8 @@ mutation login($phone:String!, $password:String!) {
 export const useLogin = createMutationHook<login, loginVariables>(LOGIN)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const REQUEST_PHONE_VERIFY = gql`
-mutation requestPhoneVerify($phone:String!) {
-  requestPhoneVerify(phone: $phone)
+mutation requestPhoneVerify($phone:String!, $phoneUnique: Boolean) {
+  requestPhoneVerify(phone: $phone, phoneUnique: $phoneUnique)
 }
 `
 export const useRequestPhoneVerify = createMutationHook<requestPhoneVerify, requestPhoneVerifyVariables>(REQUEST_PHONE_VERIFY)
@@ -178,4 +179,11 @@ mutation getAccessToken($refreshToken:String!) {
 }
 `
 export const useGetAccessToken = createMutationHook<getAccessToken, getAccessTokenVariables>(GET_ACCESS_TOKEN)
+//--------------------------------------------------------------------------------------------------------------------------------------------------------//
+export const CHANGE_PASSWORD = gql`
+mutation changePassword($password:String!, $phoneVerifySuccessToken:String!) {
+  changePassword(password:$password, phoneVerifySuccessToken:$phoneVerifySuccessToken) 
+}
+`
+export const useChangePassword = createMutationHook<changePassword, changePasswordVariables>(CHANGE_PASSWORD)
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//

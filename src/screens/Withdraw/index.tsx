@@ -10,7 +10,6 @@ import SelectOrInputBottomSheet from '../../components/selectors/SelectOrInputBo
 import { GRAY1, GRAY3 } from '../../constants/styles'
 import { WITHDRAW_REASONS } from '../../constants/values'
 import { useWithdraw } from '../../graphql/user'
-import useAuth from '../../hooks/useAuth'
 import useGlobalUi from '../../hooks/useGlobalUi'
 
 const Withdraw = () => {
