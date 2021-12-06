@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import { Pressable, ScrollView, StyleSheet, Text, View, Linking, TouchableOpacity, Share, FlatList, ActivityIndicator } from 'react-native'
 import Header from '../../components/headers/Header'
 import ScreenLayout from '../../components/layout/ScreenLayout'
@@ -14,12 +14,31 @@ import IconMC from 'react-native-vector-icons/MaterialCommunityIcons'
 import MenuIcon from '../../assets/svgs/menu.svg'
 import followCountUnit from '../../utils/followCountUnit'
 import PlusIcon from '../../assets/svgs/plus.svg'
+import { useMediasByUserId } from '../../graphql/media'
+import useRefreshing from '../../hooks/useRefreshing'
 
 const MyPage = () => {
 
     const { navigate } = useNavigation()
-    const { data: userData } = useIUser()
-    const { data: petData } = useMyPets()
+    const { data: userData, refetch: iUserRefetch } = useIUser()
+    const { data: petData, refetch: petRefetch } = useMyPets()
+    const { data: media, refetch: mediaRefetch, fetchMore, loading } = useMediasByUserId({ variables: { userId: userData?.iUser.id || '' }, skip: !userData })
+    const [fetchMoreLoading, setFetchMoreLoading] = useState(false)
+
+    const refreshing = useRefreshing(async () => {
+        try {
+            await iUserRefetch()
+            await petRefetch()
+            await mediaRefetch()
+        } catch (error) { }
+    })
+
+    const onEndReached = async () => {
+        if (fetchMoreLoading) return
+        setFetchMoreLoading(true)
+        await fetchMore({ variables: { instagramEndCursor: media?.mediasByUserId.filter(v => !!v.media?.isInstagram).pop()?.instagramEndCursor } })
+        setFetchMoreLoading(false)
+    }
 
 
     const MENUS = [
@@ -141,26 +160,29 @@ const MyPage = () => {
                         </View>
                     </>
                 }
-                // {...refreshing}
                 ListEmptyComponent={
-                    false // TODO
+                    loading
                         ?
                         <ActivityIndicator style={{ marginTop: 32 }} size='small' color={GRAY1} />
                         : <Text style={styles.emptyString} >게시물이 없습니다</Text>
                 }
+                ListFooterComponent={
+                    fetchMoreLoading ? <ActivityIndicator style={{ marginVertical: 32 }} size='small' color={GRAY1} /> : null
+                }
                 renderItem={({ item }) =>
                     <Pressable>
-                        {/* <FastImage
+                        <FastImage
                             style={{ width: WIDTH / 3, height: WIDTH / 3, }}
-                        source={{ uri: item.thumnail }}
-                        /> */}
-                        {/* {item.media.isInstagram && <IconMC style={styles.itemInstagramIcon} name='instagram' size={20} color={GRAY3} />} */}
+                            source={{ uri: item.thumnail }}
+                        />
+                        {item.media?.isInstagram && <IconMC style={styles.itemInstagramIcon} name='instagram' size={20} color={GRAY3} />}
                     </Pressable>
                 }
+                {...refreshing}
                 numColumns={3}
-                // onEndReached={() => fetchMore({ variables: { instagramEndCursor: media?.mediasByUserId.filter(v => !!v.media.isInstagram).pop()?.instagramEndCursor } })}
+                onEndReached={onEndReached}
                 onEndReachedThreshold={0.5}
-                data={[]}
+                data={media?.mediasByUserId || []}
             />
             < TabScreenBottomTabBar />
         </ScreenLayout >

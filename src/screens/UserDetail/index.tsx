@@ -8,7 +8,6 @@ import { useIUser, useUser } from '../../graphql/user'
 import genderGenerator from '../../lib/genderGenerator'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import useGlobalUi from '../../hooks/useGlobalUi'
-import { AuthContext } from '../../navigations'
 import useRoute from '../../hooks/useRoute'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import IconMC from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -26,8 +25,7 @@ const UserDetail = () => {
 
     const { params: { id } } = useRoute<'UserDetail'>()
     const { data } = useUser({ variables: { where: { id } } })
-    const { user: iUser } = useContext(AuthContext)
-    const { data: iUserData, refetch: iUserRefetch } = useIUser({ skip: !iUser, fetchPolicy: 'cache-only' })
+    const { data: iUserData, refetch: iUserRefetch } = useIUser({ fetchPolicy: 'cache-only' })
     const { data: media, refetch: mediaRefetch, fetchMore, loading } = useMediasByUserId({ variables: { userId: id } })
     const { select, toast } = useGlobalUi()
     const { navigate } = useNavigation()
@@ -174,11 +172,11 @@ const UserDetail = () => {
                             style={{ width: WIDTH / 3, height: WIDTH / 3, }}
                             source={{ uri: item.thumnail }}
                         />
-                        {item.media.isInstagram && <IconMC style={styles.itemInstagramIcon} name='instagram' size={20} color={GRAY3} />}
+                        {item.media?.isInstagram && <IconMC style={styles.itemInstagramIcon} name='instagram' size={20} color={GRAY3} />}
                     </Pressable>
                 }
                 numColumns={3}
-                onEndReached={() => fetchMore({ variables: { instagramEndCursor: media?.mediasByUserId.filter(v => !!v.media.isInstagram).pop()?.instagramEndCursor } })}
+                onEndReached={() => fetchMore({ variables: { instagramEndCursor: media?.mediasByUserId.filter(v => !!v.media?.isInstagram).pop()?.instagramEndCursor } })}
                 onEndReachedThreshold={0.5}
                 data={media?.mediasByUserId || []}
             />
