@@ -11,29 +11,33 @@ import { COLOR1, COLOR3, DEFAULT_SHADOW, GRAY1, GRAY2, GRAY3, WIDTH } from '../.
 import IconMA from 'react-native-vector-icons/MaterialIcons'
 // import auth from '@react-native-firebase/auth';
 import { useIUser } from '../../graphql/user'
-
+import HomeIcon from '../../assets/svgs/tabbar/home.svg'
+import LocationIcon from '../../assets/svgs/tabbar/location.svg'
+import UploadIcon from '../../assets/svgs/tabbar/upload.svg'
+import ChatIcon from '../../assets/svgs/tabbar/chat.svg'
+import UserIcon from '../../assets/svgs/tabbar/user.svg'
 
 const TABS = [
     {
         name: 'Media',
-        label: '홈',
-        icon: ({ color, focus }: { color: string, focus: boolean }) => <IconMA size={24} name={focus ? 'home' : 'home'} color={color} />
+        icon: ({ color, focus }: { color: string, focus: boolean }) => <HomeIcon width={24} height={24} fill={color} />
     },
     {
         name: 'HomeTab',
         routes: ['HomeTab', 'Home', 'PetList'],
-        label: '동네',
-        icon: ({ color, focus }: { color: string, focus: boolean }) => <IconMA size={24} name={focus ? 'location-on' : 'location-on'} color={color} />
+        icon: ({ color, focus }: { color: string, focus: boolean }) => <LocationIcon width={24} height={24} fill={color} />
+    },
+    {
+        name: 'CreateMedia',
+        icon: ({ color, focus }: { color: string, focus: boolean }) => <UploadIcon width={24} height={24} fill={color} />
     },
     {
         name: 'Chat',
-        label: '채팅',
-        icon: ({ color, focus }: { color: string, focus: boolean }) => <IconMA size={24} name={focus ? 'chat' : 'chat'} color={color} />
+        icon: ({ color, focus }: { color: string, focus: boolean }) => <ChatIcon width={24} height={24} fill={color} />
     },
     {
         name: 'MyPage',
-        label: '마이페이지',
-        icon: ({ color, focus }: { color: string, focus: boolean }) => <IconMA size={22} name={focus ? 'account-circle' : 'account-circle'} color={color} />
+        icon: ({ color, focus }: { color: string, focus: boolean }) => <UserIcon width={24} height={24} fill={color} />
     }
 ]
 
@@ -71,7 +75,7 @@ const TabScreenBottomTabBar: React.FC<TabScreenBottomTabBarProps> = ({ isMap, on
                 }
             ]}
         >
-            {TABS.map(({ icon, label, name, routes }, i) => {
+            {TABS.map(({ icon, name, routes }, i) => {
 
                 const isFocused = routeName === name || !!routes?.includes(routeName)
 
@@ -83,12 +87,9 @@ const TabScreenBottomTabBar: React.FC<TabScreenBottomTabBarProps> = ({ isMap, on
                     // android_ripple={{ color: GRAY2, radius: WIDTH / 3 / 2 }}
                     >
                         <View >
-                            {icon({ color: isFocused ? COLOR1 : GRAY2, focus: isFocused })}
+                            {icon({ color: isFocused ? COLOR1 : '#75726A', focus: isFocused })}
                             {(name === 'Chat' && data && data.iUser.notReadChatCount > 0) && <View style={styles.notReadChatCountBadge} ><Text style={styles.notReadChatCount} >{data.iUser.notReadChatCount > 100 ? 99 : data.iUser.notReadChatCount}</Text></View>}
                         </View>
-                        {/* {isFocused && <View style={[styles.line]} />} */}
-                        <Text style={[styles.label, { color: isFocused ? '#333' : GRAY1 }]}>{label}</Text>
-
                     </Pressable>
                 )
             })}

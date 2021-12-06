@@ -8,7 +8,6 @@ import useNavigation from '../../hooks/useNavigation'
 import { useIUser } from '../../graphql/user'
 import { useMyPets } from '../../graphql/pet'
 import FastImage from 'react-native-fast-image'
-import { AuthContext } from '../../navigations'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import TabScreenBottomTabBar from '../../components/tabs/TabScreenBottomTabBar'
 import IconMC from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -17,9 +16,8 @@ import IconMC from 'react-native-vector-icons/MaterialCommunityIcons'
 const MyPage = () => {
 
     const { navigate } = useNavigation()
-    const { user } = useContext(AuthContext)
-    const { data: userData } = useIUser({ skip: !user })
-    const { data: petData } = useMyPets({ skip: !user })
+    const { data: userData } = useIUser()
+    const { data: petData } = useMyPets()
     const { bottom } = useSafeAreaInsets()
 
 
@@ -29,11 +27,11 @@ const MyPage = () => {
             icon: <Icon name='settings' color={GRAY2} size={16} />,
             onPress: () => navigate('Settings')
         },
-        // {
-        //     title: '문의/건의',
-        //     icon: <Icon name='chat' color={GRAY2} size={16} />,
-        //     onPress: () => Linking.openURL('https://38do.kr/support')
-        // },
+        {
+            title: '문의/건의',
+            icon: <Icon name='chat' color={GRAY2} size={16} />,
+            onPress: () => Linking.openURL('https://38do.kr/support')
+        },
         {
             title: '친구에게 추천하기',
             icon: <Icon name='share' color={GRAY2} size={16} />,
@@ -52,44 +50,36 @@ const MyPage = () => {
             <View
                 style={styles.profileContainer}
             >
-                {user ?
-                    <ScrollView
-                        horizontal
-                        overScrollMode='never'
-                        showsHorizontalScrollIndicator={false}
-                    >
-                        <Pressable
-                            onPress={() => navigate('Profile')}
-                            android_ripple={{ color: GRAY2 }}
-                            style={{ height: '100%', flexDirection: 'row', alignItems: 'center', minWidth: WIDTH }}
-                        >
-                            <FastImage
-                                style={styles.image}
-                                source={{ uri: userData?.iUser?.image }}
-                            />
-                            <View style={styles.line} />
-                            {(petData?.myPets || []).length
-                                ? <>
-                                    {(petData?.myPets || []).map(({ image }, index) => (
-                                        <FastImage
-                                            key={index.toString()}
-                                            style={styles.image}
-                                            source={{ uri: image }}
-                                        />
-                                    ))}
-                                    <Icon name='arrow-forward' color={GRAY2} size={24} style={{ alignSelf: 'center', marginHorizontal: 24 }} />
-                                </>
-                                : <Text style={styles.petRegistComment} >반려동물을 등록해주세요</Text>
-                            }
-                        </Pressable>
-                    </ScrollView>
-                    : <Pressable
-                        onPress={() => navigate('Login')}
+                <ScrollView
+                    horizontal
+                    overScrollMode='never'
+                    showsHorizontalScrollIndicator={false}
+                >
+                    <Pressable
+                        onPress={() => navigate('Profile')}
                         android_ripple={{ color: GRAY2 }}
-                        style={{ height: '100%', flexDirection: 'row', alignItems: 'center', width: WIDTH }}
+                        style={{ height: '100%', flexDirection: 'row', alignItems: 'center', minWidth: WIDTH }}
                     >
-                        <Text style={[styles.petRegistComment, { marginLeft: 24 }]} >로그인을 해주세요</Text>
-                    </Pressable>}
+                        <FastImage
+                            style={styles.image}
+                            source={{ uri: userData?.iUser?.image }}
+                        />
+                        <View style={styles.line} />
+                        {(petData?.myPets || []).length
+                            ? <>
+                                {(petData?.myPets || []).map(({ image }, index) => (
+                                    <FastImage
+                                        key={index.toString()}
+                                        style={styles.image}
+                                        source={{ uri: image }}
+                                    />
+                                ))}
+                                <Icon name='arrow-forward' color={GRAY2} size={24} style={{ alignSelf: 'center', marginHorizontal: 24 }} />
+                            </>
+                            : <Text style={styles.petRegistComment} >반려동물을 등록해주세요</Text>
+                        }
+                    </Pressable>
+                </ScrollView>
             </View>
             <View style={{ marginTop: 16, flex: 1 }}>
                 {MENUS.map(({ icon, title, onPress }) => (

@@ -41,7 +41,7 @@ const HomeTabNavigation = () => {
 const TabNavigation = () => {
     return (
         <Tab.Navigator
-            initialRouteName='Media'
+            initialRouteName='MyPage'
             screenOptions={{ headerShown: false }}
             tabBar={() => null}
         >
