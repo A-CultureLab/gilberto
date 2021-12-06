@@ -37,6 +37,7 @@ export interface iUser_iUser_address_land {
 export interface iUser_iUser_address {
   __typename: "Address";
   id: string;
+  addressFull: string;
   area1: iUser_iUser_address_area1;
   area2: iUser_iUser_address_area2;
   area3: iUser_iUser_address_area3;
@@ -46,6 +47,7 @@ export interface iUser_iUser_address {
 export interface iUser_iUser {
   __typename: "User";
   id: string;
+  profileId: string;
   name: string;
   image: string;
   gender: Gender;
@@ -54,6 +56,9 @@ export interface iUser_iUser {
   introduce: string;
   instagramId: string | null;
   notReadChatCount: number;
+  followerCount: number;
+  followingCount: number;
+  mediaCount: number;
   address: iUser_iUser_address;
 }
 

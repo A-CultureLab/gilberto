@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 
 interface HeaderProps {
     title?: string
-    backBtn?: 'left' | 'none' | 'right'
+    backBtn?: 'left' | 'none'
     backBtnColor?: string
     underline?: boolean
     right?: () => ReactNode
@@ -29,16 +29,9 @@ const Header: React.FC<HeaderProps> = ({ backBtn, title, underline, right, style
                 </Pressable>
             }
             <Text numberOfLines={1} style={[styles.title, { marginLeft: backBtn === 'left' ? 0 : 24 }]} >{title}</Text>
-            {backBtn === 'right' &&
-                <Pressable
-                    onPress={goBack}
-                    style={styles.btn}
-                    android_ripple={{ color: GRAY2, borderless: true, radius: 28 }}
-                >
-                    <Icon name='keyboard-arrow-down' size={24} color={backBtnColor} />
-                </Pressable>
-            }
-            {right && right()}
+            <View style={styles.right} >
+                {right && right()}
+            </View>
         </View>
     )
 }
@@ -57,12 +50,12 @@ const styles = StyleSheet.create({
         height: 56,
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'center',
         borderBottomColor: GRAY3,
     },
     title: {
         fontSize: 18,
         fontWeight: 'bold',
-        flex: 1,
         marginRight: 24
     },
     btn: {
@@ -70,6 +63,12 @@ const styles = StyleSheet.create({
         height: 56,
         alignItems: 'center',
         justifyContent: 'center',
-        overflow: 'visible'
+        overflow: 'visible',
+        position: 'absolute',
+        left: 0, top: 0, bottom: 0
+    },
+    right: {
+        position: 'absolute',
+        right: 0, top: 0, bottom: 0
     }
 })

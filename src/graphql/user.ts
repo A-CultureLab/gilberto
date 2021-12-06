@@ -18,6 +18,7 @@ export const I_USER = gql`
   query iUser {
     iUser {
       id
+      profileId
       name
       image
       gender
@@ -26,8 +27,12 @@ export const I_USER = gql`
       introduce
       instagramId
       notReadChatCount
+      followerCount
+      followingCount
+      mediaCount
       address {
         id
+        addressFull
         area1 {
           id
           name
