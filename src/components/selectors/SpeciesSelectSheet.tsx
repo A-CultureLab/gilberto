@@ -11,7 +11,7 @@ import UnderLineInput from '../inputs/UnderLineInput'
 const DOG_FILTER_KEYS = ['ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ']
 const CAT_FILTER_KEYS = ['ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ']
 
-interface SpeciesSelectPickerProps {
+interface SpeciesSelectSheetProps {
     visible: boolean
     onClose: () => void
     onSelect: (s: string) => void
@@ -19,7 +19,7 @@ interface SpeciesSelectPickerProps {
 }
 
 
-const SpeciesSelectPicker: React.FC<SpeciesSelectPickerProps> = ({ onClose, onSelect, visible, type }) => {
+const SpeciesSelectSheet: React.FC<SpeciesSelectSheetProps> = ({ onClose, onSelect, visible, type }) => {
 
     const [filterKey, setFilterKey] = useState(type === 'cat' ? 'ㄴ' : 'ㄱ')
     const { bottom } = useSafeAreaInsets()
@@ -95,7 +95,7 @@ const SpeciesSelectPicker: React.FC<SpeciesSelectPickerProps> = ({ onClose, onSe
     )
 }
 
-export default SpeciesSelectPicker
+export default SpeciesSelectSheet
 
 const styles = StyleSheet.create({
     keyContainer: {

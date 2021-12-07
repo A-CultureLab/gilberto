@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useState } from 'react'
 import { Pressable, ScrollView, StyleSheet, Text, View, Linking, TouchableOpacity, Share, FlatList, ActivityIndicator } from 'react-native'
 import Header from '../../components/headers/Header'
 import ScreenLayout from '../../components/layout/ScreenLayout'
-import { COLOR1, COLOR2, COLOR3, GRAY1, GRAY2, GRAY3, WIDTH } from '../../constants/styles'
+import { COLOR1, GRAY1, GRAY2, GRAY3, WIDTH } from '../../constants/styles'
 import useNavigation from '../../hooks/useNavigation'
 import { useIUser } from '../../graphql/user'
 import { useMyPets } from '../../graphql/pet'
@@ -113,7 +113,7 @@ const MyPage = () => {
                                     }
                                     ListFooterComponent={
                                         <Pressable
-                                            onPress={() => navigate('PetList')}
+                                            onPress={() => navigate('MyPets')}
                                             style={styles.petContainer}
                                         >
                                             <View style={styles.petImage} >

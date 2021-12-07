@@ -38,7 +38,7 @@ const Header: React.FC<HeaderProps> = ({ backBtn, title, underline, right, style
 
 Header.defaultProps = {
     backBtn: 'left',
-    underline: true,
+    underline: false,
     backBtnColor: '#000'
 }
 

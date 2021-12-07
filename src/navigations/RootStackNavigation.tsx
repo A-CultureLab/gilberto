@@ -6,11 +6,9 @@ import ChatDetail, { ChatDetailProps } from '../screens/ChatDetail';
 import OpenSourceLicense from '../screens/OpenSourceLicense';
 import PetModify, { PetModifyProps } from '../screens/PetModify';
 import PetRegist from '../screens/PetRegist';
-import Profile from '../screens/Profile';
 import ProfileModify from '../screens/ProfileModify';
 import SelectLocation, { SelectLocationProps } from '../screens/SelectLocation';
 import Settings from '../screens/Settings';
-import SignupPet from '../screens/SignupPet';
 import UserDetail, { UserDetailProps } from '../screens/UserDetail';
 import WebView, { WebViewProps } from '../screens/WebView';
 import Withdraw from '../screens/Withdraw';
@@ -78,7 +76,6 @@ const RootStackNavigation = () => {
             <RootStack.Screen name='Tab' component={TabNavigation} />
             <RootStack.Screen name='SelectLocation' component={SelectLocation} />
             <RootStack.Screen name='WebView' component={WebView} />
-            <RootStack.Screen name='SignupPet' component={SignupPet} />
             <RootStack.Screen name='PetRegist' component={PetRegist} />
             <RootStack.Screen name='PetModify' component={PetModify} />
             <RootStack.Screen name='MyPets' component={MyPets} />

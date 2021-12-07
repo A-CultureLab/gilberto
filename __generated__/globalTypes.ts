@@ -705,8 +705,6 @@ export interface PetCreateManyUserInput {
   gender: Gender;
   birth: any;
   weight: number;
-  neutered: boolean;
-  vaccinated: boolean;
 }
 
 export interface PetCreateManyUserInputEnvelope {
@@ -750,8 +748,6 @@ export interface PetCreateWithoutTagedMediasInput {
   gender: Gender;
   birth: any;
   weight: number;
-  neutered: boolean;
-  vaccinated: boolean;
   user: UserCreateNestedOneWithoutPetsInput;
 }
 
@@ -768,8 +764,6 @@ export interface PetCreateWithoutUserInput {
   gender: Gender;
   birth: any;
   weight: number;
-  neutered: boolean;
-  vaccinated: boolean;
   tagedMedias?: MediaCreateNestedManyWithoutTagedPetsInput | null;
 }
 
@@ -1127,16 +1121,14 @@ export interface PostsAdressFilterInput {
 }
 
 export interface RegistPetInput {
-  name: string;
   image: string;
-  type: PetType;
-  species: string;
-  character: string;
+  name: string;
   gender: Gender;
   birth: any;
   weight: number;
-  neutered: boolean;
-  vaccinated: boolean;
+  type: PetType;
+  species: string;
+  character: string;
 }
 
 export interface ReportCreateManyChatInput {

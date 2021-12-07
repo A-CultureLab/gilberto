@@ -21,8 +21,6 @@ export interface myPets_myPets {
   gender: Gender;
   age: string;
   weight: number;
-  vaccinated: boolean;
-  neutered: boolean;
 }
 
 export interface myPets {

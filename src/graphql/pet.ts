@@ -25,8 +25,6 @@ export const REGIST_PET = gql`
             gender
             age
             weight
-            vaccinated
-            neutered
             user {
                 id
                 pets {
@@ -61,8 +59,6 @@ export const MY_PETS = gql`
             gender
             age
             weight
-            vaccinated
-            neutered
         }
 
     }
@@ -94,8 +90,6 @@ export const UPDATE_PET = gql`
             gender
             age
             weight
-            vaccinated
-            neutered
         }
     }
 `
@@ -180,8 +174,6 @@ export const PET = gql`
         gender
         age
         weight
-        neutered
-        vaccinated
         user {
             id
             image

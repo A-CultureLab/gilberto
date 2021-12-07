@@ -33,8 +33,6 @@ export interface registPet_registPet {
   gender: Gender;
   age: string;
   weight: number;
-  vaccinated: boolean;
-  neutered: boolean;
   user: registPet_registPet_user;
 }
 

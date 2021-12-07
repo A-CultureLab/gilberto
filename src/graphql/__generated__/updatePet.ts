@@ -21,8 +21,6 @@ export interface updatePet_updatePet {
   gender: Gender;
   age: string;
   weight: number;
-  vaccinated: boolean;
-  neutered: boolean;
 }
 
 export interface updatePet {

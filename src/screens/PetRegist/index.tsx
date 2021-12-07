@@ -1,319 +1,181 @@
-import useNavigation from '../../hooks/useNavigation'
-import dayjs from 'dayjs'
 import React, { useCallback, useEffect, useState } from 'react'
-import { Controller, useForm } from 'react-hook-form'
-import { KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, FlatList, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
-import { Gender, PetType, RegistPetInput } from '../../../__generated__/globalTypes'
-import Footer from '../../components/footers/Footer'
-import Header from '../../components/headers/Header'
-import UnderLineInput from '../../components/inputs/UnderLineInput'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { Gender, PetType } from '../../../__generated__/globalTypes'
+import Button from '../../components/buttons/Button'
+import Input from '../../components/inputs/Input'
 import ScreenLayout from '../../components/layout/ScreenLayout'
-import CharacterSelectSheet from '../../components/selectors/CharacterSelectSheet'
-import DateSelectSheet from '../../components/selectors/DateSelectSheet'
-import SpeciesSelectPicker from '../../components/selectors/SpeciesSelectSheet'
-import WeightSelectSheet from '../../components/selectors/WeightSelectSheet'
-import UnderLineToggle from '../../components/toggles/UnderLineToggle'
-import { GRAY2, GRAY3 } from '../../constants/styles'
-import { IS_IOS } from '../../constants/values'
-import { useCreatePet } from '../../graphql/pet'
+import DateSelector from '../../components/selectors/DateSelector'
+import HorizontalSelector from '../../components/selectors/HorizontalSelector'
+import { COLOR1, COLOR3, GRAY1, GRAY3 } from '../../constants/styles'
 import useGlobalUi from '../../hooks/useGlobalUi'
 import useImageUpload from '../../hooks/useImageUpload'
-
+import useNavigation from '../../hooks/useNavigation'
+import genderGenerator from '../../lib/genderGenerator'
+import Camera from '../../assets/svgs/camera.svg'
+import LinearGradient from 'react-native-linear-gradient'
+import { useCreatePet } from '../../graphql/pet'
+import Header from '../../components/headers/Header'
+import WeightSelector from '../../components/selectors/WeightSelector'
+import Selector from '../../components/selectors/Selector'
+import SpeciesSelector from '../../components/selectors/SpeciesSelector'
+import InputableSelector from '../../components/selectors/InputableSelector'
+import { ANIMAL_CHARACTER } from '../../constants/values'
 
 const PetRegist = () => {
 
     const { goBack } = useNavigation()
+    const { bottom } = useSafeAreaInsets()
+    const { toast } = useGlobalUi()
+
+
+    // 수집 정보
+    const { image, imageTemp, selectAndUpload, loading: imageLoading } = useImageUpload('petImage/')
+    const [name, setName] = useState<string>('')
+    const [gender, setGender] = useState<Gender | null>(null)
+    const [birth, setBirth] = useState<Date | null>(null)
+    const [weight, setWeight] = useState<number | null>(null)
+    const [type, setType] = useState<PetType | null>(null)
+    const [species, setSpecies] = useState<string | null>(null)
+    const [character, setCharacter] = useState<string | null>(null)
+
+
+    // 반려동물 생성
     const [createPet, { loading }] = useCreatePet()
 
-    const { toast, select } = useGlobalUi()
-    const { control, handleSubmit, setValue, watch, formState, clearErrors } = useForm<RegistPetInput>({
-        defaultValues: {
-            neutered: false,
-            vaccinated: false
-        }
-    })
+    // 다음 버튼 확성화
+    const enable = image && name && gender && birth && weight && type && species && character
 
-    const onSubmit = handleSubmit(async (data) => {
-        if (loading) return
-        const { errors } = await createPet({ variables: { data } })
-        if (errors) {
-            toast({ content: '오류' })
-            return
-        }
+    const onSubmit = async () => {
+        if (imageLoading) return
+        if (!image) return toast({ content: '사진을 선택해주세요' })
+        if (!name) return toast({ content: '이름을 입력해주세요' })
+        if (!gender) return toast({ content: '성별을 입력해주세요' })
+        if (!birth) return toast({ content: '생년월일을 입력새주세요' })
+        if (!weight) return toast({ content: '몸무게를 입력해주세요' })
+        if (!type) return toast({ content: '동물을 입력해주세요' })
+        if (!species) return toast({ content: '종을 입력해주세요' })
+        if (!character) return toast({ content: '성격을 입력해주세요' })
+
+        const { data } = await createPet({
+            variables: {
+                data: {
+                    image,
+                    name,
+                    gender,
+                    birth,
+                    weight,
+                    type,
+                    species,
+                    character
+                }
+            }
+        })
+
+        if (!data) return
+
         goBack()
-    })
+    }
 
+    // 동물에 따라 species와 charactor 세트가 달라서 바뀔때마다 초기화
     useEffect(() => {
-        const errors = formState.errors
-        if (Object.keys(errors).length === 0) return
-        //@ts-ignore
-        toast({ content: errors[Object.keys(errors)[0]].message })
-        clearErrors()
-    }, [formState])
-
-    useEffect(() => {
-        if (!watch('type')) return
-        setValue('character', '')
-        setValue('species', '')
-    }, [watch('type')])
+        setSpecies(null)
+        setCharacter(null)
+    }, [type])
 
     return (
         <ScreenLayout>
             <Header title='반려동물 등록' />
-            <KeyboardAvoidingView
-                behavior={IS_IOS ? 'padding' : 'height'}
-                style={{ flex: 1 }}
+
+            <ScrollView
+                overScrollMode='never'
+                showsVerticalScrollIndicator={false}
+                style={{ paddingHorizontal: 20 }}
             >
-                <ScrollView
-                    style={{ flex: 1 }}
-                    overScrollMode='never'
+
+                <Pressable
+                    onPress={() => selectAndUpload({ cropping: true, cropperCircleOverlay: true, width: 512, height: 512 })}
+                    style={{ alignSelf: 'center', marginBottom: 50, marginTop: 28 }}
                 >
-                    <Controller
-                        control={control}
-                        name='name'
-                        rules={{ required: '반려동물 이름을 입력해주세요' }}
-                        render={({ field }) => (
-                            <UnderLineInput
-                                inputStyle={{ marginTop: 24 }}
-                                value={field.value}
-                                onChangeText={field.onChange}
-                                placeholder='반려동물 이름'
-                            />
-                        )}
+                    <FastImage
+                        style={{ width: 100, height: 100, borderRadius: 50 }}
+                        source={image ? { uri: image } : imageTemp ? { uri: imageTemp } : require("../../assets/profile_empty.png")}
                     />
+                    <View style={styles.cameraBtn} >
+                        <Camera width={16} height={16} fill='#fff' />
+                    </View>
+                </Pressable>
 
-                    <Controller
-                        control={control}
-                        name='image'
-                        rules={{ required: '사진을 선택해주세요' }}
-                        render={({ field }) => {
-
-                            const { imageTemp, clear, selectAndUpload } = useImageUpload('petProfile')
-
-                            const uploadImage = useCallback(async () => {
-                                try {
-                                    const uri = await selectAndUpload({
-                                        width: 1024,
-                                        height: 1024,
-                                        freeStyleCropEnabled: false
-                                    }, 'petProfile/')
-                                    field.onChange(uri)
-                                } catch (error) {
-                                    toast({ content: '이미지 업로드 실패' })
-                                    clear()
-                                }
-                            }, [selectAndUpload])
-
-                            return (
-                                <>
-                                    {(field.value || imageTemp)
-                                        ? <Pressable
-                                            android_ripple={{ color: GRAY2 }}
-                                            style={styles.imageContainer}
-                                            onPress={uploadImage}
-                                        >
-                                            <FastImage style={{ width: 80, height: 80 }} source={{ uri: field.value || imageTemp || undefined }} />
-                                        </Pressable>
-                                        : <UnderLineInput
-                                            placeholder='사진'
-                                            pointerEvents='none'
-                                            onPress={uploadImage}
-                                            editable={false}
-                                        />}
-
-                                </>
-                            )
-                        }}
+                <Input
+                    style={{ marginBottom: 24 }}
+                    label='이름'
+                    value={name}
+                    onChangeText={t => setName(t)}
+                    placeholder='반려동물 이름을 입력해주세요'
+                />
+                <HorizontalSelector
+                    style={{ marginBottom: 24 }}
+                    label='성별'
+                    value={!!gender ? genderGenerator.pet(gender) : null}
+                    values={[genderGenerator.pet(Gender.male), genderGenerator.pet(Gender.female)]}
+                    onChange={(v) => setGender(v === genderGenerator.pet(Gender.male) ? Gender.male : Gender.female)}
+                />
+                <DateSelector
+                    style={{ marginBottom: 24 }}
+                    label='생년월일'
+                    value={birth}
+                    onChange={v => setBirth(v)}
+                />
+                <WeightSelector
+                    style={{ marginBottom: 24 }}
+                    label='몸무게'
+                    value={weight}
+                    onChange={w => setWeight(w)}
+                />
+                <Selector
+                    style={{ marginBottom: 24 }}
+                    label='동물'
+                    placeholder='동물을 선택해주세요'
+                    values={['강아지', '고양이']}
+                    value={type ? type === PetType.dog ? '강아지' : '고양이' : null}
+                    onSelect={i => setType(i === 0 ? PetType.dog : PetType.cat)}
+                />
+                {type && <>
+                    <SpeciesSelector
+                        style={{ marginBottom: 24 }}
+                        label='종'
+                        type={type}
+                        value={species}
+                        onChange={v => setSpecies(v)}
                     />
-
-                    <Controller
-                        control={control}
-                        name='type'
-                        rules={{ required: '동물을 선택해주세요' }}
-                        render={({ field }) => {
-                            return (
-                                <>
-                                    <UnderLineInput
-                                        placeholder='동물'
-                                        value={field.value === PetType.dog ? '강아지' : field.value === PetType.cat ? '고양이' : ''}
-                                        editable={false}
-                                        pointerEvents='none'
-                                        onPress={() => select({
-                                            list: ['강아지', '고양이'],
-                                            onSelect: (i) => field.onChange(i === 0 ? PetType.dog : PetType.cat)
-                                        })}
-                                    />
-                                </>
-                            )
-                        }}
+                    <InputableSelector
+                        style={{ marginBottom: 24 }}
+                        label='성격'
+                        placeholder='성격을 입력해주세요'
+                        values={ANIMAL_CHARACTER[type]}
+                        value={character}
+                        onSelect={t => setCharacter(t)}
                     />
+                </>}
+                <View style={{ height: 100 }} />
+            </ScrollView>
 
-                    {watch('type') && <Controller
-                        control={control}
-                        name='species'
-                        rules={{ required: '종을 선택해주세요' }}
-                        render={({ field }) => {
-                            const [visible, setVisible] = useState(false)
-                            return (
-                                <>
-                                    <UnderLineInput
-                                        placeholder='종'
-                                        value={field.value}
-                                        editable={false}
-                                        pointerEvents='none'
-                                        onPress={() => setVisible(true)}
-                                    />
-                                    <SpeciesSelectPicker
-                                        type={watch('type')}
-                                        onSelect={(s) => field.onChange(s)}
-                                        visible={visible}
-                                        onClose={() => setVisible(false)}
-                                    />
-                                </>
-                            )
-                        }}
-                    />}
-
-                    {watch('type') && <Controller
-                        control={control}
-                        name='character'
-                        rules={{ required: '성격을 선택해주세요' }}
-                        render={({ field }) => {
-                            const [visible, setVisible] = useState(false)
-                            return (
-                                <>
-                                    <UnderLineInput
-                                        placeholder='성격'
-                                        value={field.value}
-                                        editable={false}
-                                        pointerEvents='none'
-                                        onPress={() => setVisible(true)}
-                                    />
-                                    <CharacterSelectSheet
-                                        type={watch('type')}
-                                        onSelect={(s) => field.onChange(s)}
-                                        visible={visible}
-                                        onClose={() => setVisible(false)}
-                                    />
-                                </>
-                            )
-                        }}
-                    />}
-
-
-                    <Controller
-                        control={control}
-                        name='gender'
-                        rules={{ required: '성별을 선택해주세요' }}
-                        render={({ field }) => {
-                            return (
-                                <>
-                                    <UnderLineInput
-                                        placeholder='성별'
-                                        value={field.value === Gender.male ? '남아' : field.value === Gender.female ? '여아' : ''}
-                                        editable={false}
-                                        pointerEvents='none'
-                                        onPress={() => select({
-                                            list: ['남아', '여아'],
-                                            onSelect: (i) => field.onChange(i === 0 ? Gender.male : Gender.female)
-                                        })}
-                                    />
-                                </>
-                            )
-                        }}
-                    />
-
-                    <Controller
-                        control={control}
-                        name='birth'
-                        rules={{ required: '출생일을 선택해주세요' }}
-                        render={({ field }) => {
-                            const [visible, setVisible] = useState(false)
-                            return (
-                                <>
-                                    <UnderLineInput
-                                        placeholder='출생'
-                                        value={field.value ? dayjs(field.value).format('YYYY.MM') : ''}
-                                        editable={false}
-                                        pointerEvents='none'
-                                        onPress={() => setVisible(true)}
-                                    />
-                                    <DateSelectSheet
-                                        onClose={() => setVisible(false)}
-                                        visible={visible}
-                                        onSelect={(date) => field.onChange(date)}
-                                        day={false}
-                                    />
-                                </>
-                            )
-                        }}
-                    />
-
-                    <Controller
-                        control={control}
-                        name='weight'
-                        rules={{ required: '무게를 선택해주세요' }}
-                        render={({ field }) => {
-                            const [visible, setVisible] = useState(false)
-                            return (
-                                <>
-                                    <UnderLineInput
-                                        placeholder='무게'
-                                        value={field.value ? (field.value || 0).toString() + 'kg' : ''}
-                                        editable={false}
-                                        pointerEvents='none'
-                                        onPress={() => setVisible(true)}
-                                    />
-                                    <WeightSelectSheet
-                                        onClose={() => setVisible(false)}
-                                        visible={visible}
-                                        onSelect={(w) => field.onChange(w)}
-                                    />
-                                </>
-                            )
-                        }}
-                    />
-
-                    <Controller
-                        control={control}
-                        name='neutered'
-                        render={({ field }) => {
-                            return (
-                                <>
-                                    <UnderLineToggle
-                                        text='중성화'
-                                        value={field.value}
-                                        onChange={(v) => field.onChange(v)}
-                                    />
-                                </>
-                            )
-                        }}
-                    />
-
-                    <Controller
-                        control={control}
-                        name='vaccinated'
-                        render={({ field }) => {
-                            return (
-                                <>
-                                    <UnderLineToggle
-                                        text='예방접종'
-                                        value={field.value}
-                                        onChange={(v) => field.onChange(v)}
-                                    />
-                                </>
-                            )
-                        }}
-                    />
-
-                </ScrollView>
-            </KeyboardAvoidingView>
-            <Footer
-                text='등록'
-                onPress={onSubmit}
-                loading={loading}
+            <LinearGradient
+                pointerEvents='none'
+                colors={['rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, 1)']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 0, y: 1 }}
+                style={{ height: 80, position: 'absolute', left: 0, right: 0, bottom: bottom + 28 + 44 }}
             />
+
+            <View style={[styles.footerContainer, { paddingBottom: 28 + bottom }]} >
+                <Button
+                    onPress={onSubmit}
+                    disable={!enable}
+                    loading={loading || imageLoading}
+                >추가</Button>
+            </View>
         </ScreenLayout>
     )
 }
@@ -321,11 +183,33 @@ const PetRegist = () => {
 export default PetRegist
 
 const styles = StyleSheet.create({
-    imageContainer: {
+    cameraBtn: {
+        width: 32,
+        height: 32,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 16,
+        position: 'absolute',
+        right: 0, bottom: 0,
+        backgroundColor: COLOR1
+    },
+    footerContainer: {
         width: '100%',
-        paddingVertical: 16,
-        paddingLeft: 24,
-        borderBottomWidth: 1,
-        borderBottomColor: GRAY3
+        paddingHorizontal: 20,
+        backgroundColor: '#fff'
+    },
+    agreementContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    agreementText: {
+        fontSize: 12,
+        marginLeft: 8
+    },
+    agreementDetail: {
+        fontSize: 12,
+        color: COLOR1,
+        fontWeight: 'bold',
+        marginLeft: 8
     },
 })

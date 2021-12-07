@@ -35,8 +35,6 @@ export interface pet_pet {
   gender: Gender;
   age: string;
   weight: number;
-  neutered: boolean;
-  vaccinated: boolean;
   user: pet_pet_user;
 }
 
