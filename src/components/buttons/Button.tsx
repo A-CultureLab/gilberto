@@ -15,12 +15,18 @@ interface ButtonProps {
 
 const Button: React.FC<ButtonProps> = ({ style, disable, children, textStyle, onPress, loading, loadingColor }) => {
     return (
-        <Pressable onPress={onPress} style={[styles.container, { backgroundColor: !disable ? COLOR1 : 'rgba(248, 145, 50, 0.3)', borderWidth: disable ? 0 : 1 }, style]} >
+        <Pressable
+            onPress={onPress}
+            style={[
+                styles.container,
+                { backgroundColor: !disable ? COLOR1 : 'rgba(248, 145, 50, 0.3)', borderWidth: disable ? 0 : 1 },
+                style
+            ]}
+        >
             {loading
                 ? <LoadingDots color={loadingColor} />
                 : <Text style={[styles.text, textStyle]} >{children}</Text>
             }
-
         </Pressable>
     )
 }

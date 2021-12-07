@@ -14,6 +14,7 @@ const InputArea: React.FC<TextInputProps & InputAreaProps> = ({ label, style, ..
                     {...props}
                     placeholderTextColor='#ccc'
                     multiline
+                    textAlignVertical='top'
                     maxLength={200}
                     numberOfLines={10}
                     style={[styles.input]}
@@ -42,6 +43,6 @@ const styles = StyleSheet.create({
         maxHeight: 400
     },
     input: {
-
+        color: '#000'
     }
 })
