@@ -1,5 +1,5 @@
 import useNavigation from '../../hooks/useNavigation'
-import React from 'react'
+import React, { useContext } from 'react'
 import { useState } from 'react'
 import { useCallback } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
@@ -11,12 +11,13 @@ import { GRAY1, GRAY3 } from '../../constants/styles'
 import { WITHDRAW_REASONS } from '../../constants/values'
 import { useWithdraw } from '../../graphql/user'
 import useGlobalUi from '../../hooks/useGlobalUi'
+import { AuthContext } from '../../wrappers/AuthWrapper'
 
 const Withdraw = () => {
 
     const { reset } = useNavigation()
-    const { logout } = useAuth()
     const { confirm, toast } = useGlobalUi()
+    const { logout } = useContext(AuthContext)
     const [withdraw, { loading }] = useWithdraw()
 
     const [visible, setVisible] = useState(false)
@@ -35,7 +36,6 @@ const Withdraw = () => {
                     return
                 }
                 logout()
-                reset({ routes: [{ name: 'Tab' }] })
             }
         })
     }, [reason, toast, confirm])

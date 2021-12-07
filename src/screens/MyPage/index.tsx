@@ -2,13 +2,11 @@ import React, { useCallback, useContext, useState } from 'react'
 import { Pressable, ScrollView, StyleSheet, Text, View, Linking, TouchableOpacity, Share, FlatList, ActivityIndicator } from 'react-native'
 import Header from '../../components/headers/Header'
 import ScreenLayout from '../../components/layout/ScreenLayout'
-import Icon from 'react-native-vector-icons/MaterialIcons'
 import { COLOR1, COLOR2, COLOR3, GRAY1, GRAY2, GRAY3, WIDTH } from '../../constants/styles'
 import useNavigation from '../../hooks/useNavigation'
 import { useIUser } from '../../graphql/user'
 import { useMyPets } from '../../graphql/pet'
 import FastImage from 'react-native-fast-image'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import TabScreenBottomTabBar from '../../components/tabs/TabScreenBottomTabBar'
 import IconMC from 'react-native-vector-icons/MaterialCommunityIcons'
 import MenuIcon from '../../assets/svgs/menu.svg'
@@ -16,10 +14,13 @@ import followCountUnit from '../../utils/followCountUnit'
 import PlusIcon from '../../assets/svgs/plus.svg'
 import { useMediasByUserId } from '../../graphql/media'
 import useRefreshing from '../../hooks/useRefreshing'
+import useGlobalUi from '../../hooks/useGlobalUi'
 
 const MyPage = () => {
 
     const { navigate } = useNavigation()
+    const { select } = useGlobalUi()
+
     const { data: userData, refetch: iUserRefetch } = useIUser()
     const { data: petData, refetch: petRefetch } = useMyPets()
     const { data: media, refetch: mediaRefetch, fetchMore, loading } = useMediasByUserId({ variables: { userId: userData?.iUser.id || '' }, skip: !userData })
@@ -40,29 +41,34 @@ const MyPage = () => {
         setFetchMoreLoading(false)
     }
 
-
     const MENUS = [
         {
             title: '설정',
-            icon: <Icon name='settings' color={GRAY2} size={16} />,
             onPress: () => navigate('Settings')
         },
         {
             title: '문의/건의',
-            icon: <Icon name='chat' color={GRAY2} size={16} />,
             onPress: () => Linking.openURL('https://38do.kr/support')
         },
         {
             title: '친구에게 추천하기',
-            icon: <Icon name='share' color={GRAY2} size={16} />,
             onPress: () => Share.share({ message: 'https://38do.kr/download' })
         },
         {
             title: '인스타그램',
-            icon: <IconMC name='instagram' color={GRAY2} size={16} />,
             onPress: () => Linking.openURL('https://www.instagram.com/38do.official')
         }
     ]
+
+    const onMenu = useCallback(() => {
+        select({
+            list: MENUS.map(v => v.title),
+            onSelect: (i) => { MENUS[i].onPress() }
+        })
+    }, [select])
+
+
+
 
     if (!userData || !petData) return null
 
@@ -72,7 +78,7 @@ const MyPage = () => {
                 backBtn='none'
                 title={userData.iUser.profileId}
                 underline={false}
-                right={() => <Pressable style={styles.headerBtn} ><MenuIcon width={20} height={20} fill='#000' /></Pressable>}
+                right={() => <Pressable onPress={onMenu} style={styles.headerBtn} ><MenuIcon width={20} height={20} fill='#000' /></Pressable>}
             />
             <FlatList
                 showsVerticalScrollIndicator={false}
@@ -113,7 +119,7 @@ const MyPage = () => {
                                             <View style={styles.petImage} >
                                                 <PlusIcon width={16} height={16} fill='#000' />
                                             </View>
-                                            <Text style={{ fontSize: 12 }} >추가/편집</Text>
+                                            <Text style={{ fontSize: 12 }} >{!petData.myPets.length ? '동물추가' : '추가/편집'}</Text>
                                         </Pressable>
                                     }
                                 />

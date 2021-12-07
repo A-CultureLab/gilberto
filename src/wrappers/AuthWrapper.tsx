@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/client'
+import { useApolloClient, useMutation } from '@apollo/client'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import gql from 'graphql-tag'
 import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react'
@@ -19,6 +19,8 @@ export const AuthContext = createContext<Auth>({} as any)
 
 const AuthWrapper: React.FC = ({ children }) => {
 
+    const client = useApolloClient()
+
     const [getAccessToken] = useGetAccessToken() // 서버세어 엑세스 토큰 재발급
 
 
@@ -38,6 +40,7 @@ const AuthWrapper: React.FC = ({ children }) => {
         setRefreshToken(null) // 이것만 해도 로컬 스토리지에서 refreshToken 삭제됨 아래 useEffect 확인 바람
         setAccessToken(null)
         await AsyncStorage.removeItem('@ACCESS_TOKEN')
+        await client.resetStore()
     }, [])
 
     // 엑세스 토큰 발급

@@ -3,7 +3,6 @@ import React, { useCallback, useContext } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { PetListContext } from '.'
-import { AuthContext } from '../../navigations'
 import { GRAY2, GRAY3 } from '../../constants/styles'
 import { useIUser } from '../../graphql/user'
 import useGlobalUi from '../../hooks/useGlobalUi'
@@ -13,8 +12,7 @@ const PetListHeader = () => {
     const { navigate } = useNavigation()
     const { select } = useGlobalUi()
     const { filter, setFilter, refetch } = useContext(PetListContext)
-    const { user } = useContext(AuthContext)
-    const { data } = useIUser({ skip: !user })
+    const { data } = useIUser()
 
     const address = data?.iUser.address
     const currentAddress =
@@ -24,7 +22,6 @@ const PetListHeader = () => {
                     : (filter.landId ? address?.land.buildingName : '전국')
 
     const onLocation = useCallback(() => {
-        if (!user) return
         select({
             list: [
                 '전국',
@@ -42,7 +39,7 @@ const PetListHeader = () => {
                 })
             }
         })
-    }, [address, user])
+    }, [address])
 
 
     return (
@@ -52,7 +49,7 @@ const PetListHeader = () => {
                 style={styles.locationselect}
             >
                 <Text numberOfLines={1} style={styles.location} >{currentAddress}</Text>
-                {user && <Icon name='keyboard-arrow-down' size={24} />}
+                <Icon name='keyboard-arrow-down' size={24} />
             </Pressable>
         </View>
     )

@@ -4,14 +4,12 @@ import { PetListContext } from '.'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import useNavigation from '../../hooks/useNavigation'
 import { useIUser } from '../../graphql/user'
-import { AuthContext } from '../../navigations'
 
 const PetListEmpty = () => {
 
     const { navigate } = useNavigation()
     const { filter } = useContext(PetListContext)
-    const { user } = useContext(AuthContext)
-    const { data } = useIUser({ skip: !user })
+    const { data } = useIUser()
 
 
     const address = data?.iUser.address

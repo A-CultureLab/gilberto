@@ -28,6 +28,7 @@ import TabNavigation from './RootTabNavigation';
 import ChannelIOWrapper from '../wrappers/ChannelIOWrapper';
 import FCMWrapper from '../wrappers/FCMWrapper';
 import ScreenAnalyticsWrapper from '../wrappers/ScreenAnalyticsWrapper';
+import MyPets from '../screens/MyPets';
 
 
 
@@ -38,7 +39,7 @@ export type RootStackParamList = {
     SignupPet: undefined
     PetRegist: undefined
     PetModify: PetModifyProps
-    Profile: undefined
+    MyPets: undefined
     ProfileModify: undefined
     Settings: undefined
     OpenSourceLicense: undefined
@@ -80,7 +81,7 @@ const RootStackNavigation = () => {
             <RootStack.Screen name='SignupPet' component={SignupPet} />
             <RootStack.Screen name='PetRegist' component={PetRegist} />
             <RootStack.Screen name='PetModify' component={PetModify} />
-            <RootStack.Screen name='Profile' component={Profile} />
+            <RootStack.Screen name='MyPets' component={MyPets} />
             <RootStack.Screen name='ProfileModify' component={ProfileModify} />
             <RootStack.Screen name='Settings' component={Settings} />
             <RootStack.Screen name='OpenSourceLicense' component={OpenSourceLicense} />

@@ -12,6 +12,7 @@ import deviceInfoModule from 'react-native-device-info'
 import CodePush from 'react-native-code-push'
 import SpInAppUpdates, { AndroidUpdateType, IAUUpdateKind } from 'sp-react-native-in-app-updates'
 import { IS_ANDROID } from '../../constants/values'
+import { AuthContext } from '../../wrappers/AuthWrapper'
 
 const inAppUpdates = new SpInAppUpdates(__DEV__)
 
@@ -19,7 +20,7 @@ const Settings = () => {
     const { bottom } = useSafeAreaInsets()
     const { navigate, reset } = useNavigation()
     const { confirm, toast } = useGlobalUi()
-    const { user } = useContext(AuthContext)
+    const { logout } = useContext(AuthContext)
 
     const [shouldUpdate, setShouldUpdate] = useState(false)
 
@@ -62,7 +63,7 @@ const Settings = () => {
                     content: '정말 로그아웃 하시겠습니까?',
                     onPress: async (isYes) => {
                         if (!isYes) return
-                        await logout()
+                        logout()
                         reset({ index: 0, routes: [{ name: 'Tab' }] })
                     }
                 })
@@ -73,7 +74,6 @@ const Settings = () => {
             onPress: () => navigate('Withdraw')
         },
     ]
-    if (!user) MENUS.length = 4// 미 로그인시 로그아웃, 탈퇴하기 기능은 제공하지 않음
 
     useEffect(() => {
         (async () => {

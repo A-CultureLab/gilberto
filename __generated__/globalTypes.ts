@@ -1322,9 +1322,13 @@ export interface UpdateUserChatRoomInfoInput {
 
 export interface UpdateUserInput {
   image: string;
+  profileId: string;
+  name: string;
+  gender: Gender;
+  birth: any;
   addressId: string;
-  introduce: string;
   instagramId?: string | null;
+  introduce: string;
 }
 
 export interface UserChatRoomInfoCreateManyChatRoomInput {

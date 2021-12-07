@@ -150,6 +150,7 @@ const SignupRequireInfo = () => {
             </ScrollView>
 
             <LinearGradient
+                pointerEvents='none'
                 colors={['rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, 1)']}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 0, y: 1 }}
