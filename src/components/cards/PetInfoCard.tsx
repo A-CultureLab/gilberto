@@ -64,10 +64,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: 'center',
         paddingLeft: 16,
-        borderBottomWidth: 1,
-        borderBottomColor: GRAY3,
-        backgroundColor: '#fff',
-        borderTopWidth: 1
     },
     contentContainer: {
         flex: 1,
@@ -96,7 +92,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     etcItem: {
-        backgroundColor: GRAY1,
+        backgroundColor: GRAY3,
         alignItems: 'center',
         justifyContent: 'center',
         paddingHorizontal: 8,
@@ -106,8 +102,6 @@ const styles = StyleSheet.create({
     },
     etc: {
         fontSize: 12,
-        fontWeight: 'bold',
-        color: '#fff',
     },
     draggerContainer: {
         height: '100%',
