@@ -3,20 +3,23 @@ import React, { useContext } from 'react'
 import { useState } from 'react'
 import { useCallback } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
-import Footer from '../../components/footers/Footer'
 import Header from '../../components/headers/Header'
 import ScreenLayout from '../../components/layout/ScreenLayout'
 import SelectOrInputBottomSheet from '../../components/selectors/SelectOrInputBottomSheet'
-import { GRAY1, GRAY3 } from '../../constants/styles'
+import { COLOR3, GRAY1, GRAY3 } from '../../constants/styles'
 import { WITHDRAW_REASONS } from '../../constants/values'
 import { useWithdraw } from '../../graphql/user'
 import useGlobalUi from '../../hooks/useGlobalUi'
 import { AuthContext } from '../../wrappers/AuthWrapper'
+import Button from '../../components/buttons/Button'
+import VerticalSelector from '../../components/selectors/VerticalSelector'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 const Withdraw = () => {
 
     const { reset } = useNavigation()
     const { confirm, toast } = useGlobalUi()
+    const { bottom } = useSafeAreaInsets()
     const { logout } = useContext(AuthContext)
     const [withdraw, { loading }] = useWithdraw()
 
@@ -25,6 +28,7 @@ const Withdraw = () => {
 
 
     const onWithdraw = useCallback(() => {
+        if (!reason) return
         confirm({
             title: '회원탈퇴',
             content: '정말 탈퇴하시겠습니까?',
@@ -43,22 +47,23 @@ const Withdraw = () => {
     return (
         <>
             <ScreenLayout>
-                <Header title='회원탈퇴' />
-                <View style={{ flex: 1 }} >
+                <Header title='회원탈퇴' underline={false} />
+                <View style={{ flex: 1, paddingHorizontal: 20, paddingBottom: bottom + 28 }} >
                     <Text style={styles.comment} >계정을 삭제하시면 추후에 데이터를 복구 하실 수 없습니다.</Text>
-                    <Pressable
-                        onPress={() => setVisible(true)}
-                        style={styles.reasonContainer}
-                    >
-                        <Text style={{ color: reason ? '#000' : GRAY1 }} >{reason || '탈퇴하는 이유를 선택해주세요'} </Text>
-                    </Pressable>
+                    <Text style={{ marginBottom: 24 }} >탈퇴사유</Text>
+                    <VerticalSelector
+
+                        values={WITHDRAW_REASONS}
+                        value={reason}
+                        onChange={t => setReason(t)}
+                    />
+                    <View style={{ flex: 1 }} />
+                    <Button
+                        loading={loading}
+                        disable={!reason}
+                        onPress={onWithdraw}
+                    >탈퇴하기</Button>
                 </View>
-                <Footer
-                    text='탈퇴하기'
-                    loading={loading}
-                    disable={!reason}
-                    onPress={onWithdraw}
-                />
             </ScreenLayout>
             <SelectOrInputBottomSheet
                 list={WITHDRAW_REASONS}
@@ -75,7 +80,8 @@ export default Withdraw
 const styles = StyleSheet.create({
     comment: {
         fontWeight: 'bold',
-        margin: 24
+        marginVertical: 36,
+        color: COLOR3
     },
     reasonContainer: {
         paddingHorizontal: 24,
