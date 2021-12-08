@@ -64,6 +64,8 @@ const ProfileModify = () => {
         if (!birth) return toast({ content: '생년월일을 입력새주세요' })
         if (!address) return toast({ content: '주소를 입력해주세요' })
 
+        if (!(/^[_A-Za-z0-9\-]*$/.test(profileId))) return toast({ content: '아이디는 영문, 숫자, _, - 만 사용 가능합니다.' })
+
         const { data } = await updateUser({
             variables: {
                 data: {
@@ -111,12 +113,14 @@ const ProfileModify = () => {
                     style={{ marginBottom: 24 }}
                     label='아이디'
                     value={profileId}
+                    maxLength={20}
                     onChangeText={t => setProfileId(t)}
-                    placeholder='아이디를 입력해주세요'
+                    placeholder='아이디를 입력해주세요 (영문, 숫자, -, _)'
                 />
                 <Input
                     style={{ marginBottom: 24 }}
                     label='이름'
+                    maxLength={10}
                     value={name}
                     onChangeText={t => setName(t)}
                     placeholder='이름을 입력해주세요'

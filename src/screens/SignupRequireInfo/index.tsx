@@ -50,6 +50,8 @@ const SignupRequireInfo = () => {
         if (!address) return toast({ content: '주소를 입력해주세요' })
         if (!agreementDate || !privacyDate) return toast({ content: '약관에 동의해주세요' })
 
+        if (!(/^[_A-Za-z0-9\-]*$/.test(profileId))) return toast({ content: '아이디는 영문, 숫자, _, - 만 사용 가능합니다.' })
+
         navigate('SignupOptionalInfo', {
             ...params,
             image: image || null,
@@ -89,14 +91,16 @@ const SignupRequireInfo = () => {
                 <Input
                     style={{ marginBottom: 24 }}
                     label='아이디'
+                    maxLength={20}
                     value={profileId}
                     onChangeText={t => setProfileId(t)}
-                    placeholder='아이디를 입력해주세요'
+                    placeholder='아이디를 입력해주세요 (영문, 숫자, -, _)'
                 />
                 <Input
                     style={{ marginBottom: 24 }}
                     label='이름'
                     value={name}
+                    maxLength={10}
                     onChangeText={t => setName(t)}
                     placeholder='이름을 입력해주세요'
                 />
