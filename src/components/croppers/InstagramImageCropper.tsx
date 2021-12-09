@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, View, Dimensions, Image } from 'react-native'
 import { PanGestureHandler, PanGestureHandlerGestureEvent, PinchGestureHandler, PinchGestureHandlerGestureEvent } from 'react-native-gesture-handler'
-import Animated, { Extrapolate, interpolate, runOnJS, useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated'
+import Animated, { runOnJS, useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated'
+import ImageEditor from "@react-native-community/image-editor";
 
-interface CropDate {
-    uri: string
-    offset: { x: number, y: number },
-    size: { width: number, height: number },
-    displaySize: { width: number, height: number },
-}
-
+export interface CroppedData { croppedUri: string, originalUri: string }
 interface InstagramImageCropperProps {
     image: {
         uri: string
@@ -22,13 +17,13 @@ interface InstagramImageCropperProps {
     gridVerticalNum?: number
     gridHorizontalNum?: number
     gridColor?: string
-    onChange?: (data: CropDate) => void,
+    onCropped?: (data: CroppedData) => void,
     maxScale?: number
 }
 
 const InstagramImageCropper: React.FC<InstagramImageCropperProps> = (props) => {
 
-    const { image, height = 1, onChange, width = 1, grid, gridColor, gridHorizontalNum, gridVerticalNum, maxScale } = props
+    const { image, height = 1, onCropped, width = 1, grid, gridColor, gridHorizontalNum, gridVerticalNum, maxScale } = props
 
     const imageRatio = image.height / image.width
     const viewRatio = height / width
@@ -62,9 +57,11 @@ const InstagramImageCropper: React.FC<InstagramImageCropperProps> = (props) => {
         setTimeout(() => {
             translation.opacity.value = withTiming(1, { duration: 250 })
         }, 200);
+
+        onEnd()
     }, [image])
 
-    const onEnd = () => {
+    const onEnd = async () => {
         if (!width) return
         if (!height) return
         if (!maxScale) return
@@ -74,13 +71,67 @@ const InstagramImageCropper: React.FC<InstagramImageCropperProps> = (props) => {
         const scaleWidth = (width * clampedScale - width) / (2 * clampedScale)
         const scaleHeight = (height * clampedScale - height) / (2 * clampedScale)
 
-        if (translation.x.value < -(imageWidth - width + scaleWidth)) translation.x.value = withSpring(-(imageWidth - width + scaleWidth))
-        if (translation.x.value > scaleWidth) translation.x.value = withSpring(scaleWidth)
-        if (translation.y.value < -(imageHeight - height + scaleHeight)) translation.y.value = withSpring(-(imageHeight - height + scaleHeight))
-        if (translation.y.value > scaleHeight) translation.y.value = withSpring(scaleHeight)
+        let offsetX = translation.x.value // dp
+        let offsetY = translation.y.value // dp
+
+        if (translation.x.value < -(imageWidth - width + scaleWidth)) {
+            translation.x.value = withSpring(-(imageWidth - width + scaleWidth));
+            offsetX = -(imageWidth - width + scaleWidth);
+        }
+        if (translation.x.value > scaleWidth) {
+            translation.x.value = withSpring(scaleWidth);
+            offsetX = scaleWidth
+        }
+        if (translation.y.value < -(imageHeight - height + scaleHeight)) {
+            translation.y.value = withSpring(-(imageHeight - height + scaleHeight));
+            offsetY = -(imageHeight - height + scaleHeight);
+        }
+        if (translation.y.value > scaleHeight) {
+            translation.y.value = withSpring(scaleHeight);
+            offsetY = scaleHeight;
+        }
         if (translation.scale.value > maxScale) translation.scale.value = withSpring(maxScale)
         if (translation.scale.value < 1) translation.scale.value = withSpring(1)
 
+        let x2 = 0 // px
+        let y2 = 0 // px
+
+        if (image.width / width < image.height / height) {
+            x2 = image.width / clampedScale
+            y2 = x2 * viewRatio
+        } else {
+            y2 = image.height / clampedScale
+            x2 = y2 / viewRatio
+        }
+
+        offsetX -= scaleWidth
+        offsetY -= scaleHeight
+
+        offsetX = -offsetX / width * x2 * clampedScale // px
+        offsetY = -offsetY / height * y2 * clampedScale // px
+
+        // console.log('-----------------------------')
+        // console.log('scale', clampedScale)
+        // console.log('offsetX', offsetX)
+        // console.log('offsetY', offsetY)
+        // console.log('x2 dp', width)
+        // console.log('y2 dp', height)
+        // console.log('x1 px', image.width)
+        // console.log('y2 px', image.height)
+        // console.log('x2 px', x2)
+        // console.log('y2 px', y2)
+        // console.log('-----------------------------')
+        const url = await ImageEditor.cropImage(image.uri, {
+            size: {
+                width: x2,
+                height: y2
+            },
+            offset: {
+                x: offsetX,
+                y: offsetY
+            }
+        })
+        onCropped && onCropped({ originalUri: image.uri, croppedUri: url })
     }
 
     const panGestureHandler = useAnimatedGestureHandler<
