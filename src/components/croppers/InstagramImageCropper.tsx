@@ -74,12 +74,12 @@ const InstagramImageCropper: React.FC<InstagramImageCropperProps> = (props) => {
         const scaleWidth = (width * clampedScale - width) / (2 * clampedScale)
         const scaleHeight = (height * clampedScale - height) / (2 * clampedScale)
 
-        if (translation.x.value < -(imageWidth - width + scaleWidth)) translation.x.value = withSpring(-(imageWidth - width + scaleWidth));
-        if (translation.x.value > scaleWidth) translation.x.value = withSpring(scaleWidth);
-        if (translation.y.value < -(imageHeight - height + scaleHeight)) translation.y.value = withSpring(-(imageHeight - height + scaleHeight));
-        if (translation.y.value > scaleHeight) translation.y.value = withSpring(scaleHeight);
-        if (translation.scale.value > maxScale) translation.scale.value = withSpring(maxScale);
-        if (translation.scale.value < 1) translation.scale.value = withSpring(1);
+        if (translation.x.value < -(imageWidth - width + scaleWidth)) translation.x.value = withSpring(-(imageWidth - width + scaleWidth))
+        if (translation.x.value > scaleWidth) translation.x.value = withSpring(scaleWidth)
+        if (translation.y.value < -(imageHeight - height + scaleHeight)) translation.y.value = withSpring(-(imageHeight - height + scaleHeight))
+        if (translation.y.value > scaleHeight) translation.y.value = withSpring(scaleHeight)
+        if (translation.scale.value > maxScale) translation.scale.value = withSpring(maxScale)
+        if (translation.scale.value < 1) translation.scale.value = withSpring(1)
 
     }
 
@@ -88,12 +88,12 @@ const InstagramImageCropper: React.FC<InstagramImageCropperProps> = (props) => {
         AnimatedGHContext
     >({
         onStart: (_, ctx) => {
-            ctx.startX = translation.x.value;
-            ctx.startY = translation.y.value;
+            ctx.startX = translation.x.value
+            ctx.startY = translation.y.value
         },
         onActive: (event, ctx) => {
-            translation.x.value = ctx.startX + event.translationX;
-            translation.y.value = ctx.startY + event.translationY;
+            translation.x.value = ctx.startX + event.translationX
+            translation.y.value = ctx.startY + event.translationY
         },
         onEnd: (_) => {
             runOnJS(onEnd)()
@@ -105,10 +105,12 @@ const InstagramImageCropper: React.FC<InstagramImageCropperProps> = (props) => {
         AnimatedGHContext
     >({
         onStart: (_, ctx) => {
-            ctx.startScale = translation.scale.value;
+            ctx.startScale = translation.scale.value
+            ctx.startX = translation.x.value
+            ctx.startY = translation.y.value
         },
         onActive: (event, ctx) => {
-            translation.scale.value = ctx.startScale * event.scale;
+            translation.scale.value = ctx.startScale * event.scale
         },
         onEnd: (_) => {
             runOnJS(onEnd)()
@@ -200,7 +202,7 @@ InstagramImageCropper.defaultProps = {
     gridVerticalNum: 2,
     gridHorizontalNum: 2,
     gridColor: '#fff',
-    maxScale: 4,
+    maxScale: 2
 }
 
 export default InstagramImageCropper

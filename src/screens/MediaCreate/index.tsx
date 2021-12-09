@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Pressable, StyleSheet, Text, View, FlatList, Image } from 'react-native'
+import { Pressable, StyleSheet, Text, View, FlatList, Image, PermissionsAndroid } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Header from '../../components/headers/Header'
 import ScreenLayout from '../../components/layout/ScreenLayout'
@@ -8,8 +8,19 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import useGlobalUi from '../../hooks/useGlobalUi'
 import CameraRoll from "@react-native-community/cameraroll";
 import InstagramImageCropper from '../../components/croppers/InstagramImageCropper'
+import { IS_ANDROID } from '../../constants/values'
 
+const hasAndroidPermission = async () => {
+    const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
 
+    const hasPermission = await PermissionsAndroid.check(permission);
+    if (hasPermission) {
+        return true;
+    }
+
+    const status = await PermissionsAndroid.request(permission);
+    return status === 'granted';
+}
 
 const MediaCreate = () => {
 
@@ -33,17 +44,19 @@ const MediaCreate = () => {
 
     useEffect(() => {
         (async () => {
+            if (IS_ANDROID) await hasAndroidPermission()
             const { edges, page_info } = await CameraRoll.getPhotos({
                 assetType: 'Photos',
                 groupTypes: currentAlbum ? 'Album' : 'All',
                 first: 24,
-                groupName: currentAlbum || undefined
+                groupName: currentAlbum || undefined,
+                include: ['imageSize', 'filename']
             })
             setPhotos(edges)
             edges.length && setCurrentPhotos([edges[0]])
             setNextCursor(page_info.end_cursor)
         })()
-    }, [currentAlbum])
+    }, [currentAlbum, setPhotos])
 
     const onMultipleToggle = useCallback(() => {
         if (multiple && currentPhotos.length) setCurrentPhotos([currentPhotos[0]]) // 초기화
@@ -57,18 +70,19 @@ const MediaCreate = () => {
         })
     }, [albums])
 
-    const onEndReached = useCallback(async () => {
+    const onEndReached = async () => {
         if (!nextCursor) return
         const { edges, page_info } = await CameraRoll.getPhotos({
             assetType: 'Photos',
             groupTypes: currentAlbum ? 'Album' : 'All',
             first: 24,
             after: nextCursor,
-            groupName: currentAlbum || undefined
+            groupName: currentAlbum || undefined,
+            include: ['imageSize', 'filename']
         })
         setPhotos(prev => [...prev, ...edges])
         setNextCursor(page_info.end_cursor)
-    }, [albums, photos, nextCursor])
+    }
 
     const onSubmit = useCallback(() => {
 
@@ -76,7 +90,6 @@ const MediaCreate = () => {
 
     const onPhoto = useCallback((photo: CameraRoll.PhotoIdentifier) => {
         if (multiple) {
-
             if (currentPhotos.includes(photo)) setCurrentPhotos(prev => prev.filter(v => v !== photo))
             else {
                 if (currentPhotos.length >= 9) return toast({ content: '사진은 최대 9장까지 첨부할 수 있습니다' })
@@ -119,7 +132,7 @@ const MediaCreate = () => {
                 showsVerticalScrollIndicator={false}
                 keyExtractor={v => v.node.image.uri}
                 onEndReached={onEndReached}
-                renderItem={({ item, index }) => (
+                renderItem={({ item }) => (
                     <Pressable onPress={() => onPhoto(item)} >
                         <Image
                             style={styles.photo}
