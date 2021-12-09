@@ -27,6 +27,7 @@ import ChannelIOWrapper from '../wrappers/ChannelIOWrapper';
 import FCMWrapper from '../wrappers/FCMWrapper';
 import ScreenAnalyticsWrapper from '../wrappers/ScreenAnalyticsWrapper';
 import MyPets from '../screens/MyPets';
+import MediaCreate from '../screens/MediaCreate';
 
 
 
@@ -54,6 +55,7 @@ export type RootStackParamList = {
     PostEdit: PostEditProps
     PetList: undefined
     Browser: BrowserProps
+    MediaCreate: undefined
 }
 
 
@@ -65,7 +67,7 @@ const RootStack = createStackNavigator<RootStackParamList>()
 const RootStackNavigation = () => {
     return (
         <RootStack.Navigator
-            initialRouteName='Tab'
+            initialRouteName='MediaCreate'
             screenOptions={({ navigation }) => {
                 return {
                     header: () => <ScreenAnalyticsWrapper><ChannelIOWrapper><FCMWrapper /></ChannelIOWrapper></ScreenAnalyticsWrapper>,
@@ -95,6 +97,7 @@ const RootStackNavigation = () => {
             <RootStack.Screen name='PostEdit' component={PostEdit} />
             <RootStack.Screen name='PetList' component={PetList} />
             <RootStack.Screen name='Browser' component={Browser} />
+            <RootStack.Screen name='MediaCreate' component={MediaCreate} />
         </RootStack.Navigator>
     )
 }

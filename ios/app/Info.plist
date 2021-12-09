@@ -43,7 +43,7 @@
 			<true/>
 		</dict>
 		<key>NSCameraUsageDescription</key>
-		<string>프로필, 반려동물 이미지를 업로드와 채널톡 채팅시 첨부파일 업로드 용으로 사용됩니다</string>
+		<string>프로필, 게시물 이미지를 업로드와 채널톡 채팅시 첨부파일 업로드 용으로 사용됩니다</string>
 		<key>NSLocationWhenInUseUsageDescription</key>
 		<string>지도에 파란점으로 현재 위치 정보를 표시하기 위해 사용됩니다. 비승인시 앱에 현재 나의 위치가 표시되지 않습니다.</string>
 		<key>NSMicrophoneUsageDescription</key>
@@ -51,7 +51,7 @@
 		<key>NSPhotoLibraryAddUsageDescription</key>
 		<string>채널톡 채팅 사진 저장을 위해 사진 라이브러리에 액세스</string>
 		<key>NSPhotoLibraryUsageDescription</key>
-		<string>프로필, 반려동물 이미지를 업로드와 채널톡 채팅시 첨부파일 업로드 용으로 사용됩니다</string>
+		<string>프로필, 게시물 이미지를 업로드와 채널톡 채팅시 첨부파일 업로드 용으로 사용됩니다</string>
 		<key>UIAppFonts</key>
 		<array>
 			<string>BMJUA.ttf</string>

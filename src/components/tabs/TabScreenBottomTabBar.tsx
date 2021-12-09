@@ -28,7 +28,7 @@ const TABS = [
         icon: ({ color, focus }: { color: string, focus: boolean }) => <LocationIcon width={24} height={24} fill={color} />
     },
     {
-        name: 'CreateMedia',
+        name: 'MediaCreate',
         icon: ({ color, focus }: { color: string, focus: boolean }) => <UploadIcon width={24} height={24} fill={color} />
     },
     {
