@@ -28,7 +28,7 @@ import FCMWrapper from '../wrappers/FCMWrapper';
 import ScreenAnalyticsWrapper from '../wrappers/ScreenAnalyticsWrapper';
 import MyPets from '../screens/MyPets';
 import MediaCreateSelectPhoto from '../screens/MediaCreateSelectPhoto';
-import { MediaCreateProps } from '../screens/MediaCreate';
+import MediaCreate, { MediaCreateProps } from '../screens/MediaCreate';
 
 
 
@@ -100,6 +100,7 @@ const RootStackNavigation = () => {
             <RootStack.Screen name='PetList' component={PetList} />
             <RootStack.Screen name='Browser' component={Browser} />
             <RootStack.Screen name='MediaCreateSelectPhoto' component={MediaCreateSelectPhoto} />
+            <RootStack.Screen name='MediaCreate' component={MediaCreate} />
         </RootStack.Navigator>
     )
 }

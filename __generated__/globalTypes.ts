@@ -333,6 +333,12 @@ export interface CreateChatInput {
   image?: string | null;
 }
 
+export interface CreateMediaInput {
+  content: string;
+  imageUrls: string[];
+  taggedPetIds: string[];
+}
+
 export interface CreatePostInput {
   content: string;
   type: PostType;
@@ -451,7 +457,7 @@ export interface MediaCommentWhereUniqueInput {
 
 export interface MediaCreateManyUserInput {
   id?: string | null;
-  createdAt: any;
+  createdAt?: any | null;
   content: string;
   isInstagram?: boolean | null;
 }
@@ -508,7 +514,7 @@ export interface MediaCreateOrConnectWithoutUserInput {
 
 export interface MediaCreateWithoutLikedUsersInput {
   id?: string | null;
-  createdAt: any;
+  createdAt?: any | null;
   content: string;
   isInstagram?: boolean | null;
   images?: MediaImageCreateNestedManyWithoutMediaInput | null;
@@ -519,7 +525,7 @@ export interface MediaCreateWithoutLikedUsersInput {
 
 export interface MediaCreateWithoutMediaCommentInput {
   id?: string | null;
-  createdAt: any;
+  createdAt?: any | null;
   content: string;
   isInstagram?: boolean | null;
   images?: MediaImageCreateNestedManyWithoutMediaInput | null;
@@ -530,7 +536,7 @@ export interface MediaCreateWithoutMediaCommentInput {
 
 export interface MediaCreateWithoutTagedPetsInput {
   id?: string | null;
-  createdAt: any;
+  createdAt?: any | null;
   content: string;
   isInstagram?: boolean | null;
   images?: MediaImageCreateNestedManyWithoutMediaInput | null;
@@ -541,7 +547,7 @@ export interface MediaCreateWithoutTagedPetsInput {
 
 export interface MediaCreateWithoutUserInput {
   id?: string | null;
-  createdAt: any;
+  createdAt?: any | null;
   content: string;
   isInstagram?: boolean | null;
   images?: MediaImageCreateNestedManyWithoutMediaInput | null;

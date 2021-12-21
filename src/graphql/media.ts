@@ -1,5 +1,6 @@
 import gql from "graphql-tag"
-import { createQueryHook } from "../lib/createApolloHook"
+import { createMutationHook, createQueryHook } from "../lib/createApolloHook"
+import { createMedia, createMediaVariables } from "./__generated__/createMedia"
 import { mediasByUserId, mediasByUserIdVariables } from "./__generated__/mediasByUserId"
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -18,4 +19,18 @@ query mediasByUserId($userId:String!, $instagramEndCursor: String) {
 `
 
 export const useMediasByUserId = createQueryHook<mediasByUserId, mediasByUserIdVariables>(MEDIAS_BY_USER_ID)
+//--------------------------------------------------------------------------------------------------------------------------------------------------------//
+export const CREATE_MDDIA = gql`
+mutation createMedia($input:CreateMediaInput!) {
+    createMedia(input:$input) {
+        id
+    }
+}
+`
+
+export const useCreateMedia = createMutationHook<createMedia, createMediaVariables>(CREATE_MDDIA)
+//--------------------------------------------------------------------------------------------------------------------------------------------------------//
+//--------------------------------------------------------------------------------------------------------------------------------------------------------//
+//--------------------------------------------------------------------------------------------------------------------------------------------------------//
+//--------------------------------------------------------------------------------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
