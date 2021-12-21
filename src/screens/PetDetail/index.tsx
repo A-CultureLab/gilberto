@@ -1,195 +1,328 @@
-import useNavigation from '../../hooks/useNavigation'
-import React from 'react'
-import { Pressable, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native'
-import FastImage from 'react-native-fast-image'
-import LinearGradient from 'react-native-linear-gradient'
-import UserFooter from '../../components/footers/UserFooter'
+import React, { useCallback, useContext, useState } from 'react'
+import { Pressable, ScrollView, StyleSheet, Text, View, Linking, TouchableOpacity, Share, FlatList, ActivityIndicator } from 'react-native'
 import Header from '../../components/headers/Header'
 import ScreenLayout from '../../components/layout/ScreenLayout'
-import { COLOR1, GRAY1, GRAY3, STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles'
-import { usePet } from '../../graphql/pet'
-import genderGenerator from '../../lib/genderGenerator'
+import { COLOR1, GRAY1, GRAY2, GRAY3, WIDTH } from '../../constants/styles'
+import useNavigation from '../../hooks/useNavigation'
+import { useMyPets, usePet } from '../../graphql/pet'
+import FastImage from 'react-native-fast-image'
+import TabScreenBottomTabBar from '../../components/tabs/TabScreenBottomTabBar'
+import IconMC from 'react-native-vector-icons/MaterialCommunityIcons'
+import followCountUnit from '../../utils/followCountUnit'
+import { useMediasByPetId, useMediasByUserId } from '../../graphql/media'
+import useRefreshing from '../../hooks/useRefreshing'
 import useRoute from '../../hooks/useRoute'
-
+import genderGenerator from '../../lib/genderGenerator'
+import { AuthContext } from '../../wrappers/AuthWrapper'
+import { useIUser } from '../../graphql/user'
+import Icon from 'react-native-vector-icons/MaterialIcons'
+import useGlobalUi from '../../hooks/useGlobalUi'
 export interface PetDetailProps {
     id: string
 }
 
 const PetDetail = () => {
 
-    const { params: { id } } = useRoute<'PetDetail'>()
     const { navigate } = useNavigation()
+    const { params: { id } } = useRoute<'PetDetail'>()
+    const { select, toast } = useGlobalUi()
 
-    const { data, loading } = usePet({ variables: { id } })
+    const { data: iUserData } = useIUser()
+    const { data: petData, refetch: iUserRefetch } = usePet({ variables: { id } })
+    const { data: media, refetch: mediaRefetch, fetchMore, loading } = useMediasByPetId({ variables: { petId: id } })
+    const [fetchMoreLoading, setFetchMoreLoading] = useState(false)
 
-    const pet = data?.pet
+    const [ended, setEnded] = useState(false)
+
+    const isIUser = iUserData?.iUser.id === petData?.pet.user.id
+
+
+
+
+
+    const refreshing = useRefreshing(async () => {
+        try {
+            await Promise.all([
+                iUserRefetch(),
+                mediaRefetch()
+            ])
+        } catch (error) { }
+    })
+
+    const onEndReached = async () => {
+        if (fetchMoreLoading) return
+        if (ended) return
+        setFetchMoreLoading(true)
+        const { data } = await fetchMore({
+            variables: {
+                skip: media?.mediasByPetId.length
+            }
+        })
+        setEnded(!data.mediasByPetId.length)
+        setFetchMoreLoading(false)
+    }
+
+    const onMore = useCallback(() => {
+        select({
+            list: ['신고하기'],
+            onSelect: (i) => {
+                if (i === 0) toast({ content: '신고가 접수되었습니다' })
+            }
+        })
+    }, [isIUser])
+
+    const onFollow = useCallback(() => {
+
+    }, [])
+
+    const onChat = useCallback(() => {
+        if (!petData) return
+        navigate('ChatDetail', { userId: petData.pet.user.id })
+    }, [petData])
+
+
+
+
+    if (!petData || !iUserData) return null
 
     return (
-        <ScreenLayout translucent >
-            <StatusBar barStyle='light-content' />
-            {/* Body */}
-            {pet &&
-                <ScrollView
-                    showsVerticalScrollIndicator={false}
-                    overScrollMode='never'
-                >
-                    <Pressable onPress={() =>
-                        navigate('ImageDetail', {
-                            urls: [pet.image],
-                            index: 0
-                        })}
-                    >
-                        <FastImage style={styles.image} source={{ uri: pet.image }} />
-                    </Pressable>
-                    {/* 이름, 종, 성격 */}
-                    <View style={styles.titleCotnainer} >
-                        <Text style={styles.name} >{pet.name}<Text style={styles.species} >· {pet.species}</Text></Text>
-                        <Text style={styles.character} >{pet.character}</Text>
-                    </View>
-                    {/* 펫 세부 정보 */}
-                    <View style={styles.petInfoContainer} >
-                        <View style={styles.petInfoItem} >
-                            <Text style={styles.petInfoLabel} >성별</Text>
-                            <Text style={styles.petInfo} >{genderGenerator.pet(pet.gender)}</Text>
-                        </View>
-                        <View style={styles.petInfoItem} >
-                            <Text style={styles.petInfoLabel} >나이</Text>
-                            <Text style={styles.petInfo} >{pet.age}</Text>
-                        </View>
-                        <View style={styles.petInfoItem} >
-                            <Text style={styles.petInfoLabel} >무게</Text>
-                            <Text style={styles.petInfo} >{pet.weight}kg</Text>
-                        </View>
-                        <View style={styles.petInfoItem} >
-                            <Text style={styles.petInfoLabel} >중성화</Text>
-                            <Text style={styles.petInfo} >{pet.neutered ? 'O' : 'X'}</Text>
-                        </View>
-                        <View style={styles.petInfoItem} >
-                            <Text style={styles.petInfoLabel} >예방접종</Text>
-                            <Text style={styles.petInfo} >{pet.vaccinated ? 'O' : 'X'}</Text>
-                        </View>
-                    </View>
-                    {/* 가족 */}
-                    <View >
-                        <Text style={styles.familyTitle} >가족</Text>
-                        <ScrollView
-                            style={styles.familyScrollView}
-                            horizontal
-                            contentContainerStyle={{ alignItems: 'center' }}
-                            overScrollMode='never'
-                            showsHorizontalScrollIndicator={false}
-                        >
-                            <View style={{ width: 8 }} />
-                            <Pressable onPress={() => navigate('UserDetail', { id: pet.user.id })} >
-                                <FastImage
-                                    source={{ uri: pet.user.image }}
-                                    style={styles.familyImage}
-                                />
-                            </Pressable>
-                            {pet.user.pets.length !== 1 && <View style={styles.familyLine} />}
-                            {pet.user.pets.filter(v => v.id !== id).map(v => (
-                                <Pressable key={v.id} onPress={() => navigate('PetDetail', { id: v.id })} >
+        <ScreenLayout>
+            <Header
+                title={petData.pet.user.profileId}
+                underline={false}
+                right={() => <Pressable onPress={onMore} style={styles.headerBtn} ><Icon size={24} color={GRAY1} name='more-vert' /></Pressable>}
+            />
+            <FlatList
+                showsVerticalScrollIndicator={false}
+                overScrollMode='never'
+                ListHeaderComponent={
+                    <>
+                        <View style={styles.profileInfoContainer} >
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }} >
+                                <Pressable onPress={() => navigate('ImageDetail', { index: 0, urls: [petData.pet.image, petData.pet.user.image, ...petData.pet.user.pets.filter(v => v.id !== id).map(v => v.image)] })}>
                                     <FastImage
-                                        key={v.id}
-                                        source={{ uri: v.image }}
-                                        style={styles.familyImage}
+                                        style={styles.profileImage}
+                                        source={{ uri: petData.pet.image }}
                                     />
                                 </Pressable>
-                            ))}
-                            <View style={{ width: 8 }} />
-                        </ScrollView>
-                    </View>
-                </ScrollView>
-            }
-            {/* Header */}
-            <LinearGradient
-                colors={['rgba(0, 0, 0, 0.4)', 'rgba(0, 0, 0, 0)']}
-                style={styles.headerContainer}
-            >
-                <Header
-                    backBtnColor='#fff'
+                                <View style={styles.profileLine} />
+                                <FlatList
+                                    horizontal
+                                    showsHorizontalScrollIndicator={false}
+                                    data={petData.pet.user.pets.filter(v => v.id !== petData.pet.id)}
+                                    ListHeaderComponent={
+                                        <Pressable
+                                            style={[styles.petContainer, { marginLeft: 16 }]}
+                                            onPress={() => navigate('UserDetail', { id: petData.pet.user.id })}
+                                        >
+                                            <FastImage
+                                                source={{ uri: petData.pet.user.image }}
+                                                style={[styles.petImage, { borderWidth: 1, borderColor: COLOR1 }]}
+                                            />
+                                            <Text style={{ fontSize: 12, fontWeight: 'bold' }} >{petData.pet.user.name}</Text>
+                                        </Pressable>
 
-                    underline={false}
-                    style={{ marginTop: STATUSBAR_HEIGHT }}
-                />
-            </LinearGradient>
-            {/* Footer */}
-            {data && <UserFooter
-                user={data.pet.user}
-            />}
-        </ScreenLayout>
+                                    }
+                                    renderItem={({ item }) =>
+                                        <Pressable
+                                            style={styles.petContainer}
+                                            onPress={() => navigate('PetDetail', { id: item.id })}
+                                        >
+                                            <FastImage
+                                                source={{ uri: item.image }}
+                                                style={styles.petImage}
+                                            />
+                                            <Text style={{ fontSize: 12 }} >{item.name}</Text>
+                                        </Pressable>
+                                    }
+                                />
+                            </View>
+                            <View style={{ flexDirection: 'row', alignItems: 'flex-end', marginTop: 24 }} >
+                                <Text style={styles.name} >{petData.pet.name}</Text>
+                                <Text style={{ fontWeight: 'bold', color: GRAY1, fontSize: 12, marginLeft: 8, marginBottom: 2 }} >{genderGenerator.pet(petData.pet.gender)} • {petData.pet.age} • {petData.pet.weight}kg</Text>
+                            </View>
+                            <Text style={styles.address} >{petData.pet.species}</Text>
+                        </View>
+                        <View style={styles.followInfoContainer} >
+                            <Pressable
+                                onPress={() => { }}
+                                android_ripple={{ color: GRAY2 }}
+                                style={styles.followInfoBtn}
+                            >
+                                <Text style={styles.followInfoCount} >{followCountUnit(petData.pet.mediaCount)}</Text>
+                                <Text>게시물</Text>
+                            </Pressable>
+                            <Pressable
+                                onPress={() => { }}
+                                android_ripple={{ color: GRAY2 }}
+                                style={styles.followInfoBtn}
+                            >
+                                <Text style={styles.followInfoCount} >{followCountUnit(petData.pet.user.followerCount)}</Text>
+                                <Text>팔로워</Text>
+                            </Pressable>
+                            <Pressable
+                                onPress={() => { }}
+                                android_ripple={{ color: GRAY2 }}
+                                style={styles.followInfoBtn}
+                            >
+                                <Text style={styles.followInfoCount} >{followCountUnit(petData.pet.user.followingCount)}</Text>
+                                <Text>팔로잉</Text>
+                            </Pressable>
+                            <View style={{ flex: 1 }} />
+                            {iUserData.iUser.id !== petData.pet.user.id && <>
+                                <Pressable
+                                    onPress={onFollow}
+                                    style={[styles.editProfileBtn, { marginRight: 12, backgroundColor: COLOR1 }]}
+                                    android_ripple={{ color: GRAY2 }}
+                                >
+                                    <Text style={{ color: '#fff', marginHorizontal: 3 }} >팔로우</Text>
+                                </Pressable>
+                                <Pressable
+                                    onPress={onChat}
+                                    style={styles.editProfileBtn}
+                                    android_ripple={{ color: GRAY2 }}
+                                >
+                                    <Text>채팅</Text>
+                                </Pressable>
+                            </>}
+                        </View>
+                    </>
+                }
+                ListEmptyComponent={
+                    loading
+                        ?
+                        <ActivityIndicator style={{ marginTop: 32 }
+                        } size='small' color={GRAY1} />
+                        : <Text style={styles.emptyString} >게시물이 없습니다</Text>
+                }
+                ListFooterComponent={
+                    fetchMoreLoading ? <ActivityIndicator style={{ marginVertical: 32 }
+                    } size='small' color={GRAY1} /> : null
+                }
+                renderItem={({ item }) =>
+                    <Pressable>
+                        <FastImage
+                            style={{ width: WIDTH / 3, height: WIDTH / 3, }}
+                            source={{ uri: item.thumnail }}
+                        />
+                        {item.isInstagram && <IconMC style={styles.itemInstagramIcon} name='instagram' size={20} color={GRAY3} />}
+                    </Pressable>
+                }
+                {...refreshing}
+                numColumns={3}
+                onEndReached={onEndReached}
+                onEndReachedThreshold={0.5}
+                data={media?.mediasByPetId || []}
+            />
+        </ScreenLayout >
     )
 }
 
 export default PetDetail
 
 const styles = StyleSheet.create({
-    headerContainer: {
-        height: 56 + STATUSBAR_HEIGHT,
-        position: 'absolute',
-        top: 0, left: 0, right: 0,
-        zIndex: 99
+    headerBtn: {
+        width: 56,
+        height: 56,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
-    image: {
-        width: WIDTH,
-        height: WIDTH,
+    profileImage: {
+        width: 80,
+        height: 80,
+        marginRight: 20,
+        borderRadius: 40,
+        borderWidth: 1,
+        borderColor: GRAY3
     },
-    titleCotnainer: {
-        paddingVertical: 24,
-        paddingHorizontal: 16,
-        borderBottomColor: GRAY3,
-        borderBottomWidth: 1
+    profileLine: {
+        width: 1,
+        height: 60,
+        backgroundColor: '#eee'
+    },
+    profileInfoContainer: {
+        width: '100%',
+        paddingHorizontal: 20,
+        paddingTop: 24,
+        paddingBottom: 16,
+        borderBottomWidth: 1,
+        borderBottomColor: GRAY3
+    },
+    petContainer: {
+        height: 80,
+        alignItems: 'center',
+        marginRight: 16,
+    },
+    petImage: {
+        width: 56,
+        height: 56,
+        borderRadius: 28,
+        borderWidth: 1,
+        borderColor: GRAY3,
+        marginBottom: 8,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     name: {
         fontSize: 18,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     },
-    species: {
-        fontSize: 18,
+    address: {
+        marginTop: 12,
         color: GRAY1
     },
-    character: {
-        marginTop: 8,
-        fontWeight: 'bold',
-        color: COLOR1
-    },
-    petInfoContainer: {
+    introduceContainer: {
+        width: '100%',
         borderBottomWidth: 1,
         borderBottomColor: GRAY3,
-        flexDirection: 'row',
-        alignItems: 'center',
-        height: 104
+        paddingVertical: 20,
+        paddingHorizontal: 20
     },
-    petInfoItem: {
-        flex: 1,
+    followInfoContainer: {
+        width: '100%',
+        flexDirection: 'row',
+        paddingVertical: 24,
+        paddingLeft: 8,
+        paddingRight: 16,
+        alignItems: 'center',
+        borderBottomWidth: 1,
+        borderBottomColor: GRAY3,
+    },
+    followInfoBtn: {
+        alignItems: 'center',
+        paddingHorizontal: 12,
+    },
+    followInfoCount: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginBottom: 4
+    },
+    followBtn: {
+        height: 32,
+        paddingHorizontal: 16,
+        borderRadius: 4,
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: COLOR1,
+        marginLeft: 16
     },
-    petInfoLabel: {
+    editProfileBtn: {
+        paddingHorizontal: 16,
+        height: 40,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: GRAY3,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    emptyString: {
+        alignSelf: 'center',
+        marginTop: 40,
         color: GRAY1
     },
-    petInfo: {
-        marginTop: 16
-    },
-    familyTitle: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginLeft: 16,
-        marginTop: 24,
-    },
-    familyScrollView: {
-        height: 72 + 24 + 24
-    },
-    familyImage: {
-        width: 72,
-        height: 72,
-        borderRadius: 36,
-        marginHorizontal: 8
-    },
-    familyLine: {
-        height: 32,
-        width: 1,
-        backgroundColor: GRAY3,
-        marginHorizontal: 8
+    itemInstagramIcon: {
+        position: 'absolute',
+        bottom: 8,
+        right: 8
     }
 })

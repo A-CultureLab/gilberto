@@ -174,15 +174,18 @@ export const PET = gql`
         gender
         age
         weight
+        mediaCount
         user {
             id
             image
+            profileId
             name
-            gender
-            age
+            followerCount
+            followingCount
             pets {
                 id
                 image
+                name
             }
         } 
     }

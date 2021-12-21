@@ -13,15 +13,17 @@ export interface pet_pet_user_pets {
   __typename: "Pet";
   id: string;
   image: string;
+  name: string;
 }
 
 export interface pet_pet_user {
   __typename: "User";
   id: string;
   image: string;
+  profileId: string;
   name: string;
-  gender: Gender;
-  age: number;
+  followerCount: number;
+  followingCount: number;
   pets: pet_pet_user_pets[];
 }
 
@@ -35,6 +37,7 @@ export interface pet_pet {
   gender: Gender;
   age: string;
   weight: number;
+  mediaCount: number;
   user: pet_pet_user;
 }
 
