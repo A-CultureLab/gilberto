@@ -5,8 +5,8 @@ import { mediasByUserId, mediasByUserIdVariables } from "./__generated__/mediasB
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 export const MEDIAS_BY_USER_ID = gql`
-query mediasByUserId($userId:String!, $instagramEndCursor: String) {
-    mediasByUserId(userId:$userId, instagramEndCursor:$instagramEndCursor) {
+query mediasByUserId($userId:String!, $instagramEndCursor: String, $endCursor: String) {
+    mediasByUserId(userId:$userId, instagramEndCursor:$instagramEndCursor, endCursor:$endCursor) {
         id
         instagramEndCursor
         thumnail

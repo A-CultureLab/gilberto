@@ -18,7 +18,7 @@ export interface mediasByUserId_mediasByUserId {
   id: string;
   instagramEndCursor: string | null;
   thumnail: string;
-  media: mediasByUserId_mediasByUserId_media | null;
+  media: mediasByUserId_mediasByUserId_media;
 }
 
 export interface mediasByUserId {
@@ -28,4 +28,5 @@ export interface mediasByUserId {
 export interface mediasByUserIdVariables {
   userId: string;
   instagramEndCursor?: string | null;
+  endCursor?: string | null;
 }

@@ -28,16 +28,23 @@ const MyPage = () => {
 
     const refreshing = useRefreshing(async () => {
         try {
-            await iUserRefetch()
-            await petRefetch()
-            await mediaRefetch()
+            await Promise.all([
+                iUserRefetch(),
+                petRefetch(),
+                mediaRefetch()
+            ])
         } catch (error) { }
     })
 
     const onEndReached = async () => {
         if (fetchMoreLoading) return
         setFetchMoreLoading(true)
-        await fetchMore({ variables: { instagramEndCursor: media?.mediasByUserId.filter(v => !!v.media?.isInstagram).pop()?.instagramEndCursor } })
+        await fetchMore({
+            variables: {
+                instagramEndCursor: media?.mediasByUserId.filter(v => !!v.media?.isInstagram).pop()?.instagramEndCursor,
+                endCursor: media?.mediasByUserId.filter(v => !v.media?.isInstagram).pop()?.media.id
+            }
+        })
         setFetchMoreLoading(false)
     }
 
