@@ -182,6 +182,7 @@ export const PET = gql`
             name
             followerCount
             followingCount
+            isIFollowed
             pets {
                 id
                 image

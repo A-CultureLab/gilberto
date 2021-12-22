@@ -147,7 +147,7 @@ const MyPage = () => {
                                 <Text>게시물</Text>
                             </Pressable>
                             <Pressable
-                                onPress={() => { }}
+                                onPress={() => navigate('Follows', { type: 'followers', userId: userData.iUser.id })}
                                 android_ripple={{ color: GRAY2 }}
                                 style={styles.followInfoBtn}
                             >
@@ -155,7 +155,7 @@ const MyPage = () => {
                                 <Text>팔로워</Text>
                             </Pressable>
                             <Pressable
-                                onPress={() => { }}
+                                onPress={() => navigate('Follows', { type: 'followings', userId: userData.iUser.id })}
                                 android_ripple={{ color: GRAY2 }}
                                 style={styles.followInfoBtn}
                             >

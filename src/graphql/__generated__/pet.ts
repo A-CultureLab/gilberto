@@ -24,6 +24,7 @@ export interface pet_pet_user {
   name: string;
   followerCount: number;
   followingCount: number;
+  isIFollowed: boolean;
   pets: pet_pet_user_pets[];
 }
 

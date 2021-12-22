@@ -29,6 +29,7 @@ import ScreenAnalyticsWrapper from '../wrappers/ScreenAnalyticsWrapper';
 import MyPets from '../screens/MyPets';
 import MediaCreateSelectPhoto from '../screens/MediaCreateSelectPhoto';
 import MediaCreate, { MediaCreateProps } from '../screens/MediaCreate';
+import Follows, { FollowsProps } from '../screens/Follows';
 
 
 
@@ -58,6 +59,7 @@ export type RootStackParamList = {
     Browser: BrowserProps
     MediaCreateSelectPhoto: undefined
     MediaCreate: MediaCreateProps
+    Follows: FollowsProps
 }
 
 
@@ -101,6 +103,7 @@ const RootStackNavigation = () => {
             <RootStack.Screen name='Browser' component={Browser} />
             <RootStack.Screen name='MediaCreateSelectPhoto' component={MediaCreateSelectPhoto} />
             <RootStack.Screen name='MediaCreate' component={MediaCreate} />
+            <RootStack.Screen name='Follows' component={Follows} />
         </RootStack.Navigator>
     )
 }

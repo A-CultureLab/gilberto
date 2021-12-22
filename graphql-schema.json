@@ -2098,7 +2098,7 @@
                 "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
-                  "name": "UserWhereUniqueInput",
+                  "name": "FollowWhereUniqueInput",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -2117,7 +2117,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "OBJECT",
-                    "name": "User",
+                    "name": "Follow",
                     "ofType": null
                   }
                 }
@@ -2159,7 +2159,7 @@
                 "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
-                  "name": "UserWhereUniqueInput",
+                  "name": "FollowWhereUniqueInput",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -2178,7 +2178,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "OBJECT",
-                    "name": "User",
+                    "name": "Follow",
                     "ofType": null
                   }
                 }
@@ -5740,6 +5740,114 @@
         "possibleTypes": null
       },
       {
+        "kind": "OBJECT",
+        "name": "Follow",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": [
+          {
+            "name": "id",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "createdAt",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "targetUser",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "user",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "targetUserId",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "userId",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
         "kind": "ENUM",
         "name": "PetGroupByAddressGroupBy",
         "description": null,
@@ -7940,6 +8048,136 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "followers",
+            "description": null,
+            "args": [
+              {
+                "name": "userId",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "take",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": "20",
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "skip",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": "0",
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Follow",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "followings",
+            "description": null,
+            "args": [
+              {
+                "name": "userId",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "take",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": "20",
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "skip",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": "0",
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Follow",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -9203,6 +9441,64 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "following",
+            "description": null,
+            "args": [
+              {
+                "name": "userId",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Follow",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "disFollowing",
+            "description": null,
+            "args": [
+              {
+                "name": "userId",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -9476,49 +9772,13 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "UserWhereUniqueInput",
+        "name": "FollowWhereUniqueInput",
         "description": null,
         "specifiedByUrl": null,
         "fields": null,
         "inputFields": [
           {
             "name": "id",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "phone",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "profileId",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "addressId",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -9639,6 +9899,66 @@
         "inputFields": [
           {
             "name": "id",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "UserWhereUniqueInput",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "id",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "phone",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "profileId",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "addressId",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -11690,7 +12010,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserListRelationFilter",
+              "name": "FollowListRelationFilter",
               "ofType": null
             },
             "defaultValue": null,
@@ -11702,7 +12022,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserListRelationFilter",
+              "name": "FollowListRelationFilter",
               "ofType": null
             },
             "defaultValue": null,
@@ -14516,7 +14836,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "UserListRelationFilter",
+        "name": "FollowListRelationFilter",
         "description": null,
         "specifiedByUrl": null,
         "fields": null,
@@ -14526,7 +14846,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserWhereInput",
+              "name": "FollowWhereInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -14538,7 +14858,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserWhereInput",
+              "name": "FollowWhereInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -14550,7 +14870,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserWhereInput",
+              "name": "FollowWhereInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -14771,6 +15091,54 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "PostImageWhereInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "UserListRelationFilter",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "every",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UserWhereInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "some",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UserWhereInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "none",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UserWhereInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -15206,7 +15574,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserCreateNestedManyWithoutFollowingsInput",
+              "name": "FollowCreateNestedManyWithoutTargetUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -15218,7 +15586,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserCreateNestedManyWithoutFollowersInput",
+              "name": "FollowCreateNestedManyWithoutUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -16090,7 +16458,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserCreateNestedManyWithoutFollowingsInput",
+              "name": "FollowCreateNestedManyWithoutTargetUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -16102,7 +16470,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserCreateNestedManyWithoutFollowersInput",
+              "name": "FollowCreateNestedManyWithoutUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -16770,7 +17138,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserCreateNestedManyWithoutFollowingsInput",
+              "name": "FollowCreateNestedManyWithoutTargetUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -16782,7 +17150,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserCreateNestedManyWithoutFollowersInput",
+              "name": "FollowCreateNestedManyWithoutUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -17302,7 +17670,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserUpdateManyWithoutFollowingsInput",
+              "name": "FollowUpdateManyWithoutTargetUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -17314,7 +17682,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserUpdateManyWithoutFollowersInput",
+              "name": "FollowUpdateManyWithoutUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -18194,7 +18562,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserCreateNestedManyWithoutFollowingsInput",
+              "name": "FollowCreateNestedManyWithoutTargetUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -18206,7 +18574,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserCreateNestedManyWithoutFollowersInput",
+              "name": "FollowCreateNestedManyWithoutUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -19182,7 +19550,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserCreateNestedManyWithoutFollowingsInput",
+              "name": "FollowCreateNestedManyWithoutTargetUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -19194,7 +19562,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserCreateNestedManyWithoutFollowersInput",
+              "name": "FollowCreateNestedManyWithoutUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -21752,6 +22120,150 @@
       },
       {
         "kind": "INPUT_OBJECT",
+        "name": "FollowWhereInput",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "AND",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "FollowWhereInput",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "OR",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "FollowWhereInput",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "NOT",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "FollowWhereInput",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "id",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "StringFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "createdAt",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "DateTimeFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "targetUser",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UserWhereInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "user",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UserWhereInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "targetUserId",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "StringFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "userId",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "StringFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
         "name": "MediaCommentWhereInput",
         "description": null,
         "specifiedByUrl": null,
@@ -23244,7 +23756,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "UserCreateNestedManyWithoutFollowingsInput",
+        "name": "FollowCreateNestedManyWithoutTargetUserInput",
         "description": null,
         "specifiedByUrl": null,
         "fields": null,
@@ -23260,7 +23772,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "UserCreateWithoutFollowingsInput",
+                  "name": "FollowCreateWithoutTargetUserInput",
                   "ofType": null
                 }
               }
@@ -23280,10 +23792,22 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "UserCreateOrConnectWithoutFollowingsInput",
+                  "name": "FollowCreateOrConnectWithoutTargetUserInput",
                   "ofType": null
                 }
               }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "createMany",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "FollowCreateManyTargetUserInputEnvelope",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -23300,7 +23824,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "UserWhereUniqueInput",
+                  "name": "FollowWhereUniqueInput",
                   "ofType": null
                 }
               }
@@ -23316,7 +23840,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "UserCreateNestedManyWithoutFollowersInput",
+        "name": "FollowCreateNestedManyWithoutUserInput",
         "description": null,
         "specifiedByUrl": null,
         "fields": null,
@@ -23332,7 +23856,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "UserCreateWithoutFollowersInput",
+                  "name": "FollowCreateWithoutUserInput",
                   "ofType": null
                 }
               }
@@ -23352,10 +23876,22 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "UserCreateOrConnectWithoutFollowersInput",
+                  "name": "FollowCreateOrConnectWithoutUserInput",
                   "ofType": null
                 }
               }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "createMany",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "FollowCreateManyUserInputEnvelope",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -23372,7 +23908,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "UserWhereUniqueInput",
+                  "name": "FollowWhereUniqueInput",
                   "ofType": null
                 }
               }
@@ -26664,7 +27200,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "UserUpdateManyWithoutFollowingsInput",
+        "name": "FollowUpdateManyWithoutTargetUserInput",
         "description": null,
         "specifiedByUrl": null,
         "fields": null,
@@ -26680,7 +27216,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "UserCreateWithoutFollowingsInput",
+                  "name": "FollowCreateWithoutTargetUserInput",
                   "ofType": null
                 }
               }
@@ -26700,7 +27236,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "UserCreateOrConnectWithoutFollowingsInput",
+                  "name": "FollowCreateOrConnectWithoutTargetUserInput",
                   "ofType": null
                 }
               }
@@ -26720,10 +27256,22 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "UserUpsertWithWhereUniqueWithoutFollowingsInput",
+                  "name": "FollowUpsertWithWhereUniqueWithoutTargetUserInput",
                   "ofType": null
                 }
               }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "createMany",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "FollowCreateManyTargetUserInputEnvelope",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -26740,7 +27288,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "UserWhereUniqueInput",
+                  "name": "FollowWhereUniqueInput",
                   "ofType": null
                 }
               }
@@ -26760,7 +27308,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "UserWhereUniqueInput",
+                  "name": "FollowWhereUniqueInput",
                   "ofType": null
                 }
               }
@@ -26780,7 +27328,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "UserWhereUniqueInput",
+                  "name": "FollowWhereUniqueInput",
                   "ofType": null
                 }
               }
@@ -26800,7 +27348,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "UserWhereUniqueInput",
+                  "name": "FollowWhereUniqueInput",
                   "ofType": null
                 }
               }
@@ -26820,7 +27368,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "UserUpdateWithWhereUniqueWithoutFollowingsInput",
+                  "name": "FollowUpdateWithWhereUniqueWithoutTargetUserInput",
                   "ofType": null
                 }
               }
@@ -26840,7 +27388,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "UserUpdateManyWithWhereWithoutFollowingsInput",
+                  "name": "FollowUpdateManyWithWhereWithoutTargetUserInput",
                   "ofType": null
                 }
               }
@@ -26860,7 +27408,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "UserScalarWhereInput",
+                  "name": "FollowScalarWhereInput",
                   "ofType": null
                 }
               }
@@ -26876,7 +27424,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "UserUpdateManyWithoutFollowersInput",
+        "name": "FollowUpdateManyWithoutUserInput",
         "description": null,
         "specifiedByUrl": null,
         "fields": null,
@@ -26892,7 +27440,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "UserCreateWithoutFollowersInput",
+                  "name": "FollowCreateWithoutUserInput",
                   "ofType": null
                 }
               }
@@ -26912,7 +27460,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "UserCreateOrConnectWithoutFollowersInput",
+                  "name": "FollowCreateOrConnectWithoutUserInput",
                   "ofType": null
                 }
               }
@@ -26932,10 +27480,22 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "UserUpsertWithWhereUniqueWithoutFollowersInput",
+                  "name": "FollowUpsertWithWhereUniqueWithoutUserInput",
                   "ofType": null
                 }
               }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "createMany",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "FollowCreateManyUserInputEnvelope",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -26952,7 +27512,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "UserWhereUniqueInput",
+                  "name": "FollowWhereUniqueInput",
                   "ofType": null
                 }
               }
@@ -26972,7 +27532,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "UserWhereUniqueInput",
+                  "name": "FollowWhereUniqueInput",
                   "ofType": null
                 }
               }
@@ -26992,7 +27552,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "UserWhereUniqueInput",
+                  "name": "FollowWhereUniqueInput",
                   "ofType": null
                 }
               }
@@ -27012,7 +27572,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "UserWhereUniqueInput",
+                  "name": "FollowWhereUniqueInput",
                   "ofType": null
                 }
               }
@@ -27032,7 +27592,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "UserUpdateWithWhereUniqueWithoutFollowersInput",
+                  "name": "FollowUpdateWithWhereUniqueWithoutUserInput",
                   "ofType": null
                 }
               }
@@ -27052,7 +27612,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "UserUpdateManyWithWhereWithoutFollowersInput",
+                  "name": "FollowUpdateManyWithWhereWithoutUserInput",
                   "ofType": null
                 }
               }
@@ -27072,7 +27632,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "UserScalarWhereInput",
+                  "name": "FollowScalarWhereInput",
                   "ofType": null
                 }
               }
@@ -28290,7 +28850,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserUpdateManyWithoutFollowingsInput",
+              "name": "FollowUpdateManyWithoutTargetUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -28302,7 +28862,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserUpdateManyWithoutFollowersInput",
+              "name": "FollowUpdateManyWithoutUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -28974,7 +29534,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserUpdateManyWithoutFollowingsInput",
+              "name": "FollowUpdateManyWithoutTargetUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -28986,7 +29546,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserUpdateManyWithoutFollowersInput",
+              "name": "FollowUpdateManyWithoutUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -32268,7 +32828,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "UserCreateWithoutFollowingsInput",
+        "name": "FollowCreateWithoutTargetUserInput",
         "description": null,
         "specifiedByUrl": null,
         "fields": null,
@@ -32298,448 +32858,16 @@
             "deprecationReason": null
           },
           {
-            "name": "updatedAt",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "DateTime",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "phone",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "password",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "profileId",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "image",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "name",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "gender",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "ENUM",
-                "name": "Gender",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "birth",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "DateTime",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "introduce",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "instagramId",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "inflow",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "agreementDate",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "DateTime",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "marketingPushDate",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "DateTime",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "refreshToken",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "fcmToken",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "withdrawDate",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "DateTime",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "withdrawReason",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "address",
+            "name": "user",
             "description": null,
             "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
                 "kind": "INPUT_OBJECT",
-                "name": "AddressCreateNestedOneWithoutUserInput",
+                "name": "UserCreateNestedOneWithoutFollowingsInput",
                 "ofType": null
               }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "pets",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PetCreateNestedManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "userChatRoomInfos",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "UserChatRoomInfoCreateNestedManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "chats",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "ChatCreateNestedManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "reports",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "ReportCreateNestedManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "myReports",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "ReportCreateNestedManyWithoutReporterInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "posts",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostCreateNestedManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "notificatedPosts",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostCreateNestedManyWithoutNotificatedUsersInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "likedPosts",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostCreateNestedManyWithoutLikedUsersInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "postComments",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostCommentCreateNestedManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "postReplyComment",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostReplyCommentCreateNestedManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "medias",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "MediaCreateNestedManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "likedMedias",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "MediaCreateNestedManyWithoutLikedUsersInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "followers",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "UserCreateNestedManyWithoutFollowingsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "mediaComments",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "MediaCommentCreateNestedManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "mediaReplyComments",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "MediaReplyCommentCreateNestedManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "mediaReplyTargetedComments",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "MediaReplyCommentCreateNestedManyWithoutTargetUserInput",
-              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -32752,7 +32880,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "UserCreateOrConnectWithoutFollowingsInput",
+        "name": "FollowCreateOrConnectWithoutTargetUserInput",
         "description": null,
         "specifiedByUrl": null,
         "fields": null,
@@ -32765,7 +32893,7 @@
               "name": null,
               "ofType": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserWhereUniqueInput",
+                "name": "FollowWhereUniqueInput",
                 "ofType": null
               }
             },
@@ -32781,7 +32909,7 @@
               "name": null,
               "ofType": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserCreateWithoutFollowingsInput",
+                "name": "FollowCreateWithoutTargetUserInput",
                 "ofType": null
               }
             },
@@ -32796,7 +32924,51 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "UserCreateWithoutFollowersInput",
+        "name": "FollowCreateManyTargetUserInputEnvelope",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "data",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "FollowCreateManyTargetUserInput",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "skipDuplicates",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "FollowCreateWithoutUserInput",
         "description": null,
         "specifiedByUrl": null,
         "fields": null,
@@ -32826,448 +32998,16 @@
             "deprecationReason": null
           },
           {
-            "name": "updatedAt",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "DateTime",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "phone",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "password",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "profileId",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "image",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "name",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "gender",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "ENUM",
-                "name": "Gender",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "birth",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "DateTime",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "introduce",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "instagramId",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "inflow",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "agreementDate",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "DateTime",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "marketingPushDate",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "DateTime",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "refreshToken",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "fcmToken",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "withdrawDate",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "DateTime",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "withdrawReason",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "address",
+            "name": "targetUser",
             "description": null,
             "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
                 "kind": "INPUT_OBJECT",
-                "name": "AddressCreateNestedOneWithoutUserInput",
+                "name": "UserCreateNestedOneWithoutFollowersInput",
                 "ofType": null
               }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "pets",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PetCreateNestedManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "userChatRoomInfos",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "UserChatRoomInfoCreateNestedManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "chats",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "ChatCreateNestedManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "reports",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "ReportCreateNestedManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "myReports",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "ReportCreateNestedManyWithoutReporterInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "posts",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostCreateNestedManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "notificatedPosts",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostCreateNestedManyWithoutNotificatedUsersInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "likedPosts",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostCreateNestedManyWithoutLikedUsersInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "postComments",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostCommentCreateNestedManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "postReplyComment",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostReplyCommentCreateNestedManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "medias",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "MediaCreateNestedManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "likedMedias",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "MediaCreateNestedManyWithoutLikedUsersInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "followings",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "UserCreateNestedManyWithoutFollowersInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "mediaComments",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "MediaCommentCreateNestedManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "mediaReplyComments",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "MediaReplyCommentCreateNestedManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "mediaReplyTargetedComments",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "MediaReplyCommentCreateNestedManyWithoutTargetUserInput",
-              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -33280,7 +33020,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "UserCreateOrConnectWithoutFollowersInput",
+        "name": "FollowCreateOrConnectWithoutUserInput",
         "description": null,
         "specifiedByUrl": null,
         "fields": null,
@@ -33293,7 +33033,7 @@
               "name": null,
               "ofType": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserWhereUniqueInput",
+                "name": "FollowWhereUniqueInput",
                 "ofType": null
               }
             },
@@ -33309,9 +33049,53 @@
               "name": null,
               "ofType": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserCreateWithoutFollowersInput",
+                "name": "FollowCreateWithoutUserInput",
                 "ofType": null
               }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "FollowCreateManyUserInputEnvelope",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "data",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "FollowCreateManyUserInput",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "skipDuplicates",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -36968,7 +36752,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "UserUpsertWithWhereUniqueWithoutFollowingsInput",
+        "name": "FollowUpsertWithWhereUniqueWithoutTargetUserInput",
         "description": null,
         "specifiedByUrl": null,
         "fields": null,
@@ -36981,7 +36765,7 @@
               "name": null,
               "ofType": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserWhereUniqueInput",
+                "name": "FollowWhereUniqueInput",
                 "ofType": null
               }
             },
@@ -36997,7 +36781,7 @@
               "name": null,
               "ofType": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserUpdateWithoutFollowingsInput",
+                "name": "FollowUpdateWithoutTargetUserInput",
                 "ofType": null
               }
             },
@@ -37013,7 +36797,7 @@
               "name": null,
               "ofType": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserCreateWithoutFollowingsInput",
+                "name": "FollowCreateWithoutTargetUserInput",
                 "ofType": null
               }
             },
@@ -37028,7 +36812,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "UserUpdateWithWhereUniqueWithoutFollowingsInput",
+        "name": "FollowUpdateWithWhereUniqueWithoutTargetUserInput",
         "description": null,
         "specifiedByUrl": null,
         "fields": null,
@@ -37041,7 +36825,7 @@
               "name": null,
               "ofType": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserWhereUniqueInput",
+                "name": "FollowWhereUniqueInput",
                 "ofType": null
               }
             },
@@ -37057,7 +36841,7 @@
               "name": null,
               "ofType": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserUpdateWithoutFollowingsInput",
+                "name": "FollowUpdateWithoutTargetUserInput",
                 "ofType": null
               }
             },
@@ -37072,7 +36856,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "UserUpdateManyWithWhereWithoutFollowingsInput",
+        "name": "FollowUpdateManyWithWhereWithoutTargetUserInput",
         "description": null,
         "specifiedByUrl": null,
         "fields": null,
@@ -37085,7 +36869,7 @@
               "name": null,
               "ofType": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserScalarWhereInput",
+                "name": "FollowScalarWhereInput",
                 "ofType": null
               }
             },
@@ -37101,7 +36885,7 @@
               "name": null,
               "ofType": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserUpdateManyMutationInput",
+                "name": "FollowUpdateManyMutationInput",
                 "ofType": null
               }
             },
@@ -37116,7 +36900,127 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "UserUpsertWithWhereUniqueWithoutFollowersInput",
+        "name": "FollowScalarWhereInput",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "AND",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "FollowScalarWhereInput",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "OR",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "FollowScalarWhereInput",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "NOT",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "FollowScalarWhereInput",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "id",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "StringFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "createdAt",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "DateTimeFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "targetUserId",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "StringFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "userId",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "StringFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "FollowUpsertWithWhereUniqueWithoutUserInput",
         "description": null,
         "specifiedByUrl": null,
         "fields": null,
@@ -37129,7 +37033,7 @@
               "name": null,
               "ofType": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserWhereUniqueInput",
+                "name": "FollowWhereUniqueInput",
                 "ofType": null
               }
             },
@@ -37145,7 +37049,7 @@
               "name": null,
               "ofType": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserUpdateWithoutFollowersInput",
+                "name": "FollowUpdateWithoutUserInput",
                 "ofType": null
               }
             },
@@ -37161,7 +37065,7 @@
               "name": null,
               "ofType": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserCreateWithoutFollowersInput",
+                "name": "FollowCreateWithoutUserInput",
                 "ofType": null
               }
             },
@@ -37176,7 +37080,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "UserUpdateWithWhereUniqueWithoutFollowersInput",
+        "name": "FollowUpdateWithWhereUniqueWithoutUserInput",
         "description": null,
         "specifiedByUrl": null,
         "fields": null,
@@ -37189,7 +37093,7 @@
               "name": null,
               "ofType": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserWhereUniqueInput",
+                "name": "FollowWhereUniqueInput",
                 "ofType": null
               }
             },
@@ -37205,7 +37109,7 @@
               "name": null,
               "ofType": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserUpdateWithoutFollowersInput",
+                "name": "FollowUpdateWithoutUserInput",
                 "ofType": null
               }
             },
@@ -37220,7 +37124,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "UserUpdateManyWithWhereWithoutFollowersInput",
+        "name": "FollowUpdateManyWithWhereWithoutUserInput",
         "description": null,
         "specifiedByUrl": null,
         "fields": null,
@@ -37233,7 +37137,7 @@
               "name": null,
               "ofType": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserScalarWhereInput",
+                "name": "FollowScalarWhereInput",
                 "ofType": null
               }
             },
@@ -37249,7 +37153,7 @@
               "name": null,
               "ofType": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserUpdateManyMutationInput",
+                "name": "FollowUpdateManyMutationInput",
                 "ofType": null
               }
             },
@@ -41144,6 +41048,206 @@
       },
       {
         "kind": "INPUT_OBJECT",
+        "name": "UserCreateNestedOneWithoutFollowingsInput",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "create",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UserCreateWithoutFollowingsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "connectOrCreate",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UserCreateOrConnectWithoutFollowingsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "connect",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UserWhereUniqueInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "FollowCreateManyTargetUserInput",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "id",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "createdAt",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTime",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "userId",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "UserCreateNestedOneWithoutFollowersInput",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "create",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UserCreateWithoutFollowersInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "connectOrCreate",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UserCreateOrConnectWithoutFollowersInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "connect",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UserWhereUniqueInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "FollowCreateManyUserInput",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "id",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "createdAt",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTime",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "targetUserId",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
         "name": "MediaCreateNestedOneWithoutMediaCommentInput",
         "description": null,
         "specifiedByUrl": null,
@@ -43856,7 +43960,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "UserUpdateWithoutFollowingsInput",
+        "name": "FollowUpdateWithoutTargetUserInput",
         "description": null,
         "specifiedByUrl": null,
         "fields": null,
@@ -43886,407 +43990,11 @@
             "deprecationReason": null
           },
           {
-            "name": "updatedAt",
+            "name": "user",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "DateTimeFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "phone",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "StringFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "password",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "StringFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "profileId",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "StringFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "image",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "NullableStringFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "name",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "StringFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "gender",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "EnumGenderFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "birth",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "DateTimeFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "introduce",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "StringFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "instagramId",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "NullableStringFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "inflow",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "StringFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "agreementDate",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "DateTimeFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "marketingPushDate",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "NullableDateTimeFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "refreshToken",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "NullableStringFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "fcmToken",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "NullableStringFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "withdrawDate",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "NullableDateTimeFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "withdrawReason",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "NullableStringFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "address",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "AddressUpdateOneRequiredWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "pets",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PetUpdateManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "userChatRoomInfos",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "UserChatRoomInfoUpdateManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "chats",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "ChatUpdateManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "reports",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "ReportUpdateManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "myReports",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "ReportUpdateManyWithoutReporterInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "posts",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostUpdateManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "notificatedPosts",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostUpdateManyWithoutNotificatedUsersInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "likedPosts",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostUpdateManyWithoutLikedUsersInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "postComments",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostCommentUpdateManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "postReplyComment",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostReplyCommentUpdateManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "medias",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "MediaUpdateManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "likedMedias",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "MediaUpdateManyWithoutLikedUsersInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "followers",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "UserUpdateManyWithoutFollowingsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "mediaComments",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "MediaCommentUpdateManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "mediaReplyComments",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "MediaReplyCommentUpdateManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "mediaReplyTargetedComments",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "MediaReplyCommentUpdateManyWithoutTargetUserInput",
+              "name": "UserUpdateOneRequiredWithoutFollowingsInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -44300,7 +44008,43 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "UserUpdateWithoutFollowersInput",
+        "name": "FollowUpdateManyMutationInput",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "id",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "StringFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "createdAt",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "DateTimeFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "FollowUpdateWithoutUserInput",
         "description": null,
         "specifiedByUrl": null,
         "fields": null,
@@ -44330,407 +44074,11 @@
             "deprecationReason": null
           },
           {
-            "name": "updatedAt",
+            "name": "targetUser",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "DateTimeFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "phone",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "StringFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "password",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "StringFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "profileId",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "StringFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "image",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "NullableStringFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "name",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "StringFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "gender",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "EnumGenderFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "birth",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "DateTimeFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "introduce",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "StringFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "instagramId",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "NullableStringFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "inflow",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "StringFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "agreementDate",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "DateTimeFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "marketingPushDate",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "NullableDateTimeFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "refreshToken",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "NullableStringFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "fcmToken",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "NullableStringFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "withdrawDate",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "NullableDateTimeFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "withdrawReason",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "NullableStringFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "address",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "AddressUpdateOneRequiredWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "pets",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PetUpdateManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "userChatRoomInfos",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "UserChatRoomInfoUpdateManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "chats",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "ChatUpdateManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "reports",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "ReportUpdateManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "myReports",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "ReportUpdateManyWithoutReporterInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "posts",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostUpdateManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "notificatedPosts",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostUpdateManyWithoutNotificatedUsersInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "likedPosts",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostUpdateManyWithoutLikedUsersInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "postComments",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostCommentUpdateManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "postReplyComment",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostReplyCommentUpdateManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "medias",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "MediaUpdateManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "likedMedias",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "MediaUpdateManyWithoutLikedUsersInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "followings",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "UserUpdateManyWithoutFollowersInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "mediaComments",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "MediaCommentUpdateManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "mediaReplyComments",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "MediaReplyCommentUpdateManyWithoutUserInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "mediaReplyTargetedComments",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "MediaReplyCommentUpdateManyWithoutTargetUserInput",
+              "name": "UserUpdateOneRequiredWithoutFollowersInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -45630,7 +44978,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserUpdateManyWithoutFollowingsInput",
+              "name": "FollowUpdateManyWithoutTargetUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -45642,7 +44990,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserUpdateManyWithoutFollowersInput",
+              "name": "FollowUpdateManyWithoutUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -47926,7 +47274,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserCreateNestedManyWithoutFollowingsInput",
+              "name": "FollowCreateNestedManyWithoutTargetUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -47938,7 +47286,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserCreateNestedManyWithoutFollowersInput",
+              "name": "FollowCreateNestedManyWithoutUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -48770,7 +48118,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserCreateNestedManyWithoutFollowingsInput",
+              "name": "FollowCreateNestedManyWithoutTargetUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -48782,7 +48130,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserCreateNestedManyWithoutFollowersInput",
+              "name": "FollowCreateNestedManyWithoutUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -49706,7 +49054,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserCreateNestedManyWithoutFollowingsInput",
+              "name": "FollowCreateNestedManyWithoutTargetUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -49718,7 +49066,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserCreateNestedManyWithoutFollowersInput",
+              "name": "FollowCreateNestedManyWithoutUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -50406,7 +49754,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserCreateNestedManyWithoutFollowingsInput",
+              "name": "FollowCreateNestedManyWithoutTargetUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -50418,7 +49766,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserCreateNestedManyWithoutFollowersInput",
+              "name": "FollowCreateNestedManyWithoutUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -50498,6 +49846,1062 @@
               "ofType": {
                 "kind": "INPUT_OBJECT",
                 "name": "UserCreateWithoutMediasInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "UserCreateWithoutFollowingsInput",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "id",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "createdAt",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTime",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "updatedAt",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTime",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "phone",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "password",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "profileId",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "image",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "name",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "gender",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "ENUM",
+                "name": "Gender",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "birth",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "introduce",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "instagramId",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "inflow",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "agreementDate",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "marketingPushDate",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTime",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "refreshToken",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "fcmToken",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "withdrawDate",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTime",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "withdrawReason",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "address",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "AddressCreateNestedOneWithoutUserInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "pets",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PetCreateNestedManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "userChatRoomInfos",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UserChatRoomInfoCreateNestedManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "chats",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "ChatCreateNestedManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "reports",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "ReportCreateNestedManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "myReports",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "ReportCreateNestedManyWithoutReporterInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "posts",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PostCreateNestedManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "notificatedPosts",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PostCreateNestedManyWithoutNotificatedUsersInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "likedPosts",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PostCreateNestedManyWithoutLikedUsersInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "postComments",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PostCommentCreateNestedManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "postReplyComment",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PostReplyCommentCreateNestedManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "medias",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "MediaCreateNestedManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "likedMedias",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "MediaCreateNestedManyWithoutLikedUsersInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "followers",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "FollowCreateNestedManyWithoutTargetUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "mediaComments",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "MediaCommentCreateNestedManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "mediaReplyComments",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "MediaReplyCommentCreateNestedManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "mediaReplyTargetedComments",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "MediaReplyCommentCreateNestedManyWithoutTargetUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "UserCreateOrConnectWithoutFollowingsInput",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "where",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "UserWhereUniqueInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "create",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "UserCreateWithoutFollowingsInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "UserCreateWithoutFollowersInput",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "id",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "createdAt",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTime",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "updatedAt",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTime",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "phone",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "password",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "profileId",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "image",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "name",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "gender",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "ENUM",
+                "name": "Gender",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "birth",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "introduce",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "instagramId",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "inflow",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "agreementDate",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "marketingPushDate",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTime",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "refreshToken",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "fcmToken",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "withdrawDate",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTime",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "withdrawReason",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "address",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "AddressCreateNestedOneWithoutUserInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "pets",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PetCreateNestedManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "userChatRoomInfos",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UserChatRoomInfoCreateNestedManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "chats",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "ChatCreateNestedManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "reports",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "ReportCreateNestedManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "myReports",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "ReportCreateNestedManyWithoutReporterInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "posts",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PostCreateNestedManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "notificatedPosts",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PostCreateNestedManyWithoutNotificatedUsersInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "likedPosts",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PostCreateNestedManyWithoutLikedUsersInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "postComments",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PostCommentCreateNestedManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "postReplyComment",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PostReplyCommentCreateNestedManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "medias",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "MediaCreateNestedManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "likedMedias",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "MediaCreateNestedManyWithoutLikedUsersInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "followings",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "FollowCreateNestedManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "mediaComments",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "MediaCommentCreateNestedManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "mediaReplyComments",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "MediaReplyCommentCreateNestedManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "mediaReplyTargetedComments",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "MediaReplyCommentCreateNestedManyWithoutTargetUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "UserCreateOrConnectWithoutFollowersInput",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "where",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "UserWhereUniqueInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "create",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "UserCreateWithoutFollowersInput",
                 "ofType": null
               }
             },
@@ -51274,7 +51678,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserCreateNestedManyWithoutFollowingsInput",
+              "name": "FollowCreateNestedManyWithoutTargetUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -51286,7 +51690,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserCreateNestedManyWithoutFollowersInput",
+              "name": "FollowCreateNestedManyWithoutUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -51934,7 +52338,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserCreateNestedManyWithoutFollowingsInput",
+              "name": "FollowCreateNestedManyWithoutTargetUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -51946,7 +52350,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserCreateNestedManyWithoutFollowersInput",
+              "name": "FollowCreateNestedManyWithoutUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -55124,6 +55528,150 @@
       },
       {
         "kind": "INPUT_OBJECT",
+        "name": "UserUpdateOneRequiredWithoutFollowingsInput",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "create",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UserCreateWithoutFollowingsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "connectOrCreate",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UserCreateOrConnectWithoutFollowingsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "upsert",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UserUpsertWithoutFollowingsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "connect",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UserWhereUniqueInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "update",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UserUpdateWithoutFollowingsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "UserUpdateOneRequiredWithoutFollowersInput",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "create",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UserCreateWithoutFollowersInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "connectOrCreate",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UserCreateOrConnectWithoutFollowersInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "upsert",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UserUpsertWithoutFollowersInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "connect",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UserWhereUniqueInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "update",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UserUpdateWithoutFollowersInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
         "name": "MediaUpdateOneRequiredWithoutMediaCommentInput",
         "description": null,
         "specifiedByUrl": null,
@@ -57934,7 +58482,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserUpdateManyWithoutFollowingsInput",
+              "name": "FollowUpdateManyWithoutTargetUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -57946,7 +58494,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserUpdateManyWithoutFollowersInput",
+              "name": "FollowUpdateManyWithoutUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -58726,7 +59274,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserUpdateManyWithoutFollowingsInput",
+              "name": "FollowUpdateManyWithoutTargetUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -58738,7 +59286,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserUpdateManyWithoutFollowersInput",
+              "name": "FollowUpdateManyWithoutUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -60242,7 +60790,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserUpdateManyWithoutFollowingsInput",
+              "name": "FollowUpdateManyWithoutTargetUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -60254,7 +60802,983 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserUpdateManyWithoutFollowersInput",
+              "name": "FollowUpdateManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "mediaComments",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "MediaCommentUpdateManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "mediaReplyComments",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "MediaReplyCommentUpdateManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "mediaReplyTargetedComments",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "MediaReplyCommentUpdateManyWithoutTargetUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "UserUpsertWithoutFollowingsInput",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "update",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "UserUpdateWithoutFollowingsInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "create",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "UserCreateWithoutFollowingsInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "UserUpdateWithoutFollowingsInput",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "id",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "StringFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "createdAt",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "DateTimeFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "updatedAt",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "DateTimeFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "phone",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "StringFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "password",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "StringFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "profileId",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "StringFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "image",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "NullableStringFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "name",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "StringFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "gender",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "EnumGenderFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "birth",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "DateTimeFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "introduce",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "StringFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "instagramId",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "NullableStringFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "inflow",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "StringFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "agreementDate",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "DateTimeFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "marketingPushDate",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "NullableDateTimeFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "refreshToken",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "NullableStringFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "fcmToken",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "NullableStringFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "withdrawDate",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "NullableDateTimeFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "withdrawReason",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "NullableStringFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "address",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "AddressUpdateOneRequiredWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "pets",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PetUpdateManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "userChatRoomInfos",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UserChatRoomInfoUpdateManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "chats",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "ChatUpdateManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "reports",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "ReportUpdateManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "myReports",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "ReportUpdateManyWithoutReporterInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "posts",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PostUpdateManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "notificatedPosts",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PostUpdateManyWithoutNotificatedUsersInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "likedPosts",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PostUpdateManyWithoutLikedUsersInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "postComments",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PostCommentUpdateManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "postReplyComment",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PostReplyCommentUpdateManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "medias",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "MediaUpdateManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "likedMedias",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "MediaUpdateManyWithoutLikedUsersInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "followers",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "FollowUpdateManyWithoutTargetUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "mediaComments",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "MediaCommentUpdateManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "mediaReplyComments",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "MediaReplyCommentUpdateManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "mediaReplyTargetedComments",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "MediaReplyCommentUpdateManyWithoutTargetUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "UserUpsertWithoutFollowersInput",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "update",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "UserUpdateWithoutFollowersInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "create",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "UserCreateWithoutFollowersInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "UserUpdateWithoutFollowersInput",
+        "description": null,
+        "specifiedByUrl": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "id",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "StringFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "createdAt",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "DateTimeFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "updatedAt",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "DateTimeFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "phone",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "StringFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "password",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "StringFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "profileId",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "StringFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "image",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "NullableStringFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "name",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "StringFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "gender",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "EnumGenderFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "birth",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "DateTimeFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "introduce",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "StringFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "instagramId",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "NullableStringFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "inflow",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "StringFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "agreementDate",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "DateTimeFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "marketingPushDate",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "NullableDateTimeFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "refreshToken",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "NullableStringFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "fcmToken",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "NullableStringFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "withdrawDate",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "NullableDateTimeFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "withdrawReason",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "NullableStringFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "address",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "AddressUpdateOneRequiredWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "pets",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PetUpdateManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "userChatRoomInfos",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "UserChatRoomInfoUpdateManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "chats",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "ChatUpdateManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "reports",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "ReportUpdateManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "myReports",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "ReportUpdateManyWithoutReporterInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "posts",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PostUpdateManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "notificatedPosts",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PostUpdateManyWithoutNotificatedUsersInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "likedPosts",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PostUpdateManyWithoutLikedUsersInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "postComments",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PostCommentUpdateManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "postReplyComment",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PostReplyCommentUpdateManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "medias",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "MediaUpdateManyWithoutUserInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "likedMedias",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "MediaUpdateManyWithoutLikedUsersInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "followings",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "FollowUpdateManyWithoutUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -61042,7 +62566,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserUpdateManyWithoutFollowingsInput",
+              "name": "FollowUpdateManyWithoutTargetUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -61054,7 +62578,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserUpdateManyWithoutFollowersInput",
+              "name": "FollowUpdateManyWithoutUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -61646,7 +63170,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserUpdateManyWithoutFollowingsInput",
+              "name": "FollowUpdateManyWithoutTargetUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -61658,7 +63182,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserUpdateManyWithoutFollowersInput",
+              "name": "FollowUpdateManyWithoutUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -62594,7 +64118,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserCreateNestedManyWithoutFollowingsInput",
+              "name": "FollowCreateNestedManyWithoutTargetUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -62606,7 +64130,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserCreateNestedManyWithoutFollowersInput",
+              "name": "FollowCreateNestedManyWithoutUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -63326,7 +64850,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserCreateNestedManyWithoutFollowingsInput",
+              "name": "FollowCreateNestedManyWithoutTargetUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -63338,7 +64862,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserCreateNestedManyWithoutFollowersInput",
+              "name": "FollowCreateNestedManyWithoutUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -63854,7 +65378,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserCreateNestedManyWithoutFollowingsInput",
+              "name": "FollowCreateNestedManyWithoutTargetUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -63866,7 +65390,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserCreateNestedManyWithoutFollowersInput",
+              "name": "FollowCreateNestedManyWithoutUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -64394,7 +65918,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserCreateNestedManyWithoutFollowingsInput",
+              "name": "FollowCreateNestedManyWithoutTargetUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -64406,7 +65930,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserCreateNestedManyWithoutFollowersInput",
+              "name": "FollowCreateNestedManyWithoutUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -66358,7 +67882,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserUpdateManyWithoutFollowingsInput",
+              "name": "FollowUpdateManyWithoutTargetUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -66370,7 +67894,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserUpdateManyWithoutFollowersInput",
+              "name": "FollowUpdateManyWithoutUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -67062,7 +68586,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserUpdateManyWithoutFollowingsInput",
+              "name": "FollowUpdateManyWithoutTargetUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -67074,7 +68598,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserUpdateManyWithoutFollowersInput",
+              "name": "FollowUpdateManyWithoutUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -68374,7 +69898,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserUpdateManyWithoutFollowingsInput",
+              "name": "FollowUpdateManyWithoutTargetUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -68386,7 +69910,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserUpdateManyWithoutFollowersInput",
+              "name": "FollowUpdateManyWithoutUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -68946,7 +70470,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserUpdateManyWithoutFollowingsInput",
+              "name": "FollowUpdateManyWithoutTargetUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -68958,7 +70482,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserUpdateManyWithoutFollowersInput",
+              "name": "FollowUpdateManyWithoutUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -69746,7 +71270,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserUpdateManyWithoutFollowingsInput",
+              "name": "FollowUpdateManyWithoutTargetUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -69758,7 +71282,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserUpdateManyWithoutFollowersInput",
+              "name": "FollowUpdateManyWithoutUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -70234,7 +71758,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserUpdateManyWithoutFollowingsInput",
+              "name": "FollowUpdateManyWithoutTargetUserInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -70246,7 +71770,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UserUpdateManyWithoutFollowersInput",
+              "name": "FollowUpdateManyWithoutUserInput",
               "ofType": null
             },
             "defaultValue": null,
