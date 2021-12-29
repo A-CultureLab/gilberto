@@ -522,17 +522,12 @@ export interface MediaCreateManyUserInput {
   createdAt?: any | null;
   content: string;
   isInstagram?: boolean | null;
+  instagramKey?: string | null;
 }
 
 export interface MediaCreateManyUserInputEnvelope {
   data?: MediaCreateManyUserInput[] | null;
   skipDuplicates?: boolean | null;
-}
-
-export interface MediaCreateNestedManyWithoutLikedUsersInput {
-  create?: MediaCreateWithoutLikedUsersInput[] | null;
-  connectOrCreate?: MediaCreateOrConnectWithoutLikedUsersInput[] | null;
-  connect?: MediaWhereUniqueInput[] | null;
 }
 
 export interface MediaCreateNestedManyWithoutTagedPetsInput {
@@ -546,6 +541,12 @@ export interface MediaCreateNestedManyWithoutUserInput {
   connectOrCreate?: MediaCreateOrConnectWithoutUserInput[] | null;
   createMany?: MediaCreateManyUserInputEnvelope | null;
   connect?: MediaWhereUniqueInput[] | null;
+}
+
+export interface MediaCreateNestedOneWithoutLikedUsersInput {
+  create?: MediaCreateWithoutLikedUsersInput | null;
+  connectOrCreate?: MediaCreateOrConnectWithoutLikedUsersInput | null;
+  connect?: MediaWhereUniqueInput | null;
 }
 
 export interface MediaCreateNestedOneWithoutMediaCommentInput {
@@ -579,8 +580,9 @@ export interface MediaCreateWithoutLikedUsersInput {
   createdAt?: any | null;
   content: string;
   isInstagram?: boolean | null;
+  instagramKey?: string | null;
   images?: MediaImageCreateNestedManyWithoutMediaInput | null;
-  user?: UserCreateNestedOneWithoutMediasInput | null;
+  user: UserCreateNestedOneWithoutMediasInput;
   tagedPets?: PetCreateNestedManyWithoutTagedMediasInput | null;
   mediaComment?: MediaCommentCreateNestedManyWithoutMediaInput | null;
 }
@@ -590,10 +592,11 @@ export interface MediaCreateWithoutMediaCommentInput {
   createdAt?: any | null;
   content: string;
   isInstagram?: boolean | null;
+  instagramKey?: string | null;
   images?: MediaImageCreateNestedManyWithoutMediaInput | null;
-  user?: UserCreateNestedOneWithoutMediasInput | null;
+  user: UserCreateNestedOneWithoutMediasInput;
   tagedPets?: PetCreateNestedManyWithoutTagedMediasInput | null;
-  likedUsers?: UserCreateNestedManyWithoutLikedMediasInput | null;
+  likedUsers?: MediaLikeCreateNestedManyWithoutMediaInput | null;
 }
 
 export interface MediaCreateWithoutTagedPetsInput {
@@ -601,9 +604,10 @@ export interface MediaCreateWithoutTagedPetsInput {
   createdAt?: any | null;
   content: string;
   isInstagram?: boolean | null;
+  instagramKey?: string | null;
   images?: MediaImageCreateNestedManyWithoutMediaInput | null;
-  user?: UserCreateNestedOneWithoutMediasInput | null;
-  likedUsers?: UserCreateNestedManyWithoutLikedMediasInput | null;
+  user: UserCreateNestedOneWithoutMediasInput;
+  likedUsers?: MediaLikeCreateNestedManyWithoutMediaInput | null;
   mediaComment?: MediaCommentCreateNestedManyWithoutMediaInput | null;
 }
 
@@ -612,9 +616,10 @@ export interface MediaCreateWithoutUserInput {
   createdAt?: any | null;
   content: string;
   isInstagram?: boolean | null;
+  instagramKey?: string | null;
   images?: MediaImageCreateNestedManyWithoutMediaInput | null;
   tagedPets?: PetCreateNestedManyWithoutTagedMediasInput | null;
-  likedUsers?: UserCreateNestedManyWithoutLikedMediasInput | null;
+  likedUsers?: MediaLikeCreateNestedManyWithoutMediaInput | null;
   mediaComment?: MediaCommentCreateNestedManyWithoutMediaInput | null;
 }
 
@@ -650,6 +655,68 @@ export interface MediaImageCreateWithoutMediaInput {
 }
 
 export interface MediaImageWhereUniqueInput {
+  id?: string | null;
+}
+
+export interface MediaLikeCreateManyMediaInput {
+  id?: string | null;
+  createdAt?: any | null;
+  userId: string;
+}
+
+export interface MediaLikeCreateManyMediaInputEnvelope {
+  data?: MediaLikeCreateManyMediaInput[] | null;
+  skipDuplicates?: boolean | null;
+}
+
+export interface MediaLikeCreateManyUserInput {
+  id?: string | null;
+  createdAt?: any | null;
+  mediaId: string;
+}
+
+export interface MediaLikeCreateManyUserInputEnvelope {
+  data?: MediaLikeCreateManyUserInput[] | null;
+  skipDuplicates?: boolean | null;
+}
+
+export interface MediaLikeCreateNestedManyWithoutMediaInput {
+  create?: MediaLikeCreateWithoutMediaInput[] | null;
+  connectOrCreate?: MediaLikeCreateOrConnectWithoutMediaInput[] | null;
+  createMany?: MediaLikeCreateManyMediaInputEnvelope | null;
+  connect?: MediaLikeWhereUniqueInput[] | null;
+}
+
+export interface MediaLikeCreateNestedManyWithoutUserInput {
+  create?: MediaLikeCreateWithoutUserInput[] | null;
+  connectOrCreate?: MediaLikeCreateOrConnectWithoutUserInput[] | null;
+  createMany?: MediaLikeCreateManyUserInputEnvelope | null;
+  connect?: MediaLikeWhereUniqueInput[] | null;
+}
+
+export interface MediaLikeCreateOrConnectWithoutMediaInput {
+  where: MediaLikeWhereUniqueInput;
+  create: MediaLikeCreateWithoutMediaInput;
+}
+
+export interface MediaLikeCreateOrConnectWithoutUserInput {
+  where: MediaLikeWhereUniqueInput;
+  create: MediaLikeCreateWithoutUserInput;
+}
+
+export interface MediaLikeCreateWithoutMediaInput {
+  id?: string | null;
+  createdAt?: any | null;
+  user: UserCreateNestedOneWithoutLikedMediasInput;
+}
+
+export interface MediaLikeCreateWithoutUserInput {
+  id?: string | null;
+  createdAt?: any | null;
+  media: MediaCreateNestedOneWithoutLikedUsersInput;
+}
+
+export interface MediaLikeWhereUniqueInput {
   id?: string | null;
 }
 
@@ -1493,12 +1560,6 @@ export interface UserChatRoomInfoWhereUniqueInput {
   id?: string | null;
 }
 
-export interface UserCreateNestedManyWithoutLikedMediasInput {
-  create?: UserCreateWithoutLikedMediasInput[] | null;
-  connectOrCreate?: UserCreateOrConnectWithoutLikedMediasInput[] | null;
-  connect?: UserWhereUniqueInput[] | null;
-}
-
 export interface UserCreateNestedManyWithoutLikedPostsInput {
   create?: UserCreateWithoutLikedPostsInput[] | null;
   connectOrCreate?: UserCreateOrConnectWithoutLikedPostsInput[] | null;
@@ -1526,6 +1587,12 @@ export interface UserCreateNestedOneWithoutFollowersInput {
 export interface UserCreateNestedOneWithoutFollowingsInput {
   create?: UserCreateWithoutFollowingsInput | null;
   connectOrCreate?: UserCreateOrConnectWithoutFollowingsInput | null;
+  connect?: UserWhereUniqueInput | null;
+}
+
+export interface UserCreateNestedOneWithoutLikedMediasInput {
+  create?: UserCreateWithoutLikedMediasInput | null;
+  connectOrCreate?: UserCreateOrConnectWithoutLikedMediasInput | null;
   connect?: UserWhereUniqueInput | null;
 }
 
@@ -1711,7 +1778,7 @@ export interface UserCreateWithoutChatsInput {
   postComments?: PostCommentCreateNestedManyWithoutUserInput | null;
   postReplyComment?: PostReplyCommentCreateNestedManyWithoutUserInput | null;
   medias?: MediaCreateNestedManyWithoutUserInput | null;
-  likedMedias?: MediaCreateNestedManyWithoutLikedUsersInput | null;
+  likedMedias?: MediaLikeCreateNestedManyWithoutUserInput | null;
   followers?: FollowCreateNestedManyWithoutTargetUserInput | null;
   followings?: FollowCreateNestedManyWithoutUserInput | null;
   mediaComments?: MediaCommentCreateNestedManyWithoutUserInput | null;
@@ -1751,7 +1818,7 @@ export interface UserCreateWithoutFollowersInput {
   postComments?: PostCommentCreateNestedManyWithoutUserInput | null;
   postReplyComment?: PostReplyCommentCreateNestedManyWithoutUserInput | null;
   medias?: MediaCreateNestedManyWithoutUserInput | null;
-  likedMedias?: MediaCreateNestedManyWithoutLikedUsersInput | null;
+  likedMedias?: MediaLikeCreateNestedManyWithoutUserInput | null;
   followings?: FollowCreateNestedManyWithoutUserInput | null;
   mediaComments?: MediaCommentCreateNestedManyWithoutUserInput | null;
   mediaReplyComments?: MediaReplyCommentCreateNestedManyWithoutUserInput | null;
@@ -1790,7 +1857,7 @@ export interface UserCreateWithoutFollowingsInput {
   postComments?: PostCommentCreateNestedManyWithoutUserInput | null;
   postReplyComment?: PostReplyCommentCreateNestedManyWithoutUserInput | null;
   medias?: MediaCreateNestedManyWithoutUserInput | null;
-  likedMedias?: MediaCreateNestedManyWithoutLikedUsersInput | null;
+  likedMedias?: MediaLikeCreateNestedManyWithoutUserInput | null;
   followers?: FollowCreateNestedManyWithoutTargetUserInput | null;
   mediaComments?: MediaCommentCreateNestedManyWithoutUserInput | null;
   mediaReplyComments?: MediaReplyCommentCreateNestedManyWithoutUserInput | null;
@@ -1867,7 +1934,7 @@ export interface UserCreateWithoutLikedPostsInput {
   postComments?: PostCommentCreateNestedManyWithoutUserInput | null;
   postReplyComment?: PostReplyCommentCreateNestedManyWithoutUserInput | null;
   medias?: MediaCreateNestedManyWithoutUserInput | null;
-  likedMedias?: MediaCreateNestedManyWithoutLikedUsersInput | null;
+  likedMedias?: MediaLikeCreateNestedManyWithoutUserInput | null;
   followers?: FollowCreateNestedManyWithoutTargetUserInput | null;
   followings?: FollowCreateNestedManyWithoutUserInput | null;
   mediaComments?: MediaCommentCreateNestedManyWithoutUserInput | null;
@@ -1907,7 +1974,7 @@ export interface UserCreateWithoutMediaCommentsInput {
   postComments?: PostCommentCreateNestedManyWithoutUserInput | null;
   postReplyComment?: PostReplyCommentCreateNestedManyWithoutUserInput | null;
   medias?: MediaCreateNestedManyWithoutUserInput | null;
-  likedMedias?: MediaCreateNestedManyWithoutLikedUsersInput | null;
+  likedMedias?: MediaLikeCreateNestedManyWithoutUserInput | null;
   followers?: FollowCreateNestedManyWithoutTargetUserInput | null;
   followings?: FollowCreateNestedManyWithoutUserInput | null;
   mediaReplyComments?: MediaReplyCommentCreateNestedManyWithoutUserInput | null;
@@ -1946,7 +2013,7 @@ export interface UserCreateWithoutMediaReplyCommentsInput {
   postComments?: PostCommentCreateNestedManyWithoutUserInput | null;
   postReplyComment?: PostReplyCommentCreateNestedManyWithoutUserInput | null;
   medias?: MediaCreateNestedManyWithoutUserInput | null;
-  likedMedias?: MediaCreateNestedManyWithoutLikedUsersInput | null;
+  likedMedias?: MediaLikeCreateNestedManyWithoutUserInput | null;
   followers?: FollowCreateNestedManyWithoutTargetUserInput | null;
   followings?: FollowCreateNestedManyWithoutUserInput | null;
   mediaComments?: MediaCommentCreateNestedManyWithoutUserInput | null;
@@ -1985,7 +2052,7 @@ export interface UserCreateWithoutMediaReplyTargetedCommentsInput {
   postComments?: PostCommentCreateNestedManyWithoutUserInput | null;
   postReplyComment?: PostReplyCommentCreateNestedManyWithoutUserInput | null;
   medias?: MediaCreateNestedManyWithoutUserInput | null;
-  likedMedias?: MediaCreateNestedManyWithoutLikedUsersInput | null;
+  likedMedias?: MediaLikeCreateNestedManyWithoutUserInput | null;
   followers?: FollowCreateNestedManyWithoutTargetUserInput | null;
   followings?: FollowCreateNestedManyWithoutUserInput | null;
   mediaComments?: MediaCommentCreateNestedManyWithoutUserInput | null;
@@ -2023,7 +2090,7 @@ export interface UserCreateWithoutMediasInput {
   likedPosts?: PostCreateNestedManyWithoutLikedUsersInput | null;
   postComments?: PostCommentCreateNestedManyWithoutUserInput | null;
   postReplyComment?: PostReplyCommentCreateNestedManyWithoutUserInput | null;
-  likedMedias?: MediaCreateNestedManyWithoutLikedUsersInput | null;
+  likedMedias?: MediaLikeCreateNestedManyWithoutUserInput | null;
   followers?: FollowCreateNestedManyWithoutTargetUserInput | null;
   followings?: FollowCreateNestedManyWithoutUserInput | null;
   mediaComments?: MediaCommentCreateNestedManyWithoutUserInput | null;
@@ -2062,7 +2129,7 @@ export interface UserCreateWithoutMyReportsInput {
   postComments?: PostCommentCreateNestedManyWithoutUserInput | null;
   postReplyComment?: PostReplyCommentCreateNestedManyWithoutUserInput | null;
   medias?: MediaCreateNestedManyWithoutUserInput | null;
-  likedMedias?: MediaCreateNestedManyWithoutLikedUsersInput | null;
+  likedMedias?: MediaLikeCreateNestedManyWithoutUserInput | null;
   followers?: FollowCreateNestedManyWithoutTargetUserInput | null;
   followings?: FollowCreateNestedManyWithoutUserInput | null;
   mediaComments?: MediaCommentCreateNestedManyWithoutUserInput | null;
@@ -2101,7 +2168,7 @@ export interface UserCreateWithoutNotificatedPostsInput {
   postComments?: PostCommentCreateNestedManyWithoutUserInput | null;
   postReplyComment?: PostReplyCommentCreateNestedManyWithoutUserInput | null;
   medias?: MediaCreateNestedManyWithoutUserInput | null;
-  likedMedias?: MediaCreateNestedManyWithoutLikedUsersInput | null;
+  likedMedias?: MediaLikeCreateNestedManyWithoutUserInput | null;
   followers?: FollowCreateNestedManyWithoutTargetUserInput | null;
   followings?: FollowCreateNestedManyWithoutUserInput | null;
   mediaComments?: MediaCommentCreateNestedManyWithoutUserInput | null;
@@ -2140,7 +2207,7 @@ export interface UserCreateWithoutPetsInput {
   postComments?: PostCommentCreateNestedManyWithoutUserInput | null;
   postReplyComment?: PostReplyCommentCreateNestedManyWithoutUserInput | null;
   medias?: MediaCreateNestedManyWithoutUserInput | null;
-  likedMedias?: MediaCreateNestedManyWithoutLikedUsersInput | null;
+  likedMedias?: MediaLikeCreateNestedManyWithoutUserInput | null;
   followers?: FollowCreateNestedManyWithoutTargetUserInput | null;
   followings?: FollowCreateNestedManyWithoutUserInput | null;
   mediaComments?: MediaCommentCreateNestedManyWithoutUserInput | null;
@@ -2179,7 +2246,7 @@ export interface UserCreateWithoutPostCommentsInput {
   likedPosts?: PostCreateNestedManyWithoutLikedUsersInput | null;
   postReplyComment?: PostReplyCommentCreateNestedManyWithoutUserInput | null;
   medias?: MediaCreateNestedManyWithoutUserInput | null;
-  likedMedias?: MediaCreateNestedManyWithoutLikedUsersInput | null;
+  likedMedias?: MediaLikeCreateNestedManyWithoutUserInput | null;
   followers?: FollowCreateNestedManyWithoutTargetUserInput | null;
   followings?: FollowCreateNestedManyWithoutUserInput | null;
   mediaComments?: MediaCommentCreateNestedManyWithoutUserInput | null;
@@ -2218,7 +2285,7 @@ export interface UserCreateWithoutPostReplyCommentInput {
   likedPosts?: PostCreateNestedManyWithoutLikedUsersInput | null;
   postComments?: PostCommentCreateNestedManyWithoutUserInput | null;
   medias?: MediaCreateNestedManyWithoutUserInput | null;
-  likedMedias?: MediaCreateNestedManyWithoutLikedUsersInput | null;
+  likedMedias?: MediaLikeCreateNestedManyWithoutUserInput | null;
   followers?: FollowCreateNestedManyWithoutTargetUserInput | null;
   followings?: FollowCreateNestedManyWithoutUserInput | null;
   mediaComments?: MediaCommentCreateNestedManyWithoutUserInput | null;
@@ -2257,7 +2324,7 @@ export interface UserCreateWithoutPostsInput {
   postComments?: PostCommentCreateNestedManyWithoutUserInput | null;
   postReplyComment?: PostReplyCommentCreateNestedManyWithoutUserInput | null;
   medias?: MediaCreateNestedManyWithoutUserInput | null;
-  likedMedias?: MediaCreateNestedManyWithoutLikedUsersInput | null;
+  likedMedias?: MediaLikeCreateNestedManyWithoutUserInput | null;
   followers?: FollowCreateNestedManyWithoutTargetUserInput | null;
   followings?: FollowCreateNestedManyWithoutUserInput | null;
   mediaComments?: MediaCommentCreateNestedManyWithoutUserInput | null;
@@ -2296,7 +2363,7 @@ export interface UserCreateWithoutReportsInput {
   postComments?: PostCommentCreateNestedManyWithoutUserInput | null;
   postReplyComment?: PostReplyCommentCreateNestedManyWithoutUserInput | null;
   medias?: MediaCreateNestedManyWithoutUserInput | null;
-  likedMedias?: MediaCreateNestedManyWithoutLikedUsersInput | null;
+  likedMedias?: MediaLikeCreateNestedManyWithoutUserInput | null;
   followers?: FollowCreateNestedManyWithoutTargetUserInput | null;
   followings?: FollowCreateNestedManyWithoutUserInput | null;
   mediaComments?: MediaCommentCreateNestedManyWithoutUserInput | null;
@@ -2335,7 +2402,7 @@ export interface UserCreateWithoutUserChatRoomInfosInput {
   postComments?: PostCommentCreateNestedManyWithoutUserInput | null;
   postReplyComment?: PostReplyCommentCreateNestedManyWithoutUserInput | null;
   medias?: MediaCreateNestedManyWithoutUserInput | null;
-  likedMedias?: MediaCreateNestedManyWithoutLikedUsersInput | null;
+  likedMedias?: MediaLikeCreateNestedManyWithoutUserInput | null;
   followers?: FollowCreateNestedManyWithoutTargetUserInput | null;
   followings?: FollowCreateNestedManyWithoutUserInput | null;
   mediaComments?: MediaCommentCreateNestedManyWithoutUserInput | null;

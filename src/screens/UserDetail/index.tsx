@@ -192,7 +192,7 @@ const UserDetail = () => {
                     } size='small' color={GRAY1} /> : null
                 }
                 renderItem={({ item }) =>
-                    <Pressable>
+                    <Pressable onPress={() => navigate('MediaDetail', { id: item.id })} >
                         <FastImage
                             style={{ width: WIDTH / 3, height: WIDTH / 3, }}
                             source={{ uri: item.thumnail }}
