@@ -13,6 +13,7 @@ export interface user_user_pets {
   __typename: "Pet";
   id: string;
   image: string;
+  name: string;
 }
 
 export interface user_user_address {
@@ -31,6 +32,7 @@ export interface user_user {
   gender: Gender;
   introduce: string;
   instagramId: string | null;
+  profileId: string;
   followerCount: number;
   followingCount: number;
   mediaCount: number;

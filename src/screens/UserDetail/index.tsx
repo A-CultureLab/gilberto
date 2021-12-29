@@ -1,21 +1,20 @@
-import useNavigation from '../../hooks/useNavigation'
-import React, { useCallback, useContext } from 'react'
-import { ActivityIndicator, FlatList, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import React, { useCallback, useContext, useState } from 'react'
+import { Pressable, ScrollView, StyleSheet, Text, View, Linking, TouchableOpacity, Share, FlatList, ActivityIndicator } from 'react-native'
 import Header from '../../components/headers/Header'
 import ScreenLayout from '../../components/layout/ScreenLayout'
-import { COLOR1, COLOR3, DEFAULT_SHADOW, GRAY1, GRAY2, GRAY3, WIDTH } from '../../constants/styles'
+import { COLOR1, GRAY1, GRAY2, GRAY3, WIDTH } from '../../constants/styles'
+import useNavigation from '../../hooks/useNavigation'
+import FastImage from 'react-native-fast-image'
+import IconMC from 'react-native-vector-icons/MaterialCommunityIcons'
+import followCountUnit from '../../utils/followCountUnit'
+import { useMediasByPetId, useMediasByUserId } from '../../graphql/media'
+import useRefreshing from '../../hooks/useRefreshing'
+import useRoute from '../../hooks/useRoute'
 import { useIUser, useUser } from '../../graphql/user'
-import genderGenerator from '../../lib/genderGenerator'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import useGlobalUi from '../../hooks/useGlobalUi'
-import useRoute from '../../hooks/useRoute'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import IconMC from 'react-native-vector-icons/MaterialCommunityIcons'
-import FastImage from 'react-native-fast-image'
 import meterUnit from '../../utils/meterUnit'
-import useRefreshing from '../../hooks/useRefreshing'
-import { useMediasByUserId } from '../../graphql/media'
-import followCountUnit from '../../utils/followCountUnit'
+import { useDisFollowing, useFollowing } from '../../graphql/follow'
 
 export interface UserDetailProps {
     id: string
@@ -23,28 +22,50 @@ export interface UserDetailProps {
 
 const UserDetail = () => {
 
-    const { params: { id } } = useRoute<'UserDetail'>()
-    const { data } = useUser({ variables: { where: { id } } })
-    const { data: iUserData, refetch: iUserRefetch } = useIUser({ fetchPolicy: 'cache-only' })
-    const { data: media, refetch: mediaRefetch, fetchMore, loading } = useMediasByUserId({ variables: { userId: id } })
-    const { select, toast } = useGlobalUi()
     const { navigate } = useNavigation()
-    const { bottom } = useSafeAreaInsets()
+    const { params: { id } } = useRoute<'UserDetail'>()
+    const { select, toast } = useGlobalUi()
+
+    const { data: iUserData } = useIUser()
+    const { data: userData, refetch: userRefetch } = useUser({ variables: { where: { id } } })
+    const { data: media, refetch: mediaRefetch, fetchMore, loading } = useMediasByUserId({ variables: { userId: id } })
+    const [following] = useFollowing({ variables: { userId: id } })
+    const [disFollowing] = useDisFollowing({ variables: { userId: id } })
+
+    const [fetchMoreLoading, setFetchMoreLoading] = useState(false)
+
+    const [ended, setEnded] = useState(false)
+
+    const isIUser = iUserData?.iUser.id === userData?.user.id
+
+
+
+
 
     const refreshing = useRefreshing(async () => {
         try {
-            await iUserRefetch()
-            await mediaRefetch()
-        } catch (error) {
-
-        }
+            await Promise.all([
+                userRefetch(),
+                mediaRefetch()
+            ])
+        } catch (error) { }
     })
 
-    const user = data?.user
-    const isIUser = iUserData?.iUser.id === user?.id
+    const onEndReached = async () => {
+        if (fetchMoreLoading) return
+        if (ended) return
+        setFetchMoreLoading(true)
+        const { data } = await fetchMore({
+            variables: {
+                instagramEndCursor: media?.mediasByUserId.filter(v => !!v.media?.isInstagram).pop()?.instagramEndCursor,
+                endCursor: media?.mediasByUserId.filter(v => !v.media?.isInstagram).pop()?.media.id
+            }
+        })
+        setEnded(!data.mediasByUserId.length)
+        setFetchMoreLoading(false)
+    }
 
     const onMore = useCallback(() => {
-        if (isIUser) return
         select({
             list: ['신고하기'],
             onSelect: (i) => {
@@ -53,61 +74,66 @@ const UserDetail = () => {
         })
     }, [isIUser])
 
+    const onFollow = useCallback(() => {
+        if (!userData) return
+        if (userData.user.isIFollowed) disFollowing().then(() => userRefetch())
+        else following()
+    }, [userData])
+
+    const onChat = useCallback(() => {
+        if (!userData) return
+        navigate('ChatDetail', { userId: userData.user.id })
+    }, [userData])
+
+
+
+
+    if (!userData || !iUserData) return null
+
     return (
         <ScreenLayout>
             <Header
+                title={userData.user.profileId}
                 underline={false}
-                right={() =>
-                    !isIUser
-                        ? <View style={{ flexDirection: 'row', alignItems: 'center' }} >
-                            <Pressable
-                                onPress={onMore}
-                                android_ripple={{ color: GRAY2, radius: 28 }}
-                                style={styles.headerBtn}
-                            >
-                                <Icon size={24} color={GRAY1} name='more-vert' />
-                            </Pressable>
-                        </View>
-                        : null
-                }
+                right={() => <Pressable onPress={onMore} style={styles.headerBtn} ><Icon size={24} color={GRAY1} name='more-vert' /></Pressable>}
             />
-            {user && <FlatList
+            <FlatList
                 showsVerticalScrollIndicator={false}
                 overScrollMode='never'
                 ListHeaderComponent={
                     <>
                         <View style={styles.profileInfoContainer} >
                             <View style={{ flexDirection: 'row', alignItems: 'center' }} >
-                                <Pressable onPress={() => navigate('ImageDetail', { index: 0, urls: [user.image, ...user.pets.map(v => v.image)] })}>
+                                <Pressable onPress={() => navigate('ImageDetail', { index: 0, urls: [userData.user.image, ...userData.user.pets.map(v => v.image)] })}>
                                     <FastImage
                                         style={styles.profileImage}
-                                        source={{ uri: user.image }}
+                                        source={{ uri: userData.user.image }}
                                     />
                                 </Pressable>
-                                {!!user.pets.length && <View style={styles.profileLine} />}
+                                <View style={styles.profileLine} />
                                 <FlatList
                                     horizontal
                                     showsHorizontalScrollIndicator={false}
-                                    data={user.pets}
-                                    ListHeaderComponent={<View style={{ width: 16 }} />}
+                                    data={userData.user.pets}
                                     renderItem={({ item }) =>
                                         <Pressable
+                                            style={styles.petContainer}
                                             onPress={() => navigate('PetDetail', { id: item.id })}
                                         >
                                             <FastImage
                                                 source={{ uri: item.image }}
                                                 style={styles.petImage}
                                             />
+                                            <Text style={{ fontSize: 12 }} >{item.name}</Text>
                                         </Pressable>
                                     }
                                 />
                             </View>
                             <View style={{ flexDirection: 'row', alignItems: 'flex-end', marginTop: 24 }} >
-                                <Text style={styles.age} >{user.name}</Text>
-                                <Text style={styles.genderAge} >{genderGenerator.user(user.gender)}, {user.age}세</Text>
+                                <Text style={styles.name} >{userData.user.name}</Text>
                             </View>
-                            <Text style={styles.address} >{!isIUser ? `${meterUnit(user.address.distance || 0)} • ` : ''}{user.address.addressFull}</Text>
-                            {!!user.introduce && <Text style={{ marginTop: 16 }} >{user.introduce}</Text>}
+                            <Text style={styles.address} >{!isIUser ? `${meterUnit(userData.user.address.distance || 0)} • ` : ''}{userData.user.address.addressFull}</Text>
+                            {!!userData.user.introduce && <Text style={{ marginTop: 16 }} >{userData.user.introduce}</Text>}
                         </View>
                         <View style={styles.followInfoContainer} >
                             <Pressable
@@ -115,56 +141,55 @@ const UserDetail = () => {
                                 android_ripple={{ color: GRAY2 }}
                                 style={styles.followInfoBtn}
                             >
-                                <Text style={styles.followInfoCount} >{followCountUnit(user.mediaCount)}</Text>
+                                <Text style={styles.followInfoCount} >{followCountUnit(userData.user.mediaCount)}</Text>
                                 <Text>게시물</Text>
                             </Pressable>
                             <Pressable
-                                onPress={() => { }}
+                                onPress={() => navigate('Follows', { type: 'followers', userId: userData.user.id })}
                                 android_ripple={{ color: GRAY2 }}
                                 style={styles.followInfoBtn}
                             >
-                                <Text style={styles.followInfoCount} >{followCountUnit(user.followerCount)}</Text>
+                                <Text style={styles.followInfoCount} >{followCountUnit(userData.user.followerCount)}</Text>
                                 <Text>팔로워</Text>
                             </Pressable>
                             <Pressable
-                                onPress={() => { }}
+                                onPress={() => navigate('Follows', { type: 'followings', userId: userData.user.id })}
                                 android_ripple={{ color: GRAY2 }}
                                 style={styles.followInfoBtn}
                             >
-                                <Text style={styles.followInfoCount} >{followCountUnit(user.followingCount)}</Text>
+                                <Text style={styles.followInfoCount} >{followCountUnit(userData.user.followingCount)}</Text>
                                 <Text>팔로잉</Text>
                             </Pressable>
                             <View style={{ flex: 1 }} />
-                            {!isIUser && <>
+                            {iUserData.iUser.id !== userData.user.id && <>
                                 <Pressable
-                                    onPress={() => { }}
+                                    onPress={onFollow}
+                                    style={[styles.editProfileBtn, { marginRight: 12, backgroundColor: userData.user.isIFollowed ? '#fff' : COLOR1 }]}
                                     android_ripple={{ color: GRAY2 }}
-                                    style={user.isIFollowed ? styles.chatBtn : styles.followBtn}
                                 >
-                                    <Text style={{ color: user.isIFollowed ? GRAY1 : '#fff' }} >팔로우</Text>
+                                    <Text style={{ color: userData.user.isIFollowed ? '#000' : '#fff', marginHorizontal: 3 }} >{userData.user.isIFollowed ? '팔로잉' : '팔로우'}</Text>
                                 </Pressable>
                                 <Pressable
-                                    onPress={() => navigate('ChatDetail', { userId: id })}
+                                    onPress={onChat}
+                                    style={styles.editProfileBtn}
                                     android_ripple={{ color: GRAY2 }}
-                                    style={user.isIFollowed ? styles.followBtn : styles.chatBtn}
                                 >
-                                    <Text style={{ color: user.isIFollowed ? '#fff' : GRAY1 }} >채팅</Text>
+                                    <Text>채팅</Text>
                                 </Pressable>
                             </>}
                         </View>
-                        {!!user.instagramId && <View style={styles.instagramIdContainer} >
-                            <IconMC name='instagram' size={20} color={'#aaa'} />
-                            <Text style={styles.instagramId} >@{user.instagramId}</Text>
-                        </View>}
                     </>
                 }
-                {...refreshing}
-                ListFooterComponent={<View style={{ height: bottom }} />}
                 ListEmptyComponent={
                     loading
                         ?
-                        <ActivityIndicator style={{ marginTop: 32 }} size='small' color={GRAY1} />
+                        <ActivityIndicator style={{ marginTop: 32 }
+                        } size='small' color={GRAY1} />
                         : <Text style={styles.emptyString} >게시물이 없습니다</Text>
+                }
+                ListFooterComponent={
+                    fetchMoreLoading ? <ActivityIndicator style={{ marginVertical: 32 }
+                    } size='small' color={GRAY1} /> : null
                 }
                 renderItem={({ item }) =>
                     <Pressable>
@@ -172,16 +197,16 @@ const UserDetail = () => {
                             style={{ width: WIDTH / 3, height: WIDTH / 3, }}
                             source={{ uri: item.thumnail }}
                         />
-                        {item.media?.isInstagram && <IconMC style={styles.itemInstagramIcon} name='instagram' size={20} color={GRAY3} />}
+                        {item.media.isInstagram && <IconMC style={styles.itemInstagramIcon} name='instagram' size={20} color={GRAY3} />}
                     </Pressable>
                 }
+                {...refreshing}
                 numColumns={3}
-                onEndReached={() => fetchMore({ variables: { instagramEndCursor: media?.mediasByUserId.filter(v => !!v.media?.isInstagram).pop()?.instagramEndCursor } })}
+                onEndReached={onEndReached}
                 onEndReachedThreshold={0.5}
                 data={media?.mediasByUserId || []}
             />
-            }
-        </ScreenLayout>
+        </ScreenLayout >
     )
 }
 
@@ -194,61 +219,62 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
-    chat: {
-        color: COLOR1,
-        fontWeight: 'bold'
-    },
     profileImage: {
-        width: 56,
-        height: 56,
-        marginRight: 16,
-        borderRadius: 28
+        width: 80,
+        height: 80,
+        marginRight: 20,
+        borderRadius: 40,
+        borderWidth: 1,
+        borderColor: GRAY3
     },
     profileLine: {
         width: 1,
-        height: 32,
+        height: 60,
         backgroundColor: '#eee'
     },
     profileInfoContainer: {
         width: '100%',
-        paddingHorizontal: 16,
+        paddingHorizontal: 20,
         paddingTop: 24,
         paddingBottom: 16,
         borderBottomWidth: 1,
         borderBottomColor: GRAY3
     },
+    petContainer: {
+        height: 80,
+        alignItems: 'center',
+        marginRight: 16,
+    },
     petImage: {
         width: 56,
         height: 56,
-        marginRight: 16,
-        borderRadius: 28
+        borderRadius: 28,
+        borderWidth: 1,
+        borderColor: GRAY3,
+        marginBottom: 8,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
-    age: {
+    name: {
         fontSize: 18,
         fontWeight: 'bold',
     },
-    genderAge: {
-        fontWeight: 'bold',
-        fontSize: 12,
-        marginLeft: 8,
-        color: GRAY1
-    },
     address: {
-        marginTop: 16,
+        marginTop: 12,
         color: GRAY1
     },
     introduceContainer: {
         width: '100%',
         borderBottomWidth: 1,
         borderBottomColor: GRAY3,
-        paddingVertical: 24,
-        paddingHorizontal: 16
+        paddingVertical: 20,
+        paddingHorizontal: 20
     },
     followInfoContainer: {
         width: '100%',
         flexDirection: 'row',
         paddingVertical: 24,
-        paddingLeft: 4,
+        paddingLeft: 8,
         paddingRight: 16,
         alignItems: 'center',
         borderBottomWidth: 1,
@@ -272,29 +298,14 @@ const styles = StyleSheet.create({
         backgroundColor: COLOR1,
         marginLeft: 16
     },
-    chatBtn: {
-        height: 32,
+    editProfileBtn: {
         paddingHorizontal: 16,
-        borderRadius: 4,
-        alignItems: 'center',
-        justifyContent: 'center',
+        height: 40,
+        borderRadius: 8,
         borderWidth: 1,
-        borderColor: GRAY2,
-        marginLeft: 16
-    },
-    instagramIdContainer: {
-        height: 48,
+        borderColor: GRAY3,
         alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'row',
-        borderBottomWidth: 1,
-        borderBottomColor: GRAY3
-    },
-    instagramId: {
-        color: GRAY1,
-        marginLeft: 8,
-        borderBottomWidth: 1,
-        borderBottomColor: GRAY3
+        justifyContent: 'center'
     },
     emptyString: {
         alignSelf: 'center',

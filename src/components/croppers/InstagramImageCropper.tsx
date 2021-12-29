@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, Dimensions, Image } from 'react-native'
+import React, { useEffect } from 'react'
+import { StyleSheet, View, Dimensions, Image } from 'react-native'
 import { PanGestureHandler, PanGestureHandlerGestureEvent, PinchGestureHandler, PinchGestureHandlerGestureEvent } from 'react-native-gesture-handler'
 import Animated, { runOnJS, useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated'
 import ImageEditor from "@react-native-community/image-editor";

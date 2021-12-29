@@ -13,9 +13,16 @@ export interface following_following_targetUser {
   isIFollowed: boolean;
 }
 
+export interface following_following_user {
+  __typename: "User";
+  id: string;
+  followingCount: number;
+}
+
 export interface following_following {
   __typename: "Follow";
   targetUser: following_following_targetUser;
+  user: following_following_user;
 }
 
 export interface following {

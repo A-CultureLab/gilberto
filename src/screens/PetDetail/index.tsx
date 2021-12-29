@@ -13,10 +13,10 @@ import { useMediasByPetId, useMediasByUserId } from '../../graphql/media'
 import useRefreshing from '../../hooks/useRefreshing'
 import useRoute from '../../hooks/useRoute'
 import genderGenerator from '../../lib/genderGenerator'
-import { AuthContext } from '../../wrappers/AuthWrapper'
 import { useIUser } from '../../graphql/user'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import useGlobalUi from '../../hooks/useGlobalUi'
+import { useDisFollowing, useFollowing } from '../../graphql/follow'
 export interface PetDetailProps {
     id: string
 }
@@ -28,9 +28,11 @@ const PetDetail = () => {
     const { select, toast } = useGlobalUi()
 
     const { data: iUserData } = useIUser()
-    const { data: petData, refetch: iUserRefetch } = usePet({ variables: { id } })
+    const { data: petData, refetch: petRefetch } = usePet({ variables: { id } })
     const { data: media, refetch: mediaRefetch, fetchMore, loading } = useMediasByPetId({ variables: { petId: id } })
     const [fetchMoreLoading, setFetchMoreLoading] = useState(false)
+    const [following] = useFollowing({ variables: { userId: petData?.pet.user.id || '' } })
+    const [disFollowing] = useDisFollowing({ variables: { userId: petData?.pet.user.id || '' } })
 
     const [ended, setEnded] = useState(false)
 
@@ -43,7 +45,7 @@ const PetDetail = () => {
     const refreshing = useRefreshing(async () => {
         try {
             await Promise.all([
-                iUserRefetch(),
+                petRefetch(),
                 mediaRefetch()
             ])
         } catch (error) { }
@@ -72,8 +74,10 @@ const PetDetail = () => {
     }, [isIUser])
 
     const onFollow = useCallback(() => {
-
-    }, [])
+        if (!petData) return
+        if (petData.pet.user.isIFollowed) disFollowing().then(() => petRefetch())
+        else following()
+    }, [petData])
 
     const onChat = useCallback(() => {
         if (!petData) return
@@ -153,7 +157,7 @@ const PetDetail = () => {
                                 <Text>게시물</Text>
                             </Pressable>
                             <Pressable
-                                onPress={() => { }}
+                                onPress={() => navigate('Follows', { type: 'followers', userId: petData.pet.user.id })}
                                 android_ripple={{ color: GRAY2 }}
                                 style={styles.followInfoBtn}
                             >
@@ -161,7 +165,7 @@ const PetDetail = () => {
                                 <Text>팔로워</Text>
                             </Pressable>
                             <Pressable
-                                onPress={() => { }}
+                                onPress={() => navigate('Follows', { type: 'followings', userId: petData.pet.user.id })}
                                 android_ripple={{ color: GRAY2 }}
                                 style={styles.followInfoBtn}
                             >
@@ -172,10 +176,10 @@ const PetDetail = () => {
                             {iUserData.iUser.id !== petData.pet.user.id && <>
                                 <Pressable
                                     onPress={onFollow}
-                                    style={[styles.editProfileBtn, { marginRight: 12, backgroundColor: COLOR1 }]}
+                                    style={[styles.editProfileBtn, { marginRight: 12, backgroundColor: petData.pet.user.isIFollowed ? '#fff' : COLOR1 }]}
                                     android_ripple={{ color: GRAY2 }}
                                 >
-                                    <Text style={{ color: '#fff', marginHorizontal: 3 }} >팔로우</Text>
+                                    <Text style={{ color: petData.pet.user.isIFollowed ? '#000' : '#fff', marginHorizontal: 3 }} >{petData.pet.user.isIFollowed ? '팔로잉' : '팔로우'}</Text>
                                 </Pressable>
                                 <Pressable
                                     onPress={onChat}
