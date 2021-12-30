@@ -11,6 +11,7 @@ import { deleteMediaCommentVariables } from './__generated__/deleteMediaComment'
 import { deleteMediaReplyComment } from './__generated__/deleteMediaReplyComment'
 import { mediaReplyComments_mediaReplyComments } from './__generated__/mediaReplyComments'
 import SirenIcon from '../../assets/svgs/siren.svg'
+import useNavigation from '../../hooks/useNavigation'
 
 const DELETE_MEDIA_REPLY_COMMENT = gql`
 mutation deleteMediaReplyComment($id:String!){
@@ -30,6 +31,7 @@ const MediaCommentsReplyCard: React.FC<mediaReplyComments_mediaReplyComments & M
 
     const { setTargetCommentUser } = useContext(MediaCommentsScreenContext)
     const { confirm, toast } = useGlobalUi()
+    const { push } = useNavigation()
 
     const { id, content, createdAt, user, onRefetch, mediaCommentId } = props
 
@@ -54,10 +56,12 @@ const MediaCommentsReplyCard: React.FC<mediaReplyComments_mediaReplyComments & M
     return (
         <>
             <Pressable style={styles.container} onPress={() => setTargetCommentUser({ commentId: mediaCommentId, userId: user.id, profileId: user.profileId })} >
-                <FastImage
-                    style={{ width: 32, height: 32, borderRadius: 16, marginRight: 16 }}
-                    source={{ uri: user.image }}
-                />
+                <Pressable onPress={() => push('UserDetail', { id: user.id })} >
+                    <FastImage
+                        style={{ width: 32, height: 32, borderRadius: 16, marginRight: 16 }}
+                        source={{ uri: user.image }}
+                    />
+                </Pressable>
                 <View style={{ flex: 1 }} >
                     <Text><Text style={{ fontWeight: 'bold' }} >{user.profileId} </Text>{content}</Text>
                     <View style={{ flexDirection: 'row', marginTop: 6 }} >

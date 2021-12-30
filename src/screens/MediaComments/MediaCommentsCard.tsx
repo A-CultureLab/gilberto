@@ -12,6 +12,7 @@ import { createLazyQueryHook, createMutationHook } from '../../lib/createApolloH
 import { deleteMediaComment, deleteMediaCommentVariables } from './__generated__/deleteMediaComment'
 import { mediaReplyComments, mediaReplyCommentsVariables } from './__generated__/mediaReplyComments'
 import MediaCommentsReplyCard from './MediaCommentsReplyCard'
+import useNavigation from '../../hooks/useNavigation'
 
 const DELETE_MEDIA_COMMENT = gql`
 mutation deleteMediaComment($id:String!) {
@@ -38,6 +39,7 @@ query mediaReplyComments($mediaCommentId:String!, $skip:Int!) {
 const MediaCommentsCard: React.FC<mediaCommentsComments_mediaComments> = (props) => {
 
     const { onRefresh, setTargetCommentUser } = useContext(MediaCommentsScreenContext)
+    const { push } = useNavigation()
     const { confirm, toast } = useGlobalUi()
 
     const { id, content, createdAt, user, replyCommentCount } = props
@@ -69,10 +71,12 @@ const MediaCommentsCard: React.FC<mediaCommentsComments_mediaComments> = (props)
     return (
         <>
             <Pressable style={styles.container} onPress={() => setTargetCommentUser({ commentId: id, profileId: user.profileId, userId: user.id })} >
-                <FastImage
-                    style={{ width: 32, height: 32, borderRadius: 16, marginRight: 16 }}
-                    source={{ uri: user.image }}
-                />
+                <Pressable onPress={() => push('UserDetail', { id: user.id })} >
+                    <FastImage
+                        style={{ width: 32, height: 32, borderRadius: 16, marginRight: 16 }}
+                        source={{ uri: user.image }}
+                    />
+                </Pressable>
                 <View style={{ flex: 1 }} >
                     <Text><Text style={{ fontWeight: 'bold' }} >{user.profileId} </Text>{content}</Text>
                     <View style={{ flexDirection: 'row', marginTop: 6 }} >
