@@ -13,8 +13,8 @@ import HeartFillIcon from '../../../assets/svgs/heart_fill.svg'
 import ChatIcon from '../../../assets/svgs/chat.svg'
 import PetSelectSheet from '../../selectors/PetSelectSheet'
 import { useDisLikeMedia, useLikeMedia } from '../../../graphql/media'
-//@ts-ignore
 import ReadMore from '@fawazahmed/react-native-read-more';
+import ReadMoreText from '../../texts/ReadMoreText'
 
 
 const MediaCard: React.FC<media_media> = (props) => {
@@ -80,7 +80,7 @@ const MediaCard: React.FC<media_media> = (props) => {
                     {isILiked ? <HeartFillIcon width={24} height={24} fill={COLOR1} /> : <HeartIcon width={24} height={24} fill={'#000'} />}
                     <Text style={{ fontWeight: 'bold', marginLeft: 8 }} >{likeCount.toLocaleString()}</Text>
                 </Pressable>
-                <Pressable style={{ flexDirection: 'row', alignItems: 'center', marginRight: 16 }} onPress={() => { }} >
+                <Pressable style={{ flexDirection: 'row', alignItems: 'center', marginRight: 16 }} onPress={() => navigate('MediaComments', { mediaId: id })} >
                     <ChatIcon width={24} height={24} fill={'#000'} />
                     <Text style={{ fontWeight: 'bold', marginLeft: 8 }} >{commentCount.toLocaleString()}</Text>
                 </Pressable>
@@ -111,21 +111,11 @@ const MediaCard: React.FC<media_media> = (props) => {
             </View>
 
             <View style={styles.contentContainer} >
-                <ReadMore
-                    numberOfLines={3}
-                    style={{ lineHeight: 20 }}
-                    ellipsis=' '
-                    seeMoreStyle={{ fontWeight: 'normal', color: GRAY1 }}
-                    seeLessStyle={{ fontWeight: 'normal', color: GRAY1 }}
-                    seeMoreText='더보기'
-                    seeLessText=''
-                >
-                    {content}
-                </ReadMore>
+                <ReadMoreText>{content}</ReadMoreText>
             </View>
 
             {!!recentComments.length && <Pressable
-                onPress={() => { }}
+                onPress={() => navigate('MediaComments', { mediaId: id })}
                 style={styles.commentsContainer}
             >
                 <Text style={{ color: GRAY1 }} >댓글 {commentCount}개 모두 보기</Text>

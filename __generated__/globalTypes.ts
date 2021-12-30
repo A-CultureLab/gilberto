@@ -430,9 +430,18 @@ export interface LandWhereUniqueInput {
   id?: string | null;
 }
 
+export interface MediaCommentCreateInput {
+  id?: string | null;
+  createdAt?: any | null;
+  content: string;
+  user: UserCreateNestedOneWithoutMediaCommentsInput;
+  media: MediaCreateNestedOneWithoutMediaCommentInput;
+  mediaReplyComment?: MediaReplyCommentCreateNestedManyWithoutMediaCommentInput | null;
+}
+
 export interface MediaCommentCreateManyMediaInput {
   id?: string | null;
-  createdAt: any;
+  createdAt?: any | null;
   content: string;
   userId: string;
 }
@@ -444,7 +453,7 @@ export interface MediaCommentCreateManyMediaInputEnvelope {
 
 export interface MediaCommentCreateManyUserInput {
   id?: string | null;
-  createdAt: any;
+  createdAt?: any | null;
   content: string;
   mediaId: string;
 }
@@ -491,7 +500,7 @@ export interface MediaCommentCreateOrConnectWithoutUserInput {
 
 export interface MediaCommentCreateWithoutMediaInput {
   id?: string | null;
-  createdAt: any;
+  createdAt?: any | null;
   content: string;
   user: UserCreateNestedOneWithoutMediaCommentsInput;
   mediaReplyComment?: MediaReplyCommentCreateNestedManyWithoutMediaCommentInput | null;
@@ -499,7 +508,7 @@ export interface MediaCommentCreateWithoutMediaInput {
 
 export interface MediaCommentCreateWithoutMediaReplyCommentInput {
   id?: string | null;
-  createdAt: any;
+  createdAt?: any | null;
   content: string;
   user: UserCreateNestedOneWithoutMediaCommentsInput;
   media: MediaCreateNestedOneWithoutMediaCommentInput;
@@ -507,7 +516,7 @@ export interface MediaCommentCreateWithoutMediaReplyCommentInput {
 
 export interface MediaCommentCreateWithoutUserInput {
   id?: string | null;
-  createdAt: any;
+  createdAt?: any | null;
   content: string;
   media: MediaCreateNestedOneWithoutMediaCommentInput;
   mediaReplyComment?: MediaReplyCommentCreateNestedManyWithoutMediaCommentInput | null;
@@ -720,12 +729,21 @@ export interface MediaLikeWhereUniqueInput {
   id?: string | null;
 }
 
+export interface MediaReplyCommentCreateInput {
+  id?: string | null;
+  createdAt?: any | null;
+  content: string;
+  user: UserCreateNestedOneWithoutMediaReplyCommentsInput;
+  targetUser: UserCreateNestedOneWithoutMediaReplyTargetedCommentsInput;
+  mediaComment: MediaCommentCreateNestedOneWithoutMediaReplyCommentInput;
+}
+
 export interface MediaReplyCommentCreateManyMediaCommentInput {
   id?: string | null;
-  createdAt: any;
+  createdAt?: any | null;
   content: string;
   userId: string;
-  targetUserId?: string | null;
+  targetUserId: string;
 }
 
 export interface MediaReplyCommentCreateManyMediaCommentInputEnvelope {
@@ -735,7 +753,7 @@ export interface MediaReplyCommentCreateManyMediaCommentInputEnvelope {
 
 export interface MediaReplyCommentCreateManyTargetUserInput {
   id?: string | null;
-  createdAt: any;
+  createdAt?: any | null;
   content: string;
   userId: string;
   mediaCommentId: string;
@@ -748,9 +766,9 @@ export interface MediaReplyCommentCreateManyTargetUserInputEnvelope {
 
 export interface MediaReplyCommentCreateManyUserInput {
   id?: string | null;
-  createdAt: any;
+  createdAt?: any | null;
   content: string;
-  targetUserId?: string | null;
+  targetUserId: string;
   mediaCommentId: string;
 }
 
@@ -797,15 +815,15 @@ export interface MediaReplyCommentCreateOrConnectWithoutUserInput {
 
 export interface MediaReplyCommentCreateWithoutMediaCommentInput {
   id?: string | null;
-  createdAt: any;
+  createdAt?: any | null;
   content: string;
   user: UserCreateNestedOneWithoutMediaReplyCommentsInput;
-  targetUser?: UserCreateNestedOneWithoutMediaReplyTargetedCommentsInput | null;
+  targetUser: UserCreateNestedOneWithoutMediaReplyTargetedCommentsInput;
 }
 
 export interface MediaReplyCommentCreateWithoutTargetUserInput {
   id?: string | null;
-  createdAt: any;
+  createdAt?: any | null;
   content: string;
   user: UserCreateNestedOneWithoutMediaReplyCommentsInput;
   mediaComment: MediaCommentCreateNestedOneWithoutMediaReplyCommentInput;
@@ -813,9 +831,9 @@ export interface MediaReplyCommentCreateWithoutTargetUserInput {
 
 export interface MediaReplyCommentCreateWithoutUserInput {
   id?: string | null;
-  createdAt: any;
+  createdAt?: any | null;
   content: string;
-  targetUser?: UserCreateNestedOneWithoutMediaReplyTargetedCommentsInput | null;
+  targetUser: UserCreateNestedOneWithoutMediaReplyTargetedCommentsInput;
   mediaComment: MediaCommentCreateNestedOneWithoutMediaReplyCommentInput;
 }
 

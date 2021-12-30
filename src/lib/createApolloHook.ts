@@ -15,7 +15,7 @@ const errorLogger = (error: ApolloError, toast: any) => {
 
 
 
-export const createQueryHook = <Data, Vars>(query: DocumentNode, preOptions?: QueryHookOptions<Data, Vars>) => (options?: QueryHookOptions<Data, Vars>) => {
+export const createQueryHook = <Data, Vars = {}>(query: DocumentNode, preOptions?: QueryHookOptions<Data, Vars>) => (options?: QueryHookOptions<Data, Vars>) => {
     const { toast } = useGlobalUi()
     return useQuery<Data, Vars>(query, {
         ...preOptions,
@@ -27,7 +27,7 @@ export const createQueryHook = <Data, Vars>(query: DocumentNode, preOptions?: Qu
     })
 }
 
-export const createLazyQueryHook = <Data, Vars>(query: DocumentNode, preOptions?: QueryHookOptions<Data, Vars>) => (options?: QueryHookOptions<Data, Vars>) => {
+export const createLazyQueryHook = <Data, Vars = {}>(query: DocumentNode, preOptions?: QueryHookOptions<Data, Vars>) => (options?: QueryHookOptions<Data, Vars>) => {
     const { toast } = useGlobalUi()
     return useLazyQuery<Data, Vars>(query, {
         ...preOptions,
@@ -38,7 +38,7 @@ export const createLazyQueryHook = <Data, Vars>(query: DocumentNode, preOptions?
         },
     })
 }
-export const createMutationHook = <Data, Vars>(query: DocumentNode, preOptions?: MutationHookOptions<Data, Vars>) => (options?: MutationHookOptions<Data, Vars>) => {
+export const createMutationHook = <Data, Vars = {}>(query: DocumentNode, preOptions?: MutationHookOptions<Data, Vars>) => (options?: MutationHookOptions<Data, Vars>) => {
     const { toast } = useGlobalUi()
     return useMutation<Data, Vars>(query, {
         ...preOptions,
@@ -49,7 +49,7 @@ export const createMutationHook = <Data, Vars>(query: DocumentNode, preOptions?:
         },
     })
 }
-export const createSubscriptionHook = <Data, Vars>(query: DocumentNode, preOptions?: SubscriptionHookOptions<Data, Vars>) => (options?: SubscriptionHookOptions<Data, Vars>) =>
+export const createSubscriptionHook = <Data, Vars = {}>(query: DocumentNode, preOptions?: SubscriptionHookOptions<Data, Vars>) => (options?: SubscriptionHookOptions<Data, Vars>) =>
     useSubscription<Data, Vars>(query, {
         ...preOptions,
         ...options

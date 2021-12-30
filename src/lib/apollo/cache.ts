@@ -14,7 +14,9 @@ export default new InMemoryCache({
                 postReplyComments: offsetLimitPagination(['where']),
                 mediasByUserId: offsetLimitPaginationMergeLastest(['userId']),
                 followers: offsetLimitPaginationMergeLastest(['userId']),
-                followings: offsetLimitPaginationMergeLastest(['userId'])
+                followings: offsetLimitPaginationMergeLastest(['userId']),
+                mediaComments: offsetLimitPaginationMergeLastest(['where', 'orderBy']),
+                mediaReplyComments: offsetLimitPaginationMergeLastest(['where', 'orderBy']),
             }
         }
     },

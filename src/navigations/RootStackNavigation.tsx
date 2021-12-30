@@ -31,6 +31,7 @@ import MediaCreateSelectPhoto from '../screens/MediaCreateSelectPhoto';
 import MediaCreate, { MediaCreateProps } from '../screens/MediaCreate';
 import Follows, { FollowsProps } from '../screens/Follows';
 import MediaDetail, { MediaDetailProps } from '../screens/MediaDetail';
+import MediaComments, { MediaCommentsProps } from '../screens/MediaComments';
 
 
 
@@ -62,6 +63,7 @@ export type RootStackParamList = {
     MediaCreate: MediaCreateProps
     Follows: FollowsProps
     MediaDetail: MediaDetailProps
+    MediaComments: MediaCommentsProps
 }
 
 
@@ -107,6 +109,7 @@ const RootStackNavigation = () => {
             <RootStack.Screen name='MediaCreate' component={MediaCreate} />
             <RootStack.Screen name='Follows' component={Follows} />
             <RootStack.Screen name='MediaDetail' component={MediaDetail} />
+            <RootStack.Screen name='MediaComments' component={MediaComments} />
         </RootStack.Navigator>
     )
 }

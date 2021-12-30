@@ -895,10 +895,10 @@
     base64-js "^1.2.3"
     xmlbuilder "^14.0.0"
 
-"@fawazahmed/react-native-read-more@^2.2.2":
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/@fawazahmed/react-native-read-more/-/react-native-read-more-2.2.2.tgz#eca5a9101d27f99f8abec78b9399077128c68152"
-  integrity sha512-hAEBNzI1axZEGQFv6T5FJ+zmxQDHPcAib5fqFGXOfaBt6bae/XDvTjnK20bFptJs6kAh4ZijFbfQJfOCeQ2xaw==
+"@fawazahmed/react-native-read-more@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@fawazahmed/react-native-read-more/-/react-native-read-more-2.3.0.tgz#8ccafd3cb5b12dc7eeccab3e966a55fe6eb033ed"
+  integrity sha512-hpg/AhovcSPxcemtlt6mLXUdSAo/7pYiWsExbhXvFeg6iP04hw1xuAWV/juDbCGbp1fYGu6xqaPJO00/k7YP3Q==
   dependencies:
     prop-types "^15.7.2"
 
