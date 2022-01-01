@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client'
 import React, { useCallback, useState } from 'react'
-import { FlatList, Image, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
+import { ActivityIndicator, FlatList, Image, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import Header from '../../components/headers/Header'
 import ScreenLayout from '../../components/layout/ScreenLayout'
@@ -23,10 +23,10 @@ const MediaCreate = () => {
 
     const { params } = useRoute<'MediaCreate'>()
     const { reset } = useNavigation()
-    console.log(params.photos)
+
     const { data: myPetsData } = useMyPets()
     const [createMedia, { loading }] = useCreateMedia()
-    const [uploadImage] = useMutation<uploadImages, uploadImagesVariables>(UPLOAD_IMAGES)
+    const [uploadImage, { loading: uploadImageLoading }] = useMutation<uploadImages, uploadImagesVariables>(UPLOAD_IMAGES)
 
     const [visible, setVisible] = useState(false)
     const [content, setContent] = useState('')
@@ -35,6 +35,7 @@ const MediaCreate = () => {
 
 
     const onSubmit = useCallback(async () => {
+        if (loading) return
         const { data } = await uploadImage({
             variables: {
                 images: params.photos.map((v, i) => generateImageToRNFile(v, Date.now().toString() + i.toString())),
@@ -53,7 +54,7 @@ const MediaCreate = () => {
         })
         if (errors) return
         reset({ routes: [{ name: 'Tab' }] })
-    }, [params, taggedPets, content])
+    }, [params, taggedPets, content, loading])
 
 
 
@@ -62,7 +63,14 @@ const MediaCreate = () => {
             <Header
                 title='게시물 생성'
                 underline
-                right={() => <Pressable style={{ width: 56, height: 56, alignItems: 'center', justifyContent: 'center' }} onPress={onSubmit} ><Text style={{ fontWeight: 'bold', color: COLOR1 }} >등록</Text></Pressable>}
+                right={() =>
+                    <Pressable style={{ width: 56, height: 56, alignItems: 'center', justifyContent: 'center' }} onPress={onSubmit} >
+                        {(loading || uploadImageLoading)
+                            ? <ActivityIndicator size='small' color={COLOR1} />
+                            : <Text style={{ fontWeight: 'bold', color: COLOR1 }} >등록</Text>
+                        }
+                    </Pressable>
+                }
             />
             <Text style={styles.tagLabel} >태그</Text>
             <View style={{ height: 128, width: '100%' }} >

@@ -7,6 +7,7 @@ import { media_media } from '../../../graphql/__generated__/media'
 import useGlobalUi from '../../../hooks/useGlobalUi'
 import useNavigation from '../../../hooks/useNavigation'
 import Icon from 'react-native-vector-icons/MaterialIcons'
+import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons'
 import MediaCardImageCarousel from './MediaCardImageCarousel'
 import HeartIcon from '../../../assets/svgs/heart.svg'
 import HeartFillIcon from '../../../assets/svgs/heart_fill.svg'
@@ -15,15 +16,28 @@ import PetSelectSheet from '../../selectors/PetSelectSheet'
 import { useDisLikeMedia, useLikeMedia } from '../../../graphql/media'
 import ReadMore from '@fawazahmed/react-native-read-more';
 import ReadMoreText from '../../texts/ReadMoreText'
+import meterUnit from '../../../utils/meterUnit'
+import { gql } from '@apollo/client'
+import { createMutationHook } from '../../../lib/createApolloHook'
+import { deleteMedia, deleteMediaVariables } from './__generated__/deleteMedia'
+
+const DELETE_MEDIA = gql`
+mutation deleteMedia($id:String!) {
+    deleteMedia(id: $id) {
+        id
+    }
+}
+`
 
 
 const MediaCard: React.FC<media_media> = (props) => {
 
-    const { id, content, images, isInstagram, tagedPets, user, commentCount, recentComments, likeCount, isILiked } = props
+    const { id, content, images, tagedPets, user, commentCount, recentComments, likeCount, isILiked, isInstagram } = props
 
-    const { navigate } = useNavigation()
-    const { toast, select } = useGlobalUi()
+    const { navigate, goBack } = useNavigation()
+    const { toast, select, confirm } = useGlobalUi()
 
+    const [deleteMedia] = createMutationHook<deleteMedia, deleteMediaVariables>(DELETE_MEDIA)({ variables: { id } })
     const [following] = useFollowing({ variables: { userId: user.id } })
     const [likeMedia] = useLikeMedia({ variables: { id } })
     const [disLikeMedia] = useDisLikeMedia({ variables: { id } })
@@ -42,10 +56,20 @@ const MediaCard: React.FC<media_media> = (props) => {
         if (!isInstagram) return select({
             list: ['삭제하기', '수정하기'],
             onSelect: (i) => {
-                if (i === 0) toast({ content: '신고가 접수되었습니다' })
+                if (i === 0) confirm({
+                    title: '삭제하기',
+                    content: '정말 삭제하시겠습니까?',
+                    onPress: async (isYes) => {
+                        if (!isYes) return
+                        const { data } = await deleteMedia()
+                        if (!data) return
+                        goBack()
+                    }
+                })
+                if (i === 1) navigate('MediaEdit', { id })
             }
         })
-    }, [user, isInstagram])
+    }, [user, isInstagram, id])
 
     const onLike = useCallback(() => {
         if (isILiked) disLikeMedia()
@@ -65,16 +89,19 @@ const MediaCard: React.FC<media_media> = (props) => {
                         source={{ uri: user.image }}
                     />
                     <Text>{user.profileId}</Text>
-                    <Text style={{ color: GRAY1 }} > • {user.address.distance}</Text>
+                    <Text style={{ color: GRAY1 }} > • {meterUnit(user.address.distance || 0)}</Text>
                     {(!user.isIFollowed && !user.isMe) && <Pressable onPress={() => following()} >
                         <Text style={{ color: COLOR1 }} ><Text style={{ color: GRAY1 }} > • </Text>팔로우</Text>
                     </Pressable>}
                 </Pressable>
                 <Pressable onPress={onMore} style={styles.headerBtn} ><Icon size={24} color={GRAY1} name='more-vert' /></Pressable>
             </View>
-            <MediaCardImageCarousel
-                urls={images.map(v => v.url)}
-            />
+            <View>
+                <MediaCardImageCarousel
+                    urls={images.map(v => v.url)}
+                />
+                {isInstagram && <Icon2 style={{ position: 'absolute', right: 16, bottom: 16 }} size={24} color='#fff' name='instagram' />}
+            </View>
             <View style={styles.optionBar} >
                 <Pressable style={{ flexDirection: 'row', alignItems: 'center', marginRight: 16 }} onPress={onLike} >
                     {isILiked ? <HeartFillIcon width={24} height={24} fill={COLOR1} /> : <HeartIcon width={24} height={24} fill={'#000'} />}

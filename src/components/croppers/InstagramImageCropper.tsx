@@ -129,6 +129,10 @@ const InstagramImageCropper: React.FC<InstagramImageCropperProps> = (props) => {
             offset: {
                 x: offsetX,
                 y: offsetY
+            },
+            displaySize: {
+                height: 1024,
+                width: 1024
             }
         })
         onCropped && onCropped({ originalUri: image.uri, croppedUri: url })

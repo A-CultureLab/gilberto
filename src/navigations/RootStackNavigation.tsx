@@ -32,6 +32,7 @@ import MediaCreate, { MediaCreateProps } from '../screens/MediaCreate';
 import Follows, { FollowsProps } from '../screens/Follows';
 import MediaDetail, { MediaDetailProps } from '../screens/MediaDetail';
 import MediaComments, { MediaCommentsProps } from '../screens/MediaComments';
+import MediaEdit, { MediaEditProps } from '../screens/MediaEdit';
 
 
 
@@ -64,6 +65,7 @@ export type RootStackParamList = {
     Follows: FollowsProps
     MediaDetail: MediaDetailProps
     MediaComments: MediaCommentsProps
+    MediaEdit: MediaEditProps
 }
 
 
@@ -110,6 +112,7 @@ const RootStackNavigation = () => {
             <RootStack.Screen name='Follows' component={Follows} />
             <RootStack.Screen name='MediaDetail' component={MediaDetail} />
             <RootStack.Screen name='MediaComments' component={MediaComments} />
+            <RootStack.Screen name='MediaEdit' component={MediaEdit} />
         </RootStack.Navigator>
     )
 }

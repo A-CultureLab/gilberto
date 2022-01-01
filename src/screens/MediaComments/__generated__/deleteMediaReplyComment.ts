@@ -7,8 +7,14 @@
 // GraphQL mutation operation: deleteMediaReplyComment
 // ====================================================
 
+export interface deleteMediaReplyComment_deleteMediaReplyComment {
+  __typename: "MediaComment";
+  id: string;
+  replyCommentCount: number;
+}
+
 export interface deleteMediaReplyComment {
-  deleteMediaReplyComment: string;
+  deleteMediaReplyComment: deleteMediaReplyComment_deleteMediaReplyComment;
 }
 
 export interface deleteMediaReplyCommentVariables {
