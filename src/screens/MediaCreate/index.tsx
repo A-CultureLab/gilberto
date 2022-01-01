@@ -35,7 +35,7 @@ const MediaCreate = () => {
 
 
     const onSubmit = useCallback(async () => {
-        if (loading) return
+        if (loading || uploadImageLoading) return
         const { data } = await uploadImage({
             variables: {
                 images: params.photos.map((v, i) => generateImageToRNFile(v, Date.now().toString() + i.toString())),
@@ -54,7 +54,7 @@ const MediaCreate = () => {
         })
         if (errors) return
         reset({ routes: [{ name: 'Tab' }] })
-    }, [params, taggedPets, content, loading])
+    }, [params, taggedPets, content, loading, uploadImageLoading])
 
 
 
@@ -118,6 +118,7 @@ const MediaCreate = () => {
             <TextInput
                 style={styles.input}
                 placeholder='내용을 입력하세요'
+                value={content}
                 onChangeText={t => setContent(t)}
                 maxLength={2000}
             />
