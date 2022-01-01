@@ -1,5 +1,5 @@
 import React from 'react'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
 import MediaCard from '../../components/cards/MediaCard'
 import Header from '../../components/headers/Header'
 import ScreenLayout from '../../components/layout/ScreenLayout'
@@ -14,19 +14,25 @@ const MediaDetail = () => {
 
 
     const { params: { id } } = useRoute<'MediaDetail'>()
-    const { data } = useMedia({ variables: { id } })
+    const { data, loading } = useMedia({ variables: { id } })
 
     return (
         <ScreenLayout>
             <Header title='게시물' />
-            <ScrollView
-                overScrollMode='never'
-                showsVerticalScrollIndicator={false}
-            >
-                {data && <MediaCard
-                    {...data?.media}
-                />}
-            </ScrollView>
+            {loading
+                ?
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }} >
+                    <ActivityIndicator size='small' />
+                </View>
+                : <ScrollView
+                    overScrollMode='never'
+                    showsVerticalScrollIndicator={false}
+                >
+                    {data && <MediaCard
+                        {...data?.media}
+                    />}
+                </ScrollView>
+            }
         </ScreenLayout>
     )
 }
