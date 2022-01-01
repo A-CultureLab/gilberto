@@ -22,7 +22,7 @@ export interface UserDetailProps {
 
 const UserDetail = () => {
 
-    const { navigate } = useNavigation()
+    const { push } = useNavigation()
     const { params: { id } } = useRoute<'UserDetail'>()
     const { select, toast } = useGlobalUi()
 
@@ -82,7 +82,7 @@ const UserDetail = () => {
 
     const onChat = useCallback(() => {
         if (!userData) return
-        navigate('ChatDetail', { userId: userData.user.id })
+        push('ChatDetail', { userId: userData.user.id })
     }, [userData])
 
 
@@ -104,7 +104,7 @@ const UserDetail = () => {
                     <>
                         <View style={styles.profileInfoContainer} >
                             <View style={{ flexDirection: 'row', alignItems: 'center' }} >
-                                <Pressable onPress={() => navigate('ImageDetail', { index: 0, urls: [userData.user.image, ...userData.user.pets.map(v => v.image)] })}>
+                                <Pressable onPress={() => push('ImageDetail', { index: 0, urls: [userData.user.image, ...userData.user.pets.map(v => v.image)] })}>
                                     <FastImage
                                         style={styles.profileImage}
                                         source={{ uri: userData.user.image }}
@@ -118,7 +118,7 @@ const UserDetail = () => {
                                     renderItem={({ item }) =>
                                         <Pressable
                                             style={styles.petContainer}
-                                            onPress={() => navigate('PetDetail', { id: item.id })}
+                                            onPress={() => push('PetDetail', { id: item.id })}
                                         >
                                             <FastImage
                                                 source={{ uri: item.image }}
@@ -145,7 +145,7 @@ const UserDetail = () => {
                                 <Text>게시물</Text>
                             </Pressable>
                             <Pressable
-                                onPress={() => navigate('Follows', { type: 'followers', userId: userData.user.id })}
+                                onPress={() => push('Follows', { type: 'followers', userId: userData.user.id })}
                                 android_ripple={{ color: GRAY2 }}
                                 style={styles.followInfoBtn}
                             >
@@ -153,7 +153,7 @@ const UserDetail = () => {
                                 <Text>팔로워</Text>
                             </Pressable>
                             <Pressable
-                                onPress={() => navigate('Follows', { type: 'followings', userId: userData.user.id })}
+                                onPress={() => push('Follows', { type: 'followings', userId: userData.user.id })}
                                 android_ripple={{ color: GRAY2 }}
                                 style={styles.followInfoBtn}
                             >
@@ -192,7 +192,7 @@ const UserDetail = () => {
                     } size='small' color={GRAY1} /> : null
                 }
                 renderItem={({ item }) =>
-                    <Pressable onPress={() => navigate('MediaDetail', { id: item.id })} >
+                    <Pressable onPress={() => push('MediaDetail', { id: item.id })} >
                         <FastImage
                             style={{ width: WIDTH / 3, height: WIDTH / 3, }}
                             source={{ uri: item.thumnail }}

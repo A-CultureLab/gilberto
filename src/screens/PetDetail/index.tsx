@@ -23,7 +23,7 @@ export interface PetDetailProps {
 
 const PetDetail = () => {
 
-    const { navigate } = useNavigation()
+    const { push } = useNavigation()
     const { params: { id } } = useRoute<'PetDetail'>()
     const { select, toast } = useGlobalUi()
 
@@ -81,7 +81,7 @@ const PetDetail = () => {
 
     const onChat = useCallback(() => {
         if (!petData) return
-        navigate('ChatDetail', { userId: petData.pet.user.id })
+        push('ChatDetail', { userId: petData.pet.user.id })
     }, [petData])
 
 
@@ -103,7 +103,7 @@ const PetDetail = () => {
                     <>
                         <View style={styles.profileInfoContainer} >
                             <View style={{ flexDirection: 'row', alignItems: 'center' }} >
-                                <Pressable onPress={() => navigate('ImageDetail', { index: 0, urls: [petData.pet.image, petData.pet.user.image, ...petData.pet.user.pets.filter(v => v.id !== id).map(v => v.image)] })}>
+                                <Pressable onPress={() => push('ImageDetail', { index: 0, urls: [petData.pet.image, petData.pet.user.image, ...petData.pet.user.pets.filter(v => v.id !== id).map(v => v.image)] })}>
                                     <FastImage
                                         style={styles.profileImage}
                                         source={{ uri: petData.pet.image }}
@@ -117,7 +117,7 @@ const PetDetail = () => {
                                     ListHeaderComponent={
                                         <Pressable
                                             style={[styles.petContainer, { marginLeft: 16 }]}
-                                            onPress={() => navigate('UserDetail', { id: petData.pet.user.id })}
+                                            onPress={() => push('UserDetail', { id: petData.pet.user.id })}
                                         >
                                             <FastImage
                                                 source={{ uri: petData.pet.user.image }}
@@ -130,7 +130,7 @@ const PetDetail = () => {
                                     renderItem={({ item }) =>
                                         <Pressable
                                             style={styles.petContainer}
-                                            onPress={() => navigate('PetDetail', { id: item.id })}
+                                            onPress={() => push('PetDetail', { id: item.id })}
                                         >
                                             <FastImage
                                                 source={{ uri: item.image }}
@@ -157,7 +157,7 @@ const PetDetail = () => {
                                 <Text>게시물</Text>
                             </Pressable>
                             <Pressable
-                                onPress={() => navigate('Follows', { type: 'followers', userId: petData.pet.user.id })}
+                                onPress={() => push('Follows', { type: 'followers', userId: petData.pet.user.id })}
                                 android_ripple={{ color: GRAY2 }}
                                 style={styles.followInfoBtn}
                             >
@@ -165,7 +165,7 @@ const PetDetail = () => {
                                 <Text>팔로워</Text>
                             </Pressable>
                             <Pressable
-                                onPress={() => navigate('Follows', { type: 'followings', userId: petData.pet.user.id })}
+                                onPress={() => push('Follows', { type: 'followings', userId: petData.pet.user.id })}
                                 android_ripple={{ color: GRAY2 }}
                                 style={styles.followInfoBtn}
                             >
@@ -204,7 +204,7 @@ const PetDetail = () => {
                     } size='small' color={GRAY1} /> : null
                 }
                 renderItem={({ item }) =>
-                    <Pressable onPress={() => navigate('MediaDetail', { id: item.id })} >
+                    <Pressable onPress={() => push('MediaDetail', { id: item.id })} >
                         <FastImage
                             style={{ width: WIDTH / 3, height: WIDTH / 3, }}
                             source={{ uri: item.thumnail }}

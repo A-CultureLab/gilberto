@@ -25,7 +25,7 @@ const PetCard: React.FC<petsByAddress_petsByAddress> = (props) => {
                     <View style={styles.petDetailContainer}><Text style={styles.petDetailText} numberOfLines={1} >{age}</Text></View>
                     <View style={styles.petDetailContainer}><Text style={styles.petDetailText} numberOfLines={1} >{weight}kg</Text></View>
                 </View>
-                <Text style={styles.userDetail} >{user.name} {user.age}세 {genderGenerator.user(user.gender)}{user.address.distance !== null ? ` • ${meterUnit(user.address.distance)}` : ''}</Text>
+                <Text style={styles.userDetail} >{user.name}{user.address.distance !== null ? ` • ${meterUnit(user.address.distance)}` : ''}</Text>
             </View>
         </Pressable>
     )

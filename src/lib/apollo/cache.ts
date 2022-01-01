@@ -17,6 +17,7 @@ export default new InMemoryCache({
                 followings: offsetLimitPaginationMergeLastest(['userId']),
                 mediaComments: offsetLimitPaginationMergeLastest(['where', 'orderBy']),
                 mediaReplyComments: offsetLimitPaginationMergeLastest(['where', 'orderBy']),
+                recommendedMedias: cursorPagination(['filter'])
             }
         }
     },

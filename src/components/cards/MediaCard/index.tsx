@@ -167,7 +167,10 @@ export default MediaCard
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
+        paddingBottom: 12,
+        borderBottomWidth: 1,
+        borderBottomColor: GRAY3
     },
     header: {
         width: '100%',

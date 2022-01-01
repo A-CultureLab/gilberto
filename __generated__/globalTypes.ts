@@ -845,6 +845,13 @@ export interface MediaWhereUniqueInput {
   id?: string | null;
 }
 
+export interface MediasAdressFilterInput {
+  area1Id?: string | null;
+  area2Id?: string | null;
+  area3Id?: string | null;
+  landId?: string | null;
+}
+
 export interface PetCreateManyUserInput {
   id?: string | null;
   createdAt?: any | null;
