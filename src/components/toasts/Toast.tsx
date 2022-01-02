@@ -29,6 +29,7 @@ const Toast: React.FC<ToastProps> = ({ content, visible }) => {
 
     return (
         <Animated.View
+            pointerEvents='none'
             style={[styles.container, animatedStyle]}
         >
             <Text style={styles.content} >{content}</Text>
