@@ -72,7 +72,7 @@ const MediaCreateSelectPhoto = () => {
     const onSelectAlbum = useCallback(() => {
         select({
             list: ['전체', ...albums.map(v => v.title)],
-            onSelect: (i) => i === 0 ? null : setCurrentAlbum(albums[i + 1].title)
+            onSelect: (i) => i === 0 ? setCurrentAlbum(null) : setCurrentAlbum(albums[i - 1].title)
         })
     }, [albums])
 
@@ -133,7 +133,7 @@ const MediaCreateSelectPhoto = () => {
             </View>
             <View style={styles.menubar} >
                 <Pressable onPress={onSelectAlbum} style={{ flexDirection: 'row', alignItems: 'center', height: '100%' }} >
-                    <Text style={{ marginRight: 8 }} >전체</Text>
+                    <Text style={{ marginRight: 8 }} >{currentAlbum || '전체'}</Text>
                     <Icon name='chevron-down' size={16} />
                 </Pressable>
                 <View style={{ flex: 1 }} />

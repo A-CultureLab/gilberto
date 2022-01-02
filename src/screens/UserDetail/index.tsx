@@ -115,6 +115,7 @@ const UserDetail = () => {
                                     horizontal
                                     showsHorizontalScrollIndicator={false}
                                     data={userData.user.pets}
+                                    ListHeaderComponent={<View style={{ width: 20 }} />}
                                     renderItem={({ item }) =>
                                         <Pressable
                                             style={styles.petContainer}

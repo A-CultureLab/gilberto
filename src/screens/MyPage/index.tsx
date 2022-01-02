@@ -77,20 +77,20 @@ const MyPage = () => {
 
 
 
-    if (!userData || !petData) return null
 
     return (
         <ScreenLayout>
-            <Header
+            {userData && <Header
                 backBtn='none'
                 title={userData.iUser.profileId}
                 underline={false}
                 right={() => <Pressable onPress={onMenu} style={styles.headerBtn} ><MenuIcon width={20} height={20} fill='#000' /></Pressable>}
-            />
+            />}
             <FlatList
                 showsVerticalScrollIndicator={false}
                 overScrollMode='never'
                 ListHeaderComponent={
+                    userData && petData &&
                     <>
                         <View style={styles.profileInfoContainer} >
                             <View style={{ flexDirection: 'row', alignItems: 'center' }} >
@@ -197,7 +197,7 @@ const MyPage = () => {
                 onEndReachedThreshold={0.5}
                 data={media?.mediasByUserId || []}
             />
-            < TabScreenBottomTabBar />
+            <TabScreenBottomTabBar />
         </ScreenLayout >
     )
 }

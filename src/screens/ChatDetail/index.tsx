@@ -1,8 +1,7 @@
-import { AppState, AppStateStatus, BackHandler, FlatList, KeyboardAvoidingView, Pressable, StatusBar, StyleSheet, Text, View } from 'react-native'
+import { AppState, AppStateStatus, BackHandler, FlatList, Keyboard, KeyboardAvoidingView, Pressable, StatusBar, StyleSheet, Text, View } from 'react-native'
 import useNavigation from '../../hooks/useNavigation'
 import { useChatCreated, useChats, useChatUpdated } from '../../graphql/chat'
 
-import { AuthContext } from '../../navigations'
 import { COLOR1, GRAY1, WIDTH } from '../../constants/styles'
 import ChatDetailCard from './ChatDetailCard'
 import ChatDetailFooter from './ChatDetailFooter'
@@ -39,7 +38,6 @@ const ChatDetail = () => {
     const { params: { id, userId } } = useRoute<'ChatDetail'>()
     const { bottom } = useSafeAreaInsets()
     const { data: iUserData } = useIUser()
-    const { user } = useContext(AuthContext)
 
     const { data: chatRoomData } = useChatRoom({
         variables: { id: userId ? undefined : id, userId },
@@ -72,14 +70,6 @@ const ChatDetail = () => {
         return () => { listner.remove() }
     }, [isDrawerOpened, isFocused])
 
-
-    // 미 로그인시 접근 막기
-    useEffect(() => {
-        if (!user) {
-            goBack()
-            navigate('Login')
-        }
-    }, [])
 
     // ChatRoom이 없는 상테에서 호출했을때 chatRoomId가 존재하지 않음
     // useChatRoom으로 최초 1회 호춮 하면 id가 생성됨 그 id를 넣어주면 됨
@@ -146,6 +136,7 @@ const ChatDetail = () => {
                                     inverted
                                     style={{ overflow: IS_IOS ? 'visible' : 'scroll' }}
                                     overScrollMode='never'
+                                    onScroll={() => Keyboard.dismiss()}
                                     onEndReachedThreshold={0.5}
                                     onEndReached={() => fetchMore({ variables: { cursor: data?.chats[data.chats.length - 1].id } })}
                                     renderItem={({ item }) => <ChatDetailCard {...item} />}
