@@ -74,6 +74,8 @@ const SignupOptionalInfo = () => {
                     onChangeText={t => setIntroduce(t)}
                     label='자기소개'
                     maxLength={1000}
+                    blurOnSubmit
+                    returnKeyType="done"
                     placeholder='나에 대한 소개글을 작성해 보세요'
                 />
 

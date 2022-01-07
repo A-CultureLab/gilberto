@@ -35,10 +35,10 @@ const ChatDetailFooter: React.FC<ChatDetailFooterProps> = (props) => {
         const keyboardWillHideListner = Keyboard.addListener('keyboardWillHide', () => { setFocused(false); inputRef.current?.blur() })
 
         return () => {
-            Keyboard.removeSubscription(KeyboardWillShowListner)
-            Keyboard.removeSubscription(KeyboardDidShowListner)
-            Keyboard.removeSubscription(keyboardDidHideListner)
-            Keyboard.removeSubscription(keyboardWillHideListner)
+            KeyboardWillShowListner.remove()
+            KeyboardDidShowListner.remove()
+            keyboardDidHideListner.remove()
+            keyboardWillHideListner.remove()
         }
     }, [])
 
@@ -85,7 +85,7 @@ const ChatDetailFooter: React.FC<ChatDetailFooterProps> = (props) => {
 
     const OPTIONS = [
         {
-            title: '앨범',
+            title: '앨범',
             icon: <Icon name='album' color='#fff' size={24} />,
             onPress: () => {
                 upload({}, 'chatImage/').then(v => onSend(v))

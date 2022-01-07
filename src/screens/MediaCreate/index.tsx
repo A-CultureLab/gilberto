@@ -4,7 +4,7 @@ import { ActivityIndicator, FlatList, Image, Pressable, StyleSheet, Text, TextIn
 import FastImage from 'react-native-fast-image'
 import Header from '../../components/headers/Header'
 import ScreenLayout from '../../components/layout/ScreenLayout'
-import { COLOR1, COLOR3, GRAY3 } from '../../constants/styles'
+import { COLOR1, COLOR3, GRAY1, GRAY3 } from '../../constants/styles'
 import { useCreateMedia } from '../../graphql/media'
 import { useMyPets } from '../../graphql/pet'
 import { UPLOAD_IMAGES } from '../../graphql/util'
@@ -121,6 +121,7 @@ const MediaCreate = () => {
                 value={content}
                 onChangeText={t => setContent(t)}
                 maxLength={2000}
+                placeholderTextColor='#ccc'
             />
             <PetSelectSheet
                 visible={visible}
@@ -145,6 +146,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingVertical: 24,
         borderTopWidth: 1,
-        borderTopColor: GRAY3
+        borderTopColor: GRAY3,
+        color: '#000'
     }
 })

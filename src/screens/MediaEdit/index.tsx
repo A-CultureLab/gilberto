@@ -200,6 +200,7 @@ const MediaEdit = () => {
                 value={content}
                 onChangeText={t => setContent(t)}
                 maxLength={2000}
+                placeholderTextColor='#ccc'
             />
             <PetSelectSheet
                 visible={visible}
@@ -224,6 +225,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingVertical: 24,
         borderTopWidth: 1,
-        borderTopColor: GRAY3
+        borderTopColor: GRAY3,
+        color: '#000'
     }
 })
