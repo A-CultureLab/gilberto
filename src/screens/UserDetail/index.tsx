@@ -44,6 +44,7 @@ const UserDetail = () => {
 
     const refreshing = useRefreshing(async () => {
         try {
+            setEnded(false)
             await Promise.all([
                 userRefetch(),
                 mediaRefetch()

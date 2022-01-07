@@ -12,7 +12,7 @@ export const CHANNEL_IO_PLUGIN_KEY = 'e9a51cb7-702c-4cc7-9596-4035c01002a1'
 export const APPSTORE_ID = '1576824009'
 export const PLAYSTORE_PACKAGE_NAME = 'com.gilberto.silva'
 
-const PROD_TEST_MODE = false
+const PROD_TEST_MODE = true
 // const LOCAL_IP = '10.220.230.223'
 const LOCAL_IP = '172.20.10.2'
 

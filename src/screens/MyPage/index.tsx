@@ -25,9 +25,11 @@ const MyPage = () => {
     const { data: petData, refetch: petRefetch } = useMyPets()
     const { data: media, refetch: mediaRefetch, fetchMore, loading } = useMediasByUserId({ variables: { userId: userData?.iUser.id || '' }, skip: !userData })
     const [fetchMoreLoading, setFetchMoreLoading] = useState(false)
+    const [ended, setEnded] = useState(false)
 
     const refreshing = useRefreshing(async () => {
         try {
+            setEnded(false)
             await Promise.all([
                 iUserRefetch(),
                 petRefetch(),
@@ -38,13 +40,15 @@ const MyPage = () => {
 
     const onEndReached = async () => {
         if (fetchMoreLoading) return
+        if (ended) return
         setFetchMoreLoading(true)
-        await fetchMore({
+        const { data } = await fetchMore({
             variables: {
                 instagramEndCursor: media?.mediasByUserId.filter(v => !!v.media?.isInstagram).pop()?.instagramEndCursor,
                 endCursor: media?.mediasByUserId.filter(v => !v.media?.isInstagram).pop()?.media.id
             }
         })
+        setEnded(!data.mediasByUserId.length)
         setFetchMoreLoading(false)
     }
 
